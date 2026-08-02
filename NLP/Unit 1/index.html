@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Introduction to Language &amp; NLP</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 20px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:680px;margin:0 auto 20px;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .hero-fig{max-width:920px;width:100%;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 12px 34px rgba(0,0,0,0.35);position:relative;}
+  .hero-fig img{width:100%;display:block;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--violet);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#33415f;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:var(--navy-2);}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  .card h4{margin:0 0 8px;font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:var(--sky-light);flex:none;}
+  .card p{font-size:13.8px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  pre{background:#111827;color:#d1e7ff;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.6px;line-height:1.5;margin:12px 0;}
+  pre .c{color:#7fdc9c;} pre .k{color:#ff9d6c;} pre .s{color:#ffd479;}
+
+  figure{margin:22px 0;text-align:center;}
+  figure img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 4px 14px rgba(16,32,72,0.10);}
+  figure figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;}
+  .fig-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:20px 0;}
+  .fig-row figure{margin:0;}
+
+  .timeline{display:flex;gap:0;margin:26px 0 8px;overflow-x:auto;padding-bottom:8px;}
+  .timeline .stop{flex:1 0 170px;position:relative;padding:0 14px 0 0;}
+  .timeline .stop::before{content:"";position:absolute;top:14px;left:0;right:-14px;height:3px;background:var(--violet);}
+  .timeline .stop:last-child::before{display:none;}
+  .timeline .dot{width:14px;height:14px;border-radius:50%;background:var(--violet);border:3px solid #fff;box-shadow:0 0 0 2px var(--violet);margin-bottom:14px;}
+  .timeline .yr{font-weight:700;color:var(--navy);font-size:13.5px;}
+  .timeline .desc{font-size:12.3px;color:var(--muted);margin-top:4px;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f4f7fd;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#33415f;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:18px 0;}
+  .flow .node{background:#fff;border:2px solid var(--violet);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;color:var(--navy);text-align:center;}
+  .flow .arrow{color:var(--muted);font-size:18px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+
+  @media (max-width:640px){ .mitigate ul{columns:1;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · TEE7101 · AI &amp; ML — NLP · UNIT 1</span>
+  <h1>🗣️ Introduction to Language &amp; NLP</h1>
+  <p>Evolution of language · NLP basics &amp; challenges · applications &amp; the 5-phase pipeline ·
+     preprocessing · tokenization &amp; embeddings (One-Hot → Word2Vec → BERT) · stemming &amp; POS tagging ·
+     parsing &amp; grammar · Named Entity Recognition. Every diagram from the deck is included below —
+     not just text.</p>
+  <div class="hero-fig"><img src="images/p017.png" alt="Unit 1 topic overview"></div>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#evolution">Evolution</a>
+    <a href="#intro">Intro to NLP</a>
+    <a href="#levels">Language Levels</a>
+    <a href="#applications">Applications &amp; Phases</a>
+    <a href="#preprocessing">Preprocessing</a>
+    <a href="#tokenization">Tokenization</a>
+    <a href="#embeddings">Word Embeddings</a>
+    <a href="#stemming-pos">Stemming &amp; POS</a>
+    <a href="#parsing">Parsing &amp; Grammar</a>
+    <a href="#ner">NER</a>
+    <a href="#recap">Recap</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- EVOLUTION -->
+  <section id="evolution">
+    <p class="eyebrow">01 · From grunts to grammar</p>
+    <h2>Evolution of Natural Language</h2>
+    <div class="callout violet"><p><strong>Key insight (Chomsky, 1957):</strong> language is uniquely
+      human — recursive, symbolic, capable of expressing infinite ideas from finite elements.</p></div>
+
+    <div class="timeline">
+      <div class="stop"><div class="dot"></div><div class="yr">~2M BCE</div><div class="desc">Gestures &amp; proto-speech</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">~100K BCE</div><div class="desc">Homo Sapiens' vocal tract develops</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">~50K BCE</div><div class="desc">Structured language emerges</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">~5K BCE</div><div class="desc">Writing systems invented</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1786 CE</div><div class="desc">Comparative Linguistics founded</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1950s</div><div class="desc">Computational Linguistics begins</div></div>
+    </div>
+    <p>Before computing: <strong>Client-Server</strong>-style human communication wasn't a thing, but the
+      analogy in NLP history is similar to computing's own evolution — from unstructured signals to a
+      fully symbolic, rule-governed system capable of infinite expression.</p>
+  </section>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <p class="eyebrow">02 · What NLP actually is</p>
+    <h2>Introduction to NLP</h2>
+    <div class="callout">
+      <p><strong>NLP</strong> is the branch of AI that gives computers the ability to understand,
+      generate, and manipulate human (natural) language, in both text and speech form.</p>
+    </div>
+
+    <div class="grid cols-3">
+      <div class="card"><h4><span class="icon">📐</span>Syntax</h4>
+        <p>Structure of sentences — grammar rules, parse trees.</p></div>
+      <div class="card"><h4><span class="icon">💡</span>Semantics</h4>
+        <p>Meaning of words and sentences in context.</p></div>
+      <div class="card"><h4><span class="icon">🎯</span>Pragmatics</h4>
+        <p>Intent &amp; context beyond the literal meaning.</p></div>
+    </div>
+
+    <h3>Core challenges of NLP</h3>
+    <ul>
+      <li><strong>Ambiguity</strong>: "I saw the man with the telescope" — who had the telescope?</li>
+      <li><strong>Context</strong>: same word, different meanings ("bank" = riverbank or financial institution)</li>
+      <li><strong>Sarcasm &amp; irony</strong>: "Oh great, another Monday!"</li>
+      <li><strong>Low-resource languages</strong>: billions of speakers, minimal digital data</li>
+    </ul>
+
+    <h3>Why do we need NLP?</h3>
+    <p><strong>80% of enterprise data is unstructured text.</strong> Real-world uses: chatbots &amp; dialog
+      (ChatGPT, Alexa), sentiment analysis (reviews, Twitter/brand monitoring), machine translation
+      (Google Translate — 7000+ languages), healthcare &amp; legal (clinical notes, contract review).</p>
+
+    <pre><span class="c"># quick spaCy pipeline demo</span>
+<span class="k">import</span> spacy
+nlp = spacy.load(<span class="s">'en_core_web_sm'</span>)
+text = <span class="s">"Apple was founded by Steve Jobs."</span>
+doc = nlp(text)
+
+<span class="c"># Tokenization</span>
+<span class="k">for</span> token <span class="k">in</span> doc:
+    print(token.text, token.pos_)
+<span class="c"># Apple PROPN | was AUX | founded VERB</span>
+
+<span class="c"># Named Entity Recognition</span>
+<span class="k">for</span> ent <span class="k">in</span> doc.ents:
+    print(ent.text, ent.label_)
+<span class="c"># Apple ORG | Steve Jobs PERSON</span></pre>
+
+    <div class="fig-row">
+      <figure><img src="images/p023.png" alt="NLP Tasks"><figcaption>NLP Tasks overview</figcaption></figure>
+      <figure><img src="images/p024.png" alt="NLP Tasks continued"><figcaption>NLP Tasks (cont.)</figcaption></figure>
+      <figure><img src="images/p025.png" alt="NLP Tasks continued"><figcaption>NLP Tasks (cont.)</figcaption></figure>
+    </div>
+
+    <figure><img src="images/p026.png" alt="AI, ML, DL, NLP Venn diagram"><figcaption>How NLP relates to AI, Machine Learning, and Deep Learning</figcaption></figure>
+
+    <h3>Types of NLP</h3>
+    <div class="fig-row">
+      <figure><img src="images/p027.png" alt="Types of NLP"></figure>
+      <figure><img src="images/p028.png" alt="Types of NLP continued"></figure>
+      <figure><img src="images/p029.png" alt="Types of NLP continued"></figure>
+      <figure><img src="images/p030.png" alt="Types of NLP continued"></figure>
+    </div>
+  </section>
+
+  <!-- LANGUAGE LEVELS -->
+  <section id="levels">
+    <p class="eyebrow">03 · Linguistics for NLP</p>
+    <h2>Core NLP Language Levels</h2>
+    <p><strong>Language</strong> is a structured system of communication involving complex combinations
+      of its constituent components — characters, words, sentences, etc. <strong>Linguistics</strong> is
+      the systematic study of language.</p>
+
+    <div class="pillbar">
+      <span>Phonology → Sounds</span><span>Morphology → Word Formation</span><span>Morpheme → Meaningful Parts</span>
+      <span>Syntax → Sentence Structure</span><span>Semantics → Sentence Meaning</span><span>Pragmatics → Context</span>
+      <span>Discourse → Sentence Connection</span><span>World Knowledge → Real-world Understanding</span>
+    </div>
+
+    <table>
+      <thead><tr><th>Level</th><th>What it covers</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Phonology</td><td>Speech sounds — one sound change can change meaning</td><td>Bat vs Cat, Ship vs Sheep</td></tr>
+        <tr><td>Morphology</td><td>Word formation from smaller units</td><td>un + happy + ness, play + ed</td></tr>
+        <tr><td>Morpheme</td><td>Meaningful parts — each contributes meaning</td><td>cat + s, re + write</td></tr>
+        <tr><td>Syntax</td><td>Sentence structure — words follow grammar rules</td><td>"The boy eats an apple."</td></tr>
+        <tr><td>Semantics</td><td>Sentence meaning — depends on word sense</td><td>"The bank is closed." (which bank?)</td></tr>
+        <tr><td>Pragmatics</td><td>Practical/context meaning beyond the literal</td><td>"Can you open the window?" = a request, not a yes/no question</td></tr>
+        <tr><td>Discourse</td><td>How sentences connect — later ones depend on earlier ones</td><td>"Riya bought a laptop. It is fast."</td></tr>
+        <tr><td>World Knowledge</td><td>Real-world understanding NLP must apply</td><td>"The glass fell and broke." (implies it shattered)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout violet"><p><strong>Memory trick:</strong> Sounds → Words → Parts → Grammar → Meaning → Context → Connection → World.</p></div>
+  </section>
+
+  <!-- APPLICATIONS & PHASES -->
+  <section id="applications">
+    <p class="eyebrow">04 · Where it's used, and how it processes text</p>
+    <h2>Applications &amp; Phases of NLP</h2>
+
+    <div class="grid cols-3">
+      <div class="card"><h4>💬 Chatbots &amp; Dialog</h4><p>ChatGPT, Alexa, Google Assistant</p></div>
+      <div class="card"><h4>🎙️ Speech Recognition</h4><p>Siri, Cortana, YouTube captions</p></div>
+      <div class="card"><h4>🌐 Machine Translation</h4><p>Google Translate, DeepL</p></div>
+      <div class="card"><h4>📊 Opinion Mining</h4><p>Product reviews, Twitter analysis</p></div>
+      <div class="card"><h4>📝 Text Summarization</h4><p>News snippets, research abstracts</p></div>
+      <div class="card"><h4>🔎 Information Retrieval</h4><p>Search engines, Q&amp;A systems</p></div>
+    </div>
+    <div class="fig-row">
+      <figure><img src="images/p037.png" alt="Applications of NLP"></figure>
+      <figure><img src="images/p038.png" alt="Applications of NLP continued"></figure>
+    </div>
+
+    <h3>The 5 phases of the NLP pipeline</h3>
+    <div class="flow">
+      <div class="node">1. Lexical Analysis</div><div class="arrow">→</div>
+      <div class="node">2. Syntactic Analysis</div><div class="arrow">→</div>
+      <div class="node">3. Semantic Analysis</div><div class="arrow">→</div>
+      <div class="node">4. Discourse Integration</div><div class="arrow">→</div>
+      <div class="node">5. Pragmatic Analysis</div>
+    </div>
+    <table>
+      <thead><tr><th>Phase</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>1. Lexical</td><td>Tokenization — identify words</td></tr>
+        <tr><td>2. Syntactic</td><td>Parsing — grammar check</td></tr>
+        <tr><td>3. Semantic</td><td>Word meaning — Word Sense Disambiguation (WSD)</td></tr>
+        <tr><td>4. Discourse Integration</td><td>Cross-sentence context</td></tr>
+        <tr><td>5. Pragmatic</td><td>Intent, real-world knowledge</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><p><strong>Example:</strong> "Apple acquired the startup." → Lexical: tokens |
+      Syntactic: NP VP NP | Semantic: acquisition event | Pragmatic: business context.</p></div>
+    <div class="fig-row">
+      <figure><img src="images/p040.png" alt="Phases in NLP"></figure>
+      <figure><img src="images/p041.png" alt="Phases in NLP continued"></figure>
+      <figure><img src="images/p042.png" alt="Phases in NLP pipeline diagram"></figure>
+      <figure><img src="images/p043.png" alt="Phases in NLP worked example"></figure>
+    </div>
+
+    <h3>Ambiguity in NLP</h3>
+    <p>Ambiguity refers to sentences/phrases that potentially have two or more possible interpretations.</p>
+    <table>
+      <thead><tr><th>Type</th><th>Explanation</th></tr></thead>
+      <tbody>
+        <tr><td>Lexical ambiguity</td><td>A word could be used as a verb, noun, or adjective</td></tr>
+        <tr><td>Semantic ambiguity</td><td>"I saw the boy on the beach with my binoculars" — did I see him through binoculars, or did he have them?</td></tr>
+        <tr><td>Syntactic ambiguity</td><td>Structure creates confusion — "with my binoculars" could modify "saw" or "boy"</td></tr>
+      </tbody>
+    </table>
+    <p>POS tagging is one NLP solution that can help solve this, somewhat.</p>
+    <div class="fig-row">
+      <figure><img src="images/p044.png" alt="Ambiguity examples"></figure>
+      <figure><img src="images/p047.png" alt="Ambiguity continued"></figure>
+    </div>
+
+    <h3>Non-standardization &amp; the implementation pipeline</h3>
+    <div class="fig-row">
+      <figure><img src="images/p049.png" alt="Non-Standardization in Languages"></figure>
+      <figure><img src="images/p050.png" alt="Non-Standardization continued"></figure>
+    </div>
+    <figure><img src="images/p051.png" alt="NLP implementation pipeline"><figcaption>Full NLP implementation pipeline</figcaption></figure>
+  </section>
+
+  <!-- PREPROCESSING -->
+  <section id="preprocessing">
+    <p class="eyebrow">05 · Cleaning raw text before modeling</p>
+    <h2>Data Preprocessing Techniques</h2>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>🧹 Text Preprocessing</h4>
+        <ul style="font-size:13.5px;">
+          <li>Text cleaning — HTML tag removal, emoji handling, spelling checks</li>
+          <li>Basic preprocessing — tokenization, stop-word removal, remove digits, lowercasing, punctuation, hashtags</li>
+          <li>Normalization — stemming and lemmatization</li>
+          <li>Vectorization — one-hot, BoW, GloVe, TF-IDF</li>
+        </ul></div>
+      <div class="card"><h4>⚙️ Feature Engineering</h4>
+        <ul style="font-size:13.5px;">
+          <li>One-Hot Encoder</li><li>Bag of Words (BoW)</li><li>n-grams</li><li>TF-IDF</li><li>Word2Vec</li><li>GloVe</li>
+        </ul></div>
+    </div>
+
+    <h3>Model building approaches</h3>
+    <table>
+      <thead><tr><th>Heuristics Based</th><th>ML Based</th><th>DL Based</th></tr></thead>
+      <tbody>
+        <tr><td>Lexicon based</td><td>Naïve Bayes</td><td>CNN</td></tr>
+        <tr><td>Regex based</td><td>SVM</td><td>RNN</td></tr>
+        <tr><td>—</td><td>Decision Trees</td><td>Transformers</td></tr>
+        <tr><td>—</td><td>—</td><td>Autoencoders</td></tr>
+      </tbody>
+    </table>
+    <figure><img src="images/p054.png" alt="Model building diagram"></figure>
+
+    <h3>Step-by-step, with code</h3>
+    <ol class="steps">
+      <li><strong>Lowercasing</strong>: "NLP" → "nlp"</li>
+      <li><strong>Remove punctuation</strong>: "Hello, world!" → "Hello world"</li>
+      <li><strong>Remove stop words</strong>: "the cat sat on mat" → "cat sat mat"</li>
+      <li><strong>Remove HTML/noise</strong>: "&lt;p&gt;Buy now!&lt;/p&gt;" → "Buy now"</li>
+      <li><strong>Normalize numbers</strong>: "I have 3 cats" → "I have NUM cats"</li>
+    </ol>
+    <pre><span class="k">import</span> re, nltk
+<span class="k">from</span> nltk.corpus <span class="k">import</span> stopwords
+<span class="k">from</span> nltk.tokenize <span class="k">import</span> word_tokenize
+
+<span class="k">def</span> preprocess(text):
+    text = text.lower()
+    text = re.sub(r<span class="s">'[^\w\s]'</span>, <span class="s">''</span>, text)
+    text = re.sub(r<span class="s">'\d+'</span>, <span class="s">'NUM'</span>, text)
+    stop = set(stopwords.words(<span class="s">'english'</span>))
+    tokens = word_tokenize(text)
+    <span class="k">return</span> [w <span class="k">for</span> w <span class="k">in</span> tokens <span class="k">if</span> w <span class="k">not in</span> stop]
+
+preprocess(<span class="s">"The Cat SAT on 3 Mats!!"</span>)
+<span class="c"># ['cat', 'sat', 'NUM', 'mat']</span></pre>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Punctuation Removal</h4><p>Python's <code>string</code> library has a
+        predefined list of punctuation marks to strip.</p></div>
+      <div class="card"><h4>Lowercasing</h4><p>Common, but not always safe — e.g. in sentiment analysis,
+        UPPERCASE can signal frustration/excitement, and lowercasing loses that.</p></div>
+      <div class="card"><h4>Stop Word Removal</h4><p>Common words (I, me, my, the, is, ...) carry little
+        meaning and are removed — NLTK ships a standard English stopword list.</p></div>
+      <div class="card"><h4>Decontracting Words</h4><p>Expanding contractions ("don't" → "do not")
+        standardizes text — especially useful for Twitter data / product reviews in sentiment analysis.</p></div>
+    </div>
+
+    <h3>Normalization — regex &amp; contractions</h3>
+    <ul>
+      <li><strong>Expand contractions</strong>: don't → do not, I'm → I am</li>
+      <li><strong>Standardize spellings</strong>: colour → color, normalise → normalize</li>
+      <li><strong>Handle URLs/emails</strong>: https://sit.edu → URL_TOKEN</li>
+      <li><strong>Remove accents</strong>: café → cafe, naïve → naive</li>
+      <li><strong>Whitespace cleanup</strong>: 'hello&nbsp;&nbsp;world' → 'hello world'</li>
+    </ul>
+    <pre><span class="k">import</span> re, unicodedata
+CONTRACTIONS = {<span class="s">"don't"</span>: <span class="s">"do not"</span>, <span class="s">"i'm"</span>: <span class="s">"i am"</span>, <span class="s">"won't"</span>: <span class="s">"will not"</span>}
+
+<span class="k">def</span> normalize(text):
+    text = text.lower()
+    <span class="k">for</span> k,v <span class="k">in</span> CONTRACTIONS.items():
+        text = text.replace(k, v)
+    text = re.sub(r<span class="s">'https?://\S+'</span>,<span class="s">'URL'</span>, text)
+    <span class="k">return</span> text
+
+normalize(<span class="s">"I don't visit https://sit.edu"</span>)
+<span class="c"># → "i do not visit URL"</span></pre>
+  </section>
+
+  <!-- TOKENIZATION -->
+  <section id="tokenization">
+    <p class="eyebrow">06 · Breaking text into units</p>
+    <h2>Tokenization</h2>
+    <p><strong>Tokenization</strong> is splitting a phrase, sentence, paragraph, or document into smaller
+      units — words or terms. Each smaller unit is a <strong>token</strong>.</p>
+
+    <table>
+      <thead><tr><th>Type</th><th>Example</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>Word</td><td>["NLP","makes",...]</td><td>Classic NLP tasks</td></tr>
+        <tr><td>Sentence</td><td>["Hi.","How are you?"]</td><td>Summarization</td></tr>
+        <tr><td>Subword</td><td>"playing" → ["play","##ing"]</td><td>BERT, GPT, T5 (BPE)</td></tr>
+        <tr><td>Character</td><td>"NLP" → ["N","L","P"]</td><td>OCR, morphology</td></tr>
+      </tbody>
+    </table>
+    <pre><span class="k">from</span> nltk.tokenize <span class="k">import</span> word_tokenize, sent_tokenize, RegexpTokenizer
+text = <span class="s">"I love NLP. It's amazing!"</span>
+
+word_tokenize(text)
+<span class="c"># ['I','love','NLP','.','It',"'s",'amazing','!']</span>
+
+sent_tokenize(text)
+<span class="c"># ['I love NLP.', "It's amazing!"]</span>
+
+tok = RegexpTokenizer(r<span class="s">'\w+'</span>)
+tok.tokenize(text)
+<span class="c"># ['I','love','NLP','It','s','amazing']</span></pre>
+
+    <h3>Methods to perform tokenization in Python</h3>
+    <ul>
+      <li>Python's <code>split()</code> function — breaks a string at each space (separator configurable)</li>
+      <li>Regular expressions (<code>re</code> module)</li>
+      <li>Libraries: NLTK, spaCy, Keras, Gensim</li>
+    </ul>
+    <figure><img src="images/p068.png" alt="Tokenization using split() example"></figure>
+
+    <h3>Regex for tokenization</h3>
+    <p>A regular expression is a sequence of characters used to find/replace patterns in a string. Common
+      <code>re</code> methods: <code>re.match()</code>, <code>re.search()</code>, <code>re.findall()</code>,
+      <code>re.split()</code>, <code>re.sub()</code>, <code>re.compile()</code>.</p>
+    <figure><img src="images/p070.png" alt="Regex tokenization example"></figure>
+    <div class="fig-row">
+      <figure><img src="images/p071.png" alt="RegEx Functions"><figcaption>RegEx Functions reference</figcaption></figure>
+      <figure><img src="images/p072.png" alt="Metacharacters"><figcaption>Metacharacters reference</figcaption></figure>
+      <figure><img src="images/p073.png" alt="Special Sequences"><figcaption>Special Sequences reference</figcaption></figure>
+      <figure><img src="images/p074.png" alt="Sets"><figcaption>Sets reference</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- WORD EMBEDDINGS -->
+  <section id="embeddings">
+    <p class="eyebrow">07 · Words as numbers</p>
+    <h2>Vectorization &amp; Word Embeddings</h2>
+    <p><strong>Word embeddings</strong> map words/phrases from a vocabulary to a corresponding vector of
+      real numbers, used to find word predictions and word similarity/semantics.</p>
+
+    <div class="callout violet"><p><strong>Famous Word2Vec analogy</strong> (Mikolov et al., 2013):
+      <code>king − man + woman ≈ queen</code></p></div>
+
+    <h3>One-Hot Encoding</h3>
+    <p>Each word gets its own isolated position in the vocabulary.</p>
+    <table>
+      <thead><tr><th>Word</th><th>Vector</th></tr></thead>
+      <tbody>
+        <tr><td>Cat</td><td>[1 0 0 0]</td></tr>
+        <tr><td>Dog</td><td>[0 1 0 0]</td></tr>
+        <tr><td>Car</td><td>[0 0 1 0]</td></tr>
+        <tr><td>Apple</td><td>[0 0 0 1]</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Problem:</strong> Distance(Cat, Dog) = Distance(Cat, Apple) — every word is equally
+      different. Identity is captured, but meaning is not.</p>
+
+    <h3>Word2Vec</h3>
+    <p>Instead of huge sparse vectors, each word gets a <strong>dense</strong> vector (e.g. 100-300
+      dimensions). The model learns by observing surrounding words repeatedly — words that appear in
+      similar contexts get similar vectors ("dog" ends up near "barks", "puppy", "plays"; "hospital"
+      near "doctor", "nurse", "medicine").</p>
+    <pre><span class="k">from</span> gensim.models <span class="k">import</span> Word2Vec
+sentences = [
+    [<span class="s">"king"</span>,<span class="s">"rules"</span>,<span class="s">"the"</span>,<span class="s">"land"</span>],
+    [<span class="s">"queen"</span>,<span class="s">"rules"</span>,<span class="s">"the"</span>,<span class="s">"kingdom"</span>]
+]
+model = Word2Vec(sentences, vector_size=100, window=5, min_count=1)
+model.wv[<span class="s">'king'</span>]                       <span class="c"># dense vector, shape (100,)</span>
+model.wv.most_similar(<span class="s">'king'</span>, topn=3)   <span class="c"># [('queen',0.97),('land',0.82)...]</span></pre>
+
+    <h3>BERT — contextual embeddings</h3>
+    <p>Word2Vec gives <strong>one vector per word</strong>, regardless of context. BERT gives
+      <strong>different vectors depending on the sentence</strong>:</p>
+    <table>
+      <thead><tr><th>Sentence</th><th>"bank" means</th></tr></thead>
+      <tbody>
+        <tr><td>"He deposited money in the bank."</td><td>financial institution</td></tr>
+        <tr><td>"The fisherman sat on the river bank."</td><td>side of a river</td></tr>
+      </tbody>
+    </table>
+
+    <h3>One-Hot vs Word2Vec vs BERT</h3>
+    <table>
+      <thead><tr><th>Method</th><th>Meaning Captured</th><th>Context Aware</th></tr></thead>
+      <tbody>
+        <tr><td>One-Hot</td><td>No</td><td>No</td></tr>
+        <tr><td>Word2Vec</td><td>Yes</td><td>No</td></tr>
+        <tr><td>BERT</td><td>Yes</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><p>The evolution is <strong>identity → meaning → context</strong>. This is one
+      of the biggest milestones in modern NLP.</p></div>
+
+    <h3>More Word2Vec analogies (good exam examples)</h3>
+    <ul>
+      <li>Paris − France + Italy ≈ Rome</li>
+      <li>Tokyo − Japan + India ≈ Delhi</li>
+      <li>Walking − Walk + Swim ≈ Swimming</li>
+      <li>Brother − Man + Woman ≈ Sister</li>
+    </ul>
+
+    <h3>Code: similarity &amp; analogy</h3>
+    <pre><span class="c"># Find similar words</span>
+<span class="k">from</span> gensim.models <span class="k">import</span> Word2Vec
+model = Word2Vec(sentences, vector_size=50, window=2, min_count=1)
+print(model.wv.most_similar(<span class="s">"dog"</span>))
+<span class="c"># [('puppy', 0.91), ('barks', 0.74), ('plays', 0.61)]</span>
+
+<span class="c"># Word analogy: king - man + woman ≈ queen</span>
+result = model.wv.most_similar(positive=[<span class="s">'king'</span>,<span class="s">'woman'</span>], negative=[<span class="s">'man'</span>])
+
+<span class="c"># Cosine similarity</span>
+print(model.wv.similarity(<span class="s">"dog"</span>, <span class="s">"puppy"</span>))  <span class="c"># 0.89 — high, similar meaning</span>
+print(model.wv.similarity(<span class="s">"dog"</span>, <span class="s">"car"</span>))    <span class="c"># 0.14 — low, unrelated</span></pre>
+
+    <div class="callout violet">
+      <p><strong>2-minute classroom explanation (memorize this):</strong> "Imagine every word as a point
+      on a map. In One-Hot Encoding, every word is isolated, so the computer knows only that they are
+      different. Word2Vec changes this by placing similar words close together — 'king' near 'queen',
+      'doctor' near 'hospital', 'cat' near 'dog'. BERT goes further: it understands the same word can
+      mean different things depending on the sentence — 'bank' in 'river bank' vs 'bank account' gets
+      different representations. This evolution — One-Hot → Word2Vec → BERT — is one of the biggest
+      milestones in modern NLP."</p>
+    </div>
+  </section>
+
+  <!-- STEMMING & POS -->
+  <section id="stemming-pos">
+    <p class="eyebrow">08 · Roots and grammatical roles</p>
+    <h2>Stemming, Lemmatization &amp; POS Tagging</h2>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>✂️ Stemming</h4><p>Text standardization step — words are reduced to their
+        root/base form (e.g. 'programmer', 'programming', 'program' → 'program'). Disadvantage: the
+        stemmed root may lose meaning or not be a proper English word.</p></div>
+      <div class="card"><h4>📖 Lemmatization</h4><p>Also reduces words, but ensures meaning isn't lost —
+        uses a pre-defined dictionary that stores context and checks the word against it.</p></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Word</th><th>Stemming (Porter)</th><th>Lemmatization (WordNet)</th></tr></thead>
+      <tbody>
+        <tr><td>running</td><td>run</td><td>run</td></tr>
+        <tr><td>studies</td><td>studi <em>(not a real word!)</em></td><td>study</td></tr>
+        <tr><td>flies</td><td>fli</td><td>—</td></tr>
+        <tr><td>better</td><td>better</td><td>good</td></tr>
+        <tr><td>corpora</td><td>corpora</td><td>corpus</td></tr>
+      </tbody>
+    </table>
+    <pre><span class="k">from</span> nltk.stem <span class="k">import</span> PorterStemmer, WordNetLemmatizer
+stemmer = PorterStemmer()
+lemma   = WordNetLemmatizer()
+
+<span class="k">for</span> w <span class="k">in</span> [<span class="s">"running"</span>,<span class="s">"studies"</span>,<span class="s">"better"</span>,<span class="s">"corpora"</span>]:
+    print(w, stemmer.stem(w), lemma.lemmatize(w, pos=<span class="s">'v'</span>))
+<span class="c"># running  stem:run    lem:run
+# studies  stem:studi  lem:study
+# better   stem:better lem:good
+# corpora  stem:corpora lem:corpus</span></pre>
+
+    <h3>POS Tagging</h3>
+    <p><strong>Part-of-Speech tagging</strong> is a labeling mechanism where each word in a corpus is
+      tagged grammatically — noun, verb, adjective, adverb, etc., including fine-grained tags (e.g.
+      noun-plural) and tense. Applications: text-to-speech, word sense disambiguation.</p>
+    <table>
+      <thead><tr><th>The</th><th>quick</th><th>fox</th><th>jumps</th><th>over</th><th>the</th><th>lazy</th><th>dog</th></tr></thead>
+      <tbody><tr><td>DT</td><td>JJ</td><td>NN</td><td>VBZ</td><td>IN</td><td>DT</td><td>JJ</td><td>NN</td></tr></tbody>
+    </table>
+    <div class="pillbar">
+      <span>NN/NNS = Noun / Plural</span><span>VB/VBZ = Verb base / 3rd person</span>
+      <span>JJ = Adjective</span><span>RB = Adverb</span><span>DT = Determiner</span>
+      <span>IN = Preposition</span><span>PRP = Pronoun</span><span>CC = Conjunction</span>
+    </div>
+    <div class="fig-row">
+      <figure><img src="images/p099.png" alt="POS Tagging examples"></figure>
+      <figure><img src="images/p100.png" alt="POS Tagging examples continued"></figure>
+      <figure><img src="images/p101.png" alt="POS Tagging examples continued"></figure>
+      <figure><img src="images/p102.png" alt="POS Tagging examples continued"></figure>
+    </div>
+  </section>
+
+  <!-- PARSING -->
+  <section id="parsing">
+    <p class="eyebrow">09 · Grammar and structure</p>
+    <h2>Syntactic Parsing &amp; Grammar</h2>
+    <p>Syntactic analysis (parsing) draws exact/dictionary meaning from text, checking it against the
+      rules of formal grammar. E.g. "hot ice-cream" would be rejected by a semantic analyzer.</p>
+
+    <h3>Concept of a Parser</h3>
+    <p>A parser is a software component that takes input text and produces a structural representation
+      after checking syntax. Roles: report syntax errors, recover from errors, create the parse tree,
+      create a symbol table, produce intermediate representations.</p>
+
+    <h3>Types of parsing (by derivation)</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>⬇️ Top-down Parsing</h4><p>Starts building the parse tree from the start
+        symbol, then transforms it toward the input. Most common form uses recursive procedures — main
+        disadvantage is backtracking.</p></div>
+      <div class="card"><h4>⬆️ Bottom-up Parsing</h4><p>Starts with the input symbols and tries to
+        construct the parse tree up to the start symbol.</p></div>
+    </div>
+    <ul>
+      <li><strong>Left-most derivation</strong>: the sentential form is scanned/replaced left → right</li>
+      <li><strong>Right-most derivation</strong>: scanned/replaced right → left</li>
+    </ul>
+
+    <h3>Parse Tree</h3>
+    <p>A graphical depiction of a derivation — the start symbol is the root; leaf nodes are terminals,
+      interior nodes are non-terminals. In-order traversal of a parse tree reproduces the original
+      input string.</p>
+
+    <h3>Concept of Grammar</h3>
+    <p>Noam Chomsky's 1956 mathematical model: a grammar <strong>G</strong> is a 4-tuple
+      <strong>(N, T, S, P)</strong>:</p>
+    <ul>
+      <li><code>N</code> — set of non-terminal symbols (variables)</li>
+      <li><code>T</code> — set of terminal symbols</li>
+      <li><code>S</code> — the start symbol, S ∈ N</li>
+      <li><code>P</code> — production rules, of the form α → β</li>
+    </ul>
+
+    <h3>Constituency Grammar (Phrase Structure)</h3>
+    <p>Example: "This tree is illustrating the constituency relation" — parsed with NLTK's
+      <code>RegexpParser</code> against a hand-written grammar.</p>
+    <div class="fig-row">
+      <figure><img src="images/p112.png" alt="Constituency grammar code"></figure>
+      <figure><img src="images/p113.png" alt="Constituency grammar tree output"></figure>
+    </div>
+    <figure><img src="images/p114.png" alt="Semantic parsing"><figcaption>Semantic Parsing</figcaption></figure>
+  </section>
+
+  <!-- NER -->
+  <section id="ner">
+    <p class="eyebrow">10 · Finding real-world entities in text</p>
+    <h2>Named Entity Recognition (NER)</h2>
+
+    <h3>Chunking &amp; Chinking</h3>
+    <p><strong>Chunking</strong> groups individual pieces (nouns, verbs, adjectives, adverbs) into larger
+      units called chunks — most common: Noun Phrase (NP) chunking ("the cat," "a book") and Verb Phrase
+      (VP) chunking ("ate breakfast," "is running"). Steps: POS-tag the sentence → group words into
+      chunks based on their POS tags.</p>
+    <p><strong>Chinking</strong> excludes certain words/phrases from a chunk (e.g. prepositions,
+      conjunctions, determiners) — marked with tag <strong>O</strong> (outside) in an NER system.</p>
+    <div class="fig-row">
+      <figure><img src="images/p116.png" alt="NER intro diagram"></figure>
+      <figure><img src="images/p119.png" alt="Chunking and chinking example"></figure>
+    </div>
+
+    <h3>What is NER?</h3>
+    <p><strong>NER</strong> identifies and categorizes words/expressions/names in unstructured data into
+      predefined categories — persons, organizations, locations, etc.</p>
+    <table>
+      <thead><tr><th>Elon</th><th>Musk</th><th>founded</th><th>Tesla</th><th>in</th><th>2003</th><th>in</th><th>California</th></tr></thead>
+      <tbody><tr><td>PERSON</td><td>PERSON</td><td>—</td><td>ORG</td><td>—</td><td>DATE</td><td>—</td><td>LOCATION</td></tr></tbody>
+    </table>
+    <table>
+      <thead><tr><th>Category</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>PERSON</td><td>Narendra Modi, Einstein</td></tr>
+        <tr><td>ORG</td><td>ISRO, Google, SIT</td></tr>
+        <tr><td>LOCATION</td><td>Pune, Amazon River, Mars</td></tr>
+        <tr><td>DATE</td><td>26 Jan, last Monday</td></tr>
+        <tr><td>MONEY</td><td>₹500 crore, $1B</td></tr>
+      </tbody>
+    </table>
+    <pre><span class="k">import</span> spacy
+<span class="k">from</span> spacy <span class="k">import</span> displacy
+nlp = spacy.load(<span class="s">'en_core_web_sm'</span>)
+doc = nlp(<span class="s">"Elon Musk founded Tesla in 2003"</span>)
+<span class="k">for</span> ent <span class="k">in</span> doc.ents:
+    print(ent.text, ent.start_char, ent.end_char, ent.label_)
+<span class="c"># Elon Musk  0  9  PERSON</span></pre>
+
+    <h3>NER applications (know a few for the exam)</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>⚖️ Legal NLP</h4><p>Extracts DOC (document type), PARTY, ALIAS, EFFDATE
+        (effective date) from contracts.</p></div>
+      <div class="card"><h4>💊 Pharma NLP</h4><p>Detects clinical entities in text.</p></div>
+      <div class="card"><h4>💰 Finance NLP</h4><p>Extracts entities like expenses, losses, profit
+        declines/increases from annual reports.</p></div>
+      <div class="card"><h4>🏥 Healthcare NLP</h4><p>Explores oncological terms.</p></div>
+      <div class="card"><h4>👗 Fashion NLP</h4><p>Recognizes brands, colors, seasons; classifies text
+        documents.</p></div>
+      <div class="card"><h4>🔎 Search &amp; Recommendation</h4><p>Extracts product type, color, brand,
+        etc. from a search query to power synonyms and better results.</p></div>
+    </div>
+    <p>Also: categorizing documents, enhancing customer support, assisting biomedical research,
+      influencing recommendation systems, content classification for media, resume summarization,
+      chatbot support, search engine optimization.</p>
+    <figure><img src="images/p128.png" alt="Search engine and recommendation NER examples"><figcaption>Real e-commerce NER: extracting Color/Pattern/Style/Product Type/Gender from a search query, with synonym expansion</figcaption></figure>
+
+    <h3>Steps in NER</h3>
+    <ol class="steps">
+      <li><strong>Extracting the information</strong>: detect and prepare named entities — POS tagging,
+        sentence boundary detection, capitalization rules, co-reference resolution.</li>
+      <li><strong>Searching the entities</strong>: search entity candidates in the document — balancing
+        accuracy and recall while keeping the entity set small enough to be efficient.</li>
+    </ol>
+    <div class="fig-row">
+      <figure><img src="images/p130.png" alt="NER based preprocessing workflow"></figure>
+      <figure><img src="images/p131.png" alt="Basic NER Entity Category"></figure>
+      <figure><img src="images/p132.png" alt="NER workflow continued"></figure>
+      <figure><img src="images/p133.png" alt="NER workflow continued"></figure>
+    </div>
+
+    <h3>Different NER systems</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>📖 Dictionary-based</h4><p>Simplest approach — uses a vocabulary dictionary
+        and basic string matching to check if an entity occurs. Limitation: dictionary must be
+        constantly updated/maintained.</p></div>
+      <div class="card"><h4>📏 Rule-based</h4><p>Uses a pre-defined set of rules — <strong>pattern-based
+        rules</strong> (depend on morphological patterns) and <strong>context-based rules</strong>
+        (depend on surrounding context). E.g. regex for phone numbers, emails, capitalized names.</p></div>
+    </div>
+    <figure><img src="images/p137.png" alt="When context-based rules are useful"></figure>
+
+    <h3>Sequence Labelling &amp; the IOB format</h3>
+    <p><strong>Sequence labeling</strong> assigns a categorical label to each element in an input
+      sequence — used for speech recognition, video analysis, and NLP tasks like POS tagging, NER,
+      chunking. Traditionally needs heavy hand-engineered features; neural approaches now achieve
+      state-of-the-art results.</p>
+    <p>The <strong>IOB format</strong> (Inside-Outside-Beginning) tags tokens for chunking tasks like
+      NER — similar to POS tags but describing a word's position within a chunk:</p>
+    <ul>
+      <li><strong>B-NP</strong>: beginning of a noun phrase</li>
+      <li><strong>I-NP</strong>: inside the current noun phrase</li>
+      <li><strong>O</strong>: outside any chunk</li>
+      <li><strong>B-VP / I-VP</strong>: beginning/inside of a verb phrase</li>
+    </ul>
+    <div class="fig-row">
+      <figure><img src="images/p139.png" alt="IOB format explanation and example"></figure>
+      <figure><img src="images/p140.png" alt="IOB tagging worked example"></figure>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section id="recap">
+    <p class="eyebrow">11 · Putting it all together</p>
+    <h2>Complete NLP Preprocessing Pipeline — Recap</h2>
+    <div class="flow">
+      <div class="node">1. Tokenize</div><div class="arrow">→</div>
+      <div class="node">2. Lowercase</div><div class="arrow">→</div>
+      <div class="node">3. Remove Punct.</div><div class="arrow">→</div>
+      <div class="node">4. Remove Stops</div><div class="arrow">→</div>
+      <div class="node">5. Lemmatize</div><div class="arrow">→</div>
+      <div class="node">6. POS Tag</div><div class="arrow">→</div>
+      <div class="node">7. NER</div>
+    </div>
+    <p><code>"I love NLP!"</code> → tokenize → <code>['I','love','NLP','!']</code> → lowercase →
+      <code>['i','love','nlp','!']</code> → remove punctuation → <code>['i','love','nlp']</code> →
+      remove stopwords → <code>['love','nlp']</code> → lemmatize → <code>['love','nlp']</code> →
+      POS tag → <code>[('love','VB'),('nlp','NN')]</code> → NER → <code>[]</code> (no entities found)</p>
+    <pre><span class="k">import</span> nltk, spacy, re
+<span class="k">from</span> nltk.corpus <span class="k">import</span> stopwords
+<span class="k">from</span> nltk.stem <span class="k">import</span> WordNetLemmatizer
+
+<span class="k">def</span> nlp_pipeline(text):
+    text = text.lower()
+    text = re.sub(r<span class="s">'[^\w\s]'</span>,<span class="s">''</span>,text)
+    stop = set(stopwords.words(<span class="s">'english'</span>))
+    tokens = [w <span class="k">for</span> w <span class="k">in</span> text.split() <span class="k">if</span> w <span class="k">not in</span> stop]
+
+    lem = WordNetLemmatizer()
+    tokens = [lem.lemmatize(w) <span class="k">for</span> w <span class="k">in</span> tokens]
+
+    nlp = spacy.load(<span class="s">'en_core_web_sm'</span>)
+    doc = nlp(<span class="s">' '</span>.join(tokens))
+    <span class="k">return</span> doc  <span class="c"># has .pos_ per token and .ents for NER</span></pre>
+    <div class="fig-row">
+      <figure><img src="images/p141.png" alt="Pipeline recap"></figure>
+      <figure><img src="images/p142.png" alt="Pipeline recap continued"></figure>
+      <figure><img src="images/p143.png" alt="Complete pipeline diagram"></figure>
+    </div>
+
+    <h3>Unit 1 — Key Takeaways</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Language &amp; NLP</h4><p>NLP bridges human language and AI; challenges
+        include ambiguity, context, and sarcasm.</p></div>
+      <div class="card"><h4>NLP Applications</h4><p>Opinion mining, dialog, MT, search, summarization —
+        NLP powers them all.</p></div>
+      <div class="card"><h4>5 Phases of NLP</h4><p>Lexical → Syntactic → Semantic → Discourse → Pragmatic.</p></div>
+      <div class="card"><h4>Preprocessing</h4><p>Lowercase, remove punctuation/stopwords, normalize —
+        foundations of every pipeline.</p></div>
+      <div class="card"><h4>Tokenization</h4><p>Word / sentence / subword / character. BPE used by
+        Transformers.</p></div>
+      <div class="card"><h4>Stemming &amp; POS</h4><p>Porter/Snowball stem; WordNet lemmatize. POS: NN,
+        VBZ, JJ, DT, IN.</p></div>
+      <div class="card"><h4>NER</h4><p>spaCy/NLTK identify PERSON, ORG, DATE, LOCATION — basis of
+        Information Extraction systems.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 1 — Introduction to Language &amp; NLP · Sem 5 revision notes · TEE7101, SIT Pune</footer>
+
+</body>
+</html>
