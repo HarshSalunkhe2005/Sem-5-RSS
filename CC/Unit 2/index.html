@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Virtualization &amp; Cloud Architecture</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#33415f;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:var(--navy-2);}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .grid.cols-8{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  .card h4{margin:0 0 8px;font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:var(--sky-light);flex:none;}
+  .card p{font-size:13.8px;margin:0 0 6px;}
+  .card.num{border-top:4px solid var(--sky);}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  figure{margin:22px 0;text-align:center;}
+  figure img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 4px 14px rgba(16,32,72,0.10);}
+  figure figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;}
+  .fig-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:20px 0;}
+  .fig-row figure{margin:0;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f4f7fd;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#33415f;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--sky);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .stack{display:flex;flex-direction:column;gap:6px;margin:22px 0;}
+  .layer{border-radius:10px;padding:12px 18px;color:#fff;}
+  .layer .name{font-weight:700;font-size:14.5px;}
+  .layer .sub{font-size:12px;opacity:.9;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;} .layer.l5{background:#8ec2f4;color:#0b1e3f;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .fig-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · UNIT 2</span>
+  <h1>🖥️ Virtualization &amp; Cloud Architecture</h1>
+  <p>Virtualization fundamentals · hypervisors (Type 1 vs Type 2) · types of virtualization · Xen &amp;
+     KVM architecture · binary translation vs para-virtualization · implementation levels · cloud
+     architecture design principles · HPC, utility &amp; grid computing.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#virtualization">Virtualization</a>
+    <a href="#hypervisor">Hypervisor</a>
+    <a href="#vm">Virtual Machines</a>
+    <a href="#types">Types of Virtualization</a>
+    <a href="#hardware-virt">Hardware Virtualization</a>
+    <a href="#other-virt">OS/Server/Storage/Network</a>
+    <a href="#xen">Xen Architecture</a>
+    <a href="#kvm">KVM</a>
+    <a href="#binary-translation">Binary Translation</a>
+    <a href="#para-virt">Para-Virtualization</a>
+    <a href="#levels">Implementation Levels</a>
+    <a href="#cloud-arch">Cloud Architecture</a>
+    <a href="#hpc">HPC</a>
+    <a href="#grid">Utility &amp; Grid Computing</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- VIRTUALIZATION -->
+  <section id="virtualization">
+    <p class="eyebrow">01 · The foundation of everything in this unit</p>
+    <h2>Virtualization</h2>
+    <div class="callout"><p><strong>Virtualization</strong> is the creation of a virtual (rather than
+      actual) version of something — a server, desktop, storage device, OS, or network resource. It
+      lets a single physical instance of a resource be shared among multiple customers/organizations,
+      by assigning a logical name to a physical resource and providing a pointer to it when demanded.</p></div>
+    <p>A Virtual Machine (VM) runs in an environment logically separated from the underlying hardware.
+      The machine hosting the VM is the <strong>Host Machine</strong>; the VM itself is the
+      <strong>Guest Machine</strong>.</p>
+
+    <h3>Benefits of virtualization</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4><span class="icon">⚙️</span>Efficient resource use</h4>
+        <p>Instead of one server per machine, create a virtual server pool on shared hardware — fewer
+        physical servers means less space, electricity, cooling.</p></div>
+      <div class="card"><h4><span class="icon">🤖</span>Automated IT management</h4>
+        <p>Physical computers become virtual — manage them with software tools, duplicate infrastructure
+        consistently, avoid manual configuration errors.</p></div>
+      <div class="card"><h4><span class="icon">⚡</span>Faster disaster recovery</h4>
+        <p>Replacing a physical server can take hours/days; with virtualized environments the same
+        recovery takes minutes.</p></div>
+    </div>
+
+    <h3>How virtualization works</h3>
+    <p>Virtualization uses specialized software called a <strong>hypervisor</strong> to create several
+      cloud instances/VMs on one physical computer.</p>
+
+    <h3>Virtualization vs Cloud Computing — don't confuse these</h3>
+    <table>
+      <thead><tr><th>Cloud Computing</th><th>Virtualization</th></tr></thead>
+      <tbody>
+        <tr><td>On-demand delivery of computing resources over the internet, pay-as-you-go</td>
+            <td>The technology that <strong>makes</strong> cloud computing possible</td></tr>
+        <tr><td>You access technology services (compute, storage, DB) as a fully managed service via APIs</td>
+            <td>Cloud providers use it to create virtual environments on top of their own data centers' hardware</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Cloud &amp; Virtualization — key concepts</h3>
+    <ul>
+      <li><strong>Virtual Workspaces</strong>: an abstraction of an execution environment, dynamically
+        available to authorized clients via well-defined protocols — has a resource quota (CPU, memory)
+        and software configuration (OS)</li>
+      <li><strong>Implemented on VMs</strong>: abstraction of a physical host machine; the hypervisor
+        intercepts and emulates VM instructions and manages the VMs (VMware, Xen, KVM, etc.)</li>
+      <li><strong>Infrastructure API</strong>: plug-ins to hardware/support structures</li>
+    </ul>
+  </section>
+
+  <!-- HYPERVISOR -->
+  <section id="hypervisor">
+    <p class="eyebrow">02 · The Virtual Machine Manager</p>
+    <h2>Hypervisor</h2>
+    <p>The <strong>hypervisor</strong> is firmware/low-level software that acts as a Virtual Machine
+      Manager — a software layer between the VMs and the underlying hardware/host OS. It coordinates
+      access to the physical environment so several VMs get their share of physical resources. When a
+      VM needs compute power, the request goes to the hypervisor first, which passes it to the
+      underlying hardware.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>🔩 Type 1 — Bare-metal</h4><p>Executes directly on the bare system — no
+        host OS underneath, since it's installed directly on hardware. Highly efficient, interacts
+        directly with physical resources. Has some OS capabilities of its own.
+        <br><strong>Examples:</strong> LynxSecure, RTS Hypervisor, Oracle VM, Sun xVM Server, VirtualLogic VLX.</p></div>
+      <div class="card"><h4>💻 Type 2 — Hosted</h4><p>A software interface that emulates the devices a
+        system normally interacts with — runs as an application on top of an existing OS. Used when
+        running multiple OSes on a single machine.
+        <br><strong>Examples:</strong> Containers, KVM, Microsoft Hyper-V, VMware Fusion, Windows Virtual
+        PC, VMware Workstation 6.0.</p></div>
+    </div>
+    <figure><img src="images/p007.png" alt="Type 1 vs Type 2 hypervisor diagram"><figcaption>Type 1 (bare-metal) vs Type 2 (hosted) hypervisor architecture</figcaption></figure>
+  </section>
+
+  <!-- VMs -->
+  <section id="vm">
+    <p class="eyebrow">03 · What runs on top of the hypervisor</p>
+    <h2>Virtual Machines / Cloud Instances</h2>
+    <p>VM technology allows multiple VMs to run on a single physical machine. After installing
+      virtualization software, you create one or more VMs and access them like any other application.
+      The physical computer is the <strong>host</strong>; each VM is a <strong>guest</strong> — several
+      guests can run on one host, each with its own OS (same or different from the host's).</p>
+    <p>From the user's perspective, a VM operates like a typical server — its own settings,
+      configurations, installed apps, and it "sees" CPU/RAM/storage the same way a physical server
+      would. Guest OSes/apps can be configured and updated without affecting the host.</p>
+    <div class="callout"><p><strong>Performance note:</strong> Para-virtualization (e.g. Xen) runs very
+      close to raw physical performance.</p></div>
+    <figure><img src="images/p008.png" alt="Virtual machines diagram"></figure>
+
+    <h3>Advantages of virtual machines</h3>
+    <ul>
+      <li>Run OSes where the physical hardware is unavailable</li>
+      <li>Easier to create new machines, backup machines, etc.</li>
+      <li>Software testing using "clean" installs of OS/software</li>
+      <li>Emulate more machines than are physically available</li>
+      <li>Timeshare lightly-loaded systems on one host</li>
+      <li>Debug problems (suspend and resume the problem machine)</li>
+      <li>Easy migration of VMs (with or without shutdown)</li>
+      <li>Run legacy systems</li>
+    </ul>
+  </section>
+
+  <!-- TYPES -->
+  <section id="types">
+    <p class="eyebrow">04 · The 8 types</p>
+    <h2>Types of Virtualization</h2>
+    <div class="grid cols-4">
+      <div class="card num"><h4>1. Hardware</h4></div>
+      <div class="card num"><h4>2. Operating System</h4></div>
+      <div class="card num"><h4>3. Server</h4></div>
+      <div class="card num"><h4>4. Storage</h4></div>
+      <div class="card num"><h4>5. Desktop</h4></div>
+      <div class="card num"><h4>6. Network</h4></div>
+      <div class="card num"><h4>7. Data</h4></div>
+      <div class="card num"><h4>8. Application</h4></div>
+    </div>
+    <figure><img src="images/p010.png" alt="Types of virtualization diagram"></figure>
+  </section>
+
+  <!-- HARDWARE VIRTUALIZATION -->
+  <section id="hardware-virt">
+    <p class="eyebrow">05 · Deep dive: the most-tested type</p>
+    <h2>Hardware Virtualization</h2>
+    <p>When the VM software/VMM is installed <strong>directly on the hardware system</strong>, it's
+      hardware virtualization. The hypervisor's main job is to control and monitor the processor,
+      memory, and other hardware resources. Mainly done on server platforms, since controlling VMs is
+      much easier than controlling a physical server.</p>
+    <figure><img src="images/p011.png" alt="Hardware virtualization diagram"></figure>
+
+    <h3>Three types of hardware virtualization</h3>
+
+    <div class="card"><h4>1️⃣ Full Virtualization</h4>
+      <p>The underlying hardware is <strong>completely simulated</strong>. Guest software needs no
+      modification to run. Introduced by IBM in 1966 — the first software solution for server
+      virtualization, using binary translation + direct execution. The VM completely isolates the guest
+      OS from the virtualization layer and hardware.<br>
+      <strong>Examples:</strong> VMware vSphere/ESXi, Microsoft Hyper-V, Oracle VirtualBox, Parallels.</p>
+      <ul>
+        <li><strong>Hypervisor layer</strong>: a VMM sits between hardware and guest OSes, managing resource allocation</li>
+        <li><strong>Hardware-assisted</strong>: uses Intel VT-x / AMD-V to run guest OSes directly on the CPU with minimal overhead</li>
+        <li><strong>Isolation</strong>: VMs are completely isolated from each other</li>
+      </ul>
+    </div>
+    <figure><img src="images/p012.png" alt="Full virtualization diagram"></figure>
+
+    <div class="card"><h4>2️⃣ Emulation Virtualization</h4>
+      <p>The VM <strong>simulates the hardware</strong> and hence becomes independent of it. The guest
+      OS does not require modification.</p></div>
+    <figure><img src="images/p013.png" alt="Emulation virtualization diagram"></figure>
+
+    <div class="card"><h4>3️⃣ Paravirtualization</h4>
+      <p>The hardware is <strong>not</strong> simulated — guest software runs in its own isolated
+      domain. Uses <strong>hypercalls</strong> to handle instructions at compile time. The guest OS is
+      only partially isolated from the virtualization layer/hardware.<br>
+      <strong>Examples:</strong> VMware, Xen.</p>
+      <ul>
+        <li><strong>Hypervisor layer</strong>: guest OSes are <em>aware</em> of the hypervisor and use its APIs to talk to hardware</li>
+        <li><strong>Guest OS modifications</strong>: hardware-related instructions are replaced with hypercalls to the hypervisor</li>
+        <li><strong>Performance benefit</strong>: avoids the overhead of emulating complete hardware — often faster than full virtualization</li>
+      </ul>
+    </div>
+    <figure><img src="images/p014.png" alt="Paravirtualization diagram"></figure>
+  </section>
+
+  <!-- OTHER VIRT TYPES -->
+  <section id="other-virt">
+    <p class="eyebrow">06 · The remaining 6 types</p>
+    <h2>OS, Server, Storage, Network, Data &amp; Application Virtualization</h2>
+
+    <h3>Operating System Virtualization</h3>
+    <p>VM software/VMM installed on the <strong>host OS</strong> instead of directly on hardware. The
+      OS kernel's resources get shared, allowing isolated instances (<strong>containers</strong>) with
+      dedicated resources to run different applications.</p>
+    <ul>
+      <li>Quicker than server virtualization</li>
+      <li>Autonomous — each container has its own software/libraries within the shared kernel</li>
+      <li>Very easy to migrate a container</li>
+    </ul>
+    <figure><img src="images/p015.png" alt="OS virtualization diagram"></figure>
+
+    <h3>Server Virtualization</h3>
+    <p>Divides a physical server into multiple virtual servers for efficient resource use. Without it,
+      physical servers use only a small fraction of their processing capacity. Masks server resources
+      (processor, OS, memory) and presents each user a private virtual server.</p>
+    <p><strong>Used for:</strong> web hosting cost reduction, dev/test environments, private cloud
+      simulation, clustered-architecture app hosting.</p>
+    <figure><img src="images/p016.png" alt="Server virtualization diagram"></figure>
+
+    <h3>Storage Virtualization</h3>
+    <p>Pools all storage devices as a single storage device, masking the complexity of the SAN. Combines
+      NAS and SAN functions — pools hardware even across different vendors/types into one large virtual
+      storage unit, controlled via management software.</p>
+    <ul>
+      <li>Easy to create shared storage</li>
+      <li>Easy to pool storage resources, masking the SAN</li>
+      <li>Host failure doesn't necessarily compromise data</li>
+      <li>Easy to partition and protect storage</li>
+      <li>Enables duplication, replication, and disaster recovery</li>
+    </ul>
+    <figure><img src="images/p017.png" alt="Storage virtualization diagram"></figure>
+
+    <h3>Network Virtualization</h3>
+    <p>Combines network hardware elements (switches, routers, firewalls) to centralize administrative
+      tasks — adjust/control elements virtually without touching physical components.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Software-Defined Networking (SDN)</h4><p>Controls traffic routing by taking
+        over routing management from the physical environment — e.g. prioritizing video-call traffic
+        over other traffic.</p></div>
+      <div class="card"><h4>Network Function Virtualization</h4><p>Combines functions of network
+        appliances (firewalls, load balancers, traffic analyzers) working together to improve
+        performance.</p></div>
+    </div>
+    <figure><img src="images/p018.png" alt="Network virtualization diagram"></figure>
+
+    <h3>Data Virtualization</h3>
+    <p>Organizations collect data from multiple sources/formats/locations (cloud + on-prem). Data
+      virtualization creates a software layer between this data and the applications that need it —
+      processes requests and returns results in a suitable format, increasing flexibility for data
+      integration and cross-functional analysis.</p>
+
+    <h3>Application Virtualization</h3>
+    <p>Pulls application functions out to run on OSes other than the one they were designed for — e.g.
+      running a Windows app on Linux without changing machine configuration.</p>
+    <ul>
+      <li><strong>Application streaming</strong>: streamed from a remote server, runs on the end-user device only when needed</li>
+      <li><strong>Server-based application virtualization</strong>: accessed remotely via browser/client, no install needed</li>
+      <li><strong>Local application virtualization</strong>: app code ships with its own environment, runs unmodified across OSes</li>
+    </ul>
+    <figure><img src="images/p019.png" alt="Data and application virtualization diagram"></figure>
+  </section>
+
+  <!-- XEN -->
+  <section id="xen">
+    <p class="eyebrow">07 · The canonical Type-1, para-virtualization example</p>
+    <h2>Xen Hypervisor &amp; Architecture</h2>
+    <p><strong>Xen</strong> is an open-source hypervisor developed by Cambridge University — a
+      <strong>microkernel hypervisor</strong> that separates policy from mechanism. Core components:
+      the hypervisor, kernel, and applications. Xen runs directly on system hardware, inserting a
+      virtualization layer between the hardware and VMs, turning hardware into a pool of logical
+      computing resources dynamically allocated to any guest OS.</p>
+    <figure><img src="images/p020.png" alt="Xen hypervisor concept"></figure>
+
+    <h3>Not all guest OSes are equal — Dom0 vs DomU</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>👑 Dom0 (Domain 0 / privileged domain / xen-server / host)</h4>
+        <p>The first domain started by the Xen hypervisor on boot. Has special privileges — can start
+        new domains and access hardware directly. Runs <strong>all</strong> the device drivers. For
+        hardware shared with other domains (network, disks), runs the <strong>Backend Driver</strong>,
+        which multiplexes/forwards requests from each DomU's <strong>Frontend Driver</strong>. Any OS
+        can theoretically be ported to run as a DomU, but only Linux has the tools/patches to run in
+        Dom0.</p></div>
+      <div class="card"><h4>🔒 DomU (Domain U / unprivileged domain / guest VM)</h4>
+        <p>The counterpart to Dom0 — by default, no access to hardware. Must run a Frontend Driver for
+        multiplexed hardware it wants to share. Started by <code>xend</code> in Dom0, accessed with the
+        <code>xm</code> command-line tool.</p></div>
+    </div>
+    <p><strong>The hypervisor itself</strong> (Xen) sits between the hardware and the OS of each domain
+      — responsible for checking page tables, allocating resources for new domains, scheduling domains,
+      and booting the machine to start Dom0. It presents each domain a virtual machine similar-but-not-
+      identical to the native architecture. Together, Dom0 + DomU + hypervisor make up the
+      <strong>Virtual Machine Environment</strong> — able to run multiple OSes simultaneously.</p>
+    <figure><img src="images/p021.png" alt="Xen architecture: Dom0, DomU, and the hypervisor"><figcaption>The Xen architecture's special Dom0 and several guest DomU domains for user applications</figcaption></figure>
+  </section>
+
+  <!-- KVM -->
+  <section id="kvm">
+    <p class="eyebrow">08 · Linux's native hypervisor</p>
+    <h2>KVM (Kernel-based Virtual Machine)</h2>
+    <p>KVM is a <strong>full native virtualization</strong> solution for Linux on x86 hardware with
+      virtualization extensions (Intel VT / AMD-V). Also has limited paravirtualization support (a
+      paravirtual network driver) for Linux/Windows guests.</p>
+    <ul>
+      <li>Interfaces with the kernel via a loadable kernel module</li>
+      <li>Supports many guest OSes: Linux, BSD, Solaris, Windows, Haiku, ReactOS, AROS</li>
+      <li>Each VM is implemented as a <strong>regular Linux process</strong>, scheduled by the standard
+        Linux scheduler — each vCPU appears as a regular Linux process, letting KVM benefit from all
+        Linux kernel features</li>
+    </ul>
+    <p>As a Linux para-virtualization system (part of the 2.6.20 kernel), memory management/scheduling
+      is handled by the existing Linux kernel — KVM does the rest, making it simpler than a hypervisor
+      that controls the entire machine. It's hardware-assisted para-virtualization, supporting
+      unmodified guest OSes (Windows, Linux, Solaris, other UNIX variants).</p>
+    <figure><img src="images/p022.png" alt="KVM hypervisor diagram"></figure>
+  </section>
+
+  <!-- BINARY TRANSLATION -->
+  <section id="binary-translation">
+    <p class="eyebrow">09 · How full virtualization actually works under the hood</p>
+    <h2>Binary Translation with Full Virtualization</h2>
+    <p>Hardware virtualization implementation splits into two categories: <strong>full
+      virtualization</strong> and <strong>host-based virtualization</strong>. Full virtualization needs
+      no host-OS modification — it relies on <strong>binary translation</strong> to trap and virtualize
+      sensitive, non-virtualizable instructions.</p>
+
+    <h3>1. Full Virtualization</h3>
+    <p>Noncritical instructions run directly on hardware; critical instructions are trapped and
+      emulated by the VMM (this is why only critical instructions are trapped — binary translation has
+      real performance overhead, so running noncritical instructions natively promotes both efficiency
+      and security).</p>
+
+    <h3>2. Binary Translation of Guest OS Requests using a VMM</h3>
+    <p>Implemented by VMware and others. The VMM sits at <strong>Ring 0</strong> and the guest OS at
+      <strong>Ring 1</strong>. The VMM scans the instruction stream, identifies privileged/control/
+      behavior-sensitive instructions, traps them into the VMM, and emulates their behavior — this
+      emulation method is <strong>binary translation</strong>. Full virtualization = binary translation
+      + direct execution. The guest OS is completely decoupled from the hardware and unaware it's being
+      virtualized.</p>
+    <div class="callout"><p>Performance isn't ideal since binary translation is time-consuming — I/O-
+      intensive workloads suffer most. A code cache stores translated hot instructions to help, at the
+      cost of memory usage. Typical performance: <strong>80-97% of the host machine's native
+      performance</strong> on x86.</p></div>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Advantages</h4>
+        <ul style="font-size:13.5px;"><li>Best isolation and security for the VM</li>
+        <li>Multiple guest OSes execute concurrently, truly isolated</li>
+        <li>Only approach needing no hardware/OS assist to virtualize sensitive/privileged instructions</li></ul></div>
+      <div class="card"><h4>⚠️ Disadvantages</h4>
+        <ul style="font-size:13.5px;"><li>Time-consuming at runtime</li>
+        <li>Large performance overhead</li>
+        <li>Code cache increases memory usage and hardware cost</li>
+        <li>~80-95% of host machine performance on x86</li></ul></div>
+    </div>
+    <figure><img src="images/p023.png" alt="Binary translation with full virtualization diagram"></figure>
+    <figure><img src="images/p024.png" alt="Binary translation continued"></figure>
+  </section>
+
+  <!-- HOST-BASED -->
+  <section id="host-based">
+    <h3>Host-Based Virtualization</h3>
+    <p>An alternative VM architecture — install a virtualization layer <strong>on top of the host
+      OS</strong>, which still manages the hardware. Guest OSes run on top of this virtualization
+      layer.</p>
+    <ul>
+      <li>User can install without modifying the host OS — the host OS supplies device drivers and
+        other low-level services, simplifying VM design/deployment</li>
+      <li>Appeals to many host configurations, but performance can be lower than the hypervisor/VMM
+        architecture — hardware access involves <strong>4 layers of mapping</strong>, which
+        significantly downgrades performance</li>
+      <li>When the guest OS's ISA differs from the underlying hardware's ISA, binary translation must
+        still be used — flexible, but performance is often too low to be practical</li>
+    </ul>
+    <figure><img src="images/p025.png" alt="Host-based virtualization diagram"></figure>
+  </section>
+
+  <!-- PARA-VIRT -->
+  <section id="para-virt">
+    <p class="eyebrow">10 · The performance-focused alternative</p>
+    <h2>Para-Virtualization with Compiler Support</h2>
+    <p>Unlike full virtualization (which intercepts/emulates privileged instructions at
+      <strong>runtime</strong>), para-virtualization handles these instructions at
+      <strong>compile time</strong>. The guest OS kernel is modified to replace privileged/sensitive
+      instructions with <strong>hypercalls</strong> to the hypervisor/VMM. <strong>Xen</strong> uses
+      this architecture — the guest OS runs at <strong>Ring 1</strong> instead of Ring 0, so it can't
+      execute some privileged instructions directly; those are implemented via hypercalls instead.</p>
+    <figure><img src="images/p026.png" alt="Para-virtualization with compiler support diagram"></figure>
+
+    <p>On the x86 ring model (Rings 0-3, lower number = higher privilege): the OS normally manages
+      hardware + privileged instructions at Ring 0, user apps run at Ring 3. In para-virtualization,
+      the virtualization layer is inserted between hardware and OS, also at Ring 0 — but since the
+      guest OS kernel is modified for virtualization, it can no longer run directly on hardware
+      unmodified.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Advantages over full virtualization</h4>
+        <p>Relatively easy and more practical — full virtualization's main problem is its low
+        performance from binary translation, which is difficult to speed up. Many virtualization
+        products (Xen, KVM, VMware ESX) therefore use para-virtualization.</p></div>
+      <div class="card"><h4>⚠️ Disadvantages</h4>
+        <ul style="font-size:13.5px;">
+          <li>Compatibility/portability may be in doubt, since it must still support unmodified OSes for some use cases</li>
+          <li>High maintenance cost — requires deep OS kernel modifications</li>
+          <li>Performance advantage varies greatly with workload</li>
+        </ul></div>
+    </div>
+    <figure><img src="images/p027.png" alt="KVM as para-virtualization example"></figure>
+
+    <h3>VMware ESX Server</h3>
+    <p>The <strong>service console</strong> boots the system, initiates the VMM and resource manager,
+      and relinquishes control to those layers — also facilitates system administration. VMware
+      pioneered the virtualization software market, building tools for desktops, servers, and large
+      data-center virtual infrastructure. <strong>ESX</strong> is a VMM/hypervisor for bare-metal x86
+      SMP servers — accesses I/O directly, complete resource management control. Components: a
+      virtualization layer, resource manager, hardware interface components, and a service console.
+      To improve performance, ESX employs a para-virtualization architecture where the VM kernel
+      interacts directly with hardware, bypassing the host OS.</p>
+    <p>The <strong>VMM layer</strong> virtualizes physical hardware resources (CPU, memory, network,
+      disk controllers, human interface devices) — every VM gets its own virtual hardware resource
+      set. The <strong>resource manager</strong> allocates CPU/memory/disk/network bandwidth, mapping
+      them to each VM's virtual hardware set. <strong>Hardware interface components</strong> are the
+      device drivers and hardware-specific software.</p>
+    <figure><img src="images/p028.png" alt="Para-virtualization compiler support continued"></figure>
+  </section>
+
+  <!-- LEVELS -->
+  <section id="levels">
+    <p class="eyebrow">11 · Where virtualization is applied in the stack</p>
+    <h2>Implementation Levels of Virtualization</h2>
+    <p>It's not simple to set up virtualization — your computer runs an OS configured for particular
+      hardware, and running a different OS on the same hardware isn't trivially feasible. This is
+      exactly the role of the hypervisor: a bridge between hardware and the virtual OS. There are 5
+      commonly-used implementation levels.</p>
+
+    <div class="stack">
+      <div class="layer l1"><span class="name">1. Instruction Set Architecture (ISA)</span>
+        <span class="sub">ISA emulation runs legacy code built for different hardware — makes the VM hardware-agnostic; needs an interpreter to convert source code to a readable hardware format</span></div>
+      <div class="layer l2"><span class="name">2. Hardware Abstraction Level (HAL)</span>
+        <span class="sub">Virtualizes at the hardware level via a hypervisor — I/O devices, memory, processor. Mostly used in cloud-based infrastructure</span></div>
+      <div class="layer l3"><span class="name">3. Operating System Level</span>
+        <span class="sub">Creates an abstract layer between OS and application — an isolated container per user, no hardware-sharing conflicts</span></div>
+      <div class="layer l4"><span class="name">4. Library Level</span>
+        <span class="sub">Applications use documented APIs from libraries at user level — API hooks control the app-to-system communication link</span></div>
+      <div class="layer l5"><span class="name">5. Application Level</span>
+        <span class="sub">Virtualizes only one application, not the whole environment — the app sits above the virtualization layer, letting high-level-language programs run seamlessly</span></div>
+    </div>
+  </section>
+
+  <!-- CLOUD ARCHITECTURE -->
+  <section id="cloud-arch">
+    <p class="eyebrow">12 · Designing real cloud systems</p>
+    <h2>Insights into Cloud Computing Architecture</h2>
+    <p><strong>Cloud Architecture</strong> covers the various components — databases, software
+      capabilities, applications — that companies of all sizes use to leverage cloud resources for
+      business problems. (Even at home: Microsoft 365, Google Docs, Spotify all run on cloud
+      infrastructure.) The goal: high bandwidth, uninterrupted access to data/apps, on-demand agile
+      networking between servers/clouds, and network security.</p>
+
+    <h3>6 Principles of Cloud Computing Architecture Design</h3>
+    <p>A complete design process: collect requirements → analyze → design architecture → evaluate
+      improvements → deliver implementation → achieve continuous operations.</p>
+
+    <div class="grid cols-3">
+      <div class="card"><h4>1️⃣ Reasonable Deployment</h4><p>Public cloud deployment = VMs + higher-
+        performance physical cloud hosts. Private deployments are packaged as independent software for
+        a user's private environment, available only to select users (unlike "any user" public cloud).
+        Hybrid enables unified management across public cloud + private platforms (VMware, OpenStack,
+        physical servers).</p></div>
+      <div class="card"><h4>2️⃣ Business Continuity</h4><p><strong>High Availability</strong> —
+        redundancy avoids business interruption on resource failure. <strong>Continuous Operations</strong>
+        — fault-free resources, uninterrupted service. <strong>Disaster Recovery</strong> — restoring
+        apps/data in a different environment when the primary is damaged.</p></div>
+      <div class="card"><h4>3️⃣ Elastic Expansion</h4><p>Tightly-coupled systems are hard to expand/
+        troubleshoot. Decouple components first (dynamic vs static data): stay stateless (store state
+        in Redis), use load balancing, decouple via message queues/API Gateway, achieve global load
+        balancing across a hybrid/multi-cloud setup.</p></div>
+      <div class="card"><h4>4️⃣ Performance Efficiency</h4><p><strong>Compute</strong>: higher-config
+        hosts + cluster expansion. <strong>Storage/caching</strong>: cache hot data via Redis, in-
+        memory calculations. <strong>Network</strong>: pick the optimal data center for global
+        deployments.</p></div>
+      <div class="card"><h4>5️⃣ Security Compliance</h4><p>Master/sub-accounts with separated public/
+        private keys and minimum required permissions; ACLs and security groups to restrict access;
+        VPC isolation for internal-only resources; prevent DDoS/SQL injection/XSS; maintain access +
+        operation logs.</p></div>
+      <div class="card"><h4>6️⃣ Continuous Operation</h4><p>Monitor resources/services/events/user
+        apps continuously, set alarms → notify via phone/SMS/email → hand off to callback functions for
+        automated fault handling → auto-scale based on CPU/other metrics → monitor costs, set balance
+        alarms to avoid runaway spend.</p></div>
+    </div>
+
+    <h3>Cloud architecture components (recap from Unit 1)</h3>
+    <div class="pillbar">
+      <span>Frontend platform</span><span>Backend platform</span><span>Cloud-based delivery model</span><span>Network (internet/intranet/intercloud)</span>
+    </div>
+  </section>
+
+  <!-- HPC -->
+  <section id="hpc">
+    <p class="eyebrow">13 · Processing at extreme scale</p>
+    <h2>High-Performance Computing (HPC)</h2>
+    <p><strong>HPC</strong> is the ability to process data and perform complex calculations at high
+      speed. A laptop/desktop with a 3 GHz processor manages ~3 billion calculations/second — HPC
+      solutions perform <strong>quadrillions</strong> of calculations per second.</p>
+    <p>A <strong>supercomputer</strong> — one of the best-known HPC types — contains thousands of
+      compute nodes working together (<strong>parallel processing</strong>), like thousands of
+      networked PCs combining compute power.</p>
+
+    <h3>3 main components</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>⚙️ Compute</h4><p>Servers networked into a cluster, running software/algorithms simultaneously.</p></div>
+      <div class="card"><h4>🌐 Network</h4><p>Must support high-speed transport of data between compute servers and storage.</p></div>
+      <div class="card"><h4>💾 Storage</h4><p>Must feed/ingest data to/from compute servers as fast as it's processed.</p></div>
+    </div>
+    <p>If any one component can't keep up, the whole HPC infrastructure's performance suffers. An
+      <strong>HPC cluster</strong> = hundreds/thousands of networked compute servers ("nodes") working
+      in parallel.</p>
+
+    <h3>HPC use cases</h3>
+    <ul>
+      <li><strong>Research labs</strong>: renewable energy, understanding universe evolution, storm prediction, new materials</li>
+      <li><strong>Media &amp; entertainment</strong>: editing feature films, special effects, live-event streaming</li>
+      <li><strong>Oil &amp; gas</strong>: identifying drill sites, boosting production</li>
+      <li><strong>AI/ML</strong>: credit card fraud detection, self-driving vehicles, cancer screening</li>
+      <li><strong>Financial services</strong>: real-time stock trend tracking, automated trading</li>
+      <li>Product design/simulation, supply chain management, disease research (diabetes, cancer)</li>
+    </ul>
+  </section>
+
+  <!-- GRID -->
+  <section id="grid">
+    <p class="eyebrow">14 · Sharing resources across organizations</p>
+    <h2>Utility &amp; Enterprise Grid Computing</h2>
+
+    <h3>Utility Computing</h3>
+    <p>The most trending IT service model — on-demand computing resources (compute, storage,
+      programming services via API) and infrastructure, billed <strong>pay-per-use</strong>. Minimizes
+      cost, maximizes resource efficiency. Google and Amazon built their own utility services this way.</p>
+    <figure><img src="images/p045.png" alt="Utility computing pyramid diagram"></figure>
+    <p><strong>Examples:</strong> file/application/web server access, IaaS/SaaS/PaaS, virtually
+      unlimited processing/storage, customer computing app support, cloud storage, utility services
+      (power, HVAC, communications), general/specialized IT expertise (e.g. ransomware response).</p>
+
+    <h3>Grid Computing</h3>
+    <p>Also known as <strong>distributed computing</strong> — a processor architecture combining
+      different computing resources from multiple locations toward a common goal, connected via
+      parallel nodes forming a computer cluster (varying sizes, any OS).</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>🎛️ Control Node</h4><p>A group of servers administering the whole network.</p></div>
+      <div class="card"><h4>📦 Provider</h4><p>A computer contributing its resources to the network resource pool.</p></div>
+      <div class="card"><h4>👤 User</h4><p>A computer that uses resources on the network.</p></div>
+    </div>
+    <p>Used mainly in ATMs, back-end infrastructures, and marketing research. Specialized software runs
+      on every participating computer, coordinating tasks: assigns subtasks → computers work
+      simultaneously → outputs gathered/aggregated into the larger task result, with computers
+      communicating over the network to share progress and consolidate outputs.</p>
+
+    <h3>Benefits of Cloud Environments (unit recap)</h3>
+    <div class="pillbar">
+      <span>Accessibility anywhere, any device</span><span>Less hardware/software to manage</span>
+      <span>Centralized data security</span><span>Higher performance &amp; availability</span>
+      <span>Quick application deployment</span><span>Instant business insights</span>
+      <span>Business continuity</span><span>Price-performance / cost savings</span>
+      <span>Virtualized computing</span><span>Greener computing</span>
+    </div>
+
+    <h3>Hands-on: AWS EC2 as a virtual server in the cloud</h3>
+    <p>A practical comparison — deploying a Linux web server the traditional virtualization way
+      (physical server → hypervisor → VM) vs the AWS way (just launch an EC2 instance):</p>
+    <figure><img src="images/p051.png" alt="AWS Management Console example"><figcaption>AWS Management Console — EC2 is the managed, on-demand version of the same virtualization concepts covered in this unit</figcaption></figure>
+  </section>
+
+</main>
+
+<footer>Unit 2 — Virtualization &amp; Cloud Architecture · Sem 5 revision notes</footer>
+
+</body>
+</html>
