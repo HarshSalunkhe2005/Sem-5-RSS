@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Advances in NN and DL</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15.5px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:var(--coral-light);flex:none;}
+  .card p{font-size:13.8px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.4px;line-height:1.5;margin:12px 0;}
+  pre .c{color:#8fdc9c;} pre .k{color:#ff9d6c;} pre .s{color:#ffd479;}
+
+  figure{margin:22px 0;text-align:center;}
+  figure img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 4px 14px rgba(60,20,90,0.10);}
+  figure figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;}
+  .fig-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:20px 0;}
+  .fig-row figure{margin:0;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f3ecfb;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .fig-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 2</span>
+  <h1>⚡ Advances in NN &amp; DL</h1>
+  <p>Biological neuron vs perceptron · the MP Neuron · linear classification · training a
+     perceptron · shallow neural networks · backpropagation · activation functions (incl. the
+     Sigmoid Neuron deep dive) · optimization algorithms · feedforward networks.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#mp-neuron">Biological Neuron &amp; MP Neuron</a>
+    <a href="#perceptron">Perceptron &amp; Linear Classification</a>
+    <a href="#training">Training a Perceptron</a>
+    <a href="#shallow">Shallow Neural Networks</a>
+    <a href="#backprop">Backpropagation</a>
+    <a href="#activation">Activation Functions</a>
+    <a href="#sigmoid">The Sigmoid Neuron</a>
+    <a href="#optimization">Optimization</a>
+    <a href="#ffnn">FFNN</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- MP NEURON -->
+  <section id="mp-neuron">
+    <p class="eyebrow">01 · Where the perceptron came from</p>
+    <h2>Biological Neuron vs Perceptron — the MP Neuron</h2>
+    <p>McCulloch (neuroscientist) and Pitts (logician) proposed the first highly simplified
+      computational model of a neuron in <strong>1943</strong> — the <strong>McCulloch-Pitts (MP)
+      Neuron</strong>. It's the direct ancestor of the perceptron.</p>
+    <div class="callout violet"><p>
+      A function <code>g</code> aggregates the inputs, and a function <code>f</code> takes a
+      decision based on that aggregation. Inputs can be <strong>excitatory</strong> or
+      <strong>inhibitory</strong>.<br><br>
+      <code>y = 0</code> if any <code>xᵢ</code> is inhibitory, else<br>
+      <code>g(x₁, x₂, …, xₙ) = g(x) = Σxᵢ</code><br>
+      <code>y = f(g(x)) = 1 if g(x) ≥ b</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0 if g(x) &lt; b</code>
+    </p></div>
+    <figure><img src="images/mp-neuron-model.png" alt="McCulloch-Pitts Neuron model diagram"></figure>
+
+    <h3>Worked example: will you like this phone?</h3>
+    <p>A classic teaching example — predict whether a user <strong>likes</strong> a mobile phone
+      from a set of <strong>boolean features</strong> (launched recently, weight &lt;160g, screen
+      size &lt;5.9in, dual SIM, sufficient memory, NFC, radio, battery &gt;3500mAh, price &gt;20k).
+      The raw specs get converted into binary features, then the MP Neuron's single parameter
+      <code>b</code> (threshold) is found by <strong>brute-force search</strong> — since there's
+      only one parameter, this is affordable.</p>
+    <figure><img src="images/mp-neuron-data.png" alt="MP Neuron mobile phone example — data and boolean features"></figure>
+
+    <h3>Geometric interpretation</h3>
+    <p>With just 2 boolean features (screen size &gt;5in, battery &gt;2000mAh), the MP Neuron's
+      decision boundary <code>Σxᵢ = b</code> is literally a line separating the "like" points from
+      the "dislike" points in feature space.</p>
+    <figure><img src="images/mp-neuron-geometric.png" alt="MP Neuron geometric interpretation — decision boundary"><figcaption>b = 2: only the point where both features are 1 falls in the "like" (green) region</figcaption></figure>
+
+    <div class="callout"><p><strong>Limitation of the MP Neuron:</strong> inputs must be boolean,
+      all inputs are weighted equally (no learned importance), and the threshold <code>b</code> has
+      to be set by hand/brute-force — there's no learning algorithm. This is exactly what the
+      <strong>Perceptron</strong> (next section) fixes: it introduces learnable weights per input.</p></div>
+  </section>
+
+  <!-- PERCEPTRON -->
+  <section id="perceptron">
+    <p class="eyebrow">02 · Weighted, learnable decisions</p>
+    <h2>Perceptron &amp; Linear Classification</h2>
+    <p>A <strong>Perceptron</strong> is the simplest form of a neural network that makes decisions
+      by combining inputs with <strong>weights</strong> and applying an activation function. Mainly
+      used for binary classification — it forms the basic building block of many deep learning
+      models.</p>
+    <ul>
+      <li>Takes multiple inputs and assigns weights to each</li>
+      <li>Computes a weighted sum and applies a threshold</li>
+      <li>Outputs either 0/1 (or +1/-1 by convention)</li>
+      <li>Forms the foundation of larger neural networks</li>
+    </ul>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Weights</h4><p>Learned during training, adjusting based on errors — act
+        like importance scores for each feature. Control <strong>how much</strong> each input
+        influences the output.</p></div>
+      <div class="card"><h4>Bias (b)</h4><p>A constant added to the weighted sum, shifting the
+        decision boundary — lets the perceptron classify correctly even when all inputs are zero,
+        and stops the boundary being forced through the origin. Controls <strong>when</strong> the
+        perceptron activates.</p></div>
+    </div>
+    <p><strong>Mathematically:</strong> weights tilt the decision line; bias shifts it up/down or
+      left/right.</p>
+
+    <h3>Linear classification</h3>
+    <p>A linear function divides the coordinate space into two parts — every point is on one side
+      of the line (or plane/hyperplane) or the other. This means it can only separate
+      <strong>two classes</strong> — <strong>binary classification</strong>. One class is
+      conventionally called <em>positive</em>, the other <em>negative</em>.</p>
+    <div class="callout violet"><p>
+      <code>f(x) = 1&nbsp;&nbsp;if&nbsp;wᵀx + b ≥ 0</code><br>
+      <code>f(x) = -1&nbsp;if&nbsp;wᵀx + b &lt; 0</code><br><br>
+      By convention, ties (exactly 0) are broken in favor of the positive class. <code>w</code>
+      (instead of the "m" used for slope in plain linear regression) are called the
+      <strong>weights</strong>.
+    </p></div>
+    <figure><img src="images/linear-classification.png" alt="Linear classification decision boundary example (Iris-style)"><figcaption>A linear function learns a boundary that separates two classes</figcaption></figure>
+
+    <h3>Worked example: predicting an ad click</h3>
+    <p>Four binary features about a web user (searched "repair", searched "reviews", recent
+      purchase, clicked ads before) with learned weights <code>[2.0, 8.0, -15.0, 5.0]</code> and
+      bias <code>-9.0</code>:</p>
+    <div class="callout"><p><code>wᵀx + b = 2·0 + 8·1 + -15·0 + 5·0 + -9 = 8 - 9 = -1</code> →
+      negative → <strong>prediction: No</strong> (won't click the ad) — makes sense: someone who
+      searched reviews but hasn't recently purchased a fridge is unlikely to click a refrigerator ad.</p></div>
+  </section>
+
+  <!-- TRAINING -->
+  <section id="training">
+    <p class="eyebrow">03 · Learning the weights</p>
+    <h2>Training a Perceptron</h2>
+
+    <h3>What does an update rule do?</h3>
+    <ul>
+      <li>If the classifier predicted <strong>negative but should've been positive</strong> —
+        adjust weights <code>w</code> so the function value moves toward positive</li>
+      <li>If it predicted <strong>positive but should've been negative</strong> — shift weights so
+        the value moves toward negative</li>
+    </ul>
+    <div class="callout violet"><p>The perceptron update rule:<br>
+      <code>wⱼ += η · (yᵢ − f(xᵢ)) · xᵢⱼ</code></p></div>
+    <table>
+      <thead><tr><th>Symbol</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>wⱼ</code></td><td>weight of feature <code>j</code></td></tr>
+        <tr><td><code>yᵢ</code></td><td>true label of instance <code>i</code></td></tr>
+        <tr><td><code>xᵢ</code></td><td>feature vector of instance <code>i</code></td></tr>
+        <tr><td><code>f(xᵢ)</code></td><td>the class prediction for instance <code>i</code></td></tr>
+        <tr><td><code>xᵢⱼ</code></td><td>value of feature <code>j</code> in instance <code>i</code></td></tr>
+        <tr><td><code>η</code></td><td>the learning rate — how big a step each update takes</td></tr>
+      </tbody>
+    </table>
+    <p>If <code>xᵢⱼ</code> is 0, there's no update (that feature didn't affect this prediction). If
+      <code>xᵢⱼ</code> is negative, the sign of the update flips.</p>
+
+    <h3>Perceptron learning algorithm</h3>
+    <ol class="steps">
+      <li>Initialize all weights <code>w</code> to 0 (or small random values)</li>
+      <li>Iterate through the training data — for each instance, classify it:
+        <ul><li>If correct, do nothing</li><li>If wrong, apply the update rule</li></ul></li>
+      <li>Repeat until the perceptron correctly classifies every instance, or a maximum number of
+        <strong>iterations/epochs</strong> is reached</li>
+    </ol>
+    <div class="callout"><p><strong>Linear separability:</strong> if the training instances aren't
+      linearly separable, the classifier will always get some predictions wrong — you need a
+      stopping criterion (max iterations/epochs), or the algorithm runs forever.</p></div>
+    <figure><img src="images/perceptron-learning-algo.png" alt="Formal perceptron learning algorithm pseudocode"></figure>
+
+    <h3>Implementation sketch (from scratch)</h3>
+    <pre><span class="c">// Perceptron object</span>
+<span class="k">function</span> Perceptron(no, learningRate = 0.00001) {
+  <span class="k">this</span>.learnc = learningRate;
+  <span class="k">this</span>.bias = 1;
+  <span class="k">this</span>.weights = [];
+  <span class="k">for</span> (<span class="k">let</span> i = 0; i &lt;= no; i++) {
+    <span class="k">this</span>.weights[i] = Math.random() * 2 - 1;  <span class="c">// random weight in [-1, 1]</span>
+  }
+}
+
+<span class="c">// Activation: threshold at 0</span>
+<span class="k">this</span>.activate = <span class="k">function</span>(inputs) {
+  <span class="k">let</span> sum = 0;
+  <span class="k">for</span> (<span class="k">let</span> i = 0; i &lt; inputs.length; i++) sum += inputs[i] * <span class="k">this</span>.weights[i];
+  <span class="k">return</span> sum &gt; 0 ? 1 : 0;
+};
+
+<span class="c">// Training: guess, compare, adjust</span>
+<span class="k">this</span>.train = <span class="k">function</span>(inputs, desired) {
+  inputs.push(<span class="k">this</span>.bias);
+  <span class="k">let</span> guess = <span class="k">this</span>.activate(inputs);
+  <span class="k">let</span> error = desired - guess;
+  <span class="k">if</span> (error != 0) {
+    <span class="k">for</span> (<span class="k">let</span> i = 0; i &lt; inputs.length; i++) <span class="k">this</span>.weights[i] += <span class="k">this</span>.learnc * error * inputs[i];
+  }
+};</pre>
+  </section>
+
+  <!-- SHALLOW -->
+  <section id="shallow">
+    <p class="eyebrow">04 · One hidden layer</p>
+    <h2>Shallow Neural Networks</h2>
+    <p>A <strong>shallow neural network</strong> has only <strong>one hidden layer</strong> between
+      input and output — simpler than deep networks with multiple hidden layers. Despite their
+      simplicity, shallow networks can approximate <em>any</em> function given sufficient neurons
+      in the hidden layer — the <strong>Universal Approximation Theorem</strong>.</p>
+
+    <div class="grid cols-3">
+      <div class="card"><h4>Input Layer</h4><p>One neuron per feature of the input dataset.</p></div>
+      <div class="card"><h4>Hidden Layer</h4><p>Applies weights to inputs, passes through an
+        activation function to introduce non-linearity.</p></div>
+      <div class="card"><h4>Output Layer</h4><p>A single neuron for regression; multiple neurons
+        (one per class) for classification.</p></div>
+    </div>
+
+    <h3>How shallow networks work</h3>
+    <ul>
+      <li><strong>Weighted sum</strong>: each hidden neuron computes a weighted sum of inputs</li>
+      <li><strong>Activation</strong>: passed through Sigmoid/Tanh/ReLU to add non-linearity</li>
+      <li><strong>Output generation</strong>: output layer integrates hidden-layer signals via another set of weights</li>
+    </ul>
+
+    <h3>Training: same 4-step loop as any network</h3>
+    <ol class="steps">
+      <li><strong>Forward Propagation</strong> — compute output for a given input</li>
+      <li><strong>Loss Calculation</strong> — measure distance from the desired output</li>
+      <li><strong>Backpropagation</strong> — compute gradients of the loss w.r.t. every weight</li>
+      <li><strong>Weight Update</strong> — adjust weights via an optimizer (e.g. gradient descent)</li>
+    </ol>
+
+    <h3>Code: shallow network for binary classification (Keras)</h3>
+    <pre><span class="k">from</span> sklearn.datasets <span class="k">import</span> make_moons
+<span class="k">from</span> sklearn.model_selection <span class="k">import</span> train_test_split
+<span class="k">from</span> tensorflow.keras.models <span class="k">import</span> Sequential
+<span class="k">from</span> tensorflow.keras.layers <span class="k">import</span> Dense
+<span class="k">from</span> tensorflow.keras.optimizers <span class="k">import</span> Adam
+
+X, y = make_moons(n_samples=1000, noise=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+model = Sequential()
+model.add(Dense(10, input_shape=(2,), activation=<span class="s">'relu'</span>))   <span class="c"># hidden layer, 10 neurons</span>
+model.add(Dense(1, activation=<span class="s">'sigmoid'</span>))                    <span class="c"># output layer, binary</span>
+model.compile(optimizer=Adam(learning_rate=0.01), loss=<span class="s">'binary_crossentropy'</span>, metrics=[<span class="s">'accuracy'</span>])
+model.fit(X_train, y_train, epochs=100, validation_data=(X_test, y_test))</pre>
+  </section>
+
+  <!-- BACKPROP -->
+  <section id="backprop">
+    <p class="eyebrow">05 · How networks actually learn</p>
+    <h2>Backpropagation</h2>
+    <div class="callout"><p><strong>Backpropagation</strong> is an algorithm that trains neural
+      networks by reducing prediction error — propagating errors backward, computing gradients
+      via the chain rule, and updating weights/biases to improve performance. Scales well to deep,
+      complex networks.</p></div>
+
+    <h3>Two main steps</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>1️⃣ Forward Pass</h4>
+        <ul style="font-size:13.5px;">
+          <li>Input data passed to the input layer, forwarded through hidden layers</li>
+          <li>Each neuron computes a weighted sum + bias</li>
+          <li>Activation functions (e.g. ReLU) produce outputs</li>
+          <li>Outputs of one layer become inputs to the next</li>
+          <li>Final layer uses e.g. softmax to produce predictions</li>
+        </ul></div>
+      <div class="card"><h4>2️⃣ Backward Pass</h4>
+        <ul style="font-size:13.5px;">
+          <li>Error between predicted and actual output is calculated</li>
+          <li>Gradients computed using the chain rule</li>
+          <li>Weights and biases updated to reduce the error</li>
+          <li>Process continues layer by layer, output → input</li>
+          <li>Derivatives of activation functions drive the gradient computation</li>
+        </ul></div>
+    </div>
+    <div class="callout violet"><p>Error (e.g. Mean Squared Error):<br>
+      <code>MSE = (Predicted Output − Actual Output)²</code></p></div>
+  </section>
+
+  <!-- ACTIVATION -->
+  <section id="activation">
+    <p class="eyebrow">06 · Introducing non-linearity</p>
+    <h2>Activation Functions</h2>
+    <p>An activation function is applied to the weighted sum of inputs before producing a neuron's
+      final output. It introduces <strong>non-linearity</strong> — without it, a network of any
+      depth behaves like a single linear model, since real-world data is rarely linearly separable.</p>
+
+    <table>
+      <thead><tr><th>Function</th><th>Range</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Linear</strong></td><td>(−∞, +∞)</td><td>y = x. Stacking linear layers still collapses to one linear model — commonly used only in the output layer for regression.</td></tr>
+        <tr><td><strong>Sigmoid</strong></td><td>(0, 1)</td><td>S-shaped; smooth &amp; continuous; steep gradient near x=0. Good for binary classification output.</td></tr>
+        <tr><td><strong>Tanh</strong></td><td>(−1, 1)</td><td>A shifted, zero-centered sigmoid — often preferred in hidden layers for easier downstream learning.</td></tr>
+        <tr><td><strong>ReLU</strong></td><td>[0, ∞)</td><td>A(x)=max(0,x). Computationally cheap, sparse activations, avoids vanishing gradients — default for hidden layers.</td></tr>
+        <tr><td><strong>Softplus</strong></td><td>(0, ∞)</td><td>A(x)=log(1+eˣ). Smooth version of ReLU, fully differentiable, no hard zero threshold.</td></tr>
+        <tr><td><strong>ELU</strong></td><td>(−α, ∞)</td><td>Behaves like ReLU for positive inputs, allows smooth negative values — reduces vanishing gradients.</td></tr>
+        <tr><td><strong>SELU</strong></td><td>(−λα, ∞)</td><td>Scaled ELU for self-normalizing networks — maintains near-zero mean/unit variance activations.</td></tr>
+        <tr><td><strong>Softmax</strong></td><td>(0, 1), sums to 1</td><td>Converts raw scores into class probabilities — used in the output layer for multi-class classification.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Impact on model performance</h3>
+    <ul>
+      <li>ReLU trains faster by avoiding the vanishing gradient problem; Sigmoid/Tanh can slow convergence in deep networks</li>
+      <li>ReLU maintains better gradient flow for deeper layers; Sigmoid may produce very small gradients</li>
+      <li>Softmax handles multi-class outputs; ReLU/Leaky ReLU are the default for hidden layers</li>
+    </ul>
+  </section>
+
+  <!-- SIGMOID DEEP DIVE -->
+  <section id="sigmoid">
+    <p class="eyebrow">07 · From a hard threshold to a smooth decision</p>
+    <h2>The Sigmoid Neuron</h2>
+    <p>The perceptron's step function is <strong>all-or-nothing</strong> — it fires only 0 or 1,
+      with no sense of "how strongly" it believes its output. This causes two real problems:</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>⚡ Abrupt, discontinuous jumps</h4><p>A tiny change in weights/inputs
+        can instantly flip the output from 0 to 1, making learning unstable.</p></div>
+      <div class="card"><h4>🚫 Not differentiable</h4><p>The step function's derivative is 0 almost
+        everywhere (undefined at the threshold) — gradient descent has nothing to work with. The
+        perceptron's update rule is a heuristic, not derived from minimizing a smooth loss.</p></div>
+    </div>
+    <div class="callout"><p><strong>Fix:</strong> replace the hard step with a smooth, bounded,
+      differentiable curve — the sigmoid function.</p></div>
+
+    <h3>Definition</h3>
+    <div class="callout violet"><p>
+      <code>y = σ(w·x + b) = 1 / (1 + e⁻⁽ʷˣ⁺ᵇ⁾)</code><br>
+      where <code>w</code> = weight vector, <code>x</code> = input vector, <code>b</code> = bias,
+      <code>z = w·x + b</code> (pre-activation)
+    </p></div>
+    <p>Unlike the perceptron, inputs and output are <strong>real-valued</strong>, not restricted to
+      0/1.</p>
+
+    <h3>Key properties</h3>
+    <div class="pillbar">
+      <span>S-shaped curve, bounded 0-1</span><span>Continuous &amp; smooth — no sudden jumps</span>
+      <span>Differentiable everywhere</span><span>Steepest at z=0, flattens at extremes</span>
+      <span>Output reads as a probability-like confidence</span>
+    </div>
+
+    <h3>With two inputs — a smooth surface</h3>
+    <p>With <code>z = w₁x₁ + w₂x₂ + b</code>, the 1-D S-curve becomes a smooth S-shaped
+      <strong>sheet</strong> over the (x₁, x₂) plane. The 0.5 contour is a straight decision
+      boundary — sigmoid smooths the perceptron's sharp edge into a gradual transition around it.</p>
+    <figure><img src="images/sigmoid-surface.png" alt="Sigmoid function 3D surface and contour view"></figure>
+
+    <h3>Effect of w and b on the curve</h3>
+    <table>
+      <thead><tr><th>Change</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>w↑ (larger magnitude)</td><td>Curve becomes steeper — sharper 0→1 transition</td></tr>
+        <tr><td>w↓ (smaller magnitude)</td><td>Curve becomes gentler / flatter</td></tr>
+        <tr><td>w changes sign (+ → −)</td><td>Curve flips — becomes decreasing in x</td></tr>
+        <tr><td>b↑ (more positive)</td><td>Curve shifts left — activates for smaller x</td></tr>
+        <tr><td>b↓ (more negative)</td><td>Curve shifts right — activates for larger x</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Loss function &amp; gradient descent</h3>
+    <div class="callout violet"><p>Squared error loss:<br>
+      <code>L(w, b) = ½ Σᵢ (yᵢ − f(xᵢ))²</code>&nbsp;&nbsp;where&nbsp;&nbsp;<code>f(xᵢ) = σ(w·xᵢ + b)</code></p></div>
+    <p>Because <code>σ(z)</code> is smooth and differentiable, <code>L(w,b)</code> is differentiable
+      too — gradients always exist. <code>L(w,b)</code> forms a smooth bowl-shaped surface over
+      parameter space; gradient descent walks downhill along it toward the minimum.</p>
+    <figure><img src="images/loss-surface.png" alt="Loss surface and gradient descent path for the sigmoid neuron"><figcaption>Gold path: each gradient-descent update (w, b) steps toward lower loss until convergence</figcaption></figure>
+
+    <h3>Gradient descent algorithm</h3>
+    <pre><span class="c"># Model: sigmoid neuron prediction</span>
+<span class="k">def</span> f(w, b, x):
+    <span class="k">return</span> 1.0 / (1.0 + np.exp(-(w*x + b)))
+
+<span class="c"># Loss: squared error over all points</span>
+<span class="k">def</span> error(w, b):
+    err = 0.0
+    <span class="k">for</span> x, y <span class="k">in</span> zip(X, Y):
+        fx = f(w, b, x)
+        err += 0.5*(fx - y)**2
+    <span class="k">return</span> err
+
+<span class="c"># Gradients: partial derivatives of the loss</span>
+<span class="k">def</span> grad_w(w, b, x, y):
+    fx = f(w, b, x)
+    <span class="k">return</span> (fx - y) * fx * (1 - fx) * x
+
+<span class="k">def</span> grad_b(w, b, x, y):
+    fx = f(w, b, x)
+    <span class="k">return</span> (fx - y) * fx * (1 - fx)
+
+<span class="c"># Update loop</span>
+w, b, eta = -2, -2, 1.0
+<span class="k">for</span> i <span class="k">in</span> range(1000):
+    dw, db = 0, 0
+    <span class="k">for</span> x, y <span class="k">in</span> zip(X, Y):
+        dw += grad_w(w, b, x, y)
+        db += grad_b(w, b, x, y)
+    w = w - eta * dw
+    b = b - eta * db</pre>
+
+    <h3>Perceptron vs Sigmoid Neuron</h3>
+    <table>
+      <thead><tr><th>Aspect</th><th>Perceptron / MP Neuron</th><th>Sigmoid Neuron</th></tr></thead>
+      <tbody>
+        <tr><td>Activation</td><td>Hard step function</td><td>Smooth sigmoid σ(z)</td></tr>
+        <tr><td>Output range</td><td>{0, 1} only</td><td>Continuous (0, 1)</td></tr>
+        <tr><td>Differentiable?</td><td>No (undefined at threshold)</td><td>Yes, everywhere</td></tr>
+        <tr><td>Sensitivity to input</td><td>Abrupt flip</td><td>Smooth, gradual change</td></tr>
+        <tr><td>Learning rule</td><td>Heuristic update rule</td><td>Gradient descent on a loss function</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><p>The sigmoid neuron uses the <strong>same building blocks</strong> as the
+      perceptron (w, x, b) — but a smooth, differentiable activation makes proper gradient-based
+      learning possible.</p></div>
+  </section>
+
+  <!-- OPTIMIZATION -->
+  <section id="optimization">
+    <p class="eyebrow">08 · Making training actually converge</p>
+    <h2>Optimization Algorithms</h2>
+    <p>Optimization algorithms adjust a network's weights during training to minimize the loss —
+      making predictions more accurate.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Gradient Descent</h4><p>The most basic optimizer — updates weights by
+        calculating the gradient of the loss function and stepping opposite to it.</p></div>
+      <div class="card"><h4>Stochastic Gradient Descent (SGD)</h4><p>Updates weights using one
+        sample at a time — faster per step, but noisier convergence.</p></div>
+      <div class="card"><h4>Adam (Adaptive Moment Estimation)</h4><p>An efficient variant of
+        gradient descent that adapts the learning rate per-weight — the default choice for most
+        deep learning training today.</p></div>
+      <div class="card"><h4>RMSprop</h4><p>Adjusts the learning rate based on a running average of
+        recent gradients — particularly useful for training RNNs.</p></div>
+    </div>
+  </section>
+
+  <!-- FFNN -->
+  <section id="ffnn">
+    <p class="eyebrow">09 · Tying it together</p>
+    <h2>Feedforward Neural Networks (FFNN)</h2>
+    <p>A <strong>Feedforward Neural Network</strong> is the simplest ANN architecture — data flows
+      in <strong>one direction only</strong>, input → hidden layer(s) → output, with no loops or
+      cycles (unlike RNNs). Every network covered in this unit — the single perceptron, the sigmoid
+      neuron, and the shallow network — is a feedforward network:</p>
+    <ul>
+      <li><strong>Single perceptron</strong> = the smallest possible FFNN (no hidden layer, one output neuron)</li>
+      <li><strong>Sigmoid neuron</strong> = the same FFNN structure, with a differentiable activation swapped in</li>
+      <li><strong>Shallow neural network</strong> = an FFNN with exactly one hidden layer</li>
+      <li>Stack more hidden layers → a <strong>deep</strong> feedforward network</li>
+    </ul>
+    <div class="callout"><p>Training any FFNN follows the same loop covered across this unit:
+      forward pass → compute loss → backpropagate the gradient → update weights via an optimizer
+      (SGD/Adam/RMSprop) — repeated over many epochs until the loss converges.</p></div>
+
+    <h3>Unit 2 — Summary</h3>
+    <ul>
+      <li>The MP Neuron (1943) is the earliest neuron model — fixed weights, hand-set threshold, boolean-only inputs</li>
+      <li>The Perceptron adds <strong>learnable weights</strong> — a linear classifier trained via the update rule <code>w += η(y−ŷ)x</code></li>
+      <li>Perceptrons can only solve <strong>linearly separable</strong> problems</li>
+      <li>Shallow networks (1 hidden layer) can approximate any function, per the Universal Approximation Theorem</li>
+      <li>Backpropagation + gradient descent is how every network — shallow or deep — actually learns</li>
+      <li>Activation functions supply the non-linearity that makes multi-layer networks meaningfully more powerful than a single linear layer</li>
+      <li>The Sigmoid Neuron fixes the perceptron's biggest flaw — non-differentiability — enabling real gradient-based training</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>Unit 2 — Advances in NN and DL · Sem 5 revision notes</footer>
+
+</body>
+</html>

@@ -19,6 +19,13 @@ URLs by hand.
 |---|---|---|
 | Unit 1 | Introduction to Language & NLP | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%201/index.html) |
 
+## Deep Learning (DL)
+
+| Unit | Topic | Link |
+|---|---|---|
+| Unit 1 | Introduction to Deep Learning | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%201/index.html) |
+| Unit 2 | Advances in NN and DL | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/index.html) |
+
 ---
 
 ## Adding a new unit
