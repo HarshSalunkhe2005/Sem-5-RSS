@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Introduction to Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .grid.cols-6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15.5px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:var(--coral-light);flex:none;}
+  .card p{font-size:13.8px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  figure{margin:22px 0;text-align:center;}
+  figure img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 4px 14px rgba(60,20,90,0.10);}
+  figure figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;}
+  .fig-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:20px 0;}
+  .fig-row figure{margin:0;}
+
+  .timeline{display:flex;gap:0;margin:26px 0 8px;overflow-x:auto;padding-bottom:8px;}
+  .timeline .stop{flex:1 0 170px;position:relative;padding:0 14px 0 0;}
+  .timeline .stop::before{content:"";position:absolute;top:14px;left:0;right:-14px;height:3px;background:var(--violet);}
+  .timeline .stop:last-child::before{display:none;}
+  .timeline .dot{width:14px;height:14px;border-radius:50%;background:var(--violet);border:3px solid #fff;box-shadow:0 0 0 2px var(--violet);margin-bottom:14px;}
+  .timeline .yr{font-weight:700;color:var(--navy-2);font-size:13.5px;}
+  .timeline .desc{font-size:12.3px;color:var(--muted);margin-top:4px;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .stat{display:flex;align-items:baseline;gap:10px;}
+  .stat .num{font-size:32px;font-weight:800;color:var(--coral);}
+  .stat .lbl{font-size:12.5px;color:var(--muted);}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .fig-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 1</span>
+  <h1>🧠 Introduction to Deep Learning</h1>
+  <p>Neural networks &amp; ANN fundamentals · why "deep" · a brief history of AI (1950-today) ·
+     landmark successes of the last decade · the 4 forces behind the DL boom · real-world
+     applications · and the honest limitations.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#nn">Neural Networks &amp; ANN</a>
+    <a href="#ml-vs-dl">ML vs DL</a>
+    <a href="#types">Types of Neural Nets</a>
+    <a href="#history">History of AI</a>
+    <a href="#successes">Successes</a>
+    <a href="#reasons">Reasons to Go Deep</a>
+    <a href="#applications">Applications</a>
+    <a href="#challenges">Challenges</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- NEURAL NETWORKS -->
+  <section id="nn">
+    <p class="eyebrow">01 · The building blocks</p>
+    <h2>Neural Networks &amp; ANN</h2>
+
+    <h3>How do humans make decisions?</h3>
+    <p>Before defining a Neural Network, it helps to see the problem it's solving. Imagine
+      diagnosing dengue from symptoms — humans weigh multiple signals (skin rash, fever, headache,
+      cough, vomiting) against past experience to reach a yes/no decision. That's exactly a
+      <strong>binary classification problem</strong>: past experience = training data, symptoms =
+      inputs, diagnosis = output.</p>
+    <figure><img src="images/human-decision-making.jpg" alt="Human decision making example — diagnosing dengue from symptoms"></figure>
+
+    <h3>From rule-based systems to data-driven models</h3>
+    <p>Classical programming: you write explicit rules (<code>f(a,b) returns a+b</code>) — data and
+      rules go in, a program computes output. But for a task like recognizing a handwritten digit,
+      nobody can hand-write rules for every possible "8". Machine/Deep Learning flips this: you give
+      the system <strong>data + desired output</strong>, and it learns the rules itself.</p>
+    <div class="fig-row">
+      <figure><img src="images/rule-based-vs-data-driven.png" alt="Rule-based programming vs data-driven models"></figure>
+      <figure><img src="images/handwritten-digit-recognition.png" alt="Handwritten digit recognition — the ML/DL framing"></figure>
+    </div>
+
+    <h3>What is a Neural Network?</h3>
+    <div class="callout"><p>A <strong>Neural Network</strong> is a computational model inspired by
+      the human brain, designed to recognize patterns, learn from data, and make decisions —
+      <strong>without pre-defined rules</strong>. It's the foundation of Deep Learning.</p></div>
+
+    <table>
+      <thead><tr><th>Biological Neuron</th><th>Artificial Neuron</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dendrites</strong> — receive signals from other neurons</td><td><strong>Input nodes</strong> — receive data, pass it to the next layer</td></tr>
+        <tr><td><strong>Soma (cell body)</strong> — processes the signals</td><td><strong>Hidden layer nodes</strong> — process/transform data</td></tr>
+        <tr><td><strong>Axon</strong> — transmits processed signal onward</td><td><strong>Output nodes</strong> — produce the final result</td></tr>
+        <tr><td><strong>Synapse</strong> — connection to other neurons</td><td><strong>Weights</strong> — control connection strength</td></tr>
+        <tr><td>Fires when signal crosses a threshold</td><td><strong>Activation function</strong> — decides if/how strongly the neuron fires</td></tr>
+        <tr><td><strong>Synaptic plasticity</strong> — connection strength changes with activity</td><td><strong>Backpropagation</strong> — weights adjusted based on prediction errors</td></tr>
+      </tbody>
+    </table>
+    <figure><img src="images/biological-vs-artificial-neuron.png" alt="Biological neuron vs artificial neuron, side by side"></figure>
+
+    <h3>The artificial neuron (perceptron) — the math</h3>
+    <p>Each neuron computes a weighted sum of its inputs, plus a bias, then passes the result
+      through an activation function:</p>
+    <div class="callout violet"><p>
+      <code>z = (w₁·x₁ + w₂·x₂ + … + wₙ·xₙ) + b</code><br>
+      <code>y = f(z)</code>
+    </p></div>
+    <ul>
+      <li><code>xᵢ</code> — input features</li>
+      <li><code>wᵢ</code> — weight (importance of input <code>i</code>)</li>
+      <li><code>b</code> — bias (shifts the decision boundary)</li>
+      <li><code>f</code> — activation function (Sigmoid, ReLU, Tanh, …)</li>
+      <li><code>y</code> — the neuron's output</li>
+    </ul>
+    <figure><img src="images/perceptron-formula.png" alt="Perceptron formula diagram with threshold and bias trick"></figure>
+    <div class="callout"><p><strong>Why activation functions matter:</strong> without one,
+      stacking layers is mathematically equivalent to a single linear layer — the network could
+      only learn straight-line relationships. Non-linear activations let networks model curved,
+      complex decision boundaries — essential for images, speech, and language.</p></div>
+
+    <h3>From a single neuron to a network (ANN)</h3>
+    <p>An <strong>Artificial Neural Network</strong> connects many neurons in layers — each layer
+      transforms the data a little more, building up the ability to represent complex patterns.</p>
+    <ul>
+      <li><strong>Input layer</strong>: receives the raw data — one neuron per input feature</li>
+      <li><strong>Hidden layer(s)</strong>: do the computational heavy lifting; more layers → more complex patterns learnable</li>
+      <li><strong>Output layer</strong>: produces the final prediction (classification/regression)</li>
+    </ul>
+    <figure><img src="images/ann-illustrative-example.png" alt="Illustrative example of a neural network with weights labeled"></figure>
+
+    <h3>How does an ANN learn?</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>1️⃣ Forward Pass</h4><p>Input flows through the network; each neuron
+        computes a weighted sum + activation, producing a prediction.</p></div>
+      <div class="card"><h4>2️⃣ Loss Calculation</h4><p>A loss function measures how far the
+        prediction is from the true label (e.g. cross-entropy, MSE).</p></div>
+      <div class="card"><h4>3️⃣ Backpropagation</h4><p>The error is propagated backward, computing
+        how much each weight contributed to the mistake, via the chain rule.</p></div>
+      <div class="card"><h4>4️⃣ Weight Update</h4><p>Gradient Descent nudges every weight to reduce
+        the loss; the cycle repeats for many epochs.</p></div>
+    </div>
+    <figure><img src="images/forward-backward-propagation.png" alt="Forward propagation and backpropagation diagram"></figure>
+
+    <h3>Train / Validation / Test split</h3>
+    <table>
+      <thead><tr><th>Set</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Training (~64%)</strong></td><td>Fits the model — weights/biases updated directly from this data every epoch</td></tr>
+        <tr><td><strong>Validation (~16%)</strong></td><td>Checked after every epoch, never trained on — tunes hyperparameters, monitors overfitting</td></tr>
+        <tr><td><strong>Test (~20%)</strong></td><td>Held out completely until the end — used once, for an unbiased real-world performance estimate</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><p><strong>Key idea:</strong> the test set must remain completely unseen
+      during training and tuning — otherwise performance metrics become overly optimistic.</p></div>
+  </section>
+
+  <!-- ML vs DL -->
+  <section id="ml-vs-dl">
+    <p class="eyebrow">02 · Why "deep"?</p>
+    <h2>Why Deep Learning? — Hierarchical Feature Learning</h2>
+    <p>In classical ML, a human engineer manually decides what features matter (edges, colour
+      histograms, etc). In Deep Learning, each layer <strong>automatically learns increasingly
+      abstract features</strong> from the raw data itself.</p>
+    <div class="flow" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0;">
+      <span class="card" style="padding:10px 14px;">Raw Pixels</span>→
+      <span class="card" style="padding:10px 14px;">Edges &amp; Corners</span>→
+      <span class="card" style="padding:10px 14px;">Shapes &amp; Textures</span>→
+      <span class="card" style="padding:10px 14px;">Object Parts</span>→
+      <span class="card" style="padding:10px 14px;background:var(--coral-light);">Whole Object: "Cat"</span>
+    </div>
+    <p>Each successive hidden layer composes the patterns detected by the previous layer into
+      something more abstract — this is exactly what <strong>"deep"</strong> refers to: many
+      stacked layers of representation.</p>
+
+    <table>
+      <thead><tr><th>Aspect</th><th>Machine Learning</th><th>Deep Learning</th></tr></thead>
+      <tbody>
+        <tr><td>Basic idea</td><td>Statistical algorithms learn patterns from data</td><td>Artificial neural networks learn patterns from data</td></tr>
+        <tr><td>Data requirement</td><td>Works with small/medium datasets</td><td>Requires large amounts of data</td></tr>
+        <tr><td>Task complexity</td><td>Better for simple, low-label tasks</td><td>Better for complex tasks (image, text)</td></tr>
+        <tr><td>Training time</td><td>Less</td><td>More</td></tr>
+        <tr><td>Feature extraction</td><td>Manual</td><td>Automatic</td></tr>
+        <tr><td>Learning process</td><td>Not end-to-end</td><td>End-to-end</td></tr>
+        <tr><td>Interpretability</td><td>Easy to explain</td><td>Hard to interpret (black box)</td></tr>
+        <tr><td>Hardware</td><td>Runs on CPU</td><td>Needs GPU / high-performance systems</td></tr>
+        <tr><td>Use cases</td><td>Spam detection, recommender systems</td><td>Image recognition, NLP, speech recognition</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- TYPES -->
+  <section id="types">
+    <p class="eyebrow">03 · The neural network family</p>
+    <h2>Types of Neural Networks</h2>
+    <div class="grid cols-3">
+      <div class="card"><h4>➡️ Feedforward (FNN)</h4><p>Simplest ANN — data flows one direction,
+        input → output. Used for basic classification tasks.</p></div>
+      <div class="card"><h4>🖼️ Convolutional (CNN)</h4><p>Specialized for grid-like data (images) —
+        convolutional layers detect spatial hierarchies. Ideal for computer vision.</p></div>
+      <div class="card"><h4>🔁 Recurrent (RNN)</h4><p>Processes sequential data (time series,
+        language) via loops that retain information over time. LSTMs/GRUs fix vanishing gradients.</p></div>
+      <div class="card"><h4>⚔️ GANs</h4><p>Two networks — a generator and a discriminator — compete
+        to create realistic data. Used for image generation, style transfer.</p></div>
+      <div class="card"><h4>🗜️ Autoencoders</h4><p>Unsupervised — compress input into a latent
+        representation and reconstruct it. Used for dimensionality reduction, anomaly detection.</p></div>
+      <div class="card"><h4>🔀 Transformers</h4><p>Self-attention mechanisms revolutionized NLP —
+        power GPT, BERT; excel at translation, generation, sentiment analysis.</p></div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history">
+    <p class="eyebrow">04 · From Turing to Generative AI</p>
+    <h2>Brief History of AI</h2>
+
+    <h3>The early decades: birth &amp; winters (1950-1993)</h3>
+    <div class="timeline">
+      <div class="stop"><div class="dot"></div><div class="yr">1950</div><div class="desc">Alan Turing asks "Can machines think?" — the Turing Test</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1956</div><div class="desc">John McCarthy coins "Artificial Intelligence" at the Dartmouth Conference</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1960s-70s</div><div class="desc">Rule-based, symbolic AI systems gain popularity</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1974-80</div><div class="desc">First AI Winter — funding declines as results fall short</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1980-87</div><div class="desc">Expert Systems flourish (e.g. medical diagnosis)</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1987-93</div><div class="desc">Second AI Winter</div></div>
+    </div>
+
+    <h3>The modern era: from Deep Blue to Generative AI</h3>
+    <div class="timeline">
+      <div class="stop"><div class="dot"></div><div class="yr">1997</div><div class="desc">IBM Deep Blue defeats world chess champion Garry Kasparov</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">2012</div><div class="desc">AlexNet wins ImageNet — the Deep Learning revolution begins</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">2016</div><div class="desc">DeepMind's AlphaGo defeats Go champion Lee Sedol</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">2022-Present</div><div class="desc">Generative AI revolution — ChatGPT, Gemini, Claude, Midjourney</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">2025+</div><div class="desc">Multimodal &amp; Agentic AI — systems that see, reason, and act</div></div>
+    </div>
+    <div class="callout"><p>Notice the pattern: <strong>hype → unmet expectations → "winter" →
+      breakthrough</strong>. Deep Learning's 2012 breakthrough finally broke this cycle, thanks to
+      data, compute, and algorithms aligning together.</p></div>
+  </section>
+
+  <!-- SUCCESSES -->
+  <section id="successes">
+    <p class="eyebrow">05 · Proof it works at scale</p>
+    <h2>DL Successes — The Last Decade</h2>
+
+    <h3>Case study — AlexNet &amp; ImageNet (2012)</h3>
+    <p><strong>The Challenge:</strong> classify 1.2 million images into 1000 categories (the annual
+      ImageNet/ILSVRC competition). <strong>The Breakthrough:</strong> Krizhevsky, Sutskever &amp;
+      Hinton's AlexNet — a deep CNN trained on GPUs — slashed the top-5 error rate from ~26% to
+      ~15%. <strong>The Impact:</strong> proved deep networks + GPUs + large data beat
+      hand-engineered features, triggering the modern DL boom.</p>
+    <div class="grid cols-3">
+      <div class="card"><div class="stat"><span class="num">26%</span><span class="lbl">2011, classical methods</span></div></div>
+      <div class="card"><div class="stat"><span class="num">15%</span><span class="lbl">2012, AlexNet</span></div></div>
+      <div class="card"><div class="stat"><span class="num">3.6%</span><span class="lbl">2015, ResNet</span></div></div>
+    </div>
+
+    <h3>AlphaGo (2016) &amp; ChatGPT (2022)</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>AlphaGo (DeepMind)</h4><p>Go has more possible positions than atoms in
+        the universe — brute force is impossible. Combined deep neural networks with reinforcement
+        learning + tree search. Defeated 18-time world champion Lee Sedol 4-1, decades ahead of
+        expert predictions.</p></div>
+      <div class="card"><h4>ChatGPT &amp; Generative AI</h4><p>LLMs trained on internet-scale text
+        with the Transformer architecture learn to generate fluent, context-aware language. Reached
+        100 million users within two months — the fastest-adopted consumer app in history.</p></div>
+    </div>
+  </section>
+
+  <!-- REASONS -->
+  <section id="reasons">
+    <p class="eyebrow">06 · Why now?</p>
+    <h2>Reasons to Go Deep — Four Forces Behind the Boom</h2>
+    <div class="grid cols-4">
+      <div class="card"><h4>1️⃣ Data</h4><p>Explosion of labelled data — ImageNet, web text, sensors,
+        smartphones — gives networks enough examples to learn from.</p></div>
+      <div class="card"><h4>2️⃣ Compute</h4><p>GPUs (and later TPUs) made the massive matrix
+        multiplications of deep networks fast and affordable.</p></div>
+      <div class="card"><h4>3️⃣ Algorithms</h4><p>ReLU, Dropout, Batch Normalization, residual
+        connections, and the Transformer made very deep networks trainable.</p></div>
+      <div class="card"><h4>4️⃣ Automatic Features</h4><p>Networks learn their own features from raw
+        data, removing the bottleneck of manual feature engineering.</p></div>
+    </div>
+
+    <h3>CPU vs GPU vs TPU — why parallel hardware matters</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>🖥️ CPU</h4><p>4-64 powerful cores, optimized for low-latency sequential
+        logic. High clock speed (~3-5 GHz). MIMD-style — each core runs a different instruction
+        stream. Best at: control flow, I/O, diverse general-purpose tasks.</p></div>
+      <div class="card"><h4>🎮 GPU</h4><p>Thousands of small cores (10,000+ CUDA cores). Lower clock
+        speed but massive SIMT parallelism, very high memory bandwidth (~1-3 TB/s HBM). Best at:
+        throughput on repetitive, parallel math.</p></div>
+    </div>
+    <div class="callout"><p><strong>Why DL needs GPUs:</strong> training is dominated by matrix
+      multiplications and convolutions — millions of independent multiply-accumulate operations per
+      layer. GPUs run the same operation across thousands of cores simultaneously, giving
+      <strong>10-100x speedups</strong> over CPUs. Tensor Cores further accelerate mixed-precision
+      training.</p></div>
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section id="applications">
+    <p class="eyebrow">07 · Where it's changing industries</p>
+    <h2>Applications of Deep Learning</h2>
+    <div class="grid cols-3">
+      <div class="card"><h4>🏥 Healthcare</h4><p>CNNs detect tumours, fractures, diabetic
+        retinopathy from scans, often matching specialist accuracy. E.g. a hospital receiving
+        50,000 X-rays/day uses DL to flag suspicious scans for radiologists.</p></div>
+      <div class="card"><h4>💰 Banking &amp; Finance</h4><p>Flags fraudulent transactions in real
+        time by learning subtle, evolving misuse patterns — card networks score every transaction
+        in milliseconds.</p></div>
+      <div class="card"><h4>🎓 Education</h4><p>Adaptive learning platforms personalise content and
+        pace using a student's own performance data.</p></div>
+      <div class="card"><h4>🚗 Computer Vision</h4><p>Self-driving cars use CNNs to detect lanes,
+        pedestrians, obstacles from camera/LiDAR — Tesla/Waymo run multiple deep networks per frame,
+        30+ times a second.</p></div>
+      <div class="card"><h4>💬 NLP &amp; Chatbots</h4><p>Transformer-based LMs understand/generate
+        language for translation, search, assistants — ChatGPT, Google Translate, Alexa, Siri.</p></div>
+      <div class="card"><h4>🎬 Entertainment</h4><p>Recommender systems learn viewing/listening
+        patterns to personalise feeds — Netflix, Spotify, YouTube.</p></div>
+      <div class="card"><h4>📱 Social Media</h4><p>Suggests friends/content by analyzing profiles
+        and interactions; powers targeted advertising.</p></div>
+      <div class="card"><h4>🛒 Marketing &amp; Sales</h4><p>E-commerce sites (Amazon) recommend
+        products from browsing history, personalize offers, predict customer behavior.</p></div>
+      <div class="card"><h4>🗣️ Personal Assistants</h4><p>Siri, Alexa process natural language,
+        understand voice commands, manage reminders/calls/queries.</p></div>
+    </div>
+  </section>
+
+  <!-- CHALLENGES -->
+  <section id="challenges">
+    <p class="eyebrow">08 · Not free of limitations</p>
+    <h2>Challenges of Deep Learning</h2>
+    <div class="grid cols-3">
+      <div class="card"><h4>📊 Data Hungry</h4><p>Needs thousands to millions of labelled examples;
+        performance degrades sharply with small datasets.</p></div>
+      <div class="card"><h4>💸 Computationally Expensive</h4><p>Training large models needs
+        powerful GPUs/TPUs, significant time, and substantial energy consumption.</p></div>
+      <div class="card"><h4>📦 Black-Box Nature</h4><p>Predictions are hard to interpret — the core
+        motivation for Explainable AI (XAI) techniques like Grad-CAM and SHAP.</p></div>
+      <div class="card"><h4>⚖️ Overfitting &amp; Bias</h4><p>Models can memorise training data or
+        inherit/amplify biases present in it, hurting generalisation and fairness.</p></div>
+      <div class="card"><h4>🎯 Adversarial Vulnerability</h4><p>Small, imperceptible input
+        perturbations can fool deep networks into confident, wrong predictions.</p></div>
+      <div class="card"><h4>🤔 Lacks True Understanding</h4><p>Deep Learning finds statistical
+        patterns; it does not possess genuine reasoning or consciousness.</p></div>
+    </div>
+
+    <h3>Unit 1 — Summary</h3>
+    <ul>
+      <li>Neural Networks are inspired by biological neurons; ANNs stack layers of these neurons to learn complex functions</li>
+      <li>Deep Learning automatically learns hierarchical features from raw data, removing manual feature engineering</li>
+      <li>AI's history (1950-today) shows cycles of hype and "winters" — broken in 2012 by data, compute, and algorithms converging</li>
+      <li>Landmark successes — AlexNet, AlphaGo, ChatGPT — demonstrate DL's real-world impact</li>
+      <li>DL powers healthcare, finance, vision, language, entertainment — but remains data-hungry, costly, and often a "black box"</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>Unit 1 — Introduction to Deep Learning · Sem 5 revision notes</footer>
+
+</body>
+</html>
