@@ -34,14 +34,3 @@ URLs by hand.
 | Unit 3 | Question Bank answers (Q111–158) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%203/question-bank.html) |
 
 ---
-
-## Adding a new unit
-
-1. Drop the source PPT/PDF into the relevant `<Course>/Unit N/` folder (create it if new).
-2. Notes get built as `<Course>/Unit N/index.html`, with any diagrams in
-   `<Course>/Unit N/images/`.
-3. Add a row to the table above pointing at the new `index.html`'s GitHub Pages URL.
-4. Source PPT/PDF gets deleted once the notes are built (index.html is self-contained).
-5. A unit can also get sibling pages in the same folder — e.g. `numericals.html` for
-   worked problems, `question-bank.html` for question-bank answers — linked from both
-   the unit's own nav/footer and the README table above.
