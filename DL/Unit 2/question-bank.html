@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Question Bank — Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 2</span>
+  <h1>📚 Unit 2 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to Q56–110 — activation functions, loss functions,
+     forward propagation, computational graphs, and backpropagation.</p>
+  <a class="back" href="index.html">← Back to Unit 2 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#g1">Q56–73 · Activation functions</a>
+    <a href="#g2">Q74–93 · Loss functions</a>
+    <a href="#g3">Q94–110 · Graphs &amp; backprop</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 2 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Group A</p>
+    <h2>Activation functions</h2>
+    <p class="range">Question Bank Q56–73</p>
+
+    <div class="qa"><p class="q"><span class="num">Q56</span>What is an activation function?</p><p class="a">A function applied to a neuron's weighted sum (z) that produces its output — deciding whether/how strongly the neuron "fires", and introducing non-linearity into the network.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q57</span>Why are activation functions necessary?</p><p class="a">Without one, every layer is just a linear transform, and stacking linear layers collapses mathematically into a single linear layer — no matter how deep, the network could only learn straight-line relationships.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q58</span>What if every layer used only a linear activation?</p><p class="a">The whole network reduces to one big linear function of the input — depth would add zero representational power over a single-layer linear model.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q59</span>Explain the sigmoid function.</p><p class="a">σ(z)=1/(1+e⁻ᶻ), an S-shaped curve bounded in (0,1), smooth and differentiable everywhere, steepest at z=0 — used historically as the default neuron activation and still standard for binary-classification outputs.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q60</span>Explain the tanh function.</p><p class="a">tanh(z)=(eᶻ−e⁻ᶻ)/(eᶻ+e⁻ᶻ), a rescaled sigmoid bounded in (−1,1) and zero-centered — the zero-centering usually makes it converge faster than sigmoid in hidden layers, though it still saturates at the extremes.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q61</span>Explain ReLU.</p><p class="a">ReLU(z)=max(0,z) — identity for positive inputs, exactly zero for negative ones. Cheap to compute, doesn't saturate for z&gt;0, and is the default choice for hidden layers in modern networks.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q62</span>Explain Leaky ReLU.</p><p class="a">Leaky ReLU(z) = z if z≥0, else αz (small α like 0.01) — lets a small gradient leak through for negative inputs instead of going to exactly zero, fixing the dying-ReLU problem.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q63</span>Compare sigmoid, tanh, ReLU and Leaky ReLU.</p><p class="a">Sigmoid: (0,1), saturates both ends, not zero-centered. Tanh: (−1,1), saturates both ends, zero-centered. ReLU: [0,∞), no saturation for positive z, can "die" for negative z. Leaky ReLU: same as ReLU but never fully dies. ReLU/Leaky ReLU are preferred in hidden layers of deep nets; sigmoid is reserved for binary output layers.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q64</span>What is the vanishing-gradient problem?</p><p class="a">In deep networks, gradients are products of many local derivatives via the chain rule. Sigmoid/tanh derivatives are always &lt;1 (often ≪1 in saturated regions), so multiplying many of them together shrinks the gradient toward zero by the time it reaches early layers — those layers barely learn.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q65</span>Why does ReLU generally beat sigmoid in hidden layers?</p><p class="a">ReLU's derivative is exactly 1 for any positive input (no shrinkage), so gradients pass through unattenuated across many layers — unlike sigmoid, whose derivative is always ≤0.25 and shrinks fast when stacked.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q66</span>What is the dying-ReLU problem?</p><p class="a">If a neuron's pre-activation z stays negative (e.g. from a bad weight update), ReLU outputs 0 and its gradient is exactly 0 too — the neuron stops updating and is permanently "dead," contributing nothing forever after.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q67</span>When would sigmoid be appropriate?</p><p class="a">In the output layer of a binary classifier, where a (0,1) output can be read directly as a probability of the positive class.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q68</span>Why is softmax used for multiclass classification?</p><p class="a">Softmax converts a vector of raw scores (logits) into a probability distribution over all classes (all values in (0,1), summing to 1) — exactly the format needed to pick the most likely class and to use categorical cross-entropy as the loss.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q69</span>Calculate σ(z) for z=−2,0,2.</p><p class="a">σ(−2)=0.1192, σ(0)=0.5, σ(2)=0.8808 — worked step-by-step on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q70</span>Calculate σ'(z) at z=0,2,−2.</p><p class="a">σ'(0)=0.25, σ'(2)=σ'(−2)=0.1050 — worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q71</span>ReLU outputs for z=[−3,−1,0,2,4].</p><p class="a">[0, 0, 0, 2, 4] — worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q72</span>Leaky ReLU outputs, slope 0.01, z=[−3,−1,0,2].</p><p class="a">[−0.03, −0.01, 0, 2] — worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q73</span>Softmax for z=[2,1,0], verify it sums to 1.</p><p class="a">≈[0.665, 0.245, 0.090], sum = 1.000 — worked on the Numericals page.</p></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Group B</p>
+    <h2>Loss functions</h2>
+    <p class="range">Question Bank Q74–93</p>
+
+    <div class="qa"><p class="q"><span class="num">Q74</span>What is a loss function?</p><p class="a">A function that measures how far a single prediction is from its true label — the quantity gradient descent tries to minimize.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q75</span>Why is a loss function necessary?</p><p class="a">Without a numeric measure of "how wrong" a prediction is, there's nothing for backpropagation to differentiate and nothing for gradient descent to minimize — the loss is what turns training into an optimization problem.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q76</span>Explain Mean Squared Error.</p><p class="a">MSE = average of (actual − predicted)² over all samples. Penalizes larger errors disproportionately (squaring), standard for regression problems.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q77</span>Explain Binary Cross-Entropy.</p><p class="a">BCE = −[y·log(ŷ) + (1−y)·log(1−ŷ)] — measures the "distance" between a true binary label and a predicted probability; heavily penalizes confident wrong predictions.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q78</span>Explain Categorical Cross-Entropy.</p><p class="a">CCE = −log(ŷ_true class) — the multiclass generalization of BCE; with one-hot labels, only the predicted probability assigned to the correct class contributes to the loss.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q79</span>Why is cross-entropy preferred over MSE for classification?</p><p class="a">Cross-entropy's gradient stays large when the prediction is confidently wrong (no vanishing-gradient interaction with a saturated sigmoid/softmax), whereas MSE combined with sigmoid produces very small gradients in that same regime, slowing learning right when it matters most.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q80</span>Which loss for binary, multiclass, and regression?</p><p class="a">Binary classification → Binary Cross-Entropy. Multiclass classification → Categorical Cross-Entropy (with softmax). Regression → Mean Squared Error (or MAE).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q81</span>Relationship between logits, sigmoid, softmax, cross-entropy?</p><p class="a">Logits are the raw, unbounded pre-activation scores from the last layer. Sigmoid (binary) or softmax (multiclass) squashes logits into valid probabilities. Cross-entropy then measures the gap between those predicted probabilities and the true label — the three form a standard pipeline: logits → probabilities → loss.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q82</span>Loss vs. cost function?</p><p class="a">Loss is the error on a single training example; cost (or empirical loss) is the average loss across the entire training set (or batch) — the quantity actually minimized during training.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q83</span>What is empirical risk minimization?</p><p class="a">Training a model by minimizing the average loss (empirical risk) over the observed training data, as a stand-in for minimizing the true (unknown) expected loss over the whole data distribution.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q84</span>MSE for y=[1,0,1], ŷ=[0.8,0.2,0.6].</p><p class="a">MSE = 0.08 — worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q85</span>BCE for y=1, ŷ=0.8.</p><p class="a">BCE ≈ 0.2231 — worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q86</span>BCE for y=0,ŷ=0.2 vs. y=0,ŷ=0.8 — explain the difference.</p><p class="a">0.2231 vs. 1.6094 — the confidently-wrong case (ŷ=0.8 when true label is 0) costs over 7× more loss; worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q87</span>Categorical cross-entropy, true class 2, probs [0.1,0.7,0.2].</p><p class="a">CCE ≈ 0.3567 — worked on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q88</span>Explain forward propagation.</p><p class="a">The process of passing an input through the network layer by layer — each layer computing a weighted sum plus bias, then an activation — until the output layer produces the final prediction.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q89</span>Equations for forward propagation through a two-layer network.</p><p class="a"><code>z1 = W1·x + b1, a1 = f(z1)</code> then <code>z2 = W2·a1 + b2, ŷ = f(z2)</code> — each layer's output becomes the next layer's input.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q90</span>Role of weights and biases?</p><p class="a">Weights control how strongly each input influences a neuron (learned "importance"); the bias shifts the decision boundary/activation threshold independently of the inputs, so the boundary isn't forced through the origin.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q91</span>How does a network transform data through layers?</p><p class="a">Each layer applies a linear transform (weighted sum + bias) followed by a non-linear activation, progressively remapping the input into representations that are easier for the next layer — and ultimately the output layer — to use.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q92</span>What is a logit?</p><p class="a">The raw, unbounded output of a layer before a squashing activation (sigmoid/softmax) is applied — i.e. the pre-activation z feeding into the final classification activation.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q93</span>Weighted sum vs. activated output?</p><p class="a">The weighted sum (z = Σwx+b) is the raw linear combination; the activated output (a = f(z)) is what's actually passed to the next layer — the non-linear activation is what separates the two.</p></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Group C</p>
+    <h2>Computational graphs &amp; backpropagation</h2>
+    <p class="range">Question Bank Q94–110</p>
+
+    <div class="qa"><p class="q"><span class="num">Q94–98</span>Computational Graph Problems 1–5.</p><p class="a">All five fully worked step-by-step on the Numericals page — z=xw+b chains, ReLU graphs, nested-function chain rule, two-path gradient summing, and the "dead ReLU" gradient-blocking case.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q99</span>What is backpropagation?</p><p class="a">The algorithm that computes the gradient of the loss with respect to every weight and bias in a network, by propagating the error backward from the output layer using the chain rule.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q100</span>Why is the chain rule fundamental to backprop?</p><p class="a">A deep network is a composition of many functions (layer after layer); the chain rule is the only way to differentiate a composition of functions, so it's literally the mechanism that makes computing ∂L/∂(any weight) possible.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q101</span>Explain forward/backprop via a computational graph.</p><p class="a">Draw every operation (multiply, add, activation) as a node; forward pass computes and caches every node's value left-to-right; backward pass starts from the loss and multiplies local derivatives node-by-node right-to-left, accumulating the gradient for every parameter.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q102</span>Derive the gradient of a single neuron w.r.t. its weight.</p><p class="a">For z=wx+b, a=f(z), L=loss(a,y): ∂L/∂w = (∂L/∂a)(∂a/∂z)(∂z/∂w) = (∂L/∂a)·f'(z)·x — three local derivatives chained together.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q103</span>Derive backprop equations for a two-layer network.</p><p class="a">Output layer: ∂L/∂z₂ = ∂L/∂ŷ · f'(z₂); ∂L/∂W₂ = ∂L/∂z₂ · a₁ᵀ. Propagate back: ∂L/∂a₁ = W₂ᵀ·∂L/∂z₂. Hidden layer: ∂L/∂z₁ = ∂L/∂a₁ · f'(z₁); ∂L/∂W₁ = ∂L/∂z₁ · xᵀ. Fully worked with real numbers on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q104</span>Local gradients vs. global gradients?</p><p class="a">A local gradient is one node's own derivative w.r.t. its immediate input (e.g. ∂a/∂z for one activation). The global gradient (∂L/∂w for some weight deep in the network) is the product of every local gradient along the path from that weight to the loss.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q105</span>What is gradient flow?</p><p class="a">How the gradient's magnitude changes as it's propagated backward through many layers — "healthy" gradient flow keeps gradients at a usable scale at every layer; vanishing/exploding gradients are gradient flow gone wrong.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q106</span>What is the exploding-gradient problem?</p><p class="a">The opposite of vanishing gradients: when local derivatives multiply to values &gt;1 repeatedly across many layers, the accumulated gradient grows exponentially large, causing huge, unstable weight updates.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q107</span>How do activation functions affect gradient propagation?</p><p class="a">Their derivative is a multiplicative factor in every chain-rule product along the backward path — sigmoid/tanh derivatives (≤0.25 / ≤1) shrink gradients across layers (vanishing), while ReLU's derivative of exactly 1 (for z&gt;0) lets gradients pass through unshrunk.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q108</span>Role of the learning rate in backprop?</p><p class="a">It scales how big a step each parameter update takes in the direction opposite the gradient (θ←θ−η·∂L/∂θ). Too small → painfully slow convergence; too large → overshooting and unstable/divergent training.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q109</span>Backprop Numerical 1 — sigmoid neuron with BCE.</p><p class="a">z=0.9, ŷ=0.7109, L=0.3412, ∂L/∂z=−0.2891, ∂L/∂w=−0.5782, ∂L/∂b=−0.2891 — fully worked on the Numericals page, including the "∂L/∂z=ŷ−y" shortcut for sigmoid+BCE.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q110</span>Backprop Numerical 2 — two-layer sigmoid network.</p><p class="a">Illustrative worked version on the Numericals page: chain the gradient through both sigmoid layers (5 multiplied terms) to get ∂L/∂W₁ ≈ −0.0121 — also see the full ReLU-ReLU-Sigmoid network example immediately below it for the general-architecture version of this same method.</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 2 Question Bank · Deep Learning · Sem 5 revision notes</footer>
+
+</body>
+</html>

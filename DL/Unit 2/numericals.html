@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Numericals — Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 6px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul,ol{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;font-family:Consolas,monospace;}
+
+  .given{font-family:Consolas,monospace;font-size:13.5px;background:#f3ecfb;border-radius:10px;padding:12px 16px;margin:14px 0 18px;color:var(--navy-2);}
+  .answer{background:#eafaf0;border-left:4px solid #2fa860;border-radius:10px;padding:14px 20px;margin:18px 0;font-weight:700;color:#1c7a45;font-family:Consolas,monospace;font-size:14.5px;}
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .problem{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin:26px 0;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .problem h4{margin:0 0 2px;font-size:18px;color:var(--navy-2);}
+  .problem .tag{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:14px;font-size:14px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+  .steps li .label{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}
+  .steps li .calc{font-family:Consolas,monospace;font-size:14.5px;color:var(--ink);}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;font-family:Consolas,monospace;font-size:13px;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;font-family:Calibri,Arial,sans-serif;}
+  .pill.ok{background:#eafaf0;color:#1c7a45;}
+  .pill.bad{background:#fdeceb;color:#c23c34;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:14.5px;color:var(--navy-2);}
+  .card p{font-size:13.5px;margin:0;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .problem{padding:18px;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 2</span>
+  <h1>🧮 Unit 2 — Worked Numericals</h1>
+  <p>Activation functions, loss functions, computational graphs, and two complete
+     forward-pass → loss → backprop → update walkthroughs with real numbers from
+     your professor's own slides.</p>
+  <a class="back" href="index.html">← Back to Unit 2 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#activations">Activation calcs</a>
+    <a href="#losses">Loss calcs</a>
+    <a href="#graphs">Computational graphs</a>
+    <a href="#backprop-single">Single-neuron backprop</a>
+    <a href="#backprop-deep">Full network backprop</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 2 notes</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="activations">
+    <p class="eyebrow">Numericals 1–5 · Q69–73</p>
+    <h2>Activation function calculations</h2>
+
+    <div class="problem">
+      <div class="tag">Sigmoid</div>
+      <h4>σ(z) = 1/(1+e⁻ᶻ) for z = −2, 0, 2</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>z</th><th>Calculation</th><th>σ(z)</th></tr></thead>
+        <tbody>
+          <tr><td>−2</td><td>1/(1+e²) = 1/(1+7.389)</td><td>0.1192</td></tr>
+          <tr><td>0</td><td>1/(1+e⁰) = 1/2</td><td>0.5000</td></tr>
+          <tr><td>2</td><td>1/(1+e⁻²) = 1/(1+0.1353)</td><td>0.8808</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Sigmoid derivative</div>
+      <h4>σ'(z) = σ(z)(1−σ(z)) for z = 0, 2, −2</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>z</th><th>σ(z)</th><th>σ'(z) = σ(z)(1−σ(z))</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0.5000</td><td>0.5×0.5 = <strong>0.2500</strong></td></tr>
+          <tr><td>2</td><td>0.8808</td><td>0.8808×0.1192 = <strong>0.1050</strong></td></tr>
+          <tr><td>−2</td><td>0.1192</td><td>0.1192×0.8808 = <strong>0.1050</strong></td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-top:10px">Note the symmetry — σ'(z) is identical at z and −z whenever σ(z)+σ(−z)=1. The derivative is largest at z=0 (steepest part of the curve) and shrinks toward the flat tails — the root cause of vanishing gradients.</p>
+    </div>
+
+    <div class="problem">
+      <div class="tag">ReLU</div>
+      <h4>ReLU(z) = max(0,z) for z = [−3, −1, 0, 2, 4]</h4>
+      <div class="answer">ReLU outputs: [0, 0, 0, 2, 4] — negatives clipped to exactly 0, positives pass through unchanged.</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Leaky ReLU</div>
+      <h4>Leaky ReLU(z) = z if z≥0, else 0.01z — for z = [−3, −1, 0, 2]</h4>
+      <div class="answer">Outputs: [−0.03, −0.01, 0, 2] — negatives are scaled down (not zeroed), which keeps a small gradient alive and avoids the "dying ReLU" problem.</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Softmax</div>
+      <h4>softmax(z) for z = [2, 1, 0] — verify probabilities sum to 1</h4>
+      <div class="steps">
+        <li><span class="label">Exponentiate each logit</span><span class="calc">e²=7.389, e¹=2.718, e⁰=1.000</span></li>
+        <li><span class="label">Sum the exponentials</span><span class="calc">7.389+2.718+1.000 = 11.107</span></li>
+        <li><span class="label">Divide each by the sum</span><span class="calc">[7.389/11.107, 2.718/11.107, 1/11.107] = [0.665, 0.245, 0.090]</span></li>
+      </div>
+      <div class="answer">softmax([2,1,0]) ≈ [0.665, 0.245, 0.090] — sums to 1.000 ✓ (largest logit gets the largest, but not all, probability mass)</div>
+    </div>
+  </section>
+
+  <section id="losses">
+    <p class="eyebrow">Numericals 6–9 · Q84–87</p>
+    <h2>Loss function calculations</h2>
+
+    <div class="problem">
+      <div class="tag">Mean Squared Error</div>
+      <h4>y = [1, 0, 1], ŷ = [0.8, 0.2, 0.6]</h4>
+      <div class="steps">
+        <li><span class="label">Squared error per sample</span><span class="calc">(1−0.8)²=0.04, (0−0.2)²=0.04, (1−0.6)²=0.16</span></li>
+        <li><span class="label">Average</span><span class="calc">MSE = (0.04+0.04+0.16)/3 = 0.24/3</span></li>
+      </div>
+      <div class="answer">MSE = 0.08</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Binary Cross-Entropy</div>
+      <h4>y=1, ŷ=0.8</h4>
+      <div class="answer">BCE = −[1·log(0.8) + 0·log(0.2)] = −log(0.8) ≈ <strong>0.2231</strong> (natural log)</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">BCE comparison</div>
+      <h4>y=0 with ŷ=0.2 vs. y=0 with ŷ=0.8</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Case</th><th>BCE = −log(1−ŷ)</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>y=0, ŷ=0.2 <span class="pill ok">correctly leaning 0</span></td><td>−log(1−0.2) = −log(0.8)</td><td>0.2231</td></tr>
+          <tr><td>y=0, ŷ=0.8 <span class="pill bad">confidently wrong</span></td><td>−log(1−0.8) = −log(0.2)</td><td>1.6094</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-top:10px"><strong>Why the gap:</strong> BCE punishes confident wrong predictions far more harshly than mild wrong ones — going from "slightly wrong" (0.22) to "confidently wrong" (1.61) is over a 7× jump, which is exactly the signal gradient descent needs to correct bad confidence fast.</p>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Categorical Cross-Entropy</div>
+      <h4>True class = 2, predicted probabilities = [0.1, 0.7, 0.2]</h4>
+      <div class="answer">CCE = −log(p_true class) = −log(0.7) ≈ <strong>0.3567</strong> — only the predicted probability assigned to the correct class matters; the other entries drop out of the formula entirely.</div>
+    </div>
+  </section>
+
+  <section id="graphs">
+    <p class="eyebrow">Computational Graph Problems 1–5 · Q94–98</p>
+    <h2>Computational graph problems</h2>
+
+    <div class="problem">
+      <div class="tag">Graph 1</div>
+      <h4>z=xw+b, a=σ(z), L=(a−y)² — x=2, w=0.5, b=0, y=1</h4>
+      <div class="steps">
+        <li><span class="label">z</span><span class="calc">z = 2(0.5)+0 = 1</span></li>
+        <li><span class="label">a</span><span class="calc">a = σ(1) = 0.7311</span></li>
+        <li><span class="label">L</span><span class="calc">L = (0.7311−1)² = 0.0723</span></li>
+        <li><span class="label">∂L/∂a</span><span class="calc">2(a−y) = 2(−0.2689) = −0.5378</span></li>
+        <li><span class="label">∂a/∂z</span><span class="calc">a(1−a) = 0.7311×0.2689 = 0.1966</span></li>
+        <li><span class="label">∂z/∂w</span><span class="calc">= x = 2</span></li>
+        <li><span class="label">∂L/∂w (chain rule)</span><span class="calc">(−0.5378)(0.1966)(2) = <strong>−0.2115</strong></span></li>
+      </div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Graph 2</div>
+      <h4>a=x₁w₁+x₂w₂+b, z=ReLU(a), L=½(z−y)² — x₁=2,x₂=3,w₁=0.5,w₂=−0.2,b=0.1,y=2</h4>
+      <div class="steps">
+        <li><span class="label">a</span><span class="calc">a = 2(0.5)+3(−0.2)+0.1 = 1−0.6+0.1 = 0.5</span></li>
+        <li><span class="label">z</span><span class="calc">z = ReLU(0.5) = 0.5</span></li>
+        <li><span class="label">L</span><span class="calc">L = ½(0.5−2)² = ½(2.25) = 1.125</span></li>
+        <li><span class="label">∂L/∂z</span><span class="calc">z−y = 0.5−2 = −1.5</span></li>
+        <li><span class="label">∂z/∂a (ReLU', a&gt;0)</span><span class="calc">= 1</span></li>
+        <li><span class="label">∂L/∂w₁, ∂L/∂w₂, ∂L/∂b</span><span class="calc">−1.5×1×x₁ = <strong>−3</strong> &nbsp; −1.5×1×x₂ = <strong>−4.5</strong> &nbsp; −1.5×1×1 = <strong>−1.5</strong></span></li>
+      </div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Graph 3</div>
+      <h4>u=2x, v=u², L=3v — x=2, find dL/dx</h4>
+      <div class="steps">
+        <li><span class="label">Forward values</span><span class="calc">u=4, v=16, L=48</span></li>
+        <li><span class="label">Chain rule</span><span class="calc">dL/dx = (dL/dv)(dv/du)(du/dx) = 3 × 2u × 2 = 3×8×2</span></li>
+      </div>
+      <div class="answer">dL/dx = 48 &nbsp; (checks out: L=3(2x)²=12x², dL/dx=24x=24×2=48 ✓)</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Graph 4</div>
+      <h4>a=x₁+x₂, b=x₁x₂, c=a², L=c+b — x₁=2, x₂=3</h4>
+      <div class="steps">
+        <li><span class="label">Forward values</span><span class="calc">a=5, b=6, c=25, L=31</span></li>
+        <li><span class="label">∂L/∂x₁ (two paths: via a and via b)</span><span class="calc">2a·(∂a/∂x₁) + 1·(∂b/∂x₁) = 2(5)(1) + (1)(3) = 10+3</span></li>
+        <li><span class="label">∂L/∂x₂ (symmetric)</span><span class="calc">2a·(1) + 1·(x₁) = 10+2</span></li>
+      </div>
+      <div class="answer">∂L/∂x₁ = 13, ∂L/∂x₂ = 12 — both x₁ and x₂ feed the loss through two paths (a and b), so their gradients must be summed across both.</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Graph 5 — dead ReLU</div>
+      <h4>a=xw+b, h=ReLU(a), L=(h−y)² — x=−2, w=3, b=1, y=2</h4>
+      <div class="steps">
+        <li><span class="label">a</span><span class="calc">a = (−2)(3)+1 = −5</span></li>
+        <li><span class="label">h</span><span class="calc">h = ReLU(−5) = 0</span></li>
+        <li><span class="label">L</span><span class="calc">L = (0−2)² = 4</span></li>
+        <li><span class="label">Does the gradient propagate?</span><span class="calc">a=−5&lt;0 → ReLU'(a)=0 → <strong>no</strong>, blocked</span></li>
+        <li><span class="label">∂L/∂w</span><span class="calc">2(h−y)·ReLU'(a)·x = 2(−2)(0)(−2) = <strong>0</strong></span></li>
+      </div>
+      <p style="margin-top:10px">This is the "dead ReLU" problem in miniature: once a neuron's pre-activation goes negative, its gradient is exactly zero and no weight below it can learn from this example — motivating Leaky ReLU / ELU as fixes.</p>
+    </div>
+  </section>
+
+  <section id="backprop-single">
+    <p class="eyebrow">Backpropagation Numerical 1 · Q109</p>
+    <h2>Single sigmoid neuron, binary cross-entropy</h2>
+    <div class="given">x=2, w=0.4, b=0.1, y=1 &nbsp;&nbsp; L = −[y·log ŷ + (1−y)·log(1−ŷ)]</div>
+    <div class="steps">
+      <li><span class="label">Pre-activation z</span><span class="calc">z = xw+b = 2(0.4)+0.1 = 0.9</span></li>
+      <li><span class="label">Prediction ŷ</span><span class="calc">ŷ = σ(0.9) = 1/(1+e⁻⁰·⁹) = 0.7109</span></li>
+      <li><span class="label">Loss</span><span class="calc">L = −log(0.7109) = 0.3412</span></li>
+      <li><span class="label">∂L/∂z (sigmoid + BCE simplifies beautifully)</span><span class="calc">∂L/∂z = ŷ − y = 0.7109 − 1 = −0.2891</span></li>
+      <li><span class="label">∂L/∂w</span><span class="calc">(∂L/∂z)·x = −0.2891 × 2 = −0.5782</span></li>
+      <li><span class="label">∂L/∂b</span><span class="calc">(∂L/∂z)·1 = <strong>−0.2891</strong></span></li>
+    </div>
+    <div class="callout violet"><p><strong>Memorize this simplification</strong> — whenever a sigmoid output feeds directly into binary cross-entropy, all the messy σ'(z) terms cancel and <code>∂L/∂z = ŷ − y</code>. This is why sigmoid+BCE (and softmax+categorical cross-entropy) are paired so often in practice.</p></div>
+
+    <h3>Bonus — two-layer version (Q110 style)</h3>
+    <div class="given">h=σ(W₁x+b₁), ŷ=σ(W₂h+b₂) &nbsp;&nbsp; illustrative scalars: x=1, W₁=0.5, b₁=0, W₂=0.5, b₂=0, y=1, L=½(ŷ−y)²</div>
+    <div class="steps">
+      <li><span class="label">Layer 1</span><span class="calc">z₁ = 0.5, h = σ(0.5) = 0.6225</span></li>
+      <li><span class="label">Layer 2</span><span class="calc">z₂ = 0.5×0.6225 = 0.3113, ŷ = σ(0.3113) = 0.5772</span></li>
+      <li><span class="label">Loss</span><span class="calc">L = ½(0.5772−1)² = 0.0894</span></li>
+      <li><span class="label">Chain back through both sigmoids</span><span class="calc">∂L/∂ŷ=−0.4228 → ×∂ŷ/∂z₂(=0.2440) → ×∂z₂/∂h(=W₂=0.5) → ×∂h/∂z₁(=0.2350) → ×∂z₁/∂W₁(=x=1)</span></li>
+    </div>
+    <div class="answer">∂L/∂W₁ ≈ −0.0121 — five multiplications chained end to end; this is exactly why deep stacks are prone to vanishing gradients (multiply enough numbers &lt;1 together and the product shrinks fast).</div>
+  </section>
+
+  <section id="backprop-deep">
+    <p class="eyebrow">Comprehensive worked example · from your professor's slides</p>
+    <h2>Full network: forward pass → loss → backprop → update</h2>
+    <p class="lead">2 inputs → Hidden(2, ReLU) → Hidden(2, ReLU) → Output(1, Sigmoid), binary cross-entropy loss. Every number below is the actual worked example from the course slides — reproduce this method on any similar architecture and you can handle the exam's "comprehensive problem".</p>
+
+    <div class="given">
+      x₁=0.50, x₂=0.80, y=1, η=0.1<br>
+      W₁=[[0.15,0.20],[0.25,0.30]], b₁=[0.10,0.10]<br>
+      W₂=[[0.40,0.50],[0.45,0.55]], b₂=[0.20,0.20]<br>
+      W₃=[0.60, 0.65], b₃=0.10
+    </div>
+
+    <h3>1 · Forward pass</h3>
+    <div class="steps">
+      <li><span class="label">Hidden layer 1 (ReLU)</span><span class="calc">z1(1)=0.5(0.15)+0.8(0.25)+0.10=0.375 → a1(1)=0.375<br>z1(2)=0.5(0.20)+0.8(0.30)+0.10=0.440 → a1(2)=0.440</span></li>
+      <li><span class="label">Hidden layer 2 (ReLU)</span><span class="calc">z2(1)=0.375(0.4)+0.44(0.45)+0.2=0.548 → a2(1)=0.548<br>z2(2)=0.375(0.5)+0.44(0.55)+0.2=0.630 → a2(2)=0.630</span></li>
+      <li><span class="label">Output (Sigmoid)</span><span class="calc">z3=0.548(0.6)+0.63(0.65)+0.1=0.838 → ŷ=σ(0.838)≈0.698</span></li>
+      <li><span class="label">Loss (BCE, y=1)</span><span class="calc">L = −log(0.698) ≈ 0.359</span></li>
+    </div>
+
+    <h3>2 · Backward pass</h3>
+    <div class="steps">
+      <li><span class="label">Output layer — ∂L/∂z₃ = ŷ−y</span><span class="calc">0.698−1 = −0.302 &nbsp;→&nbsp; ∂L/∂w₃(1)=−0.302×0.548=−0.1655, ∂L/∂w₃(2)=−0.302×0.630=−0.1901, ∂L/∂b₃=−0.302</span></li>
+      <li><span class="label">Gradient handed to Hidden Layer 2</span><span class="calc">∂L/∂a2(1)=−0.302×0.60=−0.1812, ∂L/∂a2(2)=−0.302×0.65=−0.1963</span></li>
+      <li><span class="label">Hidden Layer 2 (both z2&gt;0 → ReLU'=1)</span><span class="calc">∂L/∂w2(11)=−0.1812×0.375=−0.0680, ∂L/∂w2(12)=−0.1963×0.375=−0.0736<br>∂L/∂w2(21)=−0.1812×0.440=−0.0797, ∂L/∂w2(22)=−0.1963×0.440=−0.0864</span></li>
+      <li><span class="label">Gradient handed to Hidden Layer 1</span><span class="calc">∂L/∂a1(1)=−0.1812(0.4)+−0.1963(0.5)=−0.1706<br>∂L/∂a1(2)=−0.1812(0.45)+−0.1963(0.55)=−0.1895</span></li>
+      <li><span class="label">Hidden Layer 1 (both z1&gt;0 → ReLU'=1)</span><span class="calc">∂L/∂w1(11)=−0.1706×0.5=−0.0853, ∂L/∂w1(12)=−0.1895×0.5=−0.0948<br>∂L/∂w1(21)=−0.1706×0.8=−0.1365, ∂L/∂w1(22)=−0.1895×0.8=−0.1516</span></li>
+    </div>
+
+    <h3>3 · Gradient descent update (η=0.1)</h3>
+    <div class="answer">w₃(1)_new = 0.60 − 0.1×(−0.1655) = 0.6165 &nbsp;&nbsp; w₃(2)_new = 0.65 − 0.1×(−0.1901) = 0.6690 &nbsp;&nbsp; b₃_new = 0.10 − 0.1×(−0.302) = 0.1302 &nbsp;(every other weight updates the same way: θ_new = θ_old − η·∂L/∂θ)</div>
+
+    <div class="callout"><p><strong>The pattern to reproduce on the exam:</strong> (1) forward pass layer by layer, caching every z and a; (2) at the output, ∂L/∂z = ŷ−y (for sigmoid+BCE); (3) push that gradient backward, at each ReLU layer multiplying by 1 if z&gt;0 else 0; (4) at each layer, ∂L/∂W = (incoming gradient)·(previous layer's activation)ᵀ; (5) update every parameter with θ ← θ − η·∂L/∂θ.</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 2 Numericals · Deep Learning · Sem 5 revision notes</footer>
+
+</body>
+</html>
