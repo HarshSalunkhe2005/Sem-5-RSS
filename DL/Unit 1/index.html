@@ -89,14 +89,16 @@
 <header class="hero">
   <span class="badge">SEM 5 · DEEP LEARNING · UNIT 1</span>
   <h1>🧠 Introduction to Deep Learning</h1>
-  <p>Neural networks &amp; ANN fundamentals · why "deep" · a brief history of AI (1950-today) ·
-     landmark successes of the last decade · the 4 forces behind the DL boom · real-world
-     applications · and the honest limitations.</p>
+  <p>Neural networks &amp; ANN fundamentals · the M-P Neuron and Perceptron, worked to numericals ·
+     why "deep" · a brief history of AI (1950-today) · landmark successes of the last decade ·
+     the 4 forces behind the DL boom · real-world applications · and the honest limitations.</p>
 </header>
 
 <nav class="toc">
   <div class="inner">
     <a href="#nn">Neural Networks &amp; ANN</a>
+    <a href="#mp-neuron">M-P Neuron</a>
+    <a href="#perceptron">Perceptron</a>
     <a href="#ml-vs-dl">ML vs DL</a>
     <a href="#types">Types of Neural Nets</a>
     <a href="#history">History of AI</a>
@@ -104,6 +106,8 @@
     <a href="#reasons">Reasons to Go Deep</a>
     <a href="#applications">Applications</a>
     <a href="#challenges">Challenges</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
   </div>
 </nav>
 
@@ -206,9 +210,102 @@
       during training and tuning — otherwise performance metrics become overly optimistic.</p></div>
   </section>
 
+  <!-- M-P NEURON -->
+  <section id="mp-neuron">
+    <p class="eyebrow">02 · The first neuron model (1943)</p>
+    <h2>The McCulloch-Pitts (M-P) Neuron</h2>
+    <p>Before weights existed, McCulloch &amp; Pitts proposed the first mathematical model of a
+      neuron. It's deliberately crude — every input counts equally, and inputs must be
+      <strong>boolean</strong> — but it's the ancestor everything else in this unit builds on.</p>
+
+    <div class="callout violet"><p>
+      <code>ŷ = 1  if  Σᵢ xᵢ ≥ b</code><br>
+      <code>ŷ = 0  otherwise</code>
+    </p></div>
+    <ul>
+      <li><code>xᵢ ∈ {0,1}</code> — boolean inputs only (no real numbers)</li>
+      <li><code>b</code> — a threshold, picked by hand — <strong>not learned</strong> by any gradient</li>
+      <li>Every input is summed with equal weight — there's no <code>wᵢ</code> yet</li>
+    </ul>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h4>📐 Model summary</h4>
+        <table style="margin:0;">
+          <tbody>
+            <tr><td>Data</td><td>Boolean {0,1}</td></tr>
+            <tr><td>Task</td><td>Binary classification</td></tr>
+            <tr><td>Loss</td><td><code>Σ(y − ŷ)²</code></td></tr>
+            <tr><td>Learning</td><td>Brute force — try every <code>b</code> from 0 to n</td></tr>
+            <tr><td>Metric</td><td>Accuracy</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h4>🧮 Worked example — realize OR</h4>
+        <p>Find <code>b</code> so the neuron computes OR for 2 boolean inputs.</p>
+        <p><strong>Try b=1:</strong> rule becomes <code>x₁+x₂ ≥ 1</code></p>
+        <p>(0,0)→0 ✓ &nbsp; (0,1)→1 ✓ &nbsp; (1,0)→1 ✓ &nbsp; (1,1)→1 ✓</p>
+        <p><strong>b=1 realizes OR perfectly.</strong> (Compare: <code>b=2</code> realizes AND instead — both inputs must be on.)</p>
+      </div>
+    </div>
+
+    <div class="callout"><p><strong>Why we need something better:</strong> the M-P Neuron can't
+      handle real-valued inputs, can't weigh inputs differently (every <code>xᵢ</code> counts the
+      same), and its threshold <code>b</code> must be guessed by hand rather than learned. The
+      <strong>Perceptron</strong> (Rosenblatt, 1958) fixes exactly these three things.</p></div>
+  </section>
+
+  <!-- PERCEPTRON -->
+  <section id="perceptron">
+    <p class="eyebrow">03 · Real-valued inputs, learnable weights</p>
+    <h2>The Perceptron</h2>
+    <p>Same idea as the M-P Neuron, upgraded: real-valued inputs, a <strong>learnable weight per
+      input</strong>, and the bias folded in as just another weight — the "bias trick".</p>
+
+    <div class="callout violet"><p>
+      <code>ŷ = 1  if  Σᵢ wᵢxᵢ ≥ 0  (i = 0..n)</code><br>
+      <code>ŷ = 0  otherwise</code>
+    </p></div>
+    <p>Here <code>x₀ = 1</code> is a fixed "dummy" input and <code>w₀ = −θ</code> is the bias — so
+      the old rule "fire if the sum crosses threshold θ" becomes a single dot product compared to
+      zero. This is identical to writing <code>z = w·x + b</code>, <code>ŷ = step(z)</code>.</p>
+
+    <h3>Geometric picture: a line splits the plane</h3>
+    <p>For 2D inputs, <code>w₁x₁ + w₂x₂ + b = 0</code> is a straight line. Points on one side give
+      <code>ŷ=1</code>, points on the other give <code>ŷ=0</code>. This only works if the two
+      classes are <strong>linearly separable</strong> — which is exactly why a single perceptron
+      can't solve XOR (its four points can't be split by any one straight line).</p>
+
+    <h3>Perceptron learning algorithm</h3>
+    <ol class="steps">
+      <li>Pick a random training point <code>x</code> from the positive set P or negative set N.</li>
+      <li>If <code>x ∈ P</code> and <code>Σwᵢxᵢ &lt; 0</code> (missed a positive): <code>w = w + x</code></li>
+      <li>If <code>x ∈ N</code> and <code>Σwᵢxᵢ ≥ 0</code> (missed a negative): <code>w = w − x</code></li>
+      <li>Repeat until every point is classified correctly (convergence).</li>
+    </ol>
+    <p>The version with an explicit learning rate <code>η</code> — the one your numericals use — is
+      the same idea as a single update rule:</p>
+    <div class="callout violet"><p>
+      <code>w ← w + η(y − ŷ)x</code> &nbsp;&nbsp;&nbsp; <code>b ← b + η(y − ŷ)</code>
+    </p></div>
+    <p><code>(y − ŷ)</code> is 0 when the prediction is already correct — no update happens. It's
+      ±1 only when misclassified, so training points you already get right are left alone.</p>
+
+    <div class="callout"><p><strong>Perceptron Convergence Theorem:</strong> if the data is
+      linearly separable, this algorithm is <em>guaranteed</em> to find a separating line in a
+      finite number of steps. If it isn't separable (like XOR), it will loop forever.</p></div>
+
+    <div class="callout" style="background:var(--coral-light);border-left-color:var(--coral);">
+      <p><strong>→ Practice:</strong> all 5 perceptron numericals (output calculation, weight
+        update, one full training epoch, linear classification, decision-boundary derivation) are
+        worked step-by-step on the <a href="numericals.html" style="color:var(--coral);font-weight:700;">Unit 1 Numericals page</a>.</p>
+    </div>
+  </section>
+
   <!-- ML vs DL -->
   <section id="ml-vs-dl">
-    <p class="eyebrow">02 · Why "deep"?</p>
+    <p class="eyebrow">04 · Why "deep"?</p>
     <h2>Why Deep Learning? — Hierarchical Feature Learning</h2>
     <p>In classical ML, a human engineer manually decides what features matter (edges, colour
       histograms, etc). In Deep Learning, each layer <strong>automatically learns increasingly
@@ -242,7 +339,7 @@
 
   <!-- TYPES -->
   <section id="types">
-    <p class="eyebrow">03 · The neural network family</p>
+    <p class="eyebrow">05 · The neural network family</p>
     <h2>Types of Neural Networks</h2>
     <div class="grid cols-3">
       <div class="card"><h4>➡️ Feedforward (FNN)</h4><p>Simplest ANN — data flows one direction,
@@ -262,7 +359,7 @@
 
   <!-- HISTORY -->
   <section id="history">
-    <p class="eyebrow">04 · From Turing to Generative AI</p>
+    <p class="eyebrow">06 · From Turing to Generative AI</p>
     <h2>Brief History of AI</h2>
 
     <h3>The early decades: birth &amp; winters (1950-1993)</h3>
@@ -290,7 +387,7 @@
 
   <!-- SUCCESSES -->
   <section id="successes">
-    <p class="eyebrow">05 · Proof it works at scale</p>
+    <p class="eyebrow">07 · Proof it works at scale</p>
     <h2>DL Successes — The Last Decade</h2>
 
     <h3>Case study — AlexNet &amp; ImageNet (2012)</h3>
@@ -319,7 +416,7 @@
 
   <!-- REASONS -->
   <section id="reasons">
-    <p class="eyebrow">06 · Why now?</p>
+    <p class="eyebrow">08 · Why now?</p>
     <h2>Reasons to Go Deep — Four Forces Behind the Boom</h2>
     <div class="grid cols-4">
       <div class="card"><h4>1️⃣ Data</h4><p>Explosion of labelled data — ImageNet, web text, sensors,
@@ -350,7 +447,7 @@
 
   <!-- APPLICATIONS -->
   <section id="applications">
-    <p class="eyebrow">07 · Where it's changing industries</p>
+    <p class="eyebrow">09 · Where it's changing industries</p>
     <h2>Applications of Deep Learning</h2>
     <div class="grid cols-3">
       <div class="card"><h4>🏥 Healthcare</h4><p>CNNs detect tumours, fractures, diabetic
@@ -379,7 +476,7 @@
 
   <!-- CHALLENGES -->
   <section id="challenges">
-    <p class="eyebrow">08 · Not free of limitations</p>
+    <p class="eyebrow">10 · Not free of limitations</p>
     <h2>Challenges of Deep Learning</h2>
     <div class="grid cols-3">
       <div class="card"><h4>📊 Data Hungry</h4><p>Needs thousands to millions of labelled examples;
@@ -399,11 +496,16 @@
     <h3>Unit 1 — Summary</h3>
     <ul>
       <li>Neural Networks are inspired by biological neurons; ANNs stack layers of these neurons to learn complex functions</li>
+      <li>The M-P Neuron (boolean, hand-picked threshold) was the first neuron model; the Perceptron added real-valued weighted inputs and a learning rule, but only works on linearly separable data</li>
       <li>Deep Learning automatically learns hierarchical features from raw data, removing manual feature engineering</li>
       <li>AI's history (1950-today) shows cycles of hype and "winters" — broken in 2012 by data, compute, and algorithms converging</li>
       <li>Landmark successes — AlexNet, AlphaGo, ChatGPT — demonstrate DL's real-world impact</li>
       <li>DL powers healthcare, finance, vision, language, entertainment — but remains data-hungry, costly, and often a "black box"</li>
     </ul>
+    <div class="grid cols-2">
+      <div class="card"><h4>🧮 Numericals</h4><p>All 5 perceptron numerical problems worked step-by-step.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 1 Numericals →</a></p></div>
+      <div class="card"><h4>📚 Question Bank</h4><p>Concise answers to every Unit 1 question-bank item (Q1-55).</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 1 Question Bank →</a></p></div>
+    </div>
   </section>
 
 </main>

@@ -24,6 +24,8 @@ URLs by hand.
 | Unit | Topic | Link |
 |---|---|---|
 | Unit 1 | Introduction to Deep Learning | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%201/index.html) |
+| Unit 1 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%201/numericals.html) |
+| Unit 1 | Question Bank answers (Q1–55) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%201/question-bank.html) |
 | Unit 2 | Advances in NN and DL | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/index.html) |
 
 ---
@@ -35,3 +37,6 @@ URLs by hand.
    `<Course>/Unit N/images/`.
 3. Add a row to the table above pointing at the new `index.html`'s GitHub Pages URL.
 4. Source PPT/PDF gets deleted once the notes are built (index.html is self-contained).
+5. A unit can also get sibling pages in the same folder — e.g. `numericals.html` for
+   worked problems, `question-bank.html` for question-bank answers — linked from both
+   the unit's own nav/footer and the README table above.
