@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 Question Bank — Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 3</span>
+  <h1>📚 Unit 3 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to Q111–158 — optimization algorithms and the
+     regularization/dropout toolkit.</p>
+  <a class="back" href="index.html">← Back to Unit 3 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#g1">Q111–137 · Optimization</a>
+    <a href="#g2">Q138–148 · Regularization</a>
+    <a href="#g3">Q149–158 · Dropout</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 3 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Group A</p>
+    <h2>Optimization algorithms</h2>
+    <p class="range">Question Bank Q111–137</p>
+
+    <div class="qa"><p class="q"><span class="num">Q111</span>What is optimization and why is it necessary?</p><p class="a">Optimization is the process of adjusting a model's parameters to minimize its loss. It's necessary because a network starts with random weights that predict poorly — training <em>is</em> the optimization process that makes predictions accurate.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q112</span>Explain gradient descent.</p><p class="a">Repeatedly step each parameter in the direction opposite its gradient, scaled by a learning rate: θ ← θ − η∇L(θ). It's the foundational algorithm every other optimizer here builds on.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q113</span>Explain batch gradient descent.</p><p class="a">Uses the full dataset to compute the exact gradient before every single update — a smooth, accurate path, but expensive per step since it touches every example.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q114</span>Explain stochastic gradient descent.</p><p class="a">Computes the gradient from just one randomly chosen example per step — cheap and fast per step, but noisy; the noise itself can help escape sharp, poorly-generalizing minima.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q115</span>Explain mini-batch gradient descent.</p><p class="a">Computes the gradient from a small random batch (commonly 32–512 examples) per step — the practical middle ground between batch GD's accuracy and SGD's speed; what virtually all real training uses.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q116</span>Compare batch GD, SGD, and mini-batch GD.</p><p class="a">Batch: exact gradient, smooth convergence, slow per epoch. SGD: noisy gradient, fast per step, jittery path. Mini-batch: balances both — noisy enough to generalize well, batched enough to use hardware efficiently.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q117</span>What is the learning rate?</p><p class="a">The scalar η that controls how big a step each parameter update takes in the direction opposite the gradient.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q118</span>What happens when the learning rate is too small or too large?</p><p class="a">Too small: safe but painfully slow convergence. Too large: the update overshoots the minimum, causing oscillation or outright divergence.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q119</span>Explain momentum-based gradient descent.</p><p class="a">Accumulate a "velocity" — an exponentially-decaying average of past gradients — and step with that instead of the raw gradient: v←βv+η∇L, θ←θ−v. Consistent gradient directions build speed; oscillating ones cancel out.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q120</span>Explain the intuition behind momentum.</p><p class="a">A heavy ball rolling downhill: it carries inertia from previous steps, so it powers through the zig-zag that plain gradient descent suffers on narrow valleys, reaching the floor sooner.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q121</span>Explain AdaGrad.</p><p class="a">Divides each parameter's step by the square root of the running <em>sum</em> of its squared gradients — parameters with large historical gradients get smaller steps, and vice versa. Good for sparse features, but the ever-growing sum can shrink the effective rate to zero on long runs.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q122</span>Explain RMSprop.</p><p class="a">Same idea as AdaGrad, but the sum of squared gradients is replaced with an exponentially-decaying average, so old gradients are "forgotten" — the effective learning rate stays healthy instead of vanishing.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q123</span>Explain Adam.</p><p class="a">Combines momentum (an EMA of the gradient, m) with RMSprop (an EMA of the squared gradient, v), bias-corrects both since they start at zero, then updates with the momentum scaled by the magnitude estimate. Default hyperparameters (β₁=0.9, β₂=0.999, ε=1e-8) work well across most problems, which is why it's the default optimizer today.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q124</span>Compare SGD, Momentum, RMSProp and Adam.</p><p class="a">SGD: single global rate, noisy, simplest. Momentum: adds inertia to smooth the path and speed convergence on valleys. RMSprop: per-parameter adaptive rate via a decaying gradient-squared average. Adam: momentum + RMSprop + bias correction — generally the fastest and most robust default.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q125</span>What are adaptive learning-rate methods?</p><p class="a">Optimizers (AdaGrad, RMSprop, Adam, …) that give each individual parameter its own effective learning rate, scaled by that parameter's own gradient history, rather than applying one global rate to every parameter.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q126</span>What is learning-rate scheduling?</p><p class="a">Deliberately changing the learning rate over the course of training — typically starting high (for fast early progress) and decaying it (for precise late-stage convergence) — instead of holding it constant.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q127</span>Explain exponential learning-rate decay.</p><p class="a">The learning rate is multiplied by a fixed decay factor every epoch (or step), shrinking it smoothly and continuously over training.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q128</span>Explain cosine learning-rate decay.</p><p class="a">The learning rate follows a cosine curve from its initial value down to (near) zero across training — a smooth schedule with no sudden drops, widely used as a modern default.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q129</span>What is a local minimum?</p><p class="a">A point where the loss is lower than at every nearby point (but not necessarily the lowest loss overall/globally).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q130</span>What is a saddle point?</p><p class="a">A point where the gradient is (near) zero, but the surface curves upward in some directions and downward in others — neither a minimum nor a maximum.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q131</span>Why are saddle points important in high-dimensional optimization?</p><p class="a">In high dimensions, saddle points vastly outnumber genuine bad local minima — they are the real obstacle deep networks encounter during training, not local minima as classical intuition suggests.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q132</span>What is a loss landscape?</p><p class="a">The (typically high-dimensional, non-convex) surface formed by plotting the loss as a function of every parameter — valleys, ridges, saddle points and minima that an optimizer navigates using only local gradient information.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q133–135</span>Gradient descent numerical problems 1–3.</p><p class="a">All three worked step-by-step, iteration by iteration, on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q136</span>Momentum numerical problem.</p><p class="a">vₜ=2.2, update=−2.2 — worked on the Numericals page (convention stated explicitly, since problems vary in which momentum formula they use).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q137</span>Adam numerical problem.</p><p class="a">mₜ=0.13, vₜ=0.05011, with bias-corrected estimates m̂≈0.68, v̂≈25.1 at t=2 — worked on the Numericals page, including why the bias correction matters so much at small t.</p></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Group B</p>
+    <h2>Regularization</h2>
+    <p class="range">Question Bank Q138–148</p>
+
+    <div class="qa"><p class="q"><span class="num">Q138</span>What is regularization?</p><p class="a">Any technique that discourages a model from fitting training-data noise, trading a small amount of training accuracy for meaningfully better generalization to unseen data.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q139</span>Why is regularization necessary?</p><p class="a">Deep networks have huge parameter counts and can easily memorize a training set (overfit) rather than learn the true underlying pattern — regularization is what keeps that flexibility in check.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q140</span>Explain L1 regularization.</p><p class="a">Adds λΣ|wᵢ| to the loss — a penalty proportional to the absolute value of the weights, which pushes many weights all the way to exactly zero (sparsity).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q141</span>Explain L2 regularization.</p><p class="a">Adds (λ/2)Σwᵢ² to the loss — a penalty proportional to the squared weights, which shrinks all weights toward (but rarely exactly to) zero, producing a smoother, less noise-sensitive function.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q142</span>Compare L1 and L2 regularization.</p><p class="a">L1 (absolute-value penalty) drives many weights to exactly zero, giving sparse, feature-selecting models. L2 (squared penalty) shrinks all weights smoothly toward zero without eliminating them, generally giving smoother, more stable solutions.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q143</span>Why does L1 regularization encourage sparsity?</p><p class="a">The gradient of |w| is a constant (±1) regardless of how small w already is, so it keeps pushing small weights all the way to exactly zero — unlike L2, whose gradient (∝w) shrinks toward zero as w shrinks, so it never quite finishes the job.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q144</span>Explain weight decay.</p><p class="a">Directly shrinking every weight by a small multiplicative factor at each update step — mathematically equivalent to L2 regularization for plain SGD, though the two can diverge for adaptive optimizers like Adam.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q145</span>Difference between L2 regularization and weight decay in modern optimizers?</p><p class="a">With plain SGD they're identical. With Adam, adding the L2 penalty to the gradient interacts with Adam's adaptive per-parameter scaling in unintended ways; AdamW instead decouples weight decay from the gradient step entirely, applying it directly to the weights — which is why AdamW is now preferred.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q146</span>Explain early stopping.</p><p class="a">Monitor validation error during training and stop (keeping the best checkpoint) at the point where validation error is minimized — training further only keeps reducing training error while validation error rises (overfitting).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q147</span>How does early stopping act as a form of regularization?</p><p class="a">It limits how long (and therefore how far) the model is allowed to fit the training data, implicitly capping model complexity/flexibility without changing the loss function or architecture at all.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q148</span>Explain data augmentation as regularization.</p><p class="a">Synthetically expanding the training set (crops, flips, noise, etc.) raises the bar for memorization — a complex model can't memorize data it has effectively not seen in exactly that form before, and augmented examples can resemble the held-out distribution the model will ultimately be judged on.</p></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Group C</p>
+    <h2>Dropout</h2>
+    <p class="range">Question Bank Q149–158</p>
+
+    <div class="qa"><p class="q"><span class="num">Q149</span>Explain dropout.</p><p class="a">During training, randomly "switch off" (zero out) each neuron with probability p on every forward pass — forcing the network to not rely too heavily on any single neuron or co-adapted group of neurons.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q150</span>Why does dropout reduce overfitting?</p><p class="a">It prevents neurons from co-adapting to compensate for each other's specific quirks, and effectively trains a huge ensemble of thinned sub-networks (one per random mask), which generalizes better than any single fixed network.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q151</span>Explain inverted dropout.</p><p class="a">The modern standard: during training, after zeroing dropped units, scale the remaining activations by 1/(1−p) so the expected total activation stays the same whether or not dropout is applied — this way, no rescaling is needed at test time at all.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q152</span>What happens to dropout during inference?</p><p class="a">Dropout is turned off entirely — the full network runs with every neuron active, and (with inverted dropout) no additional scaling is needed since scaling already happened during training.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q153</span>What is the effect of increasing dropout probability?</p><p class="a">Higher p drops more neurons per pass — stronger regularization (less overfitting) but, past a point, underfitting and noisier/slower training as too little signal survives each forward pass.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q154–156</span>Regularization numerical problems 1–3.</p><p class="a">L2 penalty=3.2, L1 penalty=2.9, and the L2 gradient=3.8 — all worked step-by-step on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q157–158</span>Dropout problems 1–2.</p><p class="a">Expected 6 active/4 dropped neurons at p=0.4, and the inverted-dropout output [4,0,12,0] for the given mask — both worked on the Numericals page.</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 3 Question Bank · Deep Learning · Sem 5 revision notes</footer>
+
+</body>
+</html>

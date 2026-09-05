@@ -29,6 +29,9 @@ URLs by hand.
 | Unit 2 | Advances in NN and DL | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/index.html) |
 | Unit 2 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/numericals.html) |
 | Unit 2 | Question Bank answers (Q56–110) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/question-bank.html) |
+| Unit 3 | Activations, Loss, Generalization & Optimization | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%203/index.html) |
+| Unit 3 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%203/numericals.html) |
+| Unit 3 | Question Bank answers (Q111–158) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%203/question-bank.html) |
 
 ---
 
