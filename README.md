@@ -27,6 +27,8 @@ URLs by hand.
 | Unit 1 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%201/numericals.html) |
 | Unit 1 | Question Bank answers (Q1–55) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%201/question-bank.html) |
 | Unit 2 | Advances in NN and DL | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/index.html) |
+| Unit 2 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/numericals.html) |
+| Unit 2 | Question Bank answers (Q56–110) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%202/question-bank.html) |
 
 ---
 
