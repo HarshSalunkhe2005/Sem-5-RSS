@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — Activations, Loss, Generalization &amp; Optimization</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f3ecfb;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 3</span>
+  <h1>🌀 Activations, Loss, Generalization &amp; Optimization</h1>
+  <p>Activation functions in depth (incl. GELU, Swish, the decision guide) · loss functions
+     compared side by side · the bias-variance trade-off and the regularization toolkit ·
+     and how gradient descent actually learns to descend — SGD to Adam, plus learning-rate
+     scheduling.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#activations">Activation Functions</a>
+    <a href="#losses">Loss Functions</a>
+    <a href="#bias-variance">Bias-Variance &amp; Regularization</a>
+    <a href="#optimization">Optimization Algorithms</a>
+    <a href="#scheduling">LR Scheduling</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ACTIVATIONS -->
+  <section id="activations">
+    <p class="eyebrow">01 · The switchboard of a network</p>
+    <h2>Activation Functions, In Depth</h2>
+    <p>Unit 2 introduced the core activations; here's the fuller picture, including the functions
+      powering today's largest models — and a decision framework for picking one.</p>
+
+    <div class="grid cols-3">
+      <div class="card"><h4>Sigmoid</h4><p><code>σ(x)=1/(1+e⁻ˣ)</code>. Output layer of binary classifiers, LSTM/GRU gates. Smooth, probabilistic — but vanishing gradients for large |x| and not zero-centered.</p></div>
+      <div class="card"><h4>Softmax</h4><p><code>eˣⁱ/Σeˣʲ</code>. Multi-class output layer, Transformer attention weights. Clean probability distribution — but sensitive to outlier logits, output-layer only.</p></div>
+      <div class="card"><h4>ReLU</h4><p><code>max(0,x)</code>. Default hidden-layer activation. Cheap, strong gradients for x&gt;0 — but can "die" for x≤0.</p></div>
+    </div>
+
+    <h3>Beyond the big three</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Tanh</h4><p>Zero-centered sigmoid, range (−1,1). RNN/LSTM hidden states. Still saturates at the extremes.</p></div>
+      <div class="card"><h4>Leaky ReLU</h4><p><code>max(0.1x, x)</code>-style. Small negative slope keeps "dead" neurons recoverable. Adds a tunable hyperparameter.</p></div>
+      <div class="card"><h4>ELU</h4><p>Smooth negative saturation pushes mean activation toward zero — faster convergence, costs an exponential for x&lt;0.</p></div>
+      <div class="card"><h4>GELU</h4><p><code>x·Φ(x)</code>. Smooth, probabilistic gating — the default in Transformer blocks (BERT, GPT, ViT).</p></div>
+      <div class="card"><h4>Swish / SiLU</h4><p><code>x·σ(x)</code>. Self-gated, non-monotonic — found via search to beat ReLU in EfficientNet-style nets.</p></div>
+      <div class="card"><h4>Linear</h4><p><code>f(x)=x</code>. No non-linearity — used only in the output layer for regression.</p></div>
+    </div>
+
+    <h3>Side by side</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Function</th><th>Range</th><th>Typical layer</th><th>Best suited for</th><th>Key drawback</th></tr></thead>
+      <tbody>
+        <tr><td>Sigmoid</td><td>(0,1)</td><td>Output</td><td>Binary classification, gates</td><td>Vanishing gradient</td></tr>
+        <tr><td>Softmax</td><td>(0,1), sums to 1</td><td>Output</td><td>Multi-class classification</td><td>Sensitive to outliers</td></tr>
+        <tr><td>ReLU</td><td>[0,∞)</td><td>Hidden</td><td>Default for CNNs/deep nets</td><td>Dying ReLU</td></tr>
+        <tr><td>Tanh</td><td>(−1,1)</td><td>Hidden</td><td>RNN/LSTM states</td><td>Vanishing gradient</td></tr>
+        <tr><td>Leaky ReLU</td><td>(−∞,∞)</td><td>Hidden</td><td>Fixing dying ReLU</td><td>Extra hyperparameter</td></tr>
+        <tr><td>GELU</td><td>≈(−0.17,∞)</td><td>Hidden</td><td>Transformers (BERT, GPT)</td><td>More costly than ReLU</td></tr>
+        <tr><td>Swish/SiLU</td><td>≈(−0.28,∞)</td><td>Hidden</td><td>Deep CNNs (EfficientNet)</td><td>More costly than ReLU</td></tr>
+        <tr><td>Linear</td><td>(−∞,∞)</td><td>Output</td><td>Regression</td><td>No non-linearity</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Quick decision guide</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Hidden layers, general use?</h4><p>Start with <strong>ReLU</strong> — fast and effective.</p></div>
+      <div class="card"><h4>Hidden layers, dying neurons?</h4><p>Switch to <strong>Leaky ReLU, ELU, or GELU</strong>.</p></div>
+      <div class="card"><h4>RNN / LSTM hidden state?</h4><p>Use <strong>Tanh</strong> for zero-centered outputs.</p></div>
+      <div class="card"><h4>Output: binary classification?</h4><p>Use <strong>Sigmoid</strong> for a probability score.</p></div>
+      <div class="card"><h4>Output: multi-class classification?</h4><p>Use <strong>Softmax</strong> for a probability distribution.</p></div>
+      <div class="card"><h4>Output: regression?</h4><p>Use <strong>Linear</strong> (identity) — no squashing.</p></div>
+    </div>
+  </section>
+
+  <!-- LOSSES -->
+  <section id="losses">
+    <p class="eyebrow">02 · How a model scores its own mistakes</p>
+    <h2>Loss Functions, Compared</h2>
+    <p>A loss function is a single number that scores how far a prediction is from the truth. Small
+      loss → close to the truth; large loss → far from it. Training = adjusting weights to push this
+      number down.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Mean Squared Error</th><th>Binary Cross-Entropy</th><th>Categorical Cross-Entropy</th></tr></thead>
+      <tbody>
+        <tr><td>Task type</td><td>Regression</td><td>Binary classification</td><td>Multi-class classification</td></tr>
+        <tr><td>Output activation</td><td>Linear (none)</td><td>Sigmoid</td><td>Softmax</td></tr>
+        <tr><td>Target format</td><td>Real-valued number</td><td>0 or 1</td><td>One-hot vector</td></tr>
+        <tr><td>Penalizes</td><td>Squared distance</td><td>Wrong-confidence, log scale</td><td>Wrong-confidence, log scale</td></tr>
+        <tr><td>Typical use</td><td>Price / demand forecast</td><td>Spam / fraud detection</td><td>Image / digit classification</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout violet"><p><strong>Decision rule:</strong> is the output a continuous number → <strong>MSE</strong> (linear output). Exactly two classes → <strong>Binary Cross-Entropy</strong> (sigmoid output). One of many mutually exclusive classes → <strong>Categorical Cross-Entropy</strong> (softmax output). The activation and the loss are always chosen <em>as a pair</em>.</p></div>
+
+    <p><strong>Why cross-entropy beats MSE for classification:</strong> cross-entropy's gradient stays large when a prediction is confidently wrong; MSE paired with a saturated sigmoid/softmax produces tiny gradients in exactly that regime, slowing learning right when it matters most.</p>
+  </section>
+
+  <!-- BIAS-VARIANCE -->
+  <section id="bias-variance">
+    <p class="eyebrow">03 · Why models fail to generalize</p>
+    <h2>The Bias-Variance Trade-off &amp; Regularization</h2>
+    <p>Every model is trying to approximate an unknown true function <code>f(x)</code>. A model that's
+      too simple can't bend to fit it (underfitting); one that's too flexible chases noise in the
+      training data instead of the real pattern (overfitting).</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>High bias — underfitting</h4><p>Model too simple to capture the underlying pattern. High error on <strong>both</strong> training and test data. Example: fitting a straight line through a sine wave.</p></div>
+      <div class="card"><h4>High variance — overfitting</h4><p>Model too flexible, memorizes noise. <strong>Low</strong> training error but <strong>high</strong> test error. Example: a high-degree polynomial wiggling through every point.</p></div>
+    </div>
+
+    <h3>Diagnosing errors in practice</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Training error</th><th>Validation error</th><th>Cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>High</td><td>High</td><td>High bias</td><td>Increase model complexity, train more epochs</td></tr>
+        <tr><td>Low</td><td>High</td><td>High variance</td><td>More data, regularization, early stopping</td></tr>
+        <tr><td>Low</td><td>Low</td><td>Sweet spot</td><td>You're done!</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The regularization toolkit</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>L2 penalty</h4><p>Add <code>λ(θ)</code> to the loss so large weights are penalized. The gradient update becomes <code>∇w += λw</code> on top of the usual gradient — every step nudges weights gently toward zero, giving a smoother, less noise-sensitive function.</p></div>
+      <div class="card"><h4>Dataset augmentation</h4><p>A complex model can memorize a small dataset outright. More (realistic, varied) data raises the bar — the model can't memorize what it hasn't seen distinctly, and augmented data can resemble the held-out distribution.</p></div>
+      <div class="card"><h4>Early stopping</h4><p>Track validation error during training; stop (and keep) the checkpoint at its <strong>minimum</strong>. Past that point, training error keeps falling but validation error climbs — the tell-tale of overfitting.</p></div>
+    </div>
+
+    <div class="callout"><p><strong>Practical workflow:</strong> (1) split data into train/validation/test, (2) start with a sensible baseline architecture, (3) use sound defaults — ReLU/tanh activation, He/Xavier initialization, Adam optimizer, (4) monitor train vs. validation error — but never touch the test set until the very end.</p></div>
+  </section>
+
+  <!-- OPTIMIZATION -->
+  <section id="optimization">
+    <p class="eyebrow">04 · How networks actually descend the loss</p>
+    <h2>Optimization Algorithms</h2>
+    <p>Training = minimizing the average loss over the data by iteratively adjusting parameters
+      <code>θ</code>. We never see the whole loss landscape — only the local gradient — so every
+      method here is a different strategy for using that local slope well.</p>
+
+    <h3>Gradient descent — the foundation</h3>
+    <div class="callout violet"><p><code>θ ← θ − η·∇L(θ)</code> — step opposite the gradient, scaled by learning rate <code>η</code>.
+      <br>η too small → painfully slow. η too large → overshoot, oscillate, diverge.</p></div>
+    <p><strong>The zig-zag problem:</strong> when the loss surface is ill-conditioned (steep in one direction, flat in another — a high <em>condition number</em>), gradient descent bounces across the steep walls while barely progressing along the valley floor. Momentum and adaptive methods exist largely to fix exactly this.</p>
+
+    <h3>How much data per step?</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Batch GD</h4><p>Full dataset per step — exact gradient, smooth path, expensive per step.</p></div>
+      <div class="card"><h4>Stochastic GD</h4><p>One random point per step — cheap, noisy, jittery path. The noise helps escape sharp minima.</p></div>
+      <div class="card"><h4>Mini-batch GD</h4><p>b points per step (b=32–512) — the practical sweet spot every real training run uses.</p></div>
+    </div>
+
+    <h3>Momentum &amp; Nesterov</h3>
+    <div class="callout violet"><p>
+      <strong>Momentum:</strong> <code>v ← βv + η·∇L</code>, then <code>θ ← θ − v</code> — an exponentially-decaying average ("velocity") of past gradients. Consistent directions build speed; oscillating ones cancel out.<br>
+      <code>β=0.9</code> is the common default, giving an effective memory of <code>1/(1−β) ≈ 10</code> past steps.
+    </p></div>
+    <p><strong>Nesterov (NAG):</strong> evaluates the gradient at the look-ahead point <code>θ+βv</code> instead of the current point — "momentum acts then looks; Nesterov looks then acts," braking earlier before overshooting.</p>
+
+    <h3>Adaptive methods — one learning rate per parameter</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>AdaGrad</h4><p>Divide the step by the square root of the <em>accumulated sum</em> of squared gradients per parameter. Great for sparse features — but the accumulator only grows, so the effective rate can vanish on long runs.</p></div>
+      <div class="card"><h4>RMSprop</h4><p>AdaGrad, but the sum is replaced by an exponentially-decaying average — old gradients are "forgotten," so the rate never vanishes. The de-facto standard before Adam.</p></div>
+      <div class="card"><h4>Adam</h4><p>RMSprop + momentum + bias correction. Tracks EMAs of both the gradient (m) and its square (v), bias-corrects each, then steps with the momentum scaled by the magnitude. Defaults: β₁=0.9, β₂=0.999, ε=1e-8.</p></div>
+    </div>
+    <div class="callout"><p><strong>Beyond Adam:</strong> AdamW (decouples weight decay — today's default for training Transformers), Nadam (Adam + Nesterov look-ahead), AMSGrad (fixes a convergence edge case).</p></div>
+
+    <h3>Local minima vs. saddle points</h3>
+    <p>A common misconception: deep nets rarely get stuck in bad <strong>local minima</strong>. The real obstacle in high dimensions is <strong>saddle points</strong> — where some directions curve up and others down, and the gradient nearly vanishes. Plain gradient descent crawls near a saddle; momentum carries speed through the flat region, and adaptive scaling amplifies the small escape direction.</p>
+  </section>
+
+  <!-- SCHEDULING -->
+  <section id="scheduling">
+    <p class="eyebrow">05 · Don't just pick η — change it over time</p>
+    <h2>Learning-Rate Scheduling</h2>
+    <p>Early in training you're far from the minimum — big steps make fast progress. Late in
+      training you're near it — big steps overshoot and bounce. A constant learning rate under SGD
+      leaves you orbiting the minimum in a "noise ball" whose radius scales with η; shrinking η
+      shrinks that ball toward a point.</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>Step decay</h4><p>Drop η by a factor every <em>s</em> epochs. Produces the visible "staircase" in loss curves — still extremely common in practice.</p></div>
+      <div class="card"><h4>Exponential decay</h4><p>Smooth, continuous version of step decay — η shrinks by a fixed ratio every epoch.</p></div>
+      <div class="card"><h4>Cosine annealing</h4><p>η follows a cosine curve down to (near) zero over training — today's common default, especially for large-model training.</p></div>
+    </div>
+
+    <h3>Unit 3 — Summary</h3>
+    <ul>
+      <li>ReLU is the hidden-layer default; GELU/Swish power today's largest Transformer/CNN architectures</li>
+      <li>Match the loss to the output activation: Linear→MSE, Sigmoid→BCE, Softmax→CCE</li>
+      <li>Simple models underfit (high bias); complex models overfit (high variance) — regularization (L2, augmentation, early stopping) buys back generalization</li>
+      <li>Plain gradient descent zig-zags on ill-conditioned surfaces; momentum adds inertia, adaptive methods (AdaGrad→RMSprop→Adam) give every parameter its own rate</li>
+      <li>Saddle points, not bad local minima, are the real obstacle in high-dimensional training</li>
+      <li>Learning-rate schedules trade early speed for late precision — start high, decay low</li>
+    </ul>
+    <div class="grid cols-2">
+      <div class="card"><h4>🧮 Numericals</h4><p>Gradient descent iterations, momentum, Adam bias correction, L1/L2 penalty calculations, and dropout worked examples.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 3 Numericals →</a></p></div>
+      <div class="card"><h4>📚 Question Bank</h4><p>Concise answers to every Unit 3 question-bank item (Q111–158).</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 3 Question Bank →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 3 — Activations, Loss, Generalization &amp; Optimization · Sem 5 revision notes</footer>
+
+</body>
+</html>
