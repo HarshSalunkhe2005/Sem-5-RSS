@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Question Bank — Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 1</span>
+  <h1>📚 Unit 1 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to Q1–55 of the course question bank — everything that's
+     genuinely Unit 1 scope. Q56 onward (activation functions, loss, backprop, optimizers,
+     regularization) belongs to Units 2–3.</p>
+  <a class="back" href="index.html">← Back to Unit 1 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#g1">Q1–16 · AI/ML/DL &amp; history</a>
+    <a href="#g2">Q17–30 · Applications &amp; methodology</a>
+    <a href="#g3">Q31–45 · Neuron &amp; Perceptron</a>
+    <a href="#g4">Q46–55 · Shallow vs deep</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 1 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Group A</p>
+    <h2>AI, ML, DL &amp; the history of the field</h2>
+    <p class="range">Question Bank Q1–16</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Define AI, ML, and DL. Explain the relationship among them.</p><p class="a"><strong>AI</strong> is any system that acts intelligently. <strong>ML</strong> is a subset of AI where the system learns its rules from data instead of being hand-programmed. <strong>DL</strong> is a subset of ML that uses artificial neural networks with many stacked layers. They're nested: AI ⊃ ML ⊃ DL.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>What is an Artificial Neural Network (ANN)?</p><p class="a">A computing system loosely inspired by biological neurons — layers of simple units that each combine weighted inputs and pass the result through a non-linear activation function, together capable of learning complex patterns from data.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Why are neural networks called "neural" networks?</p><p class="a">Because their basic computing unit (the artificial neuron) and its wiring were loosely modeled on how biological neurons receive, process, and transmit signals via dendrites, the cell body, and the axon.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Differentiate AI, ML, and DL with examples.</p><p class="a">AI: a rule-based chess engine (hand-coded logic, no learning). ML: a spam filter using a Decision Tree or SVM trained on labelled emails. DL: a CNN that classifies images by learning its own features from raw pixels.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Major differences between traditional ML and DL?</p><p class="a">ML needs hand-engineered features, works with smaller datasets, and is easy to interpret. DL learns features automatically, needs large datasets and heavy compute (GPU/TPU), and is largely a "black box".</p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Why did deep learning succeed mainly in the last decade?</p><p class="a">Because the three ingredients it always needed finally arrived together around 2012: internet-scale labelled data (ImageNet), affordable GPU compute, and algorithmic fixes (ReLU, dropout, batch norm) that made very deep networks trainable.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Role of big data, GPUs, optimization, activations, hardware in DL's success?</p><p class="a">Big data gives networks enough examples to generalize; GPUs make the millions of matrix multiplications per layer fast and cheap; better optimizers (Adam, RMSProp) and activations (ReLU) avoid vanishing gradients; together these removed every practical blocker that stalled neural nets for decades.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Explain representation learning.</p><p class="a">Instead of a human designing features (edges, histograms), the network learns, directly from raw data and purely by minimizing error, which internal representations are useful for the task — the features emerge from training, not from human design.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q9</span>What does it mean to "go deep" in neural networks?</p><p class="a">Stacking many hidden layers, so each layer composes the previous layer's learned patterns into something more abstract — raw pixels → edges → shapes → parts → whole objects.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>Why can a deep network learn more complex functions than a shallow one?</p><p class="a">Depth lets the network <em>compose</em> simple functions learned at early layers into increasingly complex ones later — this is more parameter-efficient than one very wide layer trying to approximate the same function directly.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Explain hierarchical feature learning.</p><p class="a">Each successive layer builds on the features detected by the layer before it — e.g. layer 1 detects edges, layer 2 combines edges into shapes, layer 3 combines shapes into object parts, culminating in a whole-object prediction.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Evolution of neural networks: perceptrons → modern DNNs.</p><p class="a">M-P Neuron (1943, boolean, fixed threshold) → Perceptron (1958, real-valued weighted inputs, learnable) → Multi-Layer Perceptrons trained with backpropagation (1980s) → deep CNNs/RNNs enabled by GPUs, ReLU, and big data (2012 onward) → Transformers (2017+).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>Major milestones in the history of AI and neural networks?</p><p class="a">1950 Turing Test · 1956 term "AI" coined at Dartmouth · two AI winters (1974–80, 1987–93) · 1997 Deep Blue beats Kasparov · 2012 AlexNet wins ImageNet · 2016 AlphaGo beats Lee Sedol · 2022 ChatGPT launches.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>What led to the AI winters?</p><p class="a">Symbolic/rule-based AI and early neural nets (single-layer perceptrons) over-promised and under-delivered given the compute and data available at the time — when results plateaued, funding collapsed.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>What factors caused the resurgence of neural networks?</p><p class="a">Backpropagation made multi-layer training practical (1980s), then the 2012 convergence of big labelled datasets, GPU compute, and better algorithms (ReLU, dropout) turned that theory into working systems that beat every prior benchmark.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Why are GPUs particularly useful for deep learning?</p><p class="a">Training is dominated by matrix multiplications and convolutions — millions of independent multiply-accumulate operations per layer. A GPU's thousands of cores run the same operation across all of them simultaneously (SIMT), giving 10–100× speedups over a CPU's handful of general-purpose cores.</p></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Group B</p>
+    <h2>Applications, challenges &amp; methodology</h2>
+    <p class="range">Question Bank Q17–30</p>
+
+    <div class="qa"><p class="q"><span class="num">Q17</span>List five real-world applications of deep learning.</p><p class="a">Medical image diagnosis (tumour/fracture detection), fraud detection in banking, self-driving car perception, machine translation/chatbots, and recommendation engines (Netflix, Spotify, YouTube).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>How is DL used in computer vision?</p><p class="a">CNNs learn spatial-hierarchical features directly from pixels to detect tumours/fractures in scans, and to detect lanes, pedestrians, and obstacles from camera/LiDAR feeds in self-driving cars.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>How is DL used in NLP?</p><p class="a">Transformer-based language models learn to understand and generate text for translation, search, chatbots (ChatGPT), and sentiment analysis, replacing hand-built grammar rules.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>How is DL used in speech recognition?</p><p class="a">Deep recurrent/transformer models convert raw audio waveforms into text or commands, powering assistants like Siri and Alexa, learning acoustic patterns directly instead of hand-tuned signal-processing rules.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>Role of DL in recommendation systems?</p><p class="a">Deep models learn latent patterns in a user's viewing/listening/purchase history to personalise what's shown next — e.g. Netflix, Spotify, and Amazon's product recommendations.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q22</span>Major challenges of deep learning?</p><p class="a">Data-hungry, computationally expensive, a "black box" (poor interpretability), prone to overfitting and inheriting dataset bias, vulnerable to adversarial perturbations, and lacking genuine understanding/reasoning.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q23</span>Why does DL need large amounts of training data?</p><p class="a">Deep networks have millions of parameters; with too little data they memorize the training set (overfit) instead of learning generalizable patterns, so accuracy on new data suffers.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q24</span>Why are deep networks computationally expensive?</p><p class="a">Every forward and backward pass requires massive matrix multiplications across millions of parameters, repeated for every training example, across many epochs — needing powerful GPUs/TPUs, time, and energy.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q25</span>What is the interpretability problem in deep learning?</p><p class="a">A trained network's millions of weights don't map to human-understandable reasons for a prediction — it's hard to know <em>why</em> it decided what it did. This motivates Explainable AI (XAI) techniques like Grad-CAM and SHAP.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q26</span>Difference between training, validation, and test data?</p><p class="a"><strong>Training</strong> fits the model — weights update on it every epoch. <strong>Validation</strong> is checked after every epoch (never trained on) to tune hyperparameters and watch for overfitting. <strong>Test</strong> is touched exactly once, at the very end, for an unbiased performance estimate.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q27</span>What is overfitting, and why does it matter in DL?</p><p class="a">The model memorizes training data (including its noise) instead of learning generalizable patterns — training loss keeps falling while validation loss rises. It matters more in DL because networks have huge parameter counts relative to typical dataset sizes, making memorization easy.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q28</span>What is underfitting?</p><p class="a">The model is too simple (or undertrained) to capture the underlying pattern in the data — both training and validation loss stay high.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q29</span>Bias-variance trade-off in neural networks?</p><p class="a"><strong>Bias</strong> is error from an overly simple model (underfitting); <strong>variance</strong> is error from a model too sensitive to training-data specifics (overfitting). A network with too few parameters/layers has high bias; one that's too large and undertrained/unregularized has high variance. Good generalization balances the two.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q30</span>What is an end-to-end learning system?</p><p class="a">A system that maps raw input directly to the desired output through a single trained model (e.g. raw pixels → class label), with no hand-engineered intermediate processing stages.</p></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Group C</p>
+    <h2>From the biological neuron to the Perceptron</h2>
+    <p class="range">Question Bank Q31–45</p>
+
+    <div class="qa"><p class="q"><span class="num">Q31</span>Structure of a biological neuron?</p><p class="a">Dendrites receive incoming signals → the cell body (soma) integrates them → if the combined signal crosses a threshold, the axon fires an output signal → which passes to the next neuron across a synapse.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q32</span>Functions of dendrites, cell body, axon, synapse?</p><p class="a"><strong>Dendrites</strong> receive signals from other neurons. <strong>Cell body</strong> sums/processes them. <strong>Axon</strong> transmits the output signal onward if threshold is crossed. <strong>Synapse</strong> is the connection point to the next neuron, whose strength can change (plasticity).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q33</span>Compare biological and artificial neurons.</p><p class="a">Dendrites ↔ input nodes; soma ↔ weighted-sum + activation; axon/threshold ↔ activation function's firing rule; synapse ↔ weight; synaptic plasticity ↔ weight updates via backpropagation.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q34</span>Limitations of the biological-neuron analogy?</p><p class="a">Artificial neurons are a drastic simplification — no timing/spiking dynamics, no distinct neuron types, no biological learning mechanism (backprop isn't how real brains learn), and none of the brain's massive interconnected recurrence and chemistry.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q35</span>Mathematical model of an artificial neuron?</p><p class="a"><code>z = Σ wᵢxᵢ + b</code>, then <code>y = f(z)</code> where <code>f</code> is a non-linear activation function (sigmoid, ReLU, tanh, …).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q36</span>Define a perceptron.</p><p class="a">The simplest trainable neuron model: real-valued inputs combined via learnable weights and a bias, passed through a step function, used for binary classification of linearly separable data.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q37</span>Architecture of a single-layer perceptron?</p><p class="a">One layer of input nodes (plus a fixed bias input x₀=1) connected directly to a single output neuron via weighted connections — no hidden layers.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q38</span>Derive the perceptron's mathematical equation.</p><p class="a">Starting from "fire if <code>Σwᵢxᵢ ≥ θ</code>", rewrite as <code>Σwᵢxᵢ − θ ≥ 0</code>, then fold <code>−θ</code> in as an extra weight <code>w₀</code> on a fixed input <code>x₀=1</code>: <code>ŷ=1 if Σᵢ₌₀ⁿ wᵢxᵢ ≥ 0, else 0</code>.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q39</span>Role of the bias term?</p><p class="a">It shifts the decision boundary away from the origin, so the network isn't forced to always pass through (0,0) — without it, the model could only represent boundaries through the origin.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q40</span>Explain the perceptron learning algorithm.</p><p class="a">Repeatedly pick a training point; if a positive example is misclassified (<code>Σwᵢxᵢ&lt;0</code>), do <code>w=w+x</code>; if a negative example is misclassified (<code>Σwᵢxᵢ≥0</code>), do <code>w=w−x</code>; stop when every point is classified correctly.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q41</span>State the perceptron convergence theorem.</p><p class="a">If the training data is linearly separable, the perceptron learning algorithm is guaranteed to find a separating hyperplane in a finite number of updates.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q42</span>What problems can a single-layer perceptron solve?</p><p class="a">Only binary classification problems where the two classes are linearly separable — i.e. a single straight line (or hyperplane) can fully separate them, such as AND and OR.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q43</span>Why can't a single-layer perceptron solve XOR?</p><p class="a">XOR's four points — (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0 — cannot be separated by any single straight line; the positive and negative classes are interleaved, i.e. not linearly separable.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q44</span>Explain linear separability with an example.</p><p class="a">A dataset is linearly separable if one straight line (2D) or hyperplane (higher-D) can fully separate its two classes. AND is linearly separable (a single line splits its true/false points); XOR is not.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q45</span>Perceptron vs. a modern neuron with differentiable activations?</p><p class="a">A perceptron uses a hard step function (output flips instantly at the boundary, not differentiable, so gradient descent can't be used directly). A modern neuron uses a smooth, differentiable activation (sigmoid, ReLU, …), enabling gradient-based learning via backpropagation.</p></div>
+  </section>
+
+  <section id="g4">
+    <p class="eyebrow">Group D</p>
+    <h2>Shallow vs. deep, and feed-forward networks</h2>
+    <p class="range">Question Bank Q46–55</p>
+
+    <div class="qa"><p class="q"><span class="num">Q46</span>Define a shallow neural network.</p><p class="a">A network with just one hidden layer between the input and output layers.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q47</span>Architecture of a single-hidden-layer network?</p><p class="a">Input layer → one hidden layer of neurons (weighted sum + non-linear activation) → output layer, with every neuron in one layer connected to every neuron in the next.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q48</span>Single-layer vs single-hidden-layer network?</p><p class="a">A single-layer (perceptron) network has no hidden layer — inputs connect directly to the output, and it can only learn linearly separable functions. A single-hidden-layer network adds one non-linear hidden layer, letting it approximate far more complex, non-linear functions (per the universal approximation theorem).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q49</span>Explain the universal approximation theorem.</p><p class="a">A feed-forward network with just one hidden layer, given enough neurons, can approximate any continuous function on a bounded input region to arbitrary accuracy.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q50</span>Does this mean deep networks are unnecessary?</p><p class="a">No — the theorem only guarantees a wide-enough single hidden layer <em>can</em> exist, not that it's practical. It may need an exponentially large number of neurons, be hard to train, and generalize poorly; deep networks reach equivalent or better accuracy with far fewer total parameters by composing simple functions across layers.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q51</span>Why can depth be preferable to width?</p><p class="a">Depth lets a network reuse and compose features across layers (parameter-efficient), whereas a single very wide layer must represent every needed feature combination directly, requiring far more neurons for the same expressive power.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q52</span>What is a feed-forward neural network?</p><p class="a">A network where information flows in one direction only — input → hidden layer(s) → output — with no cycles or loops feeding information backward.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q53</span>Explain information flow in a feed-forward network.</p><p class="a">Each layer's output becomes the next layer's input: raw features enter, each hidden layer computes a weighted sum + activation and passes it forward, until the output layer produces the final prediction.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q54</span>Feed-forward vs. recurrent networks?</p><p class="a">Feed-forward networks have no memory of previous inputs — each pass is independent. Recurrent networks (RNNs) have loops that feed a hidden state back into themselves, letting them retain information across a sequence (useful for time series and language).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q55</span>Role of hidden layers?</p><p class="a">They do the actual representation learning — transforming raw input into progressively more useful, more abstract intermediate features that the output layer can then use to make its final prediction.</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 1 Question Bank · Deep Learning · Sem 5 revision notes</footer>
+
+</body>
+</html>
