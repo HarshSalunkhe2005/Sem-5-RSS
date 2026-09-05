@@ -250,6 +250,21 @@
       </div>
     </div>
 
+    <h3>Excitatory vs. inhibitory inputs</h3>
+    <p>McCulloch &amp; Pitts also allowed inputs to carry a <strong>veto</strong>. Split inputs into two kinds:</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Excitatory</h4><p>Push the neuron toward firing. No single excitatory input can fire it alone — but enough of them together can push the sum past the threshold.</p></div>
+      <div class="card"><h4>🚫 Inhibitory</h4><p>Have veto power: if <em>any</em> inhibitory input is 1, the neuron <strong>never fires</strong>, no matter what every other input says.</p></div>
+    </div>
+    <p><em>Example — "Will I watch this football game?"</em> Inputs like "Is it a big match?" and "Am I free?" are excitatory. But "Not at home?" is inhibitory — if you're out, you can't watch, full stop, regardless of how excited you are about the match.</p>
+
+    <h3>NOT and NOR — inhibitory inputs in action</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>NOT (single input)</h4><p>One inhibitory input, threshold <code>b=0</code>: <code>x=1 → 0</code>, <code>x=0 → 1</code>. The single input flips the output outright.</p></div>
+      <div class="card"><h4>NOR (multi-input)</h4><p>All inputs inhibitory, threshold <code>b=0</code>: the neuron fires only when <strong>every</strong> input is 0 — one active input is enough to veto it.</p></div>
+    </div>
+    <p>Between AND, OR, NOT and NOR, a single M-P neuron — just by choosing the threshold and which inputs are inhibitory — covers a good chunk of basic boolean logic. That's the whole idea of "thresholding logic".</p>
+
     <div class="callout"><p><strong>Why we need something better:</strong> the M-P Neuron can't
       handle real-valued inputs, can't weigh inputs differently (every <code>xᵢ</code> counts the
       same), and its threshold <code>b</code> must be guessed by hand rather than learned. The
@@ -270,6 +285,8 @@
     <p>Here <code>x₀ = 1</code> is a fixed "dummy" input and <code>w₀ = −θ</code> is the bias — so
       the old rule "fire if the sum crosses threshold θ" becomes a single dot product compared to
       zero. This is identical to writing <code>z = w·x + b</code>, <code>ŷ = step(z)</code>.</p>
+
+    <div class="callout violet"><p><strong>The 3 steps of a perceptron</strong> — worth memorising verbatim: (1) <strong>dot product</strong> — multiply each input by its weight, (2) <strong>add bias</strong>, (3) <strong>apply non-linearity</strong> (the step function here; a smooth activation in the modern version).</p></div>
 
     <h3>Geometric picture: a line splits the plane</h3>
     <p>For 2D inputs, <code>w₁x₁ + w₂x₂ + b = 0</code> is a straight line. Points on one side give
