@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Numericals — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 6px;color:var(--navy-2);}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;font-family:Consolas,monospace;}
+
+  .given{font-family:Consolas,monospace;font-size:13.5px;background:#f3ecfb;border-radius:10px;padding:12px 16px;margin:14px 0 18px;color:var(--navy-2);}
+  .answer{background:#eafaf0;border-left:4px solid #2fa860;border-radius:10px;padding:14px 20px;margin:18px 0;font-weight:700;color:#1c7a45;font-family:Consolas,monospace;font-size:14.5px;}
+
+  .problem{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin:26px 0;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .problem h4{margin:0 0 2px;font-size:18px;color:var(--navy-2);}
+  .problem .tag{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:14px;font-size:14px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+  .steps li .label{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}
+  .steps li .calc{font-family:Consolas,monospace;font-size:14.5px;color:var(--ink);}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 1</span>
+  <h1>🧮 Unit 1 — Worked Numericals</h1>
+  <p>Total delay breakdown, propagation/transmission delay, throughput under packet loss,
+     and buffer-overflow loss rate — every step shown.</p>
+  <a class="back" href="index.html">← Back to Unit 1 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#delay">Total delay</a>
+    <a href="#prop-trans">Propagation &amp; transmission</a>
+    <a href="#throughput">Throughput</a>
+    <a href="#loss">Packet loss rate</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 1 notes</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="delay">
+    <p class="eyebrow">Numerical 1</p>
+    <h2>Total delay breakdown</h2>
+    <div class="given">Processing Delay = 1 ms, Queuing Delay = 3 ms, Transmission Delay = 2 ms, Propagation Delay = 4 ms</div>
+    <div class="steps">
+      <li><span class="label">Formula</span><span class="calc">Total Delay = Processing + Queuing + Transmission + Propagation</span></li>
+      <li><span class="label">Substitute</span><span class="calc">Total Delay = 1 + 3 + 2 + 4</span></li>
+    </div>
+    <div class="answer">Total Delay = 10 ms</div>
+    <p style="margin-top:10px">Courier analogy: label/check the parcel (processing) → wait with other parcels (queuing) → load onto the truck (transmission) → the truck drives city to city (propagation). Total delivery time is the sum of all four stages.</p>
+  </section>
+
+  <section id="prop-trans">
+    <p class="eyebrow">Numericals 2–3</p>
+    <h2>Propagation delay &amp; transmission delay</h2>
+
+    <div class="problem">
+      <div class="tag">Propagation Delay</div>
+      <h4>Distance = 2000 km, propagation speed = 2×10⁸ m/s</h4>
+      <div class="steps">
+        <li><span class="label">Formula</span><span class="calc">Propagation Delay = Distance / Propagation Speed</span></li>
+        <li><span class="label">Convert &amp; substitute</span><span class="calc">= 2,000,000 m / (2×10⁸ m/s)</span></li>
+      </div>
+      <div class="answer">Propagation Delay = 0.01 s = 10 ms</div>
+    </div>
+
+    <div class="problem">
+      <div class="tag">Transmission Delay</div>
+      <h4>Packet size = 1000 bytes, bandwidth = 1 Mbps</h4>
+      <div class="steps">
+        <li><span class="label">Formula</span><span class="calc">Transmission Delay = Packet size (bits) / Bandwidth (bps)</span></li>
+        <li><span class="label">Convert packet size to bits</span><span class="calc">1000 bytes × 8 = 8000 bits</span></li>
+        <li><span class="label">Substitute</span><span class="calc">= 8000 bits / 1,000,000 bps</span></li>
+      </div>
+      <div class="answer">Transmission Delay = 0.008 s = 8 ms</div>
+    </div>
+  </section>
+
+  <section id="throughput">
+    <p class="eyebrow">Numerical 4</p>
+    <h2>Throughput under packet loss</h2>
+    <div class="given">100 packets sent, each 1000 bytes, 95 arrive successfully within 1 second, 5 lost</div>
+    <div class="steps">
+      <li><span class="label">Successfully delivered data</span><span class="calc">95 packets × 1000 bytes = 95,000 bytes = 760,000 bits</span></li>
+      <li><span class="label">Throughput = delivered data / time</span><span class="calc">760,000 bits / 1 s</span></li>
+    </div>
+    <div class="answer">Throughput = 760,000 bps = 760 Kbps</div>
+    <p style="margin-top:10px">Even though the link's <em>bandwidth</em> might be much higher, the 5 lost packets (and their eventual retransmission) mean the <em>effective throughput</em> actually achieved is lower — exactly why throughput and bandwidth aren't the same number.</p>
+  </section>
+
+  <section id="loss">
+    <p class="eyebrow">Numerical 5</p>
+    <h2>Packet loss rate — buffer overflow</h2>
+    <div class="given">Router buffer holds 100 packets; 120 packets arrive at the same time</div>
+    <div class="steps">
+      <li><span class="label">Packets stored</span><span class="calc">First 100 are stored (buffer capacity)</span></li>
+      <li><span class="label">Packets dropped</span><span class="calc">120 − 100 = 20 dropped (buffer overflow)</span></li>
+      <li><span class="label">Loss rate</span><span class="calc">(20 / 120) × 100%</span></li>
+    </div>
+    <div class="answer">Packet loss rate ≈ 16.67%</div>
+  </section>
+
+</main>
+
+<footer>Unit 1 Numericals · Computer Networks · Sem 5 revision notes</footer>
+
+</body>
+</html>
