@@ -313,6 +313,14 @@
       linearly separable, this algorithm is <em>guaranteed</em> to find a separating line in a
       finite number of steps. If it isn't separable (like XOR), it will loop forever.</p></div>
 
+    <h3>Beyond one perceptron: representation power</h3>
+    <p>A single perceptron only draws one straight line — that's the whole XOR problem. But a
+      <strong>network</strong> of perceptrons doesn't have that limit: give each hidden perceptron a
+      bias tuned to fire for exactly one specific combination of inputs, then combine their outputs
+      with one more perceptron, and the network can represent <em>any</em> boolean function —
+      linearly separable or not. This is exactly why stacking perceptrons into a multi-layer network
+      (an MLP) fixes the XOR problem outright, rather than needing a fundamentally different model.</p>
+
     <div class="callout" style="background:var(--coral-light);border-left-color:var(--coral);">
       <p><strong>→ Practice:</strong> all 5 perceptron numericals (output calculation, weight
         update, one full training epoch, linear classification, decision-boundary derivation) are
@@ -400,6 +408,33 @@
     <div class="callout"><p>Notice the pattern: <strong>hype → unmet expectations → "winter" →
       breakthrough</strong>. Deep Learning's 2012 breakthrough finally broke this cycle, thanks to
       data, compute, and algorithms aligning together.</p></div>
+
+    <h3>The deeper lineage: neurons to ImageNet</h3>
+    <p>The timeline above is general AI history. The neural-network lineage specifically runs
+      through its own set of milestones, several surprisingly old:</p>
+    <div class="timeline">
+      <div class="stop"><div class="dot"></div><div class="yr">1871–1906</div><div class="desc">Golgi's "Reticular Theory" (one continuous nervous network) vs. Cajal's "Neuron Doctrine" (discrete cells) — the two shared a Nobel Prize despite contradicting each other. Electron microscopy finally confirmed Cajal correct in the 1950s.</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1847</div><div class="desc">Cauchy discovers gradient descent — not for neural nets, but to compute the orbits of heavenly bodies.</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1943 → 1958</div><div class="desc">McCulloch-Pitts Neuron, then Rosenblatt's Perceptron ("may eventually learn, make decisions, and translate languages" — Rosenblatt, 1958).</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1959 → 1980</div><div class="desc">Hubel &amp; Wiesel's cat experiment shows neurons have a fixed visual "receptive field" — directly inspiring Fukushima's Neocognitron (1980), the ancestor of the CNN.</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1982 → 1986</div><div class="desc">Backpropagation, discovered by Werbos (1982) and popularized by Rumelhart et al. (1986) — after being independently rediscovered several times through the 1960s-70s.</div></div>
+      <div class="stop"><div class="dot"></div><div class="yr">1989</div><div class="desc">Universal Approximation Theorem proved: one hidden layer, given enough neurons, can approximate any continuous function.</div></div>
+    </div>
+
+    <h3>The ImageNet decade, in one table</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Network</th><th>Year</th><th>Top-5 error</th><th>Layers</th></tr></thead>
+      <tbody>
+        <tr><td>AlexNet</td><td>2012</td><td>16.0%</td><td>8</td></tr>
+        <tr><td>ZFNet</td><td>2013</td><td>11.2%</td><td>8</td></tr>
+        <tr><td>VGGNet</td><td>2014</td><td>7.3%</td><td>19</td></tr>
+        <tr><td>GoogLeNet</td><td>2014</td><td>6.7%</td><td>22</td></tr>
+        <tr><td>ResNet</td><td>2015</td><td>3.6%</td><td><strong>152</strong></td></tr>
+      </tbody>
+    </table></div>
+    <p>The layer count exploding from 8 to 152 in three years, while error kept falling, is the
+      concrete evidence behind "depth helps" — each new architecture found a way to train
+      meaningfully deeper (ResNet's residual connections being the biggest single unlock).</p>
   </section>
 
   <!-- SUCCESSES -->

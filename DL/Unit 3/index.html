@@ -252,9 +252,24 @@
       <div class="card"><h4>Adam</h4><p>RMSprop + momentum + bias correction. Tracks EMAs of both the gradient (m) and its square (v), bias-corrects each, then steps with the momentum scaled by the magnitude. Defaults: β₁=0.9, β₂=0.999, ε=1e-8.</p></div>
     </div>
     <div class="callout"><p><strong>Beyond Adam:</strong> AdamW (decouples weight decay — today's default for training Transformers), Nadam (Adam + Nesterov look-ahead), AMSGrad (fixes a convergence edge case).</p></div>
+    <p><strong>Timeline, for reference:</strong> Nesterov momentum (1983) → AdaGrad (2011) → RMSprop (2012) → Adam (2015) — each one arriving specifically to fix the previous method's failure mode.</p>
 
     <h3>Local minima vs. saddle points</h3>
     <p>A common misconception: deep nets rarely get stuck in bad <strong>local minima</strong>. The real obstacle in high dimensions is <strong>saddle points</strong> — where some directions curve up and others down, and the gradient nearly vanishes. Plain gradient descent crawls near a saddle; momentum carries speed through the flat region, and adaptive scaling amplifies the small escape direction.</p>
+
+    <h3>Optimizer cheat sheet</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Optimizer</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+      <tbody>
+        <tr><td>SGD</td><td>Simple, easy to implement</td><td>Slow convergence, requires tuning</td></tr>
+        <tr><td>Mini-batch SGD</td><td>Faster than full-batch SGD</td><td>Computationally expensive, can get stuck at local minima</td></tr>
+        <tr><td>SGD + Momentum</td><td>Faster convergence, reduces noise</td><td>Requires careful tuning of β</td></tr>
+        <tr><td>AdaGrad</td><td>Adapts the learning rate per parameter</td><td>Rate decays too fast → slow convergence late in training</td></tr>
+        <tr><td>RMSprop</td><td>Prevents AdaGrad's too-fast decay</td><td>Computationally more expensive</td></tr>
+        <tr><td>Adam</td><td>Fast, combines momentum + RMSprop</td><td>Memory-intensive, computationally expensive</td></tr>
+      </tbody>
+    </table></div>
+    <p>Adam is the default choice for most problems thanks to its robust, low-tuning-effort performance — but the "right" optimizer still depends on the dataset, the architecture, and the compute budget available.</p>
   </section>
 
   <!-- SCHEDULING -->
