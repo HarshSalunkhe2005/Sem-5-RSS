@@ -120,6 +120,7 @@
     <div class="table-wrap"><table>
       <thead><tr><th>Function</th><th>Range</th><th>Typical layer</th><th>Best suited for</th><th>Key drawback</th></tr></thead>
       <tbody>
+        <tr><td>Binary Step</td><td>{0,1}</td><td>Historical</td><td>The original perceptron</td><td>Gradient is 0 — can't backprop at all</td></tr>
         <tr><td>Sigmoid</td><td>(0,1)</td><td>Output</td><td>Binary classification, gates</td><td>Vanishing gradient</td></tr>
         <tr><td>Softmax</td><td>(0,1), sums to 1</td><td>Output</td><td>Multi-class classification</td><td>Sensitive to outliers</td></tr>
         <tr><td>ReLU</td><td>[0,∞)</td><td>Hidden</td><td>Default for CNNs/deep nets</td><td>Dying ReLU</td></tr>
@@ -174,6 +175,12 @@
       too simple can't bend to fit it (underfitting); one that's too flexible chases noise in the
       training data instead of the real pattern (overfitting).</p>
 
+    <div class="callout"><p><strong>No Free Lunch Theorem</strong> (Wolpert, 2002): no single classifier
+      works best for every possible problem. Every model is a simplified version of reality built on
+      assumptions, and those assumptions inevitably fail on some tasks — which is exactly why the
+      field needs a whole toolkit of architectures and regularization strategies rather than one
+      universal best model.</p></div>
+
     <div class="grid cols-2">
       <div class="card"><h4>High bias — underfitting</h4><p>Model too simple to capture the underlying pattern. High error on <strong>both</strong> training and test data. Example: fitting a straight line through a sine wave.</p></div>
       <div class="card"><h4>High variance — overfitting</h4><p>Model too flexible, memorizes noise. <strong>Low</strong> training error but <strong>high</strong> test error. Example: a high-degree polynomial wiggling through every point.</p></div>
@@ -190,11 +197,23 @@
     </table></div>
 
     <h3>The regularization toolkit</h3>
-    <div class="grid cols-3">
+    <div class="grid cols-4">
       <div class="card"><h4>L2 penalty</h4><p>Add <code>λ(θ)</code> to the loss so large weights are penalized. The gradient update becomes <code>∇w += λw</code> on top of the usual gradient — every step nudges weights gently toward zero, giving a smoother, less noise-sensitive function.</p></div>
       <div class="card"><h4>Dataset augmentation</h4><p>A complex model can memorize a small dataset outright. More (realistic, varied) data raises the bar — the model can't memorize what it hasn't seen distinctly, and augmented data can resemble the held-out distribution.</p></div>
       <div class="card"><h4>Early stopping</h4><p>Track validation error during training; stop (and keep) the checkpoint at its <strong>minimum</strong>. Past that point, training error keeps falling but validation error climbs — the tell-tale of overfitting.</p></div>
+      <div class="card"><h4>Dropout</h4><p>Randomly zero each neuron with probability p every training pass, forcing the network not to over-rely on any one neuron. See the deep dive below.</p></div>
     </div>
+
+    <h3>Dropout is secretly an ensemble</h3>
+    <p>With M neurons in a layer, there are 2<sup>M</sup> possible "thinned" sub-networks depending on
+      which neurons survive a given pass. Each mini-batch effectively trains one randomly-sampled
+      thinned network (with shared parameters across all of them) — training with dropout is like
+      training a huge ensemble of networks simultaneously, at the cost of one.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Ideal test-time behaviour</h4><p>Run <em>every</em> possible thinned sub-network on the test input and average their outputs — the true ensemble prediction. Completely impractical: 2<sup>M</sup> networks.</p></div>
+      <div class="card"><h4>The practical shortcut — weight scaling</h4><p>Use the single full (no-dropout) network, but multiply every weight that was subject to dropout by its keep probability <code>(1−p)</code>. This single full-network pass closely approximates averaging the whole ensemble.</p></div>
+    </div>
+    <div class="callout"><p><strong>Two equivalent conventions — know both:</strong> the <em>classical</em> version above scales weights by <code>(1−p)</code> only at <strong>test</strong> time, leaving training untouched. The <em>inverted dropout</em> version (the modern default, and what's on the Numericals page) instead scales the surviving activations by <code>1/(1−p)</code> during <strong>training</strong>, so test time needs no scaling at all and inference is simply the plain forward pass. Both land at the same expected activation — they just move the division to opposite ends of training vs. testing.</p></div>
 
     <div class="callout"><p><strong>Practical workflow:</strong> (1) split data into train/validation/test, (2) start with a sensible baseline architecture, (3) use sound defaults — ReLU/tanh activation, He/Xavier initialization, Adam optimizer, (4) monitor train vs. validation error — but never touch the test set until the very end.</p></div>
   </section>
@@ -247,9 +266,11 @@
       leaves you orbiting the minimum in a "noise ball" whose radius scales with η; shrinking η
       shrinks that ball toward a point.</p>
     <div class="grid cols-3">
-      <div class="card"><h4>Step decay</h4><p>Drop η by a factor every <em>s</em> epochs. Produces the visible "staircase" in loss curves — still extremely common in practice.</p></div>
+      <div class="card"><h4>Step decay</h4><p>Drop η by a factor every <em>s</em> epochs — e.g. halve it every 5 epochs, or divide by 10 every 20. Produces the visible "staircase" in loss curves — still extremely common in practice.</p></div>
       <div class="card"><h4>Exponential decay</h4><p>Smooth, continuous version of step decay — η shrinks by a fixed ratio every epoch.</p></div>
       <div class="card"><h4>Cosine annealing</h4><p>η follows a cosine curve down to (near) zero over training — today's common default, especially for large-model training.</p></div>
+      <div class="card"><h4>ReduceLROnPlateau</h4><p>Watch the <strong>validation loss</strong> instead of the epoch count — cut η by a factor (e.g. ÷10) only once validation loss stops improving for a set number of epochs ("patience"). Reactive rather than a fixed schedule.</p></div>
+      <div class="card"><h4>Warmup</h4><p>The mirror image of decay: <strong>gradually increase</strong> η from near-zero at the very start of training, then let the chosen decay schedule take over. Avoids destabilizing large early updates when weights are still randomly initialized.</p></div>
     </div>
 
     <h3>Unit 3 — Summary</h3>
