@@ -19,6 +19,19 @@ URLs by hand.
 |---|---|---|
 | Unit 1 | Introduction to Language & NLP | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%201/index.html) |
 
+## Computer Networks (CN)
+
+| Unit | Topic | Link |
+|---|---|---|
+| Unit 1 | Internet Basics and Protocols | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%201/index.html) |
+| Unit 1 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%201/numericals.html) |
+| Unit 1 | Question Bank answers (20 Qs) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%201/question-bank.html) |
+| Unit 2 | Application Layer | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%202/index.html) |
+| Unit 2 | Question Bank answers (20 Qs) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%202/question-bank.html) |
+| Unit 3 | Transport Layer | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%203/index.html) |
+| Unit 3 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%203/numericals.html) |
+| Unit 3 | Question Bank answers (20 Qs) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%203/question-bank.html) |
+
 ## Deep Learning (DL)
 
 | Unit | Topic | Link |

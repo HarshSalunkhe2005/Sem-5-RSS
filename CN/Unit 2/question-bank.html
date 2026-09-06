@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Question Bank — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .q .meta{font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 2</span>
+  <h1>📚 Unit 2 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to all 20 official question-bank items (CO2).</p>
+  <a class="back" href="index.html">← Back to Unit 2 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="index.html" style="color:var(--coral);">← Unit 2 notes</a>
+  </div>
+</nav>
+
+<main>
+  <section>
+    <p class="eyebrow">Unit 2: Application Layer</p>
+    <h2>Question Bank — CO2</h2>
+    <p class="range">All 20 questions, as given in the official question bank</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Define application layer. <span class="meta">L1 · 2 marks</span></p><p class="a">The topmost layer of the OSI model, where user-facing network applications (browsers, email clients, etc.) directly interact with the network — defining protocols like HTTP, SMTP, FTP, and DNS.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Explain principles of network applications. <span class="meta">L2 · 4 marks</span></p><p class="a">Six core aspects govern application design: the application architecture, how processes communicate, the process-to-network interface, the transport services available to applications, the transport services actually provided by the Internet, and the application-layer protocols used.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Describe HTTP protocol. <span class="meta">L2 · 6 marks</span></p><p class="a">HTTP (HyperText Transfer Protocol) is the application-layer protocol governing communication between web clients (browsers) and web servers, using a stateless request/response model over TCP. Released in 1991, evolved through five major versions (0.9 → 3).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Explain HTTP request message format. <span class="meta">L2 · 6 marks</span></p><p class="a">A request has a start line (method + URI + version, e.g. <code>GET /hello.htm HTTP/1.1</code>), header fields (general/request/entity headers), and an optional body (e.g. form data on a POST).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Explain HTTP response message format. <span class="meta">L2 · 6 marks</span></p><p class="a">A response has a status line (version + status code + message, e.g. <code>HTTP/1.1 200 OK</code>), header fields (general/response/entity headers), and a body carrying the actual content (HTML, JSON, files, etc.).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Differentiate persistent and non-persistent HTTP. <span class="meta">L4 · 5 marks</span></p><p class="a"><strong>Non-persistent</strong> (HTTP/1.0 default): a new TCP connection is opened for every single request — high overhead. <strong>Persistent</strong> (HTTP/1.1's "keep-alive"): one TCP connection is reused across many requests, cutting connection-setup overhead significantly.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Discuss web caching and its advantages. <span class="meta">L2 · 6 marks</span></p><p class="a">Web caching stores a copy of a response the first time it's fetched, serving that copy on later requests instead of re-fetching from the origin. Advantages: faster repeated page loads, reduced bandwidth cost, and less overall load on origin servers and the network.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>E-commerce slow-loading scenario — analyze HTTP/DNS/caching roles. <span class="meta">L4 · 6 marks</span></p><p class="a">Even with high bandwidth, slow loading can stem from: DNS resolution delay (uncached lookups), non-persistent HTTP connections (new TCP handshake per resource), or a cold cache (every asset re-fetched from origin). Fixes: enable HTTP/1.1+ persistent connections/multiplexing (HTTP/2), use a CDN with edge caching, and reduce DNS lookup chains.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q9</span>Explain SMTP protocol. <span class="meta">L2 · 6 marks</span></p><p class="a">SMTP is the application-layer protocol for exchanging email between mail servers — the client opens a TCP connection (port 25 traditionally, 587 for secure submission) and transfers the message; delivery can be end-to-end (between organizations) or store-and-forward (via intermediate MTAs within one).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>Describe DNS hierarchy. <span class="meta">L2 · 6 marks</span></p><p class="a">A tree: Root servers at the top → Top-Level Domain (TLD) servers (.com, .edu, .in) below them → Authoritative name servers at the bottom, which hold the actual IP address for a specific domain.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Analyze DNS caching mechanism. <span class="meta">L4 · 8 marks</span></p><p class="a">Resolved records are cached locally (browser/OS/resolver) for a duration set by the record's TTL. This avoids repeated full-hierarchy lookups for the same domain, dramatically speeding up subsequent visits — but means DNS changes take up to one TTL period to propagate to clients holding a stale cached entry.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Compare HTTP and FTP. <span class="meta">L4 · 5 marks</span></p><p class="a">HTTP is optimized for retrieving/displaying web content over a single connection per resource (historically) and is stateless. FTP is purpose-built for file transfer, using two separate connections (control on port 21, data on port 20), and maintains session state (logged-in user, current directory) across commands.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>Differentiate TCP and UDP sockets. <span class="meta">L4 · 5 marks</span></p><p class="a">A TCP socket (stream socket) gives reliable, connection-oriented, ordered delivery. A UDP socket (datagram socket) is connectionless, faster, but offers no delivery/order guarantees — the application must handle loss itself if it matters.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>Secure file-sharing for remote employees — FTP vs. P2P. <span class="meta">L5 · 6 marks</span></p><p class="a">FTP(S)/SFTP is more suitable here: centralized access control (usernames/passwords), audit-friendly (server logs every transfer), and encryption available (FTPS/SFTP) — important for corporate security policy. P2P lacks central control/audit and is better suited to open, decentralized sharing, not access-controlled corporate files.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>Video app using UDP with frame drops/jitter — would TCP help? <span class="meta">L5 · 6 marks</span></p><p class="a">Switching to TCP would likely make it <em>worse</em> for real-time video: TCP's retransmissions and in-order delivery introduce added delay (head-of-line blocking) when packets are lost — exactly wrong for real-time streaming, where a late frame is often worse than a dropped one. Better fixes: adaptive bitrate, forward error correction, or better congestion-aware UDP-based protocols (e.g. QUIC/HTTP-3 style).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Design a socket-based multi-user chat application. <span class="meta">L6 · 6 marks</span></p><p class="a">A server socket listens on a fixed port; each connecting client gets a dedicated TCP socket (handled on its own thread/async task) for reliable, ordered message delivery; the server broadcasts each incoming message to all other connected client sockets. TCP guarantees messages arrive complete, in order, and without loss — essential so chat history stays consistent for every user.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>Analyze advantages of P2P over client-server. <span class="meta">L4 · 8 marks</span></p><p class="a">No single point of failure (no central server to crash), scales naturally as more peers add more capacity rather than overloading one server, and can be cheaper to operate (no dedicated server infrastructure needed) — traded off against harder security/access-control and content-discovery challenges.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>Banking app DNS resolution failures at peak — investigate &amp; propose fault tolerance. <span class="meta">L6 · 6 marks</span></p><p class="a">Likely causes: authoritative server overload at peak query volume, or a single point of failure in the DNS setup. Fault-tolerant strategy: multiple redundant authoritative name servers (geographically distributed), appropriately tuned TTLs to balance caching vs. freshness, and a secondary/backup DNS provider.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>Design a simple client-server communication model. <span class="meta">L6 · 6 marks</span></p><p class="a">Client opens a TCP socket to the server's known IP:port → sends a request → server processes and sends a response on the same connection → connection closes (non-persistent) or stays open for further requests (persistent) — the same pattern HTTP itself follows.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>Create an application-layer architecture for email communication. <span class="meta">L6 · 6 marks</span></p><p class="a">Sender's User Agent → Mail Submission Agent → Client MTA → SMTP over TCP (port 587) → Server MTA (possibly via relays) → recipient's mailbox → recipient's User Agent retrieves via IMAP/POP3 — matching the SMTP flow on the Unit 2 notes page.</p></div>
+  </section>
+</main>
+
+<footer>Unit 2 Question Bank · Computer Networks · Sem 5 revision notes</footer>
+
+</body>
+</html>

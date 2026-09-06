@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Internet Basics and Protocols</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 1</span>
+  <h1>🌐 Internet Basics and Protocols</h1>
+  <p>What the Internet and Web actually are · network protocols across the OSI layers ·
+     the network core (routing &amp; switching) vs. the network edge (access, security,
+     edge computing) · and the performance measures that quantify it all — delay,
+     packet loss, and throughput.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#internet-web">Internet &amp; Web</a>
+    <a href="#protocols">Network Protocols</a>
+    <a href="#core">Network Core</a>
+    <a href="#edge">Network Edge</a>
+    <a href="#performance">Delay, Loss &amp; Throughput</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- INTERNET & WEB -->
+  <section id="internet-web">
+    <p class="eyebrow">01 · The basics</p>
+    <h2>What Is the Internet? What Is the Web?</h2>
+    <p>The <strong>Internet</strong> is a global network of billions of computers and devices,
+      all able to reach each other. The <strong>Web</strong> (World Wide Web) is not the same
+      thing — it's a collection of websites you access <em>through</em> the Internet. Your
+      browser isn't the Internet either; it's just an application that displays websites stored
+      on it.</p>
+
+    <h3>How a page actually loads</h3>
+    <ol class="steps">
+      <li>Your device connects to a router/modem — the base connection to the Internet.</li>
+      <li>You type a URL; your system sends a query to your ISP, which is linked to other servers that store/process data.</li>
+      <li>The browser resolves that URL into a numeric IP address.</li>
+      <li>The browser sends an HTTP request toward that address and requests a copy of the page.</li>
+      <li>Data arrives as many small packets; the browser reassembles them (like a puzzle) into the page you see.</li>
+    </ol>
+
+    <div class="callout"><p><strong>Protocols</strong> are the common language that lets
+      wildly different hardware/software talk to each other — the same idea as two people
+      using a shared third language despite different native tongues. Protocols are usually
+      discussed in terms of which <strong>OSI layer</strong> they belong to.</p></div>
+  </section>
+
+  <!-- PROTOCOLS -->
+  <section id="protocols">
+    <p class="eyebrow">02 · The common language</p>
+    <h2>Network Protocols Across the Layers</h2>
+
+    <h3>Network-layer protocols</h3>
+    <div class="grid cols-4">
+      <div class="card"><h4>IP</h4><p>Responsible for routing — the core network-layer protocol, but not the only one.</p></div>
+      <div class="card"><h4>IPsec</h4><p>A collection of protocols (ESP, AH, SA) that set up encrypted, authenticated IP connections over a VPN.</p></div>
+      <div class="card"><h4>ICMP</h4><p>Reports errors and status — e.g. tells the source when a router can't deliver a packet.</p></div>
+      <div class="card"><h4>IGMP</h4><p>Sets up one-to-many (multicast) connections, so many computers can receive packets aimed at one IP address.</p></div>
+    </div>
+
+    <h3>Other well-known protocols</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>TCP</h4><p>Transport-layer, reliable delivery. Referenced together with IP as "TCP/IP".</p></div>
+      <div class="card"><h4>HTTP / HTTPS</h4><p>Application-layer (layer 7) — HTTP is unencrypted; HTTPS fixes that using TLS/SSL for encryption.</p></div>
+      <div class="card"><h4>UDP</h4><p>Faster, less reliable transport alternative to TCP — used where speed beats reliability (streaming, gaming).</p></div>
+    </div>
+
+    <h3>Routing protocols (what routers use)</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Protocol</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>BGP</td><td>Broadcasts which IP addresses a network controls, so routers decide which networks to route through.</td></tr>
+        <tr><td>EIGRP</td><td>Identifies distances between routers, auto-updates each router's routing table.</td></tr>
+        <tr><td>OSPF</td><td>Calculates the most efficient route based on distance, bandwidth, etc.</td></tr>
+        <tr><td>RIP</td><td>An older, application-layer protocol that identifies distances between routers.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- NETWORK CORE -->
+  <section id="core">
+    <p class="eyebrow">03 · The backbone</p>
+    <h2>The Network Core</h2>
+    <p>The Network Core is the central part of a network interconnecting sub-networks, moving
+      huge volumes of data at very high speed across long distances (fiber optics, high-speed
+      routers, optical links) — e.g. what carries a 4K YouTube stream without buffering.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Routing vs. Switching</h4><p><strong>Routing</strong> (by routers) determines the best path from source to destination. <strong>Switching</strong> (by switches) transfers packets between devices/interfaces within the network.</p></div>
+      <div class="card"><h4>Protocol support</h4><p><strong>OSPF</strong> (Interior Gateway Protocol, within one organization/AS, uses Dijkstra's algorithm) vs. <strong>BGP</strong> (Exterior Gateway Protocol, connects different Autonomous Systems — how ISPs like Jio/Airtel exchange routing info).</p></div>
+      <div class="card"><h4>Redundancy &amp; reliability</h4><p>Multiple paths between routers mean communication survives a single failure — e.g. a damaged fiber cable gets routed around automatically, often unnoticed by users.</p></div>
+      <div class="card"><h4>Real examples</h4><p>Internet backbone (submarine fiber cables), data-center interconnects (Google Cloud, Azure, AWS), and ISP core networks (Jio, Airtel, BSNL).</p></div>
+    </div>
+  </section>
+
+  <!-- NETWORK EDGE -->
+  <section id="edge">
+    <p class="eyebrow">04 · Where users connect in</p>
+    <h2>The Network Edge</h2>
+    <p>The Network Edge is the boundary between your internal network and the wider Internet —
+      where end-user devices actually connect in.</p>
+
+    <h3>Three layers, one journey</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>1. Access Layer</h4><p>Laptops, phones, IoT devices — connecting via Wi-Fi APs, Ethernet switches, routers.</p></div>
+      <div class="card"><h4>2. Edge Layer</h4><p>Edge routers/switches: connect local users to the Internet, forward packets to the core, run firewalls/NAT/VPN.</p></div>
+      <div class="card"><h4>3. Core Layer</h4><p>High-speed routers moving data between networks — fast, reliable packet forwarding.</p></div>
+    </div>
+    <p><strong>Example path:</strong> Laptop → Wi-Fi Router (Access) → Edge Router (Network Edge) → Core Internet Network → destination server, and back the same way in reverse.</p>
+
+    <h3>What the edge actually does</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Security</h4><p>Firewalls, IDS/IPS, VPN gateways, ACLs — blocks unauthorized access, filters malicious traffic.</p></div>
+      <div class="card"><h4>Traffic management</h4><p><strong>QoS</strong> prioritizes important traffic (e.g. video call over file download); <strong>load balancing</strong> spreads requests across many servers.</p></div>
+      <div class="card"><h4>Edge computing</h4><p>Processing data close to where it's generated (not a distant cloud) — lower latency, faster response, less bandwidth used.</p></div>
+    </div>
+
+    <h3>Edge vs. Core</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>Network Edge</th><th>Network Core</th></tr></thead>
+      <tbody>
+        <tr><td>Location</td><td>Boundary of the network</td><td>Center/backbone of the network</td></tr>
+        <tr><td>Main devices</td><td>PCs, phones, routers, switches</td><td>High-speed routers</td></tr>
+        <tr><td>Purpose</td><td>Connect users to the network</td><td>Transfer data between networks</td></tr>
+        <tr><td>Speed</td><td>Moderate</td><td>Very high</td></tr>
+        <tr><td>Security</td><td>Firewalls, NAT, VPN</td><td>Mainly routing/forwarding</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section id="performance">
+    <p class="eyebrow">05 · How we measure a network</p>
+    <h2>Delay, Packet Loss &amp; Throughput</h2>
+
+    <h3>Delay (latency) — four components</h3>
+    <div class="grid cols-4">
+      <div class="card"><h4>Processing</h4><p>Time for a router/switch to process the header, check errors, pick the next hop.</p></div>
+      <div class="card"><h4>Queuing</h4><p>Time a packet waits in a router's queue due to congestion.</p></div>
+      <div class="card"><h4>Transmission</h4><p>Time to push all the packet's bits onto the link — depends on packet size and link bandwidth.</p></div>
+      <div class="card"><h4>Propagation</h4><p>Time for the signal to physically travel the medium — depends on distance and propagation speed.</p></div>
+    </div>
+    <div class="callout violet"><p><strong>Total Delay = Processing + Queuing + Transmission + Propagation.</strong> Worked numericals — including this exact courier-delivery analogy turned into a calculation — are on the Numericals page.</p></div>
+
+    <h3>Packet Loss</h3>
+    <p>Packets fail to arrive due to <strong>congestion</strong> (routers/switches drop packets under overload), <strong>hardware failure</strong> (faulty routers/cables/NICs), or <strong>buffer overflow</strong> (a router's buffer fills up and any excess incoming packets are simply discarded).</p>
+
+    <h3>Packet Loss vs. Delay</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Packet Loss</th><th>Delay (Latency)</th></tr></thead>
+      <tbody>
+        <tr><td>What happens</td><td>Packets are completely lost</td><td>Packets arrive, just late</td></tr>
+        <tr><td>Measured in</td><td>Percentage (%)</td><td>Milliseconds (ms)</td></tr>
+        <tr><td>Causes</td><td>Retransmissions, missing data</td><td>Slow communication</td></tr>
+        <tr><td>Root cause</td><td>Congestion, hardware failure, buffer overflow</td><td>Processing, queuing, transmission, propagation</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Throughput</h3>
+    <p>The actual data successfully transferred per unit time (bps/Kbps/Mbps/Gbps) — the <em>real</em>
+      rate achieved, as opposed to bandwidth (the theoretical maximum). Four factors reduce it below
+      bandwidth: <strong>bandwidth</strong> itself (the ceiling), <strong>latency</strong> (higher latency
+      = lower effective throughput), <strong>packet loss</strong> (lost packets must be retransmitted,
+      eating into effective throughput), and <strong>congestion</strong> (more users sharing a link
+      = slower for everyone).</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>🧮 Numericals</h4><p>Total delay, propagation/transmission delay, throughput under packet loss, buffer-overflow loss rate — all worked step-by-step.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 1 Numericals →</a></p></div>
+      <div class="card"><h4>📚 Question Bank</h4><p>All 20 Unit 1 question-bank items answered concisely.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 1 Question Bank →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 1 — Internet Basics and Protocols · Sem 5 revision notes</footer>
+
+</body>
+</html>

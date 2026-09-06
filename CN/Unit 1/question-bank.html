@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Question Bank — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .q .meta{font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 1</span>
+  <h1>📚 Unit 1 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to all 20 official question-bank items (CO1) —
+     each tagged with its Bloom's level and marks.</p>
+  <a class="back" href="index.html">← Back to Unit 1 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="index.html" style="color:var(--coral);">← Unit 1 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+  </div>
+</nav>
+
+<main>
+  <section>
+    <p class="eyebrow">Unit 1: Computer Networks and the Internet</p>
+    <h2>Question Bank — CO1</h2>
+    <p class="range">All 20 questions, as given in the official question bank</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Define computer network. <span class="meta">L1 · 2 marks</span></p><p class="a">A collection of interconnected computers and devices that can exchange data and share resources with each other, using a shared set of communication protocols.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Explain the importance of protocols in networking. <span class="meta">L2 · 4 marks</span></p><p class="a">Protocols are the common "language" that lets devices with different hardware/software communicate reliably — they define formatting, error handling, and processing rules, without which devices couldn't understand each other's data at all.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Differentiate between network edge and network core. <span class="meta">L2 · 6 marks</span></p><p class="a">The edge is the boundary where end-user devices connect (moderate speed, security-focused: firewalls/NAT/VPN); the core is the high-speed backbone that moves data between networks (very high speed, focused on routing/forwarding). See the comparison table on the Unit 1 notes page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Explain packet switching and circuit switching. <span class="meta">L2 · 6 marks</span></p><p class="a"><strong>Circuit switching</strong> reserves a dedicated, fixed path/bandwidth for the entire duration of a call (e.g. traditional telephony) — reliable but wastes capacity when idle. <strong>Packet switching</strong> breaks data into packets that travel independently and share link capacity on demand (the Internet's approach) — more efficient, but subject to variable delay and possible packet loss under congestion.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Describe the layered architecture of the Internet. <span class="meta">L2 · 6 marks</span></p><p class="a">The Internet is organized as a stack of layers (OSI: physical, data link, network, transport, session, presentation, application), each layer providing services to the one above and relying on the one below, so protocols at each layer can be designed and evolved independently.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Calculate transmission delay with a suitable example. <span class="meta">L3 · 6 marks</span></p><p class="a">Transmission Delay = packet size (bits) / bandwidth (bps). Worked example (1000-byte packet, 1 Mbps link → 8 ms) on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Calculate propagation delay in a communication link. <span class="meta">L3 · 6 marks</span></p><p class="a">Propagation Delay = distance / propagation speed. Worked example (2000 km at 2×10⁸ m/s → 10 ms) on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Explain throughput with a suitable example. <span class="meta">L2 · 4 marks</span></p><p class="a">Throughput is the actual data successfully delivered per unit time — always ≤ bandwidth, since latency, packet loss, and congestion all eat into the theoretical maximum. Worked example (760 Kbps effective throughput out of a nominally faster link, due to 5% packet loss) on the Numericals page.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q9</span>Analyze the causes of packet loss in networks. <span class="meta">L4 · 8 marks</span></p><p class="a">Three main causes: <strong>congestion</strong> (routers drop packets when overwhelmed), <strong>hardware failure</strong> (faulty routers/switches/cables/NICs), and <strong>buffer overflow</strong> (incoming packets exceed buffer capacity and the excess is discarded).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>Compare delay and throughput parameters. <span class="meta">L4 · 8 marks</span></p><p class="a">Delay measures how long a packet takes to arrive (ms); throughput measures how much data actually gets through per unit time (bps). A network can have low delay but low throughput (e.g. a fast but narrow link) or vice versa — they capture different dimensions of performance.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Hospital network scenario — evaluate throughput/delay/packet-loss impact on monitoring reliability. <span class="meta">L4 · 6 marks</span></p><p class="a">Real-time patient monitoring needs low, predictable delay and near-zero packet loss (a lost vital-sign reading can't simply be "resent later" without risk); office traffic can tolerate more delay/loss. Mixed traffic without prioritization (QoS) risks monitoring data queuing behind bulk office traffic — argue for traffic prioritization/QoS to protect the monitoring stream.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Illustrate packet flow through the network core. <span class="meta">L3 · 6 marks</span></p><p class="a">A packet enters via an edge router, the core's routers use protocols (OSPF within an AS, BGP between ISPs) to determine the best path, and switches forward it along that path — often with multiple redundant paths available in case one fails.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>Analyze the impact of congestion in packet-switched networks. <span class="meta">L4 · 8 marks</span></p><p class="a">Congestion causes router buffers to fill and overflow (packet loss), increases queuing delay for every packet on the path, and triggers retransmissions that add even more traffic — a feedback loop that can make congestion worse if not controlled (see TCP congestion control in Unit 3).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>Evaluate Internet performance measures. <span class="meta">L5 · 6 marks</span></p><p class="a">No single measure tells the whole story: delay captures responsiveness, packet loss captures reliability, and throughput captures actual capacity delivered. Real evaluation requires looking at all three together, in the context of what the application needs (e.g. video calls prioritize low delay; file transfer prioritizes throughput).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>Campus network redesign scenario — design a scalable architecture. <span class="meta">L6 · 6 marks</span></p><p class="a">Layer the design around edge (Wi-Fi APs/switches sized for concurrent hybrid-learning users), a redundant edge-to-core path (avoiding single points of failure), and bandwidth allocation via QoS so cloud-application and video traffic don't starve each other during peak hours.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Multinational video-conferencing latency scenario — analyze causes, suggest fixes. <span class="meta">L4 · 6 marks</span></p><p class="a">Likely causes: long propagation delay (geographic distance), queuing delay from congested international links, or insufficient bandwidth causing transmission delay. Fixes: route via geographically closer data centers/CDNs, apply QoS to prioritize video traffic, and provision more bandwidth on the bottleneck link.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>Gaming platform packet-loss scenario — examine switching/congestion role, recommend solutions. <span class="meta">L5 · 6 marks</span></p><p class="a">Packet-switched networks share bandwidth on demand, so a surge of simultaneous players causes congestion → buffer overflow → packet loss. Solutions: traffic prioritization (QoS) for real-time game traffic, load balancing across servers, and provisioning additional capacity for peak hours.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>Design a simple network architecture for a college campus. <span class="meta">L6 · 5 marks</span></p><p class="a">Access layer (Wi-Fi APs/Ethernet in classrooms/hostels) → edge layer (edge routers/switches with firewall, NAT) → core layer (high-speed backbone connecting buildings) → ISP uplink — with redundant links at the core for reliability.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>ISP core-congestion during live streaming — propose an optimized architecture. <span class="meta">L6 · 8 marks</span></p><p class="a">Use CDNs/edge caching so streaming content is served from servers near users instead of crossing the congested core repeatedly, add redundant high-bandwidth core paths, and apply congestion-aware routing (e.g. OSPF/BGP path selection) to spread load across multiple routes.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>Create a diagram showing the Internet communication process. <span class="meta">L6 · 10 marks</span></p><p class="a">Diagram: User's device → Access layer (Wi-Fi/Ethernet) → Edge router (Network Edge) → ISP/Core network (routing via OSPF/BGP) → Destination server, with the response following the same path in reverse — matches the "How Data Travels" example on the Unit 1 notes page.</p></div>
+  </section>
+</main>
+
+<footer>Unit 1 Question Bank · Computer Networks · Sem 5 revision notes</footer>
+
+</body>
+</html>
