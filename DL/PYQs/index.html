@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Learning — Previous Year Questions</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .paper-meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted);margin:0 0 20px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);}
+  .paper-meta span strong{color:var(--navy-2);}
+
+  .part-label{font-weight:700;color:var(--violet);font-size:13px;letter-spacing:.5px;text-transform:uppercase;margin:26px 0 6px;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.6em;}
+  .qa .q .marks{margin-left:auto;font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 3.5em;max-width:700px;}
+  .qa .a code{display:block;background:#f3ecfb;padding:8px 12px;border-radius:8px;font-size:.85em;line-height:1.6;margin-top:6px;white-space:pre;overflow-x:auto;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:14px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q{flex-wrap:wrap;} .qa .q .marks{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · PYQs</span>
+  <h1>📝 Previous Year Questions</h1>
+  <p>Two genuine Deep Learning end-semester papers (Course Code 0701260503, Symbiosis Institute of
+     Technology, AI &amp; ML), pulled from the official PYQ archive. Both are Semester V, 45-mark
+     papers with a 2-part structure — short-answer Part A, longer Part B.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#may2025">May 2025 paper</a>
+    <a href="#may2024">May 2024 paper</a>
+    <a href="../Unit%201/index.html" style="color:var(--coral);">Unit 1 →</a>
+    <a href="../Unit%202/index.html" style="color:var(--coral);">Unit 2 →</a>
+    <a href="../Unit%203/index.html" style="color:var(--coral);">Unit 3 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="may2025">
+    <p class="eyebrow">Paper 1</p>
+    <h2>Deep Learning — 05 May 2025</h2>
+    <p class="range">Semester V · Batches 2021-25 &amp; 2022-26 · Course Code 0701260503</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 13:30 – 15:00</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>What is deep learning, and how does it fit within the broader field of artificial intelligence?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1b</span>Provide a brief explanation of the term perceptron.<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>List any 4 key applications of deep learning.<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1d</span>Which are the hyperparameters in deep neural network optimization?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>Explain the functions of any two gates in LSTM.<span class="marks">2 marks</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Evaluate the role of large datasets and advanced computational resources in the effectiveness of deep learning models. Discuss how these factors affect model accuracy, training time, and the overall deployment process in real-world applications.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Discuss how the depth of a neural network affects its performance, training time, and computational complexity. Explain how deeper networks capture more complex patterns but also introduce challenges like overfitting, vanishing gradients, and higher resource requirements.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Describe the process of forward and backward propagation in a deep neural network, emphasizing their roles in training the model. Additionally, differentiate between L1 and L2 regularization techniques in deep neural networks, explaining their impact on model performance and overfitting.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5a</span>Explain the concepts of exploding and vanishing gradients in deep neural networks.<span class="marks">4 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5b</span>What is the role of momentum in optimization algorithms?<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Explain the working of a Recurrent Neural Network (RNN) and how it handles sequential data. Additionally, compare RNNs with Long Short-Term Memory (LSTM) networks, highlighting the key differences.<span class="marks">7 marks</span></p></div>
+  </section>
+
+  <section id="may2024">
+    <p class="eyebrow">Paper 2</p>
+    <h2>Deep Learning — 15 May 2024</h2>
+    <p class="range">Semester V · Batch 2021-25 · Course Code 0701260503</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 13:30 – 15:00</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>What is a loss function in deep learning? Explain four important loss functions used in a deep learning model.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1b</span>How many layers and neurons are typically required to implement XOR and AND gates using a deep neural network?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>What is the primary goal of backpropagation?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1d</span>How does an undercomplete auto encoder differ from an overcomplete auto encoder? What is the primary benefit of using auto encoders in feature learning?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>What problem does the momentum optimizer address, and how does it do so?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1f</span>In what ways do RNNs differ from Convolutional Neural Networks (CNNs)?<span class="marks">2 marks</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Explain the process of implementing the XOR, AND, and OR logic gates using a neural network.<span class="marks">5 marks</span></p></div>
+    <div class="qa">
+      <p class="q"><span class="num">Q3a</span>Build a feed-forward neural network for a simple image classification task. Calculate the number of weights and biases for each layer (each neuron in a layer is connected to every neuron in the previous layer, and each neuron has its own bias term).<span class="marks">4 marks</span></p>
+      <p class="a">Architecture: Input layer 784 neurons (28×28 pixel images) → Hidden Layer 1: 128 neurons → Hidden Layer 2: 64 neurons → Output layer: 10 neurons (digits 0–9).<code>Hidden 1:  weights = 784×128 = 100,352   biases = 128
+Hidden 2:  weights = 128×64  = 8,192     biases = 64
+Output:    weights = 64×10   = 640       biases = 10
+Total weights = 109,184   Total biases = 202</code></p>
+    </div>
+    <div class="qa"><p class="q"><span class="num">Q3b</span>How does backpropagation update the weights and biases in a neural network?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q4a</span>Explain the architecture and key features of the AlexNet convolutional neural network in detail. How does AlexNet contribute to the field of computer vision and deep learning?<span class="marks">5 marks</span></p></div>
+    <div class="qa">
+      <p class="q"><span class="num">Q4b</span>Find out the trainable parameters in the following CNN model in every step:<span class="marks">3 marks</span></p>
+      <p class="a"><code>1. my_input  = Input(Shape=(10,10,1))
+2. my_output = Convolution2D(5,3)(my_input)
+3. my_output = Activation('Sigmoid')(my_output)
+4. my_output = Convolution2D(2,3)(my_output)
+5. my_output = Activation('Sigmoid')(my_output)</code>Step 2: 5 filters × (3×3×1 weights + 1 bias) = 5×10 = 50 trainable params.<br>Step 4: 2 filters × (3×3×5 weights + 1 bias) = 2×46 = 92 trainable params.<br>Activation steps (3, 5) add no trainable parameters.</p>
+    </div>
+    <div class="qa"><p class="q"><span class="num">Q5a</span>In what scenarios would you prefer to use different types of gradient descent methods, such as BGD, SGD, or Mini-Batch GD, in practical deep learning tasks?<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5b</span>Explain the Momentum and Adagrad optimization algorithms in the context of training neural networks. Provide a detailed comparison of their mechanisms, advantages, and limitations.<span class="marks">4 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Discuss the vanishing gradient problem in RNNs. How are RNNs well-suited for tasks that involve sequences or time-series data?<span class="marks">6 marks</span></p></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Note</p>
+    <div class="callout">
+      Deep Learning doesn't get a dedicated PYQ slot every exam cycle — it wasn't examined as a
+      standalone paper in the Dec 2025 sitting (Sem V/VI/VII), and only shows up under this exact
+      title in the May exam periods above. Related material also surfaces disguised as separate
+      courses in other slots (Generative Adversarial Networks, Computer Vision, Multimodal AI),
+      which is worth knowing if you go looking for more.
+    </div>
+  </section>
+
+</main>
+
+<footer>Sem 5 Revision Notes · Deep Learning PYQs</footer>
+
+</body>
+</html>
