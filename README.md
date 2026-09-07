@@ -31,7 +31,7 @@ URLs by hand.
 | Unit 3 | Transport Layer | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%203/index.html) |
 | Unit 3 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%203/numericals.html) |
 | Unit 3 | Question Bank answers (20 Qs) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/Unit%203/question-bank.html) |
-| PYQs | Previous Year Questions (Dec 2023 x2 & Dec 2024 papers) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/PYQs/index.html) |
+| PYQs | Previous Year Questions (Dec 2023 x2, May 2024, Dec 2024 & Dec 2025 papers) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CN/PYQs/index.html) |
 
 ## Deep Learning (DL)
 

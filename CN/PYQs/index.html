@@ -59,10 +59,10 @@
 <header class="hero">
   <span class="badge">SEM 5 · COMPUTER NETWORKS · PYQs</span>
   <h1>📝 Previous Year Questions</h1>
-  <p>Three genuine Computer Networks end-semester papers (Course Code 0701260509, Symbiosis
-     Institute of Technology, AI &amp; ML), pulled from the official PYQ archive — including the
-     course's very first sitting in Dec 2023 through the most recent one in Dec 2024. All are
-     Semester V, 45-mark papers with a 2-part structure — short-answer Part A, longer Part B.</p>
+  <p>Five genuine Computer Networks end-semester papers (Course Code 0701260509, Symbiosis
+     Institute of Technology, AI &amp; ML), pulled from the official PYQ archive — every sitting
+     from the course's first exam in Dec 2023 through Dec 2025. All are Semester V, 45-mark
+     papers with a 2-part structure — short-answer Part A, longer Part B.</p>
   <a class="back" href="../../">← Back to site home</a>
 </header>
 
@@ -70,7 +70,9 @@
   <div class="inner">
     <a href="#dec2023a">Dec 2023 paper (27 Nov)</a>
     <a href="#dec2023b">Dec 2023 paper (02 Dec)</a>
+    <a href="#may2024">May 2024 paper</a>
     <a href="#dec2024">Dec 2024 paper</a>
+    <a href="#dec2025">Dec 2025 paper</a>
     <a href="../Unit%201/index.html" style="color:var(--coral);">Unit 1 →</a>
     <a href="../Unit%202/index.html" style="color:var(--coral);">Unit 2 →</a>
     <a href="../Unit%203/index.html" style="color:var(--coral);">Unit 3 →</a>
@@ -122,10 +124,53 @@
     <div class="qa"><p class="q"><span class="num">Q1c</span>Compare and contrast the TCP and UDP protocols, highlighting their strengths and weaknesses.<span class="marks">3 marks</span></p></div>
     <div class="qa"><p class="q"><span class="num">Q1d</span>How does a router make forwarding decisions in a computer network?<span class="marks">3 marks</span></p></div>
     <div class="qa"><p class="q"><span class="num">Q1e</span>Explain the working of SNMP.<span class="marks">3 marks</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Draw OSI-reference model and explain any three layers. Provide examples of protocols that operate at each layer.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Discuss the fundamental principles of data link layer protocols. Describe the concepts of framing, error control, and flow control in detail.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Discuss the concepts of distance vector routing algorithm with suitable example.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>What is Congestion? Discuss any of the congestion control algorithms used in TCP.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Outline the differences between client-server and peer-to-peer network architectures. Provide examples of applications that use each of these models.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6 (OR)</span>Explain the concepts of HTTP used in application layer.<span class="marks">6 marks</span></p></div>
+  </section>
+
+  <section id="may2024">
+    <p class="eyebrow">Paper 3</p>
+    <h2>Computer Networks — 17 May 2024</h2>
+    <p class="range">Semester V · Batch 2021-25 · Course Code 0701260509</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 13:30 – 15:00</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>List the pros and cons of various networking topologies.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1b</span>Draw the OSI model and explain the function of the session and presentation layer.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>Piggybacking is the better utilization of the bandwidth. Justify.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1d</span>Discuss the classes of IP addresses.<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>Compare TCP and UDP.<span class="marks">3 marks</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Illustrate the definition and taxonomy of switched networks in detail. Explain any two of them in brief.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Explain the requirement of stuffing at the Data Link Layer. Also list the advantages of bit stuffing over byte stuffing.<span class="marks">6 marks</span></p></div>
+    <div class="qa">
+      <p class="q"><span class="num">Q4</span>A host IP address is <code>193.27.100.110/26</code>. Determine (a) the subnet address, (b) the directed broadcast address for the subnet, (c) the maximum number of possible hosts on the subnet, (d) the maximum number of possible subnets.<span class="marks">6 marks</span></p>
+      <p class="a"><code>/26 → 26 network bits, 6 host bits → block size = 256 − 192 = 64
+193.27.100.110 falls in the subnet 193.27.100.64 – 193.27.100.127
+
+a) Subnet address:            193.27.100.64
+b) Directed broadcast address: 193.27.100.127
+c) Max hosts per subnet:       2^6 − 2 = 62
+d) Max subnets (from the /24 block, borrowing 2 bits for /26): 2^2 = 4</code></p>
+    </div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Investigate the IPv4 header and explain all the fields in detail with a neat diagram.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Write short notes (any two): (a) SMTP, (b) SNMP, (c) WWW, (d) HTTP.<span class="marks">6 marks</span></p></div>
   </section>
 
   <section id="dec2024">
-    <p class="eyebrow">Paper 3 · Most recent</p>
+    <p class="eyebrow">Paper 4</p>
     <h2>Computer Networks — 03 December 2024</h2>
     <p class="range">Semester V · Batches 2021-25 &amp; 2022-26 · Course Code 0701260509</p>
 
@@ -158,13 +203,46 @@ ii. 193.15.56.21   →  Class C (192.0.0.0–223.255.255.255)</code></p>
     <div class="qa"><p class="q"><span class="num">Q6 (OR)</span>Describe the steps involved in retrieving or downloading an email from the mail server to the recipient's device.<span class="marks">6 marks</span></p></div>
   </section>
 
+  <section id="dec2025">
+    <p class="eyebrow">Paper 5 · Most recent</p>
+    <h2>Computer Networks — 27 November 2025</h2>
+    <p class="range">Semester V · Batches 2021-25, 2022-26 &amp; 2023-27 · Course Code 0701260510</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 10:00 – 11:30</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>Illustrate the two advantages of the P2P architecture for file distribution as compared to the client-server model.<span class="marks">2 marks</span></p></div>
+    <div class="qa">
+      <p class="q"><span class="num">Q1b</span>During the TCP slow start phase, if a sender transmits 2 segments and receives 2 ACKs, how many segments will it be able to send in the next round-trip time (RTT)?<span class="marks">2 marks</span></p>
+      <p class="a">Slow start doubles cwnd each RTT. Sent 2, both ACKed → cwnd grows 2 → 4. It can send <strong>4 segments</strong> in the next RTT.</p>
+    </div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>List the three primary tools used in generic Reliable Data Transfer (RDT) protocol to ensure correctness.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1d</span>State the key metric used by RIP and mention one limitation of it.<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>Compare the three services provided by virtual-circuit network and those of a datagram network.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1f</span>What type of error (single-bit or burst) is harder to detect with simple parity?<span class="marks">1 mark</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Differentiate between the Network Core and Network Edge, elucidating their respective architectural roles and providing illustrative examples for each.<span class="marks">5 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Develop a training tutorial for new IT staff that explains SMTP sessions step-by-step, includes a diagram, and provides a checklist for monitoring SMTP logs.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q4a</span>Analyze the major phases or algorithm of TCP congestion and interpret how they each contribute to network performance.<span class="marks">4 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q4b</span>Evaluate the suitability of stop &amp; wait ARQ in modern high-speed networks by discussing its advantages &amp; disadvantages.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5a</span>Evaluate the differences between RIPv1 and RIPv2 &amp; justify which version is more suitable in modern network environments.<span class="marks">5 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5b</span>Analyze the workflow of OSPF, including neighbor discovery, LSA flooding, and SPF computation, and support your analysis with a detailed diagram.<span class="marks">5 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Evaluate the usefulness of CRC in error detection, showing its operation through a concrete example.<span class="marks">4 marks</span></p></div>
+  </section>
+
   <section>
     <p class="eyebrow">Note</p>
     <div class="callout">
       Computer Networks has run as a standalone Sem V paper in every sitting checked — Dec 2023
-      (twice, on different dates for the same batch), Dec 2024, and Dec 2025 — making it a much
-      more reliable PYQ source than Deep Learning. The Dec 2023 "second sitting" paper above only
-      has Part A recorded here; its Part B page wasn't captured during this pass.
+      (twice, on different dates for the same batch), May 2024, Dec 2024, and Dec 2025 — making it
+      a much more reliable PYQ source than Deep Learning, which skips cycles. The two Dec 2023
+      sittings share nearly identical Part B content (the second just adds an HTTP-vs-client/server
+      OR choice on the final question) — worth knowing if a question feels repeated across papers.
     </div>
   </section>
 
