@@ -83,6 +83,7 @@
     <a href="#rdt">Reliable Data Transfer</a>
     <a href="#arq">Stop-and-Wait, GBN, SR</a>
     <a href="#congestion">TCP Congestion Control</a>
+    <a href="#network-protocols">Network Layer Protocols</a>
     <a href="#vs-network">Transport vs. Network Layer</a>
     <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
     <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
@@ -165,6 +166,18 @@
     <p class="eyebrow">04 · Three ways to guarantee delivery</p>
     <h2>Stop-and-Wait, Go-Back-N &amp; Selective Repeat</h2>
 
+    <h3>How TCP flow control actually works (send/receive buffers)</h3>
+    <p>TCP stores outgoing data in a <strong>send buffer</strong> and incoming data in a
+      <strong>receive buffer</strong>; the application only reads from the receive buffer when
+      it's ready. Flow control exists purely to stop the sender from overflowing that receive
+      buffer.</p>
+    <ol class="steps">
+      <li>The receiver tracks the spare room left in its receive buffer — this is the <strong>Receive Window (rwnd)</strong>.</li>
+      <li>Every time TCP receives a segment, it sends back an <strong>ACK</strong> — and piggybacks the current <code>rwnd</code> value on that ACK.</li>
+      <li>The sender reads <code>rwnd</code> from each ACK and never sends more unacknowledged data than the receiver has room for.</li>
+      <li>If the receive buffer fills up, <code>rwnd</code> shrinks toward 0 and the sender throttles down — even though the network itself isn't congested.</li>
+    </ol>
+
     <h3>Stop-and-Wait ARQ</h3>
     <p>Sender sends one frame, then <strong>waits</strong> for its ACK before sending the next.
       Simple and reliable, but low throughput — the link sits idle while waiting.</p>
@@ -223,9 +236,29 @@
       Congestion Avoidance's +1 per RTT) is on the Numericals page.</p></div>
   </section>
 
+  <!-- NETWORK LAYER PROTOCOLS -->
+  <section id="network-protocols">
+    <p class="eyebrow">06 · One layer down</p>
+    <h2>Network Layer Protocols</h2>
+    <p>The Network Layer (3rd OSI layer) handles logical addressing and routing — picking the
+      best path and forwarding packets accordingly. It leans on a whole family of protocols to do
+      that job, most of which pair with IP:</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>IP</h4><p>The cornerstone — provides logical addressing (IPv4/IPv6) so devices can identify each other.</p></div>
+      <div class="card"><h4>ICMP</h4><p>Works alongside IP to report errors and diagnostics — unreachable hosts, time-exceeded packets.</p></div>
+      <div class="card"><h4>RIP</h4><p>Distance-vector routing protocol for small/medium networks — picks the best path by hop count.</p></div>
+      <div class="card"><h4>OSPF</h4><p>Link-state Interior Gateway Protocol for larger networks — computes the shortest path, scales better than RIP.</p></div>
+      <div class="card"><h4>BGP</h4><p>Exterior Gateway Protocol for inter-domain routing — lets autonomous systems exchange routes across the internet.</p></div>
+      <div class="card"><h4>IGMP / IGMPv3</h4><p>Manages multicast group membership (join/leave); v3 lets hosts specify which multicast <em>sources</em> they want.</p></div>
+      <div class="card"><h4>ARP</h4><p>Resolves an IP address to a MAC address — essential for LAN-level (data-link) delivery.</p></div>
+      <div class="card"><h4>RARP</h4><p>The reverse of ARP — MAC → IP. Mostly obsolete, was used by diskless workstations at boot.</p></div>
+      <div class="card"><h4>VRRP</h4><p>Lets multiple routers act as one virtual router for high availability — routing survives if one router fails.</p></div>
+    </div>
+  </section>
+
   <!-- VS NETWORK -->
   <section id="vs-network">
-    <p class="eyebrow">06 · Where transport ends and network begins</p>
+    <p class="eyebrow">07 · Where transport ends and network begins</p>
     <h2>Transport Layer vs. Network Layer</h2>
     <div class="table-wrap"><table>
       <thead><tr><th>Aspect</th><th>Transport Layer</th><th>Network Layer</th></tr></thead>
