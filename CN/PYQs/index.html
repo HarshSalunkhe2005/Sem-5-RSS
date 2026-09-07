@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Networks — Previous Year Questions</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .paper-meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted);margin:0 0 20px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);}
+  .paper-meta span strong{color:var(--navy-2);}
+
+  .part-label{font-weight:700;color:var(--violet);font-size:13px;letter-spacing:.5px;text-transform:uppercase;margin:26px 0 6px;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.6em;}
+  .qa .q .marks{margin-left:auto;font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 3.5em;max-width:700px;}
+  .qa .a code{display:block;background:#f3ecfb;padding:8px 12px;border-radius:8px;font-size:.85em;line-height:1.6;margin-top:6px;white-space:pre;overflow-x:auto;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:14px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q{flex-wrap:wrap;} .qa .q .marks{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · PYQs</span>
+  <h1>📝 Previous Year Questions</h1>
+  <p>Three genuine Computer Networks end-semester papers (Course Code 0701260509, Symbiosis
+     Institute of Technology, AI &amp; ML), pulled from the official PYQ archive — including the
+     course's very first sitting in Dec 2023 through the most recent one in Dec 2024. All are
+     Semester V, 45-mark papers with a 2-part structure — short-answer Part A, longer Part B.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#dec2023a">Dec 2023 paper (27 Nov)</a>
+    <a href="#dec2023b">Dec 2023 paper (02 Dec)</a>
+    <a href="#dec2024">Dec 2024 paper</a>
+    <a href="../Unit%201/index.html" style="color:var(--coral);">Unit 1 →</a>
+    <a href="../Unit%202/index.html" style="color:var(--coral);">Unit 2 →</a>
+    <a href="../Unit%203/index.html" style="color:var(--coral);">Unit 3 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="dec2023a">
+    <p class="eyebrow">Paper 1 · The first-ever sitting</p>
+    <h2>Computer Networks — 27 November 2023</h2>
+    <p class="range">Semester V · Batch 2021-25 · Course Code 0701260509</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 13:30 – 15:00</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>Discuss the advantages and disadvantages of three network topologies in different network scenarios.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1b</span>Describe with example of situations, where each of the sliding window protocol is best suited.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>What is unicast and multicast routing?<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1d</span>Explain the difference between IPv4 and IPv6, and highlight the reasons for transitioning to IPv6.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>Discuss the Application Layer and its role in network communication.<span class="marks">2 marks</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Draw OSI-reference model and explain any three layers. Provide examples of protocols that operate at each layer.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Discuss the fundamental principles of data link layer protocols. Describe the concepts of framing, error control, and flow control in detail.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Discuss the concepts of distance vector routing algorithm with suitable example.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>What is Congestion? Discuss any of the congestion control algorithms used in TCP.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Outline the differences between client-server and peer-to-peer network architectures. Provide examples of applications that use each of these models.<span class="marks">6 marks</span></p></div>
+  </section>
+
+  <section id="dec2023b">
+    <p class="eyebrow">Paper 2 · Same cycle, different sitting</p>
+    <h2>Computer Networks — 02 December 2023</h2>
+    <p class="range">Semester V · Batch 2021-25 · Course Code 0701260509</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 13:30 – 15:00</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>What are the various types of transmission media? How do they differ in terms of bandwidth and reliability?<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1b</span>How does ARQ work?<span class="marks">2 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>Compare and contrast the TCP and UDP protocols, highlighting their strengths and weaknesses.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1d</span>How does a router make forwarding decisions in a computer network?<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>Explain the working of SNMP.<span class="marks">3 marks</span></p></div>
+  </section>
+
+  <section id="dec2024">
+    <p class="eyebrow">Paper 3 · Most recent</p>
+    <h2>Computer Networks — 03 December 2024</h2>
+    <p class="range">Semester V · Batches 2021-25 &amp; 2022-26 · Course Code 0701260509</p>
+
+    <div class="paper-meta">
+      <span><strong>Max Marks:</strong> 45</span>
+      <span><strong>Time:</strong> 13:30 – 15:00</span>
+      <span><strong>Sheets:</strong> 2</span>
+    </div>
+
+    <p class="part-label">Part A</p>
+    <div class="qa"><p class="q"><span class="num">Q1a</span>Organize the diagrammatic view of exchange using OSI model.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1b</span>What is meant by bit stuffing? Give an example.<span class="marks">3 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q1c</span>Which is better and why, TCP or UDP, for online multiplayer gaming where real-time responsiveness is critical and occasional packet loss is acceptable?<span class="marks">3 marks</span></p></div>
+    <div class="qa">
+      <p class="q"><span class="num">Q1d</span>Find the class of each IP address.<span class="marks">2 marks</span></p>
+      <p class="a"><code>i.  227.12.15.89   →  Class D (224.0.0.0–239.255.255.255, multicast)
+ii. 193.15.56.21   →  Class C (192.0.0.0–223.255.255.255)</code></p>
+    </div>
+    <div class="qa"><p class="q"><span class="num">Q1e</span>Assess the importance of Simple Network Management Protocol (SNMP).<span class="marks">3 marks</span></p></div>
+
+    <p class="part-label">Part B</p>
+    <div class="qa"><p class="q"><span class="num">Q2</span>What is network topology? Explain the different network topologies.<span class="marks">6 marks</span></p></div>
+    <div class="qa">
+      <p class="q"><span class="num">Q3</span>You applied cyclic redundancy check (CRC) using the dataword 1001 and the divisor 1011, and generated a codeword. However, during transmission, the received codeword is 1001110. Does the received codeword contain any errors?<span class="marks">6 marks</span></p>
+      <p class="a">Divide the received codeword 1001110 by the divisor 1011 using modulo-2 (XOR) division. A non-zero remainder means the codeword contains a transmission error and should be rejected.</p>
+    </div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Explain why an ARP request is sent as a broadcast and the reply as a unicast, using an example to support your justification.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Discuss the fields related to fragmentation and reassembly of an IP datagram, and illustrate their functionality with an example.<span class="marks">7 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Explain how TELNET functions as a client/server application, allowing a user to log on to a remote machine and access its system.<span class="marks">6 marks</span></p></div>
+    <div class="qa"><p class="q"><span class="num">Q6 (OR)</span>Describe the steps involved in retrieving or downloading an email from the mail server to the recipient's device.<span class="marks">6 marks</span></p></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Note</p>
+    <div class="callout">
+      Computer Networks has run as a standalone Sem V paper in every sitting checked — Dec 2023
+      (twice, on different dates for the same batch), Dec 2024, and Dec 2025 — making it a much
+      more reliable PYQ source than Deep Learning. The Dec 2023 "second sitting" paper above only
+      has Part A recorded here; its Part B page wasn't captured during this pass.
+    </div>
+  </section>
+
+</main>
+
+<footer>Sem 5 Revision Notes · Computer Networks PYQs</footer>
+
+</body>
+</html>
