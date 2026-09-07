@@ -216,6 +216,15 @@ Response: HTTP/1.1 200 OK</pre>
       <div class="card"><h4>Trade-offs</h4><p><strong>Pros:</strong> simple, efficient, resumable, fast. <strong>Cons:</strong> plaintext credentials by default (insecure), old protocol, firewall-unfriendly (multiple TCP connections).</p></div>
     </div>
 
+    <h3>How to use FTP</h3>
+    <ol class="steps">
+      <li><strong>Connect</strong> to the FTP server — address, username, password (anonymous access may skip credentials).</li>
+      <li><strong>Navigate directories</strong> — e.g. <code>ls</code> to list, <code>cd</code> to change directory.</li>
+      <li><strong>Transfer files</strong> — <code>get</code> to download, <code>put</code> to upload.</li>
+      <li><strong>Manage files</strong> — delete, rename, or copy files on the server.</li>
+      <li><strong>Close the connection</strong> — <code>bye</code> or <code>quit</code> once done.</li>
+    </ol>
+
     <h3>Simple Mail Transfer Protocol (SMTP)</h3>
     <p>SMTP is used between mail servers to exchange email. The client opens a TCP connection to
       the server (traditionally on <strong>port 25</strong>; modern secure submission uses
@@ -226,6 +235,31 @@ Response: HTTP/1.1 200 OK</pre>
       client waits until the email is copied to the recipient's server) vs.
       <strong>Store-and-forward</strong> (within an organization — email may hop through several
       intermediate MTAs, sender is notified once it reaches just the first hop).</p>
+
+    <h3>SMTP components (the four agents)</h3>
+    <div class="grid cols-4">
+      <div class="card"><h4>MUA</h4><p><strong>Mail User Agent</strong> — the email app itself (Gmail, Outlook). Creates and reads messages for the user.</p></div>
+      <div class="card"><h4>MSA</h4><p><strong>Mail Submission Agent</strong> — receives the message from the MUA and hands it to the MTA for transfer.</p></div>
+      <div class="card"><h4>MTA</h4><p><strong>Mail Transfer Agent</strong> — does the actual SMTP transfer between mail servers (Postfix, Sendmail, Exchange).</p></div>
+      <div class="card"><h4>MDA</h4><p><strong>Mail Delivery Agent</strong> — delivers the message into the recipient's local mailbox once it arrives.</p></div>
+    </div>
+
+    <h3>SMTP envelope vs. message</h3>
+    <p>The <strong>SMTP envelope</strong> is separate from — and invisible to — the email's headers
+      and body. It's the routing metadata that guides delivery between servers: the
+      <strong>sender address</strong>, <strong>recipient address(es)</strong>, and
+      <strong>routing information</strong> used to determine the delivery path.</p>
+
+    <h3>SMTP ports</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Port</th><th>Status</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>587</td><td>Current standard</td><td>Secure client-to-server submission over TLS — the recommended port today.</td></tr>
+        <tr><td>465</td><td>Deprecated</td><td>Old implicit-SSL SMTPS; no longer an official standard, mostly phased out.</td></tr>
+        <tr><td>25</td><td>Legacy relay only</td><td>Traditional server-to-server relay — often blocked by ISPs for outgoing client mail due to spam abuse.</td></tr>
+        <tr><td>2525</td><td>Unofficial alternative</td><td>Not a real SMTP standard port, but widely supported as a fallback when 25 is blocked.</td></tr>
+      </tbody>
+    </table></div>
   </section>
 
   <!-- DNS -->
