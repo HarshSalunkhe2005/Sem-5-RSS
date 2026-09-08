@@ -109,6 +109,23 @@
       <strong>Text Extraction</strong>, or <strong>Text Vectorization</strong>. The pipeline is
       always: <code>Text → Feature Extraction → Numerical Representation → ML Model</code>.</p>
 
+    <h3>Why is feature extraction useful?</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Reduces data</h4><p>Strips out unnecessary, redundant information, keeping only what matters.</p></div>
+      <div class="card"><h4>Makes processing faster</h4><p>Models work with smaller, denser data, so training and inference speed up.</p></div>
+      <div class="card"><h4>Improves learning</h4><p>Helps the model focus on the important patterns instead of raw noise.</p></div>
+    </div>
+
+    <h3>What "features" look like across data types</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Data type</th><th>Extracted features</th></tr></thead>
+      <tbody>
+        <tr><td>Image</td><td>Edges, shapes, colors</td></tr>
+        <tr><td>Text</td><td>Words, keywords, word frequency</td></tr>
+        <tr><td>Audio</td><td>Pitch, tone, frequency</td></tr>
+      </tbody>
+    </table></div>
+
     <h3>Vocabulary you'll see everywhere</h3>
     <div class="grid cols-2">
       <div class="card"><h4>Corpus</h4><p>A collection of text documents used for analysis. E.g. 1,000 Amazon reviews together form the corpus.</p></div>
@@ -250,6 +267,22 @@ print(X.toarray())
       next likely word given the words before it: <code>P(wₙ | w₁,w₂,...,wₙ₋₁)</code>. Used in
       auto-suggestions, conversational AI, content generation, sentiment analysis, summarization,
       and transcription.</p>
+
+    <h3>The probability vocabulary underneath it all</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Concept</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Probability</td><td>Probability of an event happening</td><td>P(rain)</td></tr>
+        <tr><td>Conditional Probability</td><td>Probability of an event, given another event</td><td>P(rain | clouds)</td></tr>
+        <tr><td>Joint Probability</td><td>Probability of two events happening together</td><td>P(rain, clouds)</td></tr>
+        <tr><td>Chain Rule</td><td>Breaks a joint probability into conditional probabilities</td><td>P(A,B,C) = P(A)·P(B|A)·P(C|A,B)</td></tr>
+        <tr><td>Independence</td><td>Two events don't depend on each other</td><td>P(A,B) = P(A)·P(B)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Conditional probability is the one that matters most for language modeling: a model
+      predicts a word based on the words that came before it. E.g. <code>P(learning | I love machine)</code>
+      is high, while <code>P(banana | I love machine)</code> is very low — the model compares
+      probabilities of possible next words and picks the most likely one.</p>
 
     <h3>Chain Rule of Probability</h3>
     <p>Any joint sentence probability breaks into a product of conditional probabilities, one per

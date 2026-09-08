@@ -111,10 +111,13 @@
       </tbody>
     </table></div>
 
-    <h3>Famous vector arithmetic</h3>
-    <p><code>King − Man + Woman ≈ Queen</code> — embeddings learn relationships directly from
-      large amounts of text, so consistent linear directions in the vector space encode things
-      like gender, capital-city-of, or tense.</p>
+    <h3>Why word embeddings matter — 4 reasons</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>1. Semantic representation</h4><p>Similar words sit close together in vector space — King↔Queen, Car↔Vehicle, Happy↔Joyful.</p></div>
+      <div class="card"><h4>2. Lower-dimensional representation</h4><p>One-hot needs thousands of dimensions (word → 10,000 dims); embeddings compress the same vocabulary into 100–300 dims.</p></div>
+      <div class="card"><h4>3. Captures relationships</h4><p>Learned directly from large amounts of text — the classic example: <code>King − Man + Woman ≈ Queen</code>.</p></div>
+      <div class="card"><h4>4. Useful for NLP tasks</h4><p>Sentiment Analysis, Named Entity Recognition, Machine Translation, Text Classification, Question Answering, Recommendation Systems, and Transfer Learning (pre-trained embeddings reused for new tasks, especially useful when training data is small).</p></div>
+    </div>
 
     <div class="grid cols-2">
       <div class="card"><h4>Frequency-Based Methods</h4><p>Rely on how often words occur (in documents or alongside each other): <strong>TF-IDF</strong>, <strong>Co-occurrence Matrix</strong> (Unit 2 territory, count-based).</p></div>
