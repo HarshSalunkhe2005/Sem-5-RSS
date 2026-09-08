@@ -181,7 +181,33 @@
     <h2>Bigram MLE, Chain Rule &amp; Laplace Smoothing</h2>
 
     <div class="problem">
-      <h4>11. Bigram MLE — P("I enjoy reading books")</h4>
+      <h4>11. Chain Rule from raw counts — the lecture's own example</h4>
+      <p>Training corpus (5 sentences): S1 "I love machine learning" · S2 "I love Python" · S3 "I like machine learning" · S4 "I like Python" · S5 "I am learning Python". Estimate P(I, love, machine, learning) by estimating each chain-rule term directly from sentence counts.</p>
+      <div class="solution">
+        <strong>P(I)</strong> — every one of the 5 sentences starts with "I" → P(I) = 5/5 = <strong>1.0</strong><br>
+        <strong>P(love|I)</strong> — of the 5 sentences starting "I", 2 continue with "love" (S1, S2) → P(love|I) = 2/5 = <strong>0.40</strong><br>
+        <strong>P(machine|I,love)</strong> — of the 2 sentences beginning "I love", 1 continues with "machine" (S1) → P(machine|I,love) = 1/2 = <strong>0.50</strong><br>
+        <strong>P(learning|I,love,machine)</strong> — the only sentence with prefix "I love machine" continues with "learning" → P(learning|I,love,machine) = 1/1 = <strong>1.0</strong><br>
+        <strong>P(I,love,machine,learning) = 1.0 × 0.40 × 0.50 × 1.0 = 0.20 (20%)</strong>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h4>12. Bigram counting with sentence boundaries, chain multiplication &amp; zero-frequency — the lecture's own example</h4>
+      <p>Corpus (with &lt;s&gt;/&lt;/s&gt; boundaries): "&lt;s&gt; I love NLP &lt;/s&gt;" · "&lt;s&gt; I love Python &lt;/s&gt;" · "&lt;s&gt; I like NLP &lt;/s&gt;" · "&lt;s&gt; You love NLP &lt;/s&gt;" · "&lt;s&gt; You like Python &lt;/s&gt;".</p>
+      <div class="solution">
+        <strong>Unigram counts</strong> (15 tokens total): I=3, love=3, NLP=3, Python=2, like=2, You=2 → P(I)=P(love)=P(NLP)=3/15=0.20, P(Python)=P(like)=P(You)=2/15≈0.133<br>
+        <strong>Bigram counts:</strong> Count(I)=3 splits into "I love"=2, "I like"=1. Count(love)=3 splits into "love NLP"=2, "love Python"=1.<br>
+        <strong>P(love|I)</strong> = 2/3 ≈ 0.667 &nbsp;·&nbsp; <strong>P(like|I)</strong> = 1/3 ≈ 0.333 (sum to 1.0 ✓)<br>
+        <strong>P(NLP|love)</strong> = 2/3 ≈ 0.667 &nbsp;·&nbsp; <strong>P(Python|love)</strong> = 1/3 ≈ 0.333 (sum to 1.0 ✓)<br>
+        <strong>Chaining "I love NLP":</strong> P(I,love,NLP) = P(I) × P(love|I) × P(NLP|love) = 0.20 × 0.667 × 0.667 ≈ <strong>0.0889 (8.89%)</strong><br>
+        <strong>Zero-frequency problem — "I love Java":</strong> Count(love,Java)=0 → P(Java|love)=0/3=0 → the entire sentence probability collapses: P(I)×P(love|I)×P(Java|love) = <strong>0</strong> (fixed by smoothing techniques — Add-One/Laplace, Add-k, Good-Turing, Backoff, Interpolation).<br>
+        <strong>Trigram check — P(NLP|I,love):</strong> Count(I,love,NLP)=1, Count(I,love)=2 → P(NLP|I,love) = 1/2 = <strong>0.5</strong>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h4>13. Bigram MLE — P("I enjoy reading books")</h4>
       <p>Corpus: S1 "&lt;s&gt; I enjoy reading books &lt;/s&gt;" · S2 "&lt;s&gt; I enjoy watching movies &lt;/s&gt;" · S3 "&lt;s&gt; I enjoy reading news &lt;/s&gt;". Using <code>P(wᵢ|wᵢ₋₁)=C(wᵢ₋₁,wᵢ)/C(wᵢ₋₁)</code>, compute the sentence probability.</p>
       <div class="solution">P(I|&lt;s&gt;) = 3/3 = 1.0 &nbsp;·&nbsp; P(enjoy|I) = 3/3 = 1.0<br>
       P(reading|enjoy) = 2/3 ≈ 0.667 (S1, S3) &nbsp;·&nbsp; P(books|reading) = 1/2 = 0.5 (only S1)<br>
@@ -189,20 +215,20 @@
     </div>
 
     <div class="problem">
-      <h4>12. Laplace-smoothed probability of an unseen bigram</h4>
+      <h4>14. Laplace-smoothed probability of an unseen bigram</h4>
       <p>Same corpus, vocabulary V = {I, enjoy, reading, watching, books, movies, news} (V=7). Calculate the smoothed <code>P(movies | reading)</code>, given this bigram never occurred.</p>
       <div class="solution">Count(reading, movies) = 0, Count(reading) = 2, V = 7<br>
       P(movies|reading) = (0+1)/(2+7) = 1/9 ≈ <strong>0.111</strong> (vs. 0 without smoothing)</div>
     </div>
 
     <div class="problem">
-      <h4>13. Chain Rule application</h4>
+      <h4>15. Chain Rule application</h4>
       <p>Given P(The)=1.0, P(weather|The)=0.4, P(is|The,weather)=0.9, P(nice|The,weather,is)=0.6 — calculate P(The, weather, is, nice).</p>
       <div class="solution">P = 1.0 × 0.4 × 0.9 × 0.6 = <strong>0.216 (≈ 21.6%)</strong></div>
     </div>
 
     <div class="problem">
-      <h4>14. Add-one smoothing with a trigram-style context</h4>
+      <h4>16. Add-one smoothing with a trigram-style context</h4>
       <p>Estimate P(ball | "the red") given count("the red ball")=2, count("the red")=10, vocabulary V=100.</p>
       <div class="solution">P(ball|"the red") = (2+1)/(10+100) = 3/110 ≈ <strong>0.0273</strong></div>
     </div>
@@ -213,7 +239,7 @@
     <h2>Classification Worked Examples</h2>
 
     <div class="problem">
-      <h4>15. Spam classification — single word</h4>
+      <h4>17. Spam classification — single word</h4>
       <p>P(Spam)=0.4, P('free'|Spam)=0.6, P('free'|NotSpam)=0.1, P(NotSpam)=0.6. Classify the email "free" using only this word.</p>
       <div class="solution">Score(Spam) = 0.4 × 0.6 = <strong>0.24</strong><br>
       Score(NotSpam) = 0.6 × 0.1 = <strong>0.06</strong><br>
@@ -221,7 +247,7 @@
     </div>
 
     <div class="problem">
-      <h4>16. Spam classification with normalized posterior</h4>
+      <h4>18. Spam classification with normalized posterior</h4>
       <p>P(Spam)=0.25, P(NotSpam)=0.75. Email X="claim your reward": P(X|Spam)=0.7, P(X|NotSpam)=0.05. Find the classification and normalized P(Spam|X).</p>
       <div class="solution">Score(Spam) = 0.25 × 0.7 = 0.175 &nbsp;·&nbsp; Score(NotSpam) = 0.75 × 0.05 = 0.0375<br>
       0.175 &gt; 0.0375 → classified <strong>SPAM</strong><br>
@@ -230,7 +256,7 @@
     </div>
 
     <div class="problem">
-      <h4>17. Full Naive Bayes with Laplace smoothing — "I love this movie"</h4>
+      <h4>19. Full Naive Bayes with Laplace smoothing — "I love this movie"</h4>
       <p>Training data: "I love this movie"→Positive, "This movie is amazing"→Positive, "I hate this movie"→Negative, "This movie is boring"→Negative. Classify "I love this movie".</p>
       <div class="solution">Prior: P(Positive)=P(Negative)=2/4=0.5<br>
       Positive words total=8, Negative words total=8, V=8 → smoothed denominator = 8+8=16<br>
@@ -242,7 +268,7 @@
     </div>
 
     <div class="problem">
-      <h4>18. Spam detection — "lottery" with full posterior</h4>
+      <h4>20. Spam detection — "lottery" with full posterior</h4>
       <p>P(Spam)=0.3, P(NotSpam)=0.7. Email contains "lottery": P(lottery|Spam)=0.6, P(lottery|NotSpam)=0.02. Find classification and P(Spam|X).</p>
       <div class="solution">Score(Spam) = 0.3 × 0.6 = 0.18 &nbsp;·&nbsp; Score(NotSpam) = 0.7 × 0.02 = 0.014<br>
       0.18 &gt; 0.014 → <strong>SPAM</strong><br>
