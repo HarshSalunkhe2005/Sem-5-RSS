@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 Numericals — Word Embeddings</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .problem{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin:0 0 14px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .problem h4{margin:0 0 8px;color:var(--navy-2);font-size:15px;}
+  .problem p{color:#4a3d5c;font-size:14px;margin:0 0 8px;}
+  .solution{background:#f3ecfb;border-radius:10px;padding:12px 16px;margin-top:10px;font-size:13.6px;color:#4a2f9e;}
+  .solution strong{color:#4a2f9e;}
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:12.2px;line-height:1.55;margin:8px 0;}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;background:#fff;border-radius:8px;overflow:hidden;}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:8px 11px;font-weight:600;}
+  tbody td{padding:7px 11px;border-bottom:1px solid var(--line);color:#4a3d5c;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 3</span>
+  <h1>🧮 Numericals — CBOW, Skip-gram &amp; GloVe</h1>
+  <p>Complete forward-pass, softmax, loss, and backward-pass calculations for both Word2Vec
+     architectures, plus a GloVe co-occurrence matrix worked example.</p>
+  <a class="back" href="index.html">← Back to Unit 3 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#cbow-numerical">CBOW — Full Worked Example</a>
+    <a href="#skipgram-numerical">Skip-gram — Full Worked Example</a>
+    <a href="#glove-numerical">GloVe Co-occurrence</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 3 notes</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="cbow-numerical">
+    <p class="eyebrow">CBOW</p>
+    <h2>Predicting "deep" from {like, learning}</h2>
+    <p class="range">Sentence: "I like deep learning" · window=1 · target="deep" · context={like, learning} · embedding dim=2 · learning rate η=0.1</p>
+
+    <div class="problem">
+      <h4>Setup — Given embeddings</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Word</th><th>Input vector (W)</th><th>Output vector (W′)</th></tr></thead>
+        <tbody>
+          <tr><td>I</td><td>[0.1, 0.2]</td><td>[0.1, 0.3]</td></tr>
+          <tr><td>like</td><td>[0.4, 0.3]</td><td>[0.2, 0.4]</td></tr>
+          <tr><td>deep</td><td>[0.2, 0.5]</td><td>[0.4, 0.1]</td></tr>
+          <tr><td>learning</td><td>[0.6, 0.1]</td><td>[0.3, 0.2]</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 1 — Forward pass: average context vectors</h4>
+      <p><code>h = (v_like + v_learning) / 2</code></p>
+      <div class="solution">h = ([0.4,0.3] + [0.6,0.1]) / 2 = [1.0, 0.4] / 2 = <strong>[0.5, 0.2]</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 2 — Score every word, then softmax</h4>
+      <p><code>score(w) = h · u_w</code></p>
+      <div class="solution">
+        score(I) = 0.5×0.1 + 0.2×0.3 = 0.11 &nbsp;·&nbsp; score(like) = 0.5×0.2 + 0.2×0.4 = 0.18<br>
+        score(deep) = 0.5×0.4 + 0.2×0.1 = 0.22 &nbsp;·&nbsp; score(learning) = 0.5×0.3 + 0.2×0.2 = 0.19<br>
+        e^0.11≈1.116, e^0.18≈1.197, e^0.22≈1.246, e^0.19≈1.209 → sum ≈ 4.768<br>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Word</th><th>score</th><th>e^score</th><th>P(w)</th></tr></thead>
+          <tbody>
+            <tr><td>I</td><td>0.11</td><td>1.116</td><td>23.4%</td></tr>
+            <tr><td>like</td><td>0.18</td><td>1.197</td><td>25.1%</td></tr>
+            <tr><td><strong>deep</strong> (true target)</td><td>0.22</td><td>1.246</td><td><strong>26.1%</strong></td></tr>
+            <tr><td>learning</td><td>0.19</td><td>1.209</td><td>25.4%</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 3 — Loss (cross-entropy for true word "deep")</h4>
+      <div class="solution">L = −log P(deep) = −log(0.2613) ≈ <strong>1.342</strong><br>
+      Error signal per word: e_w = P(w) − y(w) (y=1 only for "deep")<br>
+      e_I = +0.234, e_like = +0.251, <strong>e_deep = −0.739</strong>, e_learning = +0.254</div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 4 — Backward pass: gradient &amp; update</h4>
+      <p><code>∂L/∂h = Σ eᵥ · u_w</code>, then split evenly across the 2 context words.</p>
+      <div class="solution">
+        ∂L/∂h ≈ [−0.146, 0.147]<br>
+        grad per context word = ∂L/∂h ÷ 2 = [−0.073, 0.074]<br>
+        v_new = v_old − η·grad:<br>
+        v_like: [0.4,0.3] − 0.1×[−0.073,0.074] = <strong>[0.407, 0.293]</strong><br>
+        v_learning: [0.6,0.1] − 0.1×[−0.073,0.074] = <strong>[0.607, 0.093]</strong>
+      </div>
+    </div>
+  </section>
+
+  <section id="skipgram-numerical">
+    <p class="eyebrow">Skip-gram</p>
+    <h2>Predicting "like" from Target "deep"</h2>
+    <p class="range">Same sentence/embeddings as above · target "deep" generates 2 pairs: (deep,like) and (deep,learning) · this walkthrough covers pair (deep → like)</p>
+
+    <div class="problem">
+      <h4>Step 1 — Forward pass: no averaging, use target's own vector</h4>
+      <div class="solution">h = v_deep = <strong>[0.2, 0.5]</strong> (taken directly from W — Skip-gram skips CBOW's averaging step entirely)</div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 2 — Score every word, then softmax</h4>
+      <div class="solution">
+        score(I) = 0.2×0.1+0.5×0.3 = 0.17 &nbsp;·&nbsp; score(like) = 0.2×0.2+0.5×0.4 = 0.24<br>
+        score(deep) = 0.2×0.4+0.5×0.1 = 0.13 &nbsp;·&nbsp; score(learning) = 0.2×0.3+0.5×0.2 = 0.16<br>
+        e^0.17≈1.185, e^0.24≈1.271, e^0.13≈1.139, e^0.16≈1.174 → sum ≈ 4.768<br>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Word</th><th>score</th><th>e^score</th><th>P(w)</th></tr></thead>
+          <tbody>
+            <tr><td>I</td><td>0.17</td><td>1.185</td><td>24.9%</td></tr>
+            <tr><td><strong>like</strong> (true context)</td><td>0.24</td><td>1.271</td><td><strong>26.7%</strong></td></tr>
+            <tr><td>deep</td><td>0.13</td><td>1.139</td><td>23.9%</td></tr>
+            <tr><td>learning</td><td>0.16</td><td>1.174</td><td>24.6%</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 3 — Loss for this one pair</h4>
+      <div class="solution">L = −log P(like) = −log(0.2666) ≈ <strong>1.322</strong> (the (deep,learning) pair gets its own separate loss)</div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 4 — Backward pass: update the target vector</h4>
+      <p>Unlike CBOW, the full gradient goes to <code>v_deep</code> alone — no splitting, since there was only one input word.</p>
+      <div class="solution">
+        ∂L/∂v_deep ≈ [0.048, −0.146]<br>
+        v_deep: [0.2,0.5] − 0.1×[0.048,−0.146] = <strong>[0.195, 0.515]</strong><br>
+        u_like: [0.2,0.4] − 0.1×(−0.733)×[0.2,0.5] = <strong>[0.215, 0.437]</strong><br>
+        The (deep, learning) pair then repeats this whole process independently, producing its own gradient contribution to v_deep — both pairs' gradients accumulate before the next update.
+      </div>
+    </div>
+  </section>
+
+  <section id="glove-numerical">
+    <p class="eyebrow">GloVe</p>
+    <h2>Building a Co-occurrence Matrix</h2>
+    <p class="range">Sentence: "Students train the model using data" · window = 2</p>
+
+    <div class="problem">
+      <h4>Step 1–2: Tokenize &amp; build vocabulary</h4>
+      <div class="solution">Tokens: [Students, train, the, model, using, data] — 6 unique words, each frequency = 1.</div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 3: Co-occurrence matrix (window=2)</h4>
+      <p>Cell (i,j) = how often word i and word j appear together within the window. For "the" (center of the sentence), context = {Students, train, model, using}.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th></th><th>Students</th><th>train</th><th>the</th><th>model</th><th>using</th><th>data</th></tr></thead>
+        <tbody>
+          <tr><td>Students</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>train</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td>the</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+          <tr><td>model</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+          <tr><td>using</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>data</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+        </tbody>
+      </table></div>
+      <div class="solution">"the" co-occurs with 4 other words — it sits at the center of this short sentence.
+      "Students" and "data" never co-occur (cell = 0) — they're far apart in the sentence, so
+      training will push their vectors apart, while "the"/"train"/"model" (frequent co-occurrence)
+      get pulled close together.</div>
+    </div>
+
+    <div class="problem">
+      <h4>Step 4–6: What training produces</h4>
+      <div class="solution">GloVe adjusts every word vector so its dot product with another word's vector matches
+      their observed co-occurrence count as closely as possible. After training, each vocabulary
+      word gets one dense row in the final embedding matrix — e.g. (illustrative 3D):
+      <code>Students=[0.12,0.44,-0.08], train=[0.31,0.27,0.19], the=[0.29,0.31,0.22]</code>. One
+      sentence gives a weak signal; GloVe needs a huge corpus (6B+ tokens) for these statistics to
+      become reliable.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 3 — Word Embeddings · Numericals · Sem 5 revision notes</footer>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Numericals — Feature Extraction &amp; Language Modeling</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .problem{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin:0 0 14px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .problem h4{margin:0 0 8px;color:var(--navy-2);font-size:15px;}
+  .problem p{color:#4a3d5c;font-size:14px;margin:0 0 8px;}
+  .solution{background:#f3ecfb;border-radius:10px;padding:12px 16px;margin-top:10px;font-size:13.6px;color:#4a2f9e;}
+  .solution strong{color:#4a2f9e;}
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:12.2px;line-height:1.55;margin:8px 0;}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;background:#fff;border-radius:8px;overflow:hidden;}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:8px 11px;font-weight:600;}
+  tbody td{padding:7px 11px;border-bottom:1px solid var(--line);color:#4a3d5c;}
+  .table-wrap{overflow-x:auto;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 2</span>
+  <h1>🧮 Numericals — Worked Step-by-Step</h1>
+  <p>One-Hot &amp; Bag-of-Words vectors, TF-IDF scoring, n-gram counting, bigram MLE, Laplace
+     smoothing, and Naive Bayes classification — every calculation shown in full.</p>
+  <a class="back" href="index.html" style="position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;">← Back to Unit 2 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#onehot-bow">One-Hot &amp; BoW</a>
+    <a href="#ngram-count">N-Gram Counting</a>
+    <a href="#tfidf-calc">TF-IDF</a>
+    <a href="#bigram-mle">Bigram MLE &amp; Smoothing</a>
+    <a href="#naivebayes-calc">Naive Bayes</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 2 notes</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="onehot-bow">
+    <p class="eyebrow">One-Hot &amp; Bag-of-Words</p>
+    <h2>Vector Construction</h2>
+
+    <div class="problem">
+      <h4>1. One-Hot vector for a vocabulary of 4</h4>
+      <p>Vocabulary: ["apple", "banana", "cherry", "date"]. Write the one-hot vector for "cherry".</p>
+      <div class="solution">Position: apple=1, banana=2, <strong>cherry=3</strong>, date=4 → <code>cherry = [0, 0, 1, 0]</code></div>
+    </div>
+
+    <div class="problem">
+      <h4>2. BoW vectors — "Dog bites man" vs "Man bites dog"</h4>
+      <p>Construct BoW vectors for both sentences and explain what this reveals.</p>
+      <div class="solution">Vocabulary (V=3): {bites, dog, man}<br>
+      "Dog bites man" → [bites=1, dog=1, man=1] = <code>[1,1,1]</code><br>
+      "Man bites dog" → [bites=1, dog=1, man=1] = <code>[1,1,1]</code><br>
+      <strong>Identical vectors, opposite meaning</strong> — BoW discards word order entirely.</div>
+    </div>
+
+    <div class="problem">
+      <h4>3. BoW for 3 support-chat messages</h4>
+      <p>M1: "The app crashes often" · M2: "The app crashes rarely now" · M3: "The website loads slowly". Build the vocabulary and vector for each.</p>
+      <div class="solution">Vocabulary (alphabetical, 9 words): app, crashes, loads, now, often, rarely, slowly, the, website<br>
+      M1 → <code>[1,1,0,0,1,0,0,1,0]</code><br>
+      M2 → <code>[1,1,0,1,0,1,0,1,0]</code><br>
+      M3 → <code>[0,0,1,0,0,0,1,1,1]</code></div>
+    </div>
+
+    <div class="problem">
+      <h4>4. CountVectorizer vocabulary with lowercase + punctuation stripping</h4>
+      <p>Sentences: "AI is transforming Healthcare!" and "Healthcare needs AI tools." — apply factory defaults.</p>
+      <div class="solution">lowercase=True merges "AI"/"ai" and "Healthcare"/"healthcare"; punctuation "!" is stripped by the token pattern.<br>
+      Unique tokens: ai, is, transforming, healthcare, needs, tools<br>
+      Alphabetically sorted vocabulary: <code>{ai, healthcare, is, needs, tools, transforming}</code></div>
+    </div>
+  </section>
+
+  <section id="ngram-count">
+    <p class="eyebrow">N-Gram Counting</p>
+    <h2>Unigrams, Bigrams, Trigrams &amp; the Count Formula</h2>
+
+    <div class="problem">
+      <h4>5. All n-grams of "Artificial intelligence powers innovation"</h4>
+      <p>Construct the complete sets of Unigrams, Bigrams, and Trigrams.</p>
+      <div class="solution">Tokens (N=4): Artificial, intelligence, powers, innovation<br>
+      Unigrams: {Artificial, intelligence, powers, innovation}<br>
+      Bigrams: {"Artificial intelligence", "intelligence powers", "powers innovation"}<br>
+      Trigrams: {"Artificial intelligence powers", "intelligence powers innovation"}</div>
+    </div>
+
+    <div class="problem">
+      <h4>6. N-gram counts via the formula (N − n + 1)</h4>
+      <p>For "Machine learning models learn from data automatically" (7 words), calculate the number of bigrams, trigrams, and 4-grams.</p>
+      <div class="solution">N = 7 → Bigrams = 7−2+1 = <strong>6</strong> · Trigrams = 7−3+1 = <strong>5</strong> · 4-grams = 7−4+1 = <strong>4</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>7. Skip-gram-style context pairs (window=2)</h4>
+      <p>In "the quick brown fox jumps over", list (target, context) pairs for target "fox" with window size 2.</p>
+      <div class="solution">"fox" is at index 3 (0-indexed: the=0, quick=1, brown=2, fox=3, jumps=4, over=5).<br>
+      Window 2 → 2 words each side: brown, quick (left) and jumps, over (right).<br>
+      Pairs: <code>(fox, quick), (fox, brown), (fox, jumps), (fox, over)</code></div>
+    </div>
+  </section>
+
+  <section id="tfidf-calc">
+    <p class="eyebrow">TF-IDF</p>
+    <h2>Term Frequency – Inverse Document Frequency</h2>
+
+    <div class="problem">
+      <h4>8. TF-IDF of "sat" in a 3-document corpus</h4>
+      <p>D1: "the cat sat on the mat" · D2: "the dog sat on the log" · D3: "cats and dogs are pets". Compute TF-IDF("sat", D1) using log base 10.</p>
+      <div class="solution">TF(sat, D1) = 1/6 ≈ 0.167 (D1 has 6 words)<br>
+      "sat" appears in D1, D2 → DF = 2, N = 3<br>
+      IDF(sat) = log₁₀(3/2) = log₁₀(1.5) ≈ 0.176<br>
+      <strong>TF-IDF(sat, D1) ≈ 0.167 × 0.176 ≈ 0.0294</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>9. IDF comparison — common vs. rare word</h4>
+      <p>In a 1,000-document corpus: "the" appears in 950 docs, "blockchain" in 5 docs. Compute both IDFs.</p>
+      <div class="solution">IDF(the) = log₁₀(1000/950) = log₁₀(1.053) ≈ <strong>0.022</strong> (very low)<br>
+      IDF(blockchain) = log₁₀(1000/5) = log₁₀(200) ≈ <strong>2.301</strong> (much higher)<br>
+      "blockchain" is far more distinctive/informative — TF-IDF automatically suppresses near-universal words.</div>
+    </div>
+
+    <div class="problem">
+      <h4>10. Full TF-IDF vector for a document</h4>
+      <p>D1: "Data is powerful" · D2: "Data is useful for science" · D3: "Science is powerful and useful". Calculate TF, IDF, and TF-IDF for every word in D2.</p>
+      <div class="solution">
+        <div class="table-wrap"><table>
+          <thead><tr><th>Word</th><th>TF (D2, 5 words)</th><th>DF</th><th>IDF = log₁₀(3/DF)</th><th>TF-IDF</th></tr></thead>
+          <tbody>
+            <tr><td>data</td><td>1/5 = 0.20</td><td>2</td><td>log₁₀(1.5) = 0.176</td><td>0.0352</td></tr>
+            <tr><td>is</td><td>0.20</td><td>3</td><td>log₁₀(1) = 0</td><td>0</td></tr>
+            <tr><td>useful</td><td>0.20</td><td>2</td><td>0.176</td><td>0.0352</td></tr>
+            <tr><td>for</td><td>0.20</td><td>1</td><td>log₁₀(3) = 0.477</td><td>0.0954</td></tr>
+            <tr><td>science</td><td>0.20</td><td>2</td><td>0.176</td><td>0.0352</td></tr>
+          </tbody>
+        </table></div>
+        D2 vector (data, is, useful, for, science) = <code>[0.0352, 0, 0.0352, 0.0954, 0.0352]</code> — "for" scores highest (rarest, DF=1).
+      </div>
+    </div>
+  </section>
+
+  <section id="bigram-mle">
+    <p class="eyebrow">Language Modeling</p>
+    <h2>Bigram MLE, Chain Rule &amp; Laplace Smoothing</h2>
+
+    <div class="problem">
+      <h4>11. Bigram MLE — P("I enjoy reading books")</h4>
+      <p>Corpus: S1 "&lt;s&gt; I enjoy reading books &lt;/s&gt;" · S2 "&lt;s&gt; I enjoy watching movies &lt;/s&gt;" · S3 "&lt;s&gt; I enjoy reading news &lt;/s&gt;". Using <code>P(wᵢ|wᵢ₋₁)=C(wᵢ₋₁,wᵢ)/C(wᵢ₋₁)</code>, compute the sentence probability.</p>
+      <div class="solution">P(I|&lt;s&gt;) = 3/3 = 1.0 &nbsp;·&nbsp; P(enjoy|I) = 3/3 = 1.0<br>
+      P(reading|enjoy) = 2/3 ≈ 0.667 (S1, S3) &nbsp;·&nbsp; P(books|reading) = 1/2 = 0.5 (only S1)<br>
+      <strong>P(I enjoy reading books) = 1.0 × 1.0 × 0.667 × 0.5 = 0.333 (≈ 33.3%)</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>12. Laplace-smoothed probability of an unseen bigram</h4>
+      <p>Same corpus, vocabulary V = {I, enjoy, reading, watching, books, movies, news} (V=7). Calculate the smoothed <code>P(movies | reading)</code>, given this bigram never occurred.</p>
+      <div class="solution">Count(reading, movies) = 0, Count(reading) = 2, V = 7<br>
+      P(movies|reading) = (0+1)/(2+7) = 1/9 ≈ <strong>0.111</strong> (vs. 0 without smoothing)</div>
+    </div>
+
+    <div class="problem">
+      <h4>13. Chain Rule application</h4>
+      <p>Given P(The)=1.0, P(weather|The)=0.4, P(is|The,weather)=0.9, P(nice|The,weather,is)=0.6 — calculate P(The, weather, is, nice).</p>
+      <div class="solution">P = 1.0 × 0.4 × 0.9 × 0.6 = <strong>0.216 (≈ 21.6%)</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>14. Add-one smoothing with a trigram-style context</h4>
+      <p>Estimate P(ball | "the red") given count("the red ball")=2, count("the red")=10, vocabulary V=100.</p>
+      <div class="solution">P(ball|"the red") = (2+1)/(10+100) = 3/110 ≈ <strong>0.0273</strong></div>
+    </div>
+  </section>
+
+  <section id="naivebayes-calc">
+    <p class="eyebrow">Naive Bayes</p>
+    <h2>Classification Worked Examples</h2>
+
+    <div class="problem">
+      <h4>15. Spam classification — single word</h4>
+      <p>P(Spam)=0.4, P('free'|Spam)=0.6, P('free'|NotSpam)=0.1, P(NotSpam)=0.6. Classify the email "free" using only this word.</p>
+      <div class="solution">Score(Spam) = 0.4 × 0.6 = <strong>0.24</strong><br>
+      Score(NotSpam) = 0.6 × 0.1 = <strong>0.06</strong><br>
+      0.24 &gt; 0.06 → classified as <strong>SPAM</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>16. Spam classification with normalized posterior</h4>
+      <p>P(Spam)=0.25, P(NotSpam)=0.75. Email X="claim your reward": P(X|Spam)=0.7, P(X|NotSpam)=0.05. Find the classification and normalized P(Spam|X).</p>
+      <div class="solution">Score(Spam) = 0.25 × 0.7 = 0.175 &nbsp;·&nbsp; Score(NotSpam) = 0.75 × 0.05 = 0.0375<br>
+      0.175 &gt; 0.0375 → classified <strong>SPAM</strong><br>
+      Evidence P(X) = 0.175 + 0.0375 = 0.2125<br>
+      Posterior P(Spam|X) = 0.175/0.2125 ≈ <strong>0.8235 (82.4%)</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>17. Full Naive Bayes with Laplace smoothing — "I love this movie"</h4>
+      <p>Training data: "I love this movie"→Positive, "This movie is amazing"→Positive, "I hate this movie"→Negative, "This movie is boring"→Negative. Classify "I love this movie".</p>
+      <div class="solution">Prior: P(Positive)=P(Negative)=2/4=0.5<br>
+      Positive words total=8, Negative words total=8, V=8 → smoothed denominator = 8+8=16<br>
+      Smoothed: P(I|Pos)=2/16, P(love|Pos)=2/16, P(this|Pos)=3/16, P(movie|Pos)=3/16<br>
+      P(I|Neg)=2/16, P(love|Neg)=1/16 (raw count 0, +1 smoothing), P(this|Neg)=3/16, P(movie|Neg)=3/16<br>
+      Score(Positive) = 0.5 × 2/16 × 2/16 × 3/16 × 3/16 ≈ <strong>0.0000824</strong><br>
+      Score(Negative) = 0.5 × 2/16 × 1/16 × 3/16 × 3/16 ≈ <strong>0.0000412</strong><br>
+      Score(Positive) &gt; Score(Negative) → <strong>POSITIVE</strong></div>
+    </div>
+
+    <div class="problem">
+      <h4>18. Spam detection — "lottery" with full posterior</h4>
+      <p>P(Spam)=0.3, P(NotSpam)=0.7. Email contains "lottery": P(lottery|Spam)=0.6, P(lottery|NotSpam)=0.02. Find classification and P(Spam|X).</p>
+      <div class="solution">Score(Spam) = 0.3 × 0.6 = 0.18 &nbsp;·&nbsp; Score(NotSpam) = 0.7 × 0.02 = 0.014<br>
+      0.18 &gt; 0.014 → <strong>SPAM</strong><br>
+      P(X) = 0.18 + 0.014 = 0.194 → Posterior P(Spam|X) = 0.18/0.194 ≈ <strong>0.928 (92.8%)</strong></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 2 — Feature Extraction &amp; Language Modeling · Numericals · Sem 5 revision notes</footer>
+
+</body>
+</html>
