@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Question Bank — Introduction to Language &amp; NLP</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#c9d7f5;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#c9d7f5;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--violet);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--sky);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#33415f;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+  .qa .a table{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.8px;}
+  .qa .a th{background:var(--navy);color:#fff;text-align:left;padding:6px 10px;}
+  .qa .a td{padding:6px 10px;border-bottom:1px solid var(--line);}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 1</span>
+  <h1>📚 Unit 1 — Question Bank Answers</h1>
+  <p>The 8 official CO1 question-bank items, plus quick self-test recall questions — for
+     preprocessing, tokenization, POS tagging, parsing, and NER.</p>
+  <a class="back" href="index.html">← Back to Unit 1 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#official">Official CO1 Questions</a>
+    <a href="#recall">Quick Recall</a>
+    <a href="index.html" style="color:var(--sky);">← Unit 1 notes</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="official">
+    <p class="eyebrow">Official Question Bank</p>
+    <h2>Unit 1: Introduction to Language &amp; Preprocessing (CO1)</h2>
+    <p class="range">Symbiosis Institute of Technology — Course Code 0701260505</p>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q1</span>Apply tokenization, stemming, and lemmatization on a given text and compare the outputs.</p>
+      <p class="a">Text: <code>"The programmers were studying running strategies better than corpora."</code><br>
+      <strong>Tokenization</strong> (word-level): [The, programmers, were, studying, running, strategies, better, than, corpora, .]<br>
+      <strong>Stemming</strong> (Porter — chops to a root, which may not be a real word): programmers→program, studying→studi, running→run, strategies→strategi, better→better, corpora→corpora<br>
+      <strong>Lemmatization</strong> (WordNet — dictionary-checked, meaning preserved): programmers→programmer, studying→study, running→run, strategies→strategy, better→good, corpora→corpus<br>
+      <strong>Comparison:</strong> stemming is faster but crude (produces non-words like "studi", can't fix irregulars like better→good); lemmatization is slower (needs POS + a dictionary lookup) but always returns valid, meaningful base words.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q2</span>Analyze the impact of different preprocessing techniques on text classification performance.</p>
+      <p class="a"><strong>Lowercasing:</strong> reduces vocabulary size and sparsity, but can hurt sentiment tasks where CAPS signals emotion. <strong>Stopword removal:</strong> shrinks feature space and often improves BoW/TF-IDF classifiers by removing noise — but can hurt tasks needing full context (e.g. "to be or not to be"). <strong>Stemming vs. lemmatization:</strong> stemming merges more word forms (higher recall, more noise); lemmatization is more precise but leaves more distinct tokens. <strong>Punctuation/HTML removal:</strong> generally helps by removing non-informative tokens. Net effect: the "right" preprocessing is task-dependent — aggressive cleaning helps simple bag-of-words classifiers but can strip signal that deep/contextual models would have used.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q3</span>Given a sentence, perform POS tagging and interpret the grammatical structure.</p>
+      <p class="a">Sentence: <code>"The quick fox jumps over the lazy dog."</code>
+      <table><thead><tr><th>The</th><th>quick</th><th>fox</th><th>jumps</th><th>over</th><th>the</th><th>lazy</th><th>dog</th></tr></thead>
+      <tbody><tr><td>DT</td><td>JJ</td><td>NN</td><td>VBZ</td><td>IN</td><td>DT</td><td>JJ</td><td>NN</td></tr></tbody></table>
+      Interpretation: Determiner+Adjective+Noun forms the subject noun phrase ("The quick fox"), VBZ is the main verb (3rd-person singular present), IN introduces a prepositional phrase ("over the lazy dog") that modifies the verb — overall structure is <code>[NP: DT JJ NN] [VP: VBZ [PP: IN [NP: DT JJ NN]]]</code>.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q4</span>Apply Named Entity Recognition on a paragraph and categorize entities.</p>
+      <p class="a">Text: <code>"Elon Musk founded Tesla in 2003 in California. He later acquired Twitter for $44 billion."</code><br>
+      <strong>Elon Musk</strong> → PERSON &nbsp;·&nbsp; <strong>Tesla</strong> → ORG &nbsp;·&nbsp; <strong>2003</strong> → DATE &nbsp;·&nbsp; <strong>California</strong> → LOCATION &nbsp;·&nbsp; <strong>Twitter</strong> → ORG &nbsp;·&nbsp; <strong>$44 billion</strong> → MONEY.<br>
+      NER is done in two steps: (1) extraction — POS tagging, sentence-boundary detection, capitalization cues, co-reference resolution ("He" → Elon Musk); (2) searching — matching entity candidates against known categories using dictionary-based or rule-based methods.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q5</span>Compare normalization techniques and justify their use in different NLP tasks.</p>
+      <p class="a"><strong>Lowercasing:</strong> use for search/retrieval and BoW-style classifiers; avoid for sentiment/emotion detection where case carries signal. <strong>Stemming:</strong> use when speed matters more than precision (e.g. large-scale search indexing). <strong>Lemmatization:</strong> use when meaning must be preserved (e.g. question-answering, machine translation). <strong>Contraction expansion</strong> ("don't"→"do not"): use for social-media/review text before tokenization, so "don't" and "do not" aren't treated as different tokens. <strong>Accent/URL/whitespace cleanup:</strong> use as a baseline step in almost every pipeline to reduce noise before anything else.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q6</span>Analyze challenges faced in preprocessing multilingual text data.</p>
+      <p class="a">Non-standardization across languages: different scripts (Devanagari, Latin, Arabic), different tokenization rules (Chinese/Japanese have no spaces between words), different morphology (agglutinative languages like Turkish build long compound words that stemmers/lemmatizers built for English can't handle). Stopword lists, stemmers, and POS taggers are usually language-specific and don't transfer directly. Low-resource languages (billions of speakers, minimal digital/labeled data) make training language-specific tools especially hard — this is one of NLP's core open challenges.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q7</span>Evaluate the importance of preprocessing in improving NLP model accuracy.</p>
+      <p class="a">Preprocessing directly shapes the vocabulary and feature space every downstream model sees. Removing noise (HTML, punctuation, stopwords) reduces the dimensionality a classifier must learn from, which helps with limited training data. Normalizing case/spelling/contractions prevents the model from treating "Don't"/"don't"/"do not" as three unrelated tokens, effectively giving it more training examples per real concept. Poor preprocessing (e.g. leaving in HTML tags, inconsistent casing) can bury the genuine signal in noise, directly lowering accuracy — preprocessing quality is often a bigger accuracy lever than model choice for classical (non-deep-learning) pipelines.</p>
+    </div>
+
+    <div class="qa">
+      <p class="q"><span class="num">Q8</span>Given raw text data, design a preprocessing pipeline and justify each step.</p>
+      <p class="a">1) <strong>Text cleaning</strong> — strip HTML tags, handle emojis, fix obvious spelling: removes structural/non-linguistic noise. 2) <strong>Lowercasing</strong> — merges case-variant duplicates (skip if case is a meaningful signal, e.g. sentiment). 3) <strong>Tokenization</strong> — splits into analyzable units (word/subword depending on downstream model). 4) <strong>Stopword removal</strong> — drops low-information high-frequency words for classical ML models (skip for context-sensitive deep models). 5) <strong>Normalization</strong> — stemming or lemmatization to merge word-form variants. 6) <strong>Vectorization</strong> — One-Hot/BoW/TF-IDF/Word2Vec, chosen based on whether frequency, importance, or meaning is what the downstream task needs. Each step is justified by what it removes or standardizes, in the order that avoids one step corrupting the next (e.g. tokenize before removing stopwords, not after).</p>
+    </div>
+  </section>
+
+  <section id="recall">
+    <p class="eyebrow">Quick Recall</p>
+    <h2>Self-Test — Starting From Zero</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q9</span>What are the 3 core components of language studied in NLP?</p><p class="a"><strong>Syntax</strong> (sentence structure/grammar), <strong>Semantics</strong> (meaning of words/sentences in context), <strong>Pragmatics</strong> (intent and context beyond the literal meaning).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>List the 5 phases of the NLP pipeline in order.</p><p class="a">1) <strong>Lexical</strong> (tokenization) → 2) <strong>Syntactic</strong> (parsing/grammar check) → 3) <strong>Semantic</strong> (word meaning, Word Sense Disambiguation) → 4) <strong>Discourse Integration</strong> (cross-sentence context) → 5) <strong>Pragmatic</strong> (intent, real-world knowledge).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>What's the difference between lexical, semantic, and syntactic ambiguity?</p><p class="a"><strong>Lexical:</strong> one word, multiple possible parts of speech/meanings (e.g. "bank"). <strong>Semantic:</strong> a whole phrase has multiple meanings ("I saw the boy on the beach with my binoculars" — who had the binoculars?). <strong>Syntactic:</strong> sentence structure itself is ambiguous (which phrase does "with my binoculars" attach to?).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>What are the 8 core linguistic levels, in order from smallest to largest unit of analysis?</p><p class="a">Phonology (sounds) → Morphology (word formation) → Morpheme (meaningful word parts) → Syntax (sentence structure) → Semantics (sentence meaning) → Pragmatics (context) → Discourse (sentence-to-sentence connection) → World Knowledge (real-world understanding).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>One-Hot vs. Word2Vec vs. BERT — what's the one-line difference in what each captures?</p><p class="a">One-Hot: captures only identity (words are different, no notion of how). Word2Vec: captures meaning (similar words get similar vectors), but one fixed vector per word regardless of sentence. BERT: captures meaning <em>and</em> context — the same word gets a different vector depending on the sentence it's in (river "bank" vs. "bank" account).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>What's the difference between Chunking and Chinking?</p><p class="a"><strong>Chunking</strong> groups words into larger units (Noun Phrases, Verb Phrases) based on POS tags. <strong>Chinking</strong> is the opposite — it explicitly excludes certain words/phrases (prepositions, determiners) from a chunk, tagged <strong>O</strong> (outside) in IOB format.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>What are the 4 parts of Chomsky's formal grammar definition G = (N, T, S, P)?</p><p class="a"><strong>N</strong> = non-terminal symbols (variables) &nbsp;·&nbsp; <strong>T</strong> = terminal symbols &nbsp;·&nbsp; <strong>S</strong> = start symbol (S ∈ N) &nbsp;·&nbsp; <strong>P</strong> = production rules of the form α → β.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Top-down vs. Bottom-up parsing — what's the core difference?</p><p class="a"><strong>Top-down:</strong> starts from the grammar's start symbol and expands toward the input (main weakness: backtracking). <strong>Bottom-up:</strong> starts from the input symbols/tokens and works up toward the start symbol.</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 1 — Introduction to Language &amp; NLP · Question Bank · Sem 5 revision notes</footer>
+
+</body>
+</html>
