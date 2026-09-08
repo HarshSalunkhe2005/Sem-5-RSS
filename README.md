@@ -18,6 +18,7 @@ URLs by hand.
 | Unit | Topic | Link |
 |---|---|---|
 | Unit 1 | Introduction to Language & NLP | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%201/index.html) |
+| Unit 1 | Question Bank answers | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%201/question-bank.html) |
 | Unit 2 | Feature Extraction & Language Modeling | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%202/index.html) |
 | Unit 2 | Numericals (worked, step-by-step) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%202/numericals.html) |
 | Unit 2 | Question Bank answers | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/NLP/Unit%202/question-bank.html) |
