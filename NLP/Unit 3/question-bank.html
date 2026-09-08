@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 Question Bank — Word Embeddings</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 3</span>
+  <h1>📚 Unit 3 — Question Bank Answers</h1>
+  <p>The 8 official CO3 question-bank items, plus applied practice questions on One-Hot vs.
+     embeddings, CBOW/Skip-gram, and GloVe.</p>
+  <a class="back" href="index.html">← Back to Unit 3 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#official">Official CO3 Questions</a>
+    <a href="#embedding-qa">Word Embeddings General</a>
+    <a href="#cbow-skipgram-qa">CBOW &amp; Skip-gram</a>
+    <a href="#glove-qa">GloVe</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 3 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="official">
+    <p class="eyebrow">Official Question Bank</p>
+    <h2>Unit 3: Word Embeddings &amp; Neural Networks (CO3)</h2>
+    <p class="range">Symbiosis Institute of Technology — Course Code 0701260505</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Apply Word2Vec or GloVe embeddings on a dataset and interpret word similarities.</p><p class="a">Train (or load pre-trained) vectors, then use <code>model.wv.similarity('w1','w2')</code> for a pairwise score or <code>most_similar('word', topn=5)</code> to rank nearby words by cosine similarity. Words used in similar contexts (e.g. "orbiting", "international" near "space") surface as most similar — interpret high similarity as shared usage context, not necessarily a dictionary synonym.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Analyze the difference between one-hot encoding and word embeddings.</p><p class="a">One-hot: sparse, vocabulary-length vectors, all pairs mutually orthogonal (zero similarity signal). Embeddings: dense, 100–300 dimensional, learned from data so that words used in similar contexts get similar vectors — captures both semantic (king↔queen) and syntactic relationships, and generalizes to related unseen contexts in a way one-hot never can.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Given a set of words, visualize embeddings and interpret semantic relationships.</p><p class="a">Use PCA (or t-SNE) to compress each word's high-dimensional vector down to 2D, then scatter-plot. Words that cluster together (e.g. animals, emotions, foods, places) share contextual usage; the distance and direction between clusters can reveal relationships (e.g. the king→queen, man→woman offset being roughly parallel).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Apply neural network concepts to classify text data.</p><p class="a">Convert text to embeddings (Word2Vec/GloVe vectors, averaged or fed into a sequence model), then pass through a neural classifier — a dense network on averaged embeddings for simple cases, or an RNN/LSTM/Transformer over the sequence for context-sensitive classification. Train with cross-entropy loss against labeled classes.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Analyze how context is captured in word embeddings.</p><p class="a">Word2Vec captures context via <em>local</em> sliding windows (CBOW predicts from surrounding words; Skip-gram predicts surrounding words from the target). GloVe captures context via <em>global</em> co-occurrence statistics across the entire corpus. Both rely on the distributional hypothesis: words appearing in similar contexts end up with similar vectors — though neither produces a different vector per sentence (that needs contextual models like BERT, a later unit).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Compare Word2Vec and GloVe models with suitable examples.</p><p class="a">Word2Vec: predictive, local context window, e.g. "the quick ___ jumps" → learns "fox" from nearby words only. GloVe: count-based, global statistics, e.g. counts how often "ice" co-occurs with "solid" vs. "gas" across the <em>whole</em> corpus, then fits vectors to match those ratios. Word2Vec trains faster on smaller corpora; GloVe leverages corpus-wide statistics directly and ships strong pre-trained vectors.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Evaluate the effectiveness of embeddings over traditional feature extraction methods.</p><p class="a">Traditional methods (One-Hot, BoW, TF-IDF) are sparse, high-dimensional, and blind to meaning — "good" and "great" look completely unrelated. Embeddings are dense, low-dimensional (100–300d vs. thousands), and place semantically similar words close together, enabling similarity search, analogy reasoning, and much better generalization to unseen but related words — at the cost of needing more training data or a pre-trained model.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Given a problem, choose an embedding technique and justify your decision.</p><p class="a">Huge corpus, frequent words, speed matters → <strong>CBOW</strong>. Rare/domain-specific vocabulary matters most → <strong>Skip-gram</strong>. Want to leverage global corpus statistics or use ready-made vectors without training → <strong>GloVe</strong> (especially pre-trained). Need to handle misspellings/OOV words via sub-word pieces → <strong>FastText</strong>.</p></div>
+  </section>
+
+  <section id="embedding-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>Word Embeddings — General</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q9</span>A chatbot must recognize "purchase" and "buy" mean something similar, but keyword matching misses this. How do embeddings fix it?</p><p class="a">Keyword matching only recognizes exact string matches. Embeddings are learned from the distributional hypothesis — words in similar contexts get similar vectors — so "purchase" and "buy" (used in similar sentences) end up close together with high cosine similarity. The chatbot can then match by vector similarity instead of exact words, correctly treating them as near-synonyms.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>Compare one-hot vs. dense (300-dim) embeddings for a 50,000-word product-title vocabulary used for similarity search.</p><p class="a">One-hot: 50,000-dim sparse vectors, all orthogonal — no built-in similarity, and memory/compute-heavy at scale. Dense embeddings: ~300 dimensions (≈166× smaller), capturing learned semantic relationships, so related products ("sneakers"/"trainers") land close together and similarity search works meaningfully. Dense embeddings are both more compact and more useful here.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Explain the vector arithmetic behind "Paris − France + Italy = ?" and state the expected result.</p><p class="a"><code>vector(Paris) − vector(France)</code> isolates a direction encoding "is the capital of". Adding <code>vector(Italy)</code> moves to "the capital of Italy" → <strong>vector(Rome)</strong>. This works because good embeddings encode relational structure (capital-of, gender, tense) as consistent linear directions, so the same offset applied elsewhere lands near the analogous word.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Word2Vec and GloVe both produce a single, fixed embedding vector per word regardless of context. True or False?</p><p class="a"><strong>True.</strong> Both are static (non-contextual) embedding methods — each word type gets exactly one vector no matter the sentence, unlike contextual models like BERT which generate a different vector depending on surrounding context (e.g. river "bank" vs. a "bank" account).</p></div>
+  </section>
+
+  <section id="cbow-skipgram-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>CBOW &amp; Skip-gram</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q13</span>What is Word2Vec, and what are its two main training architectures?</p><p class="a">Word2Vec is a neural-network-based technique that learns dense, low-dimensional word embeddings so semantically similar words end up close together in vector space. Its two architectures: <strong>CBOW</strong> (predicts a target word from surrounding context words) and <strong>Skip-gram</strong> (predicts surrounding context words given a target word).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>A news corpus has many rare technical terms alongside common words. CBOW or Skip-gram — and why?</p><p class="a"><strong>Skip-gram.</strong> It generates one training pair per (target, context word), so a rare word still produces several training examples — one per context word around each occurrence. CBOW averages all context into a single input per target, under-representing rare words.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>"The stock market crashed today" — window size 2, target "crashed" (position 3, 0-indexed). List the CBOW training instance.</p><p class="a">Positions: The(0) stock(1) market(2) crashed(3) today(4). Window 2 around position 3 covers positions 1–5: stock, market, today (position 5 doesn't exist, so only 3 context words available). CBOW instance: <strong>{stock, market, today} → crashed</strong>.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>In Skip-gram with window=2, list the (target, context) pairs for target "fox" in "the quick brown fox jumps over".</p><p class="a">"fox" at index 3 (the=0, quick=1, brown=2, fox=3, jumps=4, over=5). Window 2 → 2 words each side: brown, quick (left), jumps, over (right). Pairs: <strong>(fox,quick), (fox,brown), (fox,jumps), (fox,over)</strong>.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>A startup has only a small, specialized medical corpus. Which architecture converges better with limited data?</p><p class="a"><strong>Skip-gram.</strong> It makes more efficient use of each sentence by creating a separate training pair per context word, effectively multiplying the training examples generated from the same limited corpus. CBOW compresses the whole context into one averaged input per target, producing fewer effective training signals — a disadvantage when data is scarce.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>In the Skip-gram architecture, the model predicts the target word from surrounding context words. True or False?</p><p class="a"><strong>False.</strong> That describes CBOW. Skip-gram does the reverse: predicts the surrounding context words given the target (center) word.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>________ is the Word2Vec architecture that predicts a target word from context; ________ predicts context from a target word.</p><p class="a"><strong>CBOW</strong> (Continuous Bag-of-Words); <strong>Skip-gram</strong>.</p></div>
+  </section>
+
+  <section id="glove-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>GloVe</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q20</span>What is GloVe, and how does its approach differ from Word2Vec?</p><p class="a">GloVe (Global Vectors for Word Representation) learns word embeddings by factorizing a <strong>global word-word co-occurrence matrix</strong> built from statistics across the entire corpus. Word2Vec instead learns via local context windows in a predictive, online manner — it never sees the whole corpus at once, while GloVe uses aggregated global counts directly.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>Given P(ice|solid)=high, P(steam|solid)=low, P(ice|gas)=low, P(steam|gas)=high, explain how GloVe uses the ratio P(ice|context)/P(steam|context).</p><p class="a">For context "solid": ratio = high/low → large, meaning "solid" associates much more with "ice" than "steam". For context "gas": ratio = low/high → small, meaning "gas" associates much more with "steam". A neutral context like "water" (related to both) would give a ratio near 1. GloVe fits vectors so dot-product differences approximate the log of these ratios, encoding this pattern directly from relative co-occurrence statistics.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q22</span>A researcher wants analogy-supporting embeddings from a web-scale corpus without training from scratch. What should they use, and why?</p><p class="a">Use <strong>pre-trained GloVe vectors</strong> (e.g. trained on Common Crawl or Wikipedia+Gigaword). Because GloVe is trained on aggregated global co-occurrence statistics from massive corpora, its published vectors already encode rich linear substructures (gender, capital-of, tense) that make analogy arithmetic (king−man+woman≈queen) work well — without the cost of training on billions of tokens yourself.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q23</span>A data scientist has global co-occurrence statistics for a huge corpus. How does GloVe use this differently from Skip-gram's local windows?</p><p class="a">GloVe builds a global co-occurrence matrix counting how often every word pair appears near each other across the <em>entire</em> corpus, then factorizes it so vector dot products approximate the log of co-occurrence counts. Skip-gram never builds such a matrix — it slides a local window across text and trains a predictive model one window at a time, learning vectors indirectly through many small local predictions.</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 3 — Word Embeddings · Question Bank · Sem 5 revision notes</footer>
+
+</body>
+</html>

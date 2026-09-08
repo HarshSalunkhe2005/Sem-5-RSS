@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Question Bank — Feature Extraction &amp; Language Modeling</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 2</span>
+  <h1>📚 Unit 2 — Question Bank Answers</h1>
+  <p>The 8 official CO2 question-bank items, plus applied practice questions covering One-Hot,
+     BoW, TF-IDF, N-Grams, smoothing, and Naive Bayes.</p>
+  <a class="back" href="index.html">← Back to Unit 2 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#official">Official CO2 Questions</a>
+    <a href="#onehot-bow-qa">One-Hot &amp; BoW</a>
+    <a href="#tfidf-qa">TF-IDF</a>
+    <a href="#ngram-qa">N-Grams &amp; Smoothing</a>
+    <a href="#naivebayes-qa">Naive Bayes</a>
+    <a href="#tf-qa">True/False &amp; Fill-in</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 2 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="official">
+    <p class="eyebrow">Official Question Bank</p>
+    <h2>Unit 2: Feature Extraction &amp; Language Models (CO2)</h2>
+    <p class="range">Symbiosis Institute of Technology — Course Code 0701260505</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Apply Bag of Words and TF-IDF on a dataset and compare the feature vectors.</p><p class="a">BoW gives raw occurrence counts per word per document — simple but treats all words equally. TF-IDF multiplies that count by an inverse-document-frequency weight, so common words (the, is) shrink toward 0 and rare, document-specific words get boosted. Same vocabulary size and same document-term matrix shape, but TF-IDF's values better reflect which words are actually distinctive to each document.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Analyze the differences between CountVectorizer and TF-IDF with examples.</p><p class="a"><code>CountVectorizer</code> outputs raw word counts (BoW) — e.g. "the" might get count=5 in a long document just because it's long. <code>TfidfVectorizer</code> outputs TF×IDF scores — "the" gets suppressed toward 0 regardless of count, since IDF≈0 for words in nearly every document, while a rare domain term keeps a high score. Same API shape (fit_transform → matrix), different value semantics.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Given a sentence corpus, compute unigram and bigram probabilities.</p><p class="a">Unigram: <code>P(w) = Count(w) / Total words</code> — no context. Bigram: <code>P(wᵢ|wᵢ₋₁) = Count(wᵢ₋₁,wᵢ) / Count(wᵢ₋₁)</code> — conditions on exactly the previous word. See the Numericals page for a full worked corpus example computing both.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Apply Naïve Bayes for text classification and interpret the results.</p><p class="a">Compute Prior P(class) from class proportions in training data, Likelihood P(word|class) from word counts within each class (Laplace-smoothed), multiply them together treating words as independent (naive assumption) to get an unnormalized score per class, then pick the class with the higher score. See Numericals for full spam/sentiment worked examples.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Analyze the limitations of N-gram models in language modeling.</p><p class="a">Only a fixed, short window of previous context (can't capture long-range dependencies) · exponential growth of possible N-grams as N increases · sparsity — most N-grams never appear in training data, giving zero probabilities without smoothing · large storage/computation requirements for higher-order models.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Compare generative and probabilistic models for NLP tasks.</p><p class="a">Probabilistic (N-gram) models predict the next word from raw co-occurrence counts within a fixed window — simple, fast, but limited context and severe sparsity at scale. Generative neural models (RNN/LSTM/Transformer/GPT) learn dense representations and can condition on much longer — even unlimited (Transformer attention) — context, at the cost of far more training data and compute.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Evaluate smoothing techniques in handling unseen words.</p><p class="a">Add-One/Laplace: adds 1 to every count — simple, no tuning, but can over-smooth with large vocabularies. Add-k: a tunable, gentler version of Laplace. Good-Turing: re-estimates probability mass from the frequency of frequencies — needs a reasonably large corpus. Backoff/Interpolation: fall back on lower-order (more reliably estimated) n-gram probabilities when higher-order counts are missing — often the best practical choice.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Given a dataset, select an appropriate feature extraction method and justify your choice.</p><p class="a">Need raw frequency, small dataset, simplicity → <strong>BoW</strong>. Need to identify distinctive/important words for ranking or classification → <strong>TF-IDF</strong>. Need to preserve some local word order (e.g. detect negation like "not good") → <strong>N-Grams</strong> (Bag-of-N-Grams) on top of BoW/TF-IDF. Need semantic similarity between words → move beyond this unit to <strong>Word2Vec/GloVe</strong> (Unit 3).</p></div>
+  </section>
+
+  <section id="onehot-bow-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>One-Hot Encoding &amp; Bag-of-Words</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q9</span>What is one-hot encoding, and what is its major limitation for text?</p><p class="a">Represents every unique word as a binary vector with a single 1 at that word's position, 0s elsewhere. Major limitation: every pair of one-hot vectors is orthogonal (cosine similarity = 0), so it carries zero notion of similarity — "cat" and "dog" look exactly as unrelated as "cat" and "airplane".</p></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>A catalog one-hot encodes 5 categories; 6 months later a 6th category is added. What problem does this create?</p><p class="a">One-hot vector length equals vocabulary size, so adding a category changes every vector from 5-dim to 6-dim. Every existing encoded vector must be regenerated, and any downstream model trained on 5-dim input must be retrained since its input shape changed. Fix: reserve extra slots in advance, or switch to embeddings, which don't need a fixed closed vocabulary.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Explain the Bag-of-Words model. Why is word order lost?</p><p class="a">BoW represents a document as an unordered collection (multiset) of its words — typically a vector of word counts over a fixed vocabulary. Because it only records <em>how many times</em> each word occurs, not <em>where</em>, two sentences with identical words in different order ("dog bites man" vs "man bites dog") produce the exact same vector.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>A spam classifier uses BoW on single words. Compare "not good" vs. "good" — what weakness does this expose, and what's one fix?</p><p class="a">BoW treats "not" and "good" as two independent features with no link between them — the same two features would also appear in "good, not bad". It can't capture that "not" negates the very next word. Fix: use bigrams (so "not_good" is its own feature, distinct from "good"), or move to embeddings/contextual models that encode local word order.</p></div>
+  </section>
+
+  <section id="tfidf-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>TF-IDF</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q13</span>Define TF-IDF and explain what problem it solves compared to raw counts.</p><p class="a">TF-IDF weighs a word by how frequently it appears in one document (TF) multiplied by how rare it is across the whole corpus (IDF) — <code>TF-IDF = TF × IDF</code>. Raw counts over-weight universally common words like "the"/"is" that carry little discriminative meaning; IDF specifically down-weights those while boosting words that are frequent locally but rare corpus-wide.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>Search engine: Doc A repeats "programming" 20× but never says "python"; Doc B says both once each, for the query "python programming". Which scores higher?</p><p class="a">Doc B. TF-IDF scores are computed per query term and combined — Doc A racks up a large score from "programming" alone but contributes zero for "python" (only partial match). Doc B contributes a score for <em>both</em> terms, covering the full query intent rather than one repeated keyword.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>A word "python" appears in 1 of 3 documents. Compute its IDF (natural log) and explain the implication.</p><p class="a">IDF = ln(3/1) = ln(3) ≈ 1.0986. Being rare across the corpus, "python" gets a relatively high IDF — it will be weighted heavily wherever it does appear, since it's a discriminative, topic-specific word.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>A word "the" occurs in all 5 documents (N=5, DF=5). Compute IDF and its implication for TF-IDF weight.</p><p class="a">IDF = log(5/5) = log(1) = 0. Since TF-IDF = TF × IDF and IDF = 0, the TF-IDF score for "the" is 0 regardless of how often it occurs in any document — correctly reflecting that appearing in every document gives zero discriminative power.</p></div>
+  </section>
+
+  <section id="ngram-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>N-Grams &amp; Smoothing</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q17</span>Define an n-gram; give a bigram and trigram from "I love natural language".</p><p class="a">An n-gram is a contiguous sequence of n words (or characters). Bigrams: (I,love), (love,natural), (natural,language). Trigrams: (I,love,natural), (love,natural,language).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>What are skip-grams, and how do they differ from a simple n-gram?</p><p class="a">A skip-gram generalizes an n-gram by allowing some words in the window to be "skipped" — the chosen words needn't be strictly contiguous. This lets the model capture longer-range or non-adjacent associations (e.g. "not ... good") that a standard consecutive n-gram would miss.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>Why is smoothing necessary when estimating n-gram probabilities?</p><p class="a">Under raw Maximum Likelihood Estimation, any n-gram never seen in training gets probability exactly 0. Since a sentence's probability is the <em>product</em> of its bigram probabilities, a single unseen bigram collapses the entire sentence's probability to 0. Smoothing redistributes a little probability mass to unseen events so the model generalizes.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>A researcher trains a bigram model on a small medical corpus; a test sentence gets probability exactly 0. What's happening and what's the fix?</p><p class="a">Data sparsity — one bigram in the test sentence never appeared in training, so its MLE probability is 0, and since sentence probability multiplies all bigram probabilities together, one zero wipes out the whole product. Fix: apply a smoothing technique (Laplace, Good-Turing, Kneser-Ney, Backoff, or Interpolation).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>A chatbot's bigram model zeroes out several valid but rare queries. How does Add-One smoothing fix this?</p><p class="a">The formula becomes <code>P(wᵢ|wᵢ₋₁) = (C(wᵢ₋₁,wᵢ)+1) / (C(wᵢ₋₁)+V)</code>, adding 1 to every bigram count and V (vocabulary size) to every denominator. Now every possible bigram — including unseen ones — gets a small non-zero probability, so a rare-but-valid query no longer breaks the chatbot.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q22</span>A language model trains on just 200 sentences, where many valid pairs will be unseen. Which smoothing technique(s) fit best?</p><p class="a">Add-One (Laplace) is the safest default for very small corpora — no tuning needed, guarantees non-zero probabilities everywhere. Backoff/Interpolation are strong complements, since they let a sparse higher-order model fall back on more reliably estimated lower-order n-grams. Good-Turing is less reliable here since it typically needs a larger corpus to work well.</p></div>
+  </section>
+
+  <section id="naivebayes-qa">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>Naive Bayes</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q23</span>Apply the Naive Bayes independence assumption to "not good service" — why can this misclassify sentiment?</p><p class="a">Naive Bayes treats every word as an independent feature: <code>P(not|class)·P(good|class)·P(service|class)</code>, with no link between "not" and "good". Since "good" alone strongly indicates Positive, its high likelihood can dominate the product even though "not good" is actually negative — the negation isn't modeled. This exposes Naive Bayes's core inability to capture word dependencies (negation, sarcasm, word order).</p></div>
+    <div class="qa"><p class="q"><span class="num">Q24</span>Outline the full Naive Bayes workflow (Prior → Likelihood → Evidence → Posterior) for a movie-review sentiment classifier.</p><p class="a">1) Prior: P(Positive), P(Negative) from the proportion of each class in training data. 2) Likelihood: P(word|class) for every vocabulary word from word counts within each class, Laplace-smoothed. 3) Evidence/scoring: treat each word in a new review as independent, multiply P(class)×∏P(word|class) to get an unnormalized score per class. 4) Posterior/decision: compare scores (optionally normalize by dividing by their sum) and assign the class with the higher score.</p></div>
+  </section>
+
+  <section id="tf-qa">
+    <p class="eyebrow">Quick Recall</p>
+    <h2>True/False &amp; Fill-in-the-Blank</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q25</span>One-hot encoded vectors capture semantic similarity between words.</p><p class="a"><strong>False</strong> — all one-hot vectors are mutually orthogonal, encoding zero similarity information; embeddings are needed for that.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q26</span>The Bag-of-Words model preserves word order.</p><p class="a"><strong>False</strong> — BoW only counts occurrences and discards sequence entirely.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q27</span>TF-IDF gives higher weight to words frequent in one document but rare across the corpus.</p><p class="a"><strong>True</strong> — that's precisely TF-IDF's design goal.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q28</span>CountVectorizer produces a dense matrix by default for large vocabularies.</p><p class="a"><strong>False</strong> — it produces a <em>sparse</em> matrix by default, since most documents contain only a small fraction of the vocabulary.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q29</span>A first-order Markov model assumes the next state depends on the entire history.</p><p class="a"><strong>False</strong> — it depends only on the current (most recent) state; that's the defining Markov property.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q30</span>Higher-order n-grams (e.g. 5-grams) always suffer less from data sparsity than lower-order ones.</p><p class="a"><strong>False</strong> — the opposite: higher-order n-grams have exponentially more combinations, so sparsity gets worse, not better.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q31</span>Smoothing techniques assign non-zero probability to unseen n-grams.</p><p class="a"><strong>True.</strong></p></div>
+    <div class="qa"><p class="q"><span class="num">Q32</span>________ encoding represents a word as a binary vector with a single 1 and the rest 0s. ________ model represents text as unordered word counts.</p><p class="a"><strong>One-Hot</strong> encoding; <strong>Bag-of-Words (BoW)</strong> model.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q33</span>In TF-IDF, 'TF' stands for ________ and 'IDF' stands for ________. The scikit-learn class for token counting is ________.</p><p class="a"><strong>Term Frequency</strong>; <strong>Inverse Document Frequency</strong>; <strong>CountVectorizer</strong>.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q34</span>The simplest smoothing technique, adding 1 to every count, is called ________ smoothing. ________ predicts a target word from context; ________ predicts context from a target word.</p><p class="a"><strong>Laplace</strong> (add-one) smoothing; <strong>CBOW</strong> predicts target from context, <strong>Skip-gram</strong> predicts context from target.</p></div>
+    <div class="qa"><p class="q"><span class="num">Q35</span>A spam filter using raw CountVectorizer finds common words ("the", "is", "a") dominate feature importance, drowning out "winner"/"lottery". What should they switch to, and why?</p><p class="a">Switch to <strong>TF-IDF</strong>. It automatically down-weights near-universal words via the IDF term while up-weighting words frequent in specific documents but rare corpus-wide — exactly "winner"/"lottery" vs. "the"/"is".</p></div>
+  </section>
+
+</main>
+
+<footer>Unit 2 — Feature Extraction &amp; Language Modeling · Question Bank · Sem 5 revision notes</footer>
+
+</body>
+</html>

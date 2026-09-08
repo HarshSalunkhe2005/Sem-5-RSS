@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Feature Extraction &amp; Language Modeling</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.4px;line-height:1.5;margin:12px 0;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 2</span>
+  <h1>🔤 Feature Extraction &amp; Language Modeling</h1>
+  <p>Turning raw text into numbers a model can use — One-Hot, Bag-of-Words, N-Grams, TF-IDF,
+     CountVectorizer — then using those numbers to build probabilistic language models, Naive
+     Bayes classifiers, and a first look at the generative models (N-Gram → RNN → LSTM →
+     Transformer → GPT) that come next.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#basics">Feature Extraction Basics</a>
+    <a href="#onehot">One-Hot Encoding</a>
+    <a href="#bow">Bag-of-Words</a>
+    <a href="#ngrams">N-Grams</a>
+    <a href="#countvectorizer">CountVectorizer</a>
+    <a href="#tfidf">TF-IDF</a>
+    <a href="#lm">Language Modeling</a>
+    <a href="#naivebayes">Naive Bayes</a>
+    <a href="#generative">Generative Models</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- BASICS -->
+  <section id="basics">
+    <p class="eyebrow">01 · Why we need this at all</p>
+    <h2>What Is Feature Extraction?</h2>
+    <p><strong>Feature extraction</strong> means converting large, raw data (text, images, audio) into
+      smaller, meaningful information — <em>features</em> — that a machine learning model can
+      actually read. Text is uniquely hard here: unlike images (already pixels/numbers) or audio
+      (already waveforms), text carries meaning, context, and ambiguity, so representing a
+      sentence numerically while preserving its meaning is genuinely difficult.</p>
+    <p>For text specifically this is also called <strong>Text Representation</strong>,
+      <strong>Text Extraction</strong>, or <strong>Text Vectorization</strong>. The pipeline is
+      always: <code>Text → Feature Extraction → Numerical Representation → ML Model</code>.</p>
+
+    <h3>Vocabulary you'll see everywhere</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Corpus</h4><p>A collection of text documents used for analysis. E.g. 1,000 Amazon reviews together form the corpus.</p></div>
+      <div class="card"><h4>Document</h4><p>One individual text record within a corpus. E.g. a single review is one document.</p></div>
+      <div class="card"><h4>Vocabulary</h4><p>The collection of <em>unique</em> words present in the corpus. "I like Python." + "I like NLP." → {I, like, Python, NLP} — size 4.</p></div>
+      <div class="card"><h4>Word</h4><p>An individual linguistic unit appearing in a document — the smallest unit these techniques operate on.</p></div>
+    </div>
+  </section>
+
+  <!-- ONE-HOT -->
+  <section id="onehot">
+    <p class="eyebrow">02 · The simplest possible encoding</p>
+    <h2>One-Hot Encoding</h2>
+    <p>Represents each word as a vector of 0s with a single 1 — the position of the 1 tells you
+      which word it is. One fixed vocabulary position = one fixed one-hot vector, always, no
+      matter how many times the word repeats.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Corpus</th><th>Vocabulary (V=5)</th><th>One-Hot for "pizza"</th></tr></thead>
+      <tbody>
+        <tr><td>"I like pizza" / "I like burger" / "I eat pizza"</td><td>I, like, pizza, burger, eat</td><td>[0, 0, 1, 0, 0]</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Advantages</h4><p>Simple, intuitive, easy to implement.</p></div>
+      <div class="card"><h4>❌ Disadvantages</h4><p><strong>Sparsity</strong> (mostly 0s) · variable document lengths ML models can't directly use · <strong>OOV problem</strong> (a new word at prediction time doesn't exist in the vocabulary) · <strong>no semantic meaning</strong> — treats every word independently, all pairs are equally "unrelated" (cosine similarity between any two one-hot vectors is always 0).</p></div>
+    </div>
+  </section>
+
+  <!-- BOW -->
+  <section id="bow">
+    <p class="eyebrow">03 · Counting instead of just marking presence</p>
+    <h2>Bag-of-Words (BoW)</h2>
+    <p>BoW builds the vocabulary across all documents, then counts <strong>how many times</strong>
+      each vocabulary word appears in each document. Unlike One-Hot, it captures frequency —
+      but like One-Hot, it completely ignores word order.</p>
+
+    <h3>Worked example — 3 reviews, 10-word vocabulary</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>the</th><th>laptop</th><th>has</th><th>fast</th><th>processor</th><th>and</th><th>performance</th><th>good</th><th>battery</th><th>is</th></tr></thead>
+      <tbody>
+        <tr><td>R1 "The laptop has fast processor and fast performance"</td><td>1</td><td>1</td><td>1</td><td>2</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>R2 "The laptop has good battery and good performance"</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>2</td><td>1</td><td>0</td></tr>
+        <tr><td>R3 "The processor is fast and the battery is good"</td><td>2</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>BoW vs. One-Hot</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>One-Hot</th><th>BoW</th></tr></thead>
+      <tbody>
+        <tr><td>Represents</td><td>Individual word</td><td>Entire document</td></tr>
+        <tr><td>Values</td><td>0 or 1</td><td>Word frequency (0,1,2,...)</td></tr>
+        <tr><td>Repeated word</td><td>Still 1</td><td>Can become 2, 3, 4...</td></tr>
+        <tr><td>Captures frequency?</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Understands meaning?</td><td>No</td><td>No</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout"><p><strong>The core BoW problem:</strong> "Dog bites man" and "Man bites dog" use exactly the same
+      words → identical BoW vectors, despite opposite meaning. Same for "This is a good job" vs.
+      "This is <em>not</em> a good job" — BoW can't capture that "not" flips the sentiment.</p></div>
+  </section>
+
+  <!-- N-GRAMS -->
+  <section id="ngrams">
+    <p class="eyebrow">04 · Adding a little order back</p>
+    <h2>N-Grams (Bag-of-N-Grams)</h2>
+    <p>An N-Gram is a group of <strong>N consecutive words</strong> (a "gram" = a sequence of
+      tokens), instead of single words. This is where BoW gets a little bit of word-order
+      information back — n-grams "know which words occur together," even if the bag itself still
+      has no sense of first/last once everything's tossed in.</p>
+
+    <h3>"I love natural language processing" (N = 5 words)</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Unigram (n=1)</h4><p>[I, love, natural, language, processing] — exactly what plain BoW uses.</p></div>
+      <div class="card"><h4>Bigram (n=2)</h4><p>[I love, love natural, natural language, language processing] — consecutive bigrams overlap by 1 word.</p></div>
+      <div class="card"><h4>Trigram (n=3)</h4><p>[I love natural, love natural language, natural language processing]</p></div>
+    </div>
+
+    <div class="callout violet"><p><strong>Count formula:</strong> <code>Count of n-grams = N − n + 1</code>, where N = total words in
+      the sentence, n = size of the n-gram. For our 5-word sentence: bigrams = 4, trigrams = 3, 4-grams = 2.</p></div>
+  </section>
+
+  <!-- COUNTVECTORIZER -->
+  <section id="countvectorizer">
+    <p class="eyebrow">05 · BoW, implemented</p>
+    <h2>CountVectorizer</h2>
+    <p><code>CountVectorizer</code> (scikit-learn) implements Bag-of-Words in code — it reads
+      sentences, finds all unique words, and counts occurrences per sentence, outputting a
+      <strong>Document-Term Matrix</strong> (rows = documents, columns = words).</p>
+    <pre>from sklearn.feature_extraction.text import CountVectorizer
+documents = ["Python is easy", "Python is powerful", "Python is easy and powerful"]
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(documents)
+print(vectorizer.get_feature_names_out())   # ['and' 'easy' 'is' 'powerful' 'python']
+print(X.toarray())
+# [[0 1 1 0 1]
+#  [0 0 1 1 1]
+#  [1 1 1 1 1]]</pre>
+    <p><strong>Note the column order</strong> — CountVectorizer sorts the vocabulary
+      <em>alphabetically</em>, not in the order words first appear.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>fit() vs. transform()</h4><p><code>fit()</code> learns the vocabulary from the documents. <code>transform()</code> converts a document into a vector of those word counts. <code>fit_transform()</code> does both together. If <code>transform()</code> later sees a word not in the fitted vocabulary, that word is silently dropped — no error, no vocabulary expansion.</p></div>
+      <div class="card"><h4>Factory defaults</h4><p><code>stop_words=None</code> (nothing removed by default) · <code>lowercase=True</code> · token pattern keeps words of 2+ alphanumeric characters (single letters like "a" are ignored). <code>ngram_range=(min_n,max_n)</code> controls which n-gram sizes get extracted — e.g. <code>(1,2)</code> = unigrams + bigrams together.</p></div>
+    </div>
+  </section>
+
+  <!-- TF-IDF -->
+  <section id="tfidf">
+    <p class="eyebrow">06 · Weighing words by how distinctive they are</p>
+    <h2>TF-IDF (Term Frequency – Inverse Document Frequency)</h2>
+    <p>TF-IDF scores how <strong>important</strong> a word is in one document relative to a whole
+      corpus. Common words ("the", "is") appear everywhere → low score. Rare-but-locally-frequent
+      words ("transformer") → high score. <code>TF-IDF = TF × IDF</code>.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>TF — Term Frequency</h4><p>How often a word appears in <em>this</em> document. <code>TF = count of word / total words in document</code>.</p></div>
+      <div class="card"><h4>IDF — Inverse Document Frequency</h4><p>How rare the word is across the whole corpus. <code>IDF = log(N / DF)</code>, N = total documents, DF = documents containing the word.</p></div>
+    </div>
+
+    <h3>Why the log in IDF?</h3>
+    <p>Without it, a word appearing in just 1 of 1,000 documents gets IDF = 1000, and its TF-IDF
+      score explodes (e.g. 0.2 × 1000 = 200). With <code>log</code>: IDF = log(1000) ≈ 3, so
+      TF-IDF = 0.2 × 3 = 0.6 — a much more balanced, usable range.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Advantage over BoW</h4><p>Doesn't treat all words equally — common words get down-weighted automatically, rare/meaningful words get boosted. Big improvement for identifying what a document is actually <em>about</em>.</p></div>
+      <div class="card"><h4>❌ Disadvantages</h4><p><strong>Sparsity</strong> (still mostly zeros) · <strong>OOV problem</strong> (unseen words have no computed TF-IDF) · <strong>no meaning/context</strong> — gives importance, not understanding. This is exactly why we move to Word2Vec next unit.</p></div>
+    </div>
+  </section>
+
+  <!-- LANGUAGE MODELING -->
+  <section id="lm">
+    <p class="eyebrow">07 · Predicting the next word</p>
+    <h2>Probabilistic Language Modeling</h2>
+    <p>A <strong>Language Model (LM)</strong> learns relationships between words and predicts the
+      next likely word given the words before it: <code>P(wₙ | w₁,w₂,...,wₙ₋₁)</code>. Used in
+      auto-suggestions, conversational AI, content generation, sentiment analysis, summarization,
+      and transcription.</p>
+
+    <h3>Chain Rule of Probability</h3>
+    <p>Any joint sentence probability breaks into a product of conditional probabilities, one per
+      word, each conditioned on everything before it:</p>
+    <pre>P(w1, w2, ..., wn) = P(w1) · P(w2|w1) · P(w3|w1,w2) · ... · P(wn|w1,...,wn-1)</pre>
+    <p>Example — "I love machine learning": <code>P(I,love,machine,learning) = P(I) · P(love|I) · P(machine|I,love) · P(learning|I,love,machine)</code></p>
+
+    <h3>N-Gram Language Models</h3>
+    <div class="grid cols-4">
+      <div class="card"><h4>Unigram</h4><p>No context. <code>P(w)</code> — raw frequency only.</p></div>
+      <div class="card"><h4>Bigram</h4><p>1 previous word. <code>P(wᵢ|wᵢ₋₁) = Count(wᵢ₋₁,wᵢ) / Count(wᵢ₋₁)</code></p></div>
+      <div class="card"><h4>Trigram</h4><p>2 previous words. <code>P(wᵢ|wᵢ₋₂,wᵢ₋₁)</code></p></div>
+      <div class="card"><h4>N-gram</h4><p>N−1 previous words — more context, but more data needed and higher chance of hitting zero counts.</p></div>
+    </div>
+
+    <h3>The Markov Assumption</h3>
+    <p>The next word depends only on a <strong>limited</strong> number of previous words, not the
+      entire history. A bigram model is a specific implementation of this: it always uses exactly
+      1 previous word, discarding everything earlier — e.g. predicting "science" in "I like data
+      science" via <code>P(science|data)</code> forgets "I" and "like" entirely.</p>
+
+    <h3>The Zero-Frequency Problem &amp; Smoothing</h3>
+    <p>If a bigram never appeared in training (e.g. "love Java"), <code>Count(love,Java)=0</code> →
+      probability 0 → the <em>entire sentence</em> probability collapses to 0, since probabilities
+      multiply. <strong>Add-One (Laplace) Smoothing</strong> fixes this:</p>
+    <pre>P(wᵢ|wᵢ₋₁) = ( C(wᵢ₋₁,wᵢ) + 1 ) / ( C(wᵢ₋₁) + V )      where V = vocabulary size</pre>
+    <p>Other smoothing techniques: Add-k, Good-Turing, Backoff, Interpolation.</p>
+  </section>
+
+  <!-- NAIVE BAYES -->
+  <section id="naivebayes">
+    <p class="eyebrow">08 · Probability-based text classification</p>
+    <h2>Naive Bayes</h2>
+    <p>A supervised classification algorithm based on <strong>Bayes' Theorem</strong>, widely used
+      for spam detection, sentiment analysis, and document/language classification. "Naive"
+      because it assumes every word is <strong>independent</strong> of every other word — unrealistic,
+      but fast and simple.</p>
+
+    <pre>P(C|X) = ( P(X|C) · P(C) ) / P(X)      Posterior = (Likelihood × Prior) / Evidence</pre>
+    <div class="grid cols-4">
+      <div class="card"><h4>Prior — P(C)</h4><p>What we believed before seeing this evidence (e.g. 20% of emails are spam).</p></div>
+      <div class="card"><h4>Likelihood — P(X|C)</h4><p>How likely this evidence is, if the class assumption is true.</p></div>
+      <div class="card"><h4>Evidence — P(X)</h4><p>Overall probability of seeing this evidence, across all classes.</p></div>
+      <div class="card"><h4>Posterior — P(C|X)</h4><p>Updated belief after factoring in the evidence.</p></div>
+    </div>
+
+    <h3>The naive independence assumption, applied</h3>
+    <p>"movie is amazing" → treated as 3 separate, unrelated features:
+      <code>P(movie,is,amazing|Positive) ≈ P(movie|Positive) · P(is|Positive) · P(amazing|Positive)</code>.
+      Compute this for every class, compare scores, pick the highest.</p>
+
+    <h3>Zero probability → Laplace Smoothing (again)</h3>
+    <p>If a word never appeared in one class's training data (e.g. "love" never in Negative
+      reviews), <code>P(love|Negative)=0</code> zeroes out the <em>entire</em> class score. Fix:
+      <code>P(word|class) = (Count(word,class) + 1) / (Total words in class + V)</code>.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Strengths</h4><p>Simple, fast to train/predict, works well with text, handles high-dimensional data, needs little training data — great for spam &amp; sentiment.</p></div>
+      <div class="card"><h4>❌ Limitations</h4><p>Independence assumption often unrealistic · doesn't capture word order · doesn't truly understand context · zero probabilities without smoothing · can lag behind deep-learning models.</p></div>
+    </div>
+  </section>
+
+  <!-- GENERATIVE MODELS -->
+  <section id="generative">
+    <p class="eyebrow">09 · Where this is all heading</p>
+    <h2>Generative Models of Language</h2>
+    <p>Generative models learn patterns from text, then use them to generate new text — one word
+      at a time: <strong>look at words so far → predict most likely next word → add it → repeat</strong>.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Model</th><th>Basic Idea</th><th>Context</th></tr></thead>
+      <tbody>
+        <tr><td>N-Gram</td><td>Predict next word using a fixed window of previous words</td><td>Short</td></tr>
+        <tr><td>RNN</td><td>Recurrent memory carries context across a sequence</td><td>Better</td></tr>
+        <tr><td>LSTM</td><td>RNN with improved long-term memory (remembers longer, forgets less)</td><td>Longer</td></tr>
+        <tr><td>Transformer</td><td>Attention relates any two words directly, regardless of distance</td><td>Long &amp; powerful</td></tr>
+        <tr><td>GPT</td><td>Transformer trained to generate text token-by-token</td><td>Very powerful</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>N-Gram limitations that motivate the rest:</strong> only a limited window of context,
+      can't understand long-term dependencies, N-Grams grow huge as N increases, sparsity (many
+      N-Grams never seen in training), large storage/computation needs. This is exactly why we
+      move to neural approaches — <strong>Word2Vec is covered in Unit 3.</strong></p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>🧮 Numericals</h4><p>One-Hot/BoW/TF-IDF worked calculations, n-gram counting, bigram MLE, Laplace smoothing, and full Naive Bayes classification examples.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 2 Numericals →</a></p></div>
+      <div class="card"><h4>📚 Question Bank</h4><p>Official CO2 question-bank items plus applied practice questions, answered concisely.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 2 Question Bank →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 2 — Feature Extraction &amp; Language Modeling · Sem 5 revision notes</footer>
+
+</body>
+</html>
