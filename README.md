@@ -55,4 +55,12 @@ URLs by hand.
 | Unit 3 | Question Bank answers (Q111–158) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/Unit%203/question-bank.html) |
 | PYQs | Previous Year Questions (Dec 2023, May 2024, Dec 2024 & May 2025 papers) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/DL/PYQs/index.html) |
 
+## Foundations of Agentic AI (FAAI)
+
+| Unit | Topic | Link |
+|---|---|---|
+| Unit 1 | Foundations of Intelligent Agents & Agentic AI (Intro, PEAS, Environment Types, Agent Architectures, Traditional vs Agentic AI, LLM-Powered Agents) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/FAAI/Unit%201/index.html) |
+| Unit 2 | LLM Reasoning, Agent Loops & Tool Integration (CoT, Self-Consistency & ToT, ReAct, Agent Planning, Tool Integration, Structured Outputs) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/FAAI/Unit%202/index.html) |
+| Unit 3 | RAG & Agent Memory Architectures (Memory Limitations, Agent Memory, Embeddings & Vector DBs, RAG) | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/FAAI/Unit%203/index.html) |
+
 ---

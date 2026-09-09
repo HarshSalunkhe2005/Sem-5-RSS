@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — LLM Reasoning, Agent Loops &amp; Tool Integration</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 6px;color:var(--navy-2);}
+  h3{font-size:16.5px;color:var(--navy-2);margin:22px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;background:var(--coral-light);flex:none;}
+  .card p{font-size:13.5px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+
+  .topic{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 10px;margin:26px 0;box-shadow:0 2px 10px rgba(60,20,90,0.06);}
+  .topic-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .topic-head h3{margin:0;font-size:19px;color:var(--navy);}
+  .topic-num{font-size:12px;font-weight:700;color:#fff;background:var(--violet);padding:3px 10px;border-radius:999px;}
+  .part{margin:16px 0;padding:14px 16px;border-radius:10px;background:#faf7fd;border:1px solid var(--line);}
+  .part-label{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--coral);margin:0 0 8px;display:flex;align-items:center;gap:6px;}
+  .part-label .n{width:19px;height:19px;border-radius:50%;background:var(--coral);color:#fff;font-size:11px;display:inline-flex;align-items:center;justify-content:center;}
+  .part p, .part ul{margin-bottom:0;font-size:13.6px;}
+  .part ul{margin-top:6px;}
+
+  .diagram{background:#fff;border:1.5px dashed var(--violet);border-radius:12px;padding:18px;margin:6px 0;}
+  .flow{display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .flow .box{background:linear-gradient(135deg,var(--navy-2),#5a2a8c);color:#fff;padding:10px 14px;border-radius:10px;font-size:12.5px;font-weight:600;text-align:center;min-width:90px;box-shadow:0 2px 6px rgba(60,20,90,0.18);}
+  .flow .box.alt{background:linear-gradient(135deg,var(--coral),#ff8a8e);}
+  .flow .box.ghost{background:#fff;color:var(--navy-2);border:1.5px solid var(--violet);}
+  .flow .arrow{font-size:18px;color:var(--violet);font-weight:700;}
+  .stack-note{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;}
+  .loop-badge{display:inline-block;background:var(--amber);color:#4a3400;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-top:8px;}
+
+  .mini-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  .mini-table th{background:var(--navy-2);color:#fff;padding:6px 9px;text-align:left;}
+  .mini-table td{padding:6px 9px;border-bottom:1px solid var(--line);}
+
+  pre{background:#211530;color:#e8dcff;padding:14px 16px;border-radius:10px;font-size:12.3px;overflow-x:auto;margin:10px 0;}
+  pre code{background:none;color:inherit;padding:0;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · FAAI · UNIT 2</span>
+  <h1>🧩 LLM Reasoning, Agent Loops &amp; Tool Integration</h1>
+  <p>Chain-of-Thought → Self-Consistency &amp; Tree-of-Thought → the ReAct agent loop → Task Decomposition &amp; Hierarchical
+     Planning → Tool Integration (APIs) → Structured Outputs / Function Calling. Every topic follows the exam format:
+     <strong>Definition → Diagram → Working → Example → Conclusion.</strong></p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="../Unit%201/index.html" style="color:var(--coral);">← Unit 1</a>
+    <a href="#t1">1 · Chain-of-Thought</a>
+    <a href="#t2">2 · Self-Consistency &amp; ToT</a>
+    <a href="#t3">3 · ReAct &amp; Agent Loops</a>
+    <a href="#t4">4 · Agent Planning</a>
+    <a href="#t5">5 · Tool Integration</a>
+    <a href="#t6">6 · Structured Outputs</a>
+    <a href="../Unit%203/index.html" style="color:var(--coral);">Unit 3 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- TOPIC 1 -->
+  <section id="t1">
+    <p class="eyebrow">Unit 2 · Topic 1 of 6</p>
+    <h2>Chain-of-Thought (CoT) Reasoning</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Step-by-Step Logic</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Chain-of-Thought</strong> is a reasoning strategy where the LLM generates intermediate reasoning steps before
+        arriving at a final answer — making its logic transparent and verifiable. Simple questions ("What is the capital of India?")
+        need no reasoning — direct retrieval. Multi-step problems ("Rahul is older than Aman. Aman is older than Neha. Who is oldest?")
+        demand it — the model must think through relationships first.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — CoT Reasoning Pipeline</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">Understand the Problem<br><span style="font-weight:400;font-size:11px;">clarify input, goal, constraints</span></div>
+            <div class="arrow">→</div>
+            <div class="box">Generate Step 1<br><span style="font-weight:400;font-size:11px;">outline assumptions</span></div>
+            <div class="arrow">→</div>
+            <div class="box">Generate Step 2<br><span style="font-weight:400;font-size:11px;">refine &amp; verify</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">Final Answer<br><span style="font-weight:400;font-size:11px;">summarize with justification</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Worked Example</p>
+        <p><strong>Problem:</strong> A shop sells one notebook for ₹50. A student buys 4 notebooks. How much will the student pay?</p>
+        <ol class="steps">
+          <li>Cost of one notebook = ₹50</li>
+          <li>Number of notebooks = 4</li>
+          <li>Total = 50 × 4 = ₹200</li>
+        </ol>
+        <p>Without CoT the model would just say "₹200" — correct but <em>unverified</em>. With CoT the reasoning is auditable.
+        Logical-reasoning example: "Rahul &gt; Amit, Amit &gt; Neha ⟹ Rahul &gt; Amit &gt; Neha. Final answer: Rahul is the tallest."</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p>CoT improves mathematical performance, logical reasoning, and decision-making across coding, planning, and research. Best
+        use cases: mathematics/arithmetic, programming &amp; code debugging, multi-step planning &amp; strategy, data analysis, logic
+        puzzles. <strong>Avoid CoT for:</strong> simple greetings, basic translations, single-word factual lookups (e.g. "What is 2+2?" needs no CoT).</p>
+        <table class="mini-table">
+          <tr><th>Benefit</th><th>Why it matters</th></tr>
+          <tr><td>Improved Accuracy</td><td>Reduces logical errors via structured step-by-step thinking</td></tr>
+          <tr><td>Better Explainability</td><td>Intermediate steps make reasoning transparent/auditable</td></tr>
+          <tr><td>Handles Complexity</td><td>Enables multi-step problems in math, coding, science</td></tr>
+          <tr><td>Reliable Planning</td><td>Supports structured decisions in medical/financial/engineering contexts</td></tr>
+        </table>
+        <p><strong>Limitations:</strong> slower responses (extra reasoning steps add latency), higher token usage/cost, a wrong assumption still produces a flawed conclusion, and it's overkill for simple tasks.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Rule of thumb: use CoT exactly when the task requires <em>multiple logical steps</em>. CoT is the foundation strategy —
+        Self-Consistency and Tree-of-Thought (next topic) are both direct extensions of it, and together they form the backbone of
+        modern AI agent reasoning.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section id="t2">
+    <p class="eyebrow">Unit 2 · Topic 2 of 6</p>
+    <h2>Self-Consistency &amp; Tree-of-Thought (ToT) Reasoning</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Advanced Prompting Strategies</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Self-Consistency:</strong> generate multiple independent solution paths to the same problem, then select the
+        answer that appears most consistently (majority vote) across them — reducing random errors and increasing confidence.
+        <strong>Tree-of-Thought (ToT):</strong> explores multiple solution <em>branches</em>, evaluates each, discards (prunes)
+        weaker paths, and advances the most promising one — a search over reasoning paths rather than a single chain.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram</p>
+        <div class="diagram">
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin-bottom:10px;">Self-Consistency: Explore → Compare → Select</p>
+          <div class="flow">
+            <div class="box">Solution 1<br><span style="font-weight:400;font-size:11px;">125+75+50=250 ✓</span></div>
+            <div class="box">Solution 2<br><span style="font-weight:400;font-size:11px;">(125+75)+50=250 ✓</span></div>
+            <div class="box ghost">Solution 3<br><span style="font-weight:400;font-size:11px;">125+75=190→240 ✗</span></div>
+          </div>
+          <div class="flow" style="margin-top:10px;"><div class="arrow">↓ majority vote</div></div>
+          <div class="flow"><div class="box alt">Final Answer: 250</div></div>
+
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin:18px 0 10px;">Tree-of-Thought: Branch → Evaluate → Prune → Select</p>
+          <div class="flow">
+            <div class="box">Option A<br><span style="font-weight:400;font-size:11px;">Celebrity speakers — over budget ✗</span></div>
+            <div class="box">Option B<br><span style="font-weight:400;font-size:11px;">Industry experts — within budget ✓</span></div>
+            <div class="box">Option C<br><span style="font-weight:400;font-size:11px;">Student workshops — lowest cost ✓</span></div>
+          </div>
+          <p class="stack-note">Tech-fest example, ₹5-lakh budget → best decision: combine B + C for maximum value within constraints.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <p><strong>Self-Consistency pipeline:</strong> Receive Problem → Generate Candidates (multiple independent CoT runs) →
+        Evaluate Answers → Find Most Consistent → Return Selected.</p>
+        <p><strong>ToT pipeline:</strong> Understand → Generate (branch into alternatives) → Expand → Evaluate (score each branch) →
+        Prune (discard weak branches) → continue the strongest path.</p>
+        <table class="mini-table">
+          <tr><th>Strategy</th><th>Path Structure</th></tr>
+          <tr><td>Chain-of-Thought</td><td>Single path, step-by-step</td></tr>
+          <tr><td>Self-Consistency</td><td>Multiple <em>independent</em> paths, majority vote</td></tr>
+          <tr><td>Tree-of-Thought</td><td>Branching exploration with evaluation &amp; backtracking</td></tr>
+        </table>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p>Self-Consistency shines in: Mathematics (reliable numerical calculation), Programming (compare generated code solutions),
+        Medical Diagnosis (evaluate diagnostic possibilities), Financial Planning (compare investment strategies), Scientific Research
+        (evaluate competing hypotheses), AI Tutoring (verify explanations before presenting). ToT is used for planning problems with
+        hard constraints, like the Tech Fest budget-allocation example above.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>CoT develops <em>one</em> solution path; Self-Consistency generates <em>many</em> and votes; ToT <em>searches</em> a branching
+        tree and prunes weak options. All three are the reasoning foundation an autonomous agent needs before it can reliably decide
+        what action to take next — which is exactly the ReAct loop (next topic).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section id="t3">
+    <p class="eyebrow">Unit 2 · Topic 3 of 6</p>
+    <h2>The ReAct Framework &amp; Autonomous Agent Loops</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Decide → Execute → Observe</h3><span class="topic-num">6 marks · very high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>A single tool call is not enough for real tasks: the output of Tool A often becomes the input for Tool B, requiring an
+        <strong>orchestration layer</strong>. The <strong>Agent Loop</strong> (a practical implementation of the ReAct — Reason +
+        Act — idea) runs continuously: <em>decide → act → observe → re-decide</em>, until the agent determines no further tool calls
+        are needed and a final answer can be generated.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — The Agent Loop Architecture</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box">1 · Decide<br><span style="font-weight:400;font-size:11px;">evaluate state, pick next action</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">2 · Execute<br><span style="font-weight:400;font-size:11px;">call the named tool</span></div>
+            <div class="arrow">→</div>
+            <div class="box">3 · Observe<br><span style="font-weight:400;font-size:11px;">append result to state</span></div>
+          </div>
+          <div class="flow" style="margin-top:8px;"><div class="arrow" style="transform:rotate(90deg);">↺</div></div>
+          <p class="stack-note">Loop restarts with the updated state until <code>decision["type"] != "tool_call"</code> → break with the final answer.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <pre><code>while True:
+    decision = get_agent_decision()
+    if decision["type"] == "tool_call":
+        result = execute_tool(decision["name"], decision["arguments"])
+        add_observation(result)
+    else:
+        break  # Final answer ready</code></pre>
+        <p><strong>Sequential vs Parallel execution:</strong> Tool B waits for Tool A's result when there's a data dependency
+        (e.g. Database query → Search using product name → Calculate comparison). Independent tools (e.g. Weather-Pune + Weather-Mumbai)
+        can run in parallel and be combined afterward — the agent infers this from data dependencies, not from explicit programmer instructions.</p>
+        <p><strong>Tool Registry pattern</strong> (safety): only registered tools can be invoked (explicit allowlist) — the LLM cannot
+        call functions outside the registry boundary, and the executor never uses <code>eval()</code> or runs raw LLM output directly.</p>
+        <p><strong>Termination controls</strong> — every autonomous loop must stop safely:</p>
+        <ul>
+          <li><strong>Final Answer Generated</strong> — agent determines the task is complete, exits normally.</li>
+          <li><strong>MAX_STEPS Reached</strong> — a hard cap (e.g. 5 iterations) prevents infinite loops from runaway reasoning.</li>
+          <li><strong>Tool Failure Limit Exceeded</strong> — repeated tool errors trigger a graceful failure report instead of silent looping.</li>
+          <li><strong>High-Risk Action Detected</strong> — irreversible/sensitive operations pause and await human approval.</li>
+        </ul>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>User:</strong> "Find highest-paid AI employee and convert salary to USD." (1) <em>Database Query</em> → retrieve
+        highest-paid AI employee → ₹12,00,000. (2) <em>Calculator call</em> → convert INR to USD (₹84/$) → $14,285. (3) <em>Generate
+        Answer</em> → synthesize both observations into a final response. Each step depends on the previous observation — a purely
+        sequential chain with no parallelism possible.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>"An agent loop without termination controls is not a production system — it is a liability." The Decide→Execute→Observe
+        cycle with a bounded, auditable state (user query, tool calls made, observations received, final answer) is what separates a
+        reactive tool-caller from a true autonomous agent, and it is the runtime that Task Decomposition &amp; Planning (next topic)
+        sits on top of.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section id="t4">
+    <p class="eyebrow">Unit 2 · Topic 4 of 6</p>
+    <h2>Agent Planning: Task Decomposition &amp; Hierarchical Planning</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>From Ambiguous Goals to Executable Sub-Tasks</h3><span class="topic-num">5 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Agent Planning &amp; Task Decomposition</strong> is the capability of an autonomous system to dissect an ambiguous,
+        high-level objective into an ordered sequence of executable sub-tasks, establish dependency graphs, and dynamically evaluate
+        and revise plans in response to execution feedback and obstacles. Without decomposition, LLMs suffer from
+        <strong>attention dilution</strong> — trying to satisfy all sub-requirements simultaneously and failing at fine-grained edge cases.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Hierarchical Task Network (HTN)</p>
+        <div class="diagram">
+          <div class="flow"><div class="box alt">Macro-Goal: Publish Market Intelligence Report</div></div>
+          <div class="flow" style="margin-top:12px;">
+            <div class="box">Task 1.0<br><span style="font-weight:400;font-size:11px;">Research &amp; Discovery</span></div>
+            <div class="box">Task 2.0<br><span style="font-weight:400;font-size:11px;">Quantitative Analysis</span></div>
+            <div class="box">Task 3.0<br><span style="font-weight:400;font-size:11px;">Report Synthesis</span></div>
+          </div>
+          <div class="flow" style="margin-top:12px;">
+            <div class="box ghost">tavily_search()</div>
+            <div class="box ghost">fetch_sec_10k()</div>
+            <div class="box ghost">python_calc_cagr()</div>
+            <div class="box ghost">render_pdf_chart()</div>
+          </div>
+          <p class="stack-note">HTN decomposes a macro-goal → strategic tasks → primitive tool actuators (topological sort across dependencies), preventing context dilution.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — 4 Planning Methodologies</p>
+        <div class="grid cols-4">
+          <div class="card"><h4><span class="icon">✂️</span>Task Decomposition</h4><p>Splits a monolithic prompt into bite-sized sub-goals to avoid attention dilution.</p></div>
+          <div class="card"><h4><span class="icon">➡️</span>Sequential Planning</h4><p>Ordered linear pipeline; Step k+1 strictly depends on Step k's state. e.g. ETL pipelines.</p></div>
+          <div class="card"><h4><span class="icon">🌳</span>Hierarchical Planning (HTN)</h4><p>Macro-strategy → compound sub-tasks → primitive actions; high-level intent delegated to sub-agents.</p></div>
+          <div class="card"><h4><span class="icon">🛰️</span>Long-Horizon Planning</h4><p>Manages tasks spanning hundreds of state transitions; needs persistent checkpoints &amp; context compaction.</p></div>
+        </div>
+        <h3>Static Plan-and-Solve vs Dynamic Replanning</h3>
+        <p><strong>Plan-and-Solve (static):</strong> Planner generates a rigid list upfront → Solver blindly executes with zero
+        mid-stream review. <em>Vulnerability:</em> if a step hits an API rate-limit or missing column, the rigid schedule crashes.</p>
+        <p><strong>Interleaved ReAct (dynamic):</strong> Act → Observe (e.g. 404 error) → Dynamic Replan (Thought: fallback) →
+        <code>google_serp()</code> → Solve. The agent conditions each future action on real empirical results — enabling graceful
+        pivots and retry budgets.</p>
+        <h3>The Reflexion Cycle (Shinn et al.) — Verbal Self-Correction</h3>
+        <ol class="steps">
+          <li><strong>Detect Failure:</strong> Observation returns "Error 404: Endpoint /v1/salaries not found."</li>
+          <li><strong>Verbal Self-Reflection:</strong> "I assumed the REST API followed standard routing. I should check the OpenAPI documentation."</li>
+          <li><strong>Revised Plan Execution:</strong> <code>call_tool("read_api_docs", {"service": "salaries"})</code></li>
+        </ol>
+        <p>Architecture: <strong>Actor</strong> (LLM trajectory agent, generates actions τ_t) → <strong>Evaluator</strong> (checks
+        unit tests / ground truth, computes reward r_t) → <strong>Reflexion buffer</strong> (verbal critique sr_t cached into rolling
+        in-context memory for Trial t+1). Unlike RL (which needs millions of gradient updates), Reflexion updates behavior in real
+        time via natural-language self-critiques.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p>An AI research agent asked to "Publish a market intelligence report" decomposes the goal into Research → Analysis →
+        Synthesis tasks, each calling its own tools in dependency order. If <code>tavily_search()</code> returns an error mid-way,
+        dynamic replanning (Reflexion) lets the agent verbally diagnose the failure and retry with a fallback tool instead of crashing
+        the whole pipeline — exactly the difference between a rigid script and an autonomous agent.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Static planners fail the moment reality diverges from assumptions. Dynamic replanning + Reflexion give an agent
+        <strong>environmental resilience</strong> — the ability to detect, verbally diagnose, and recover from failure without human
+        intervention, which is essential once the agent starts calling real external tools (next topic).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 5 -->
+  <section id="t5">
+    <p class="eyebrow">Unit 2 · Topic 5 of 6</p>
+    <h2>Tool Integration: APIs, Sandboxed Code &amp; Web Search</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Extending Agents Beyond Their Training Data</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Tool Integration</strong> enables an AI agent to interact with external systems — APIs, databases, search engines,
+        code environments — to accomplish tasks beyond its built-in knowledge. Why it's needed: LLMs have a <strong>knowledge
+        cutoff</strong> (can't access live data), <strong>no external access</strong> (can't touch software/hardware/private DBs),
+        <strong>unreliable math</strong> without a calculator tool, and <strong>no autonomous action</strong> (can't send emails or
+        browse the web on their own).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — The Tool Selection Process</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">Understand Intent</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Identify Capability</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Match Tool</div>
+            <div class="arrow">→</div>
+            <div class="box alt">Execute &amp; Return</div>
+          </div>
+          <p class="stack-note">Decision tree: Needs live data? → Weather API / Search Engine. Needs calculation? → Python Interpreter. Needs stored records? → SQL Database. Needs document reading? → PDF Reader.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Types of Tools</p>
+        <div class="grid cols-3">
+          <div class="card"><h4><span class="icon">🔎</span>Search Engine</h4><p>Google Search, Tavily — retrieve latest web information.</p></div>
+          <div class="card"><h4><span class="icon">☁️</span>APIs</h4><p>Weather, Maps, Flight — access external live services.</p></div>
+          <div class="card"><h4><span class="icon">🗄️</span>Databases</h4><p>MySQL, PostgreSQL — retrieve stored records.</p></div>
+          <div class="card"><h4><span class="icon">🧭</span>Vector DB</h4><p>FAISS, ChromaDB — semantic document search.</p></div>
+          <div class="card"><h4><span class="icon">🐍</span>Code Interpreter</h4><p>Python runtime — execute and evaluate code.</p></div>
+          <div class="card"><h4><span class="icon">📧</span>Productivity Tools</h4><p>Gmail API, Google Calendar — send emails, manage events.</p></div>
+        </div>
+        <pre><code>query = input("Enter query: ").lower()
+if "weather" in query:
+    print("Tool: Weather API")
+elif "calculate" in query:
+    print("Tool: Python Calculator")
+elif "pdf" in query:
+    print("Tool: PDF Reader")
+else:
+    print("Tool: General LLM")</code></pre>
+        <p style="margin-top:-4px;">This "tool router" simulates how an agent maps user intent → tool selection before generating a response — the agent reasons through the query before acting, not after a failed attempt.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>"Find the cheapest flight from Pune to Delhi tomorrow"</strong> → agent calls the Flight API, compares prices,
+        recommends the best option — something an LLM alone cannot do. Real products: ChatGPT (Browsing, Code Interpreter, File
+        Analysis), Microsoft Copilot (Office/Outlook/Teams), Perplexity AI (web search + LLM reasoning), Google Gemini (Workspace
+        integration). <strong>Challenges:</strong> incorrect tool selection, API failures/rate limits, authentication &amp; security
+        risk, data-privacy and operational cost.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Tool Integration is what separates a chatbot from an agent: real-time information access, improved factual accuracy
+        (reduced hallucination), code execution &amp; task automation, and enterprise-system interaction. But calling a tool safely
+        requires the output to be machine-parseable — which is exactly the problem Structured Outputs (next topic) solves.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 6 -->
+  <section id="t6">
+    <p class="eyebrow">Unit 2 · Topic 6 of 6</p>
+    <h2>Structured Outputs: JSON Mode &amp; Function Calling</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>How LLMs Communicate with Software</h3><span class="topic-num">6 marks · high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>The problem with normal LLM output:</strong> when asked "Find the highest-paid employee," a raw LLM responds with a
+        natural-language explanation plus an embedded SQL query buried in prose — Python can't reliably parse free-form text, there's
+        no deterministic structure to extract, and different runs produce differently-formatted output. <strong>Structured Outputs</strong>
+        force the model to emit machine-readable JSON that an application can parse deterministically, every single time.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — The Core Pipeline &amp; Gatekeeper Principle</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box">LLM<br><span style="font-weight:400;font-size:11px;">Generate JSON</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">Runtime<br><span style="font-weight:400;font-size:11px;">Parse &amp; Validate</span></div>
+            <div class="arrow">→</div>
+            <div class="box">App<br><span style="font-weight:400;font-size:11px;">Execute &amp; Return</span></div>
+          </div>
+          <p class="stack-note"><strong>LLM decides what should happen</strong> (never touches the runtime directly) — <strong>Application controls what actually happens</strong> (validates, gates, executes). This separation is the cornerstone of agent security.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Function Calling</p>
+        <ol class="steps">
+          <li><strong>Expose Definitions:</strong> the application gives the LLM a schema of available functions — names, parameters, descriptions.</li>
+          <li><strong>LLM Generates Request:</strong> the model interprets user intent and emits a structured JSON call targeting one of the defined functions (it cannot invent undeclared parameters).</li>
+          <li><strong>Validate &amp; Execute:</strong> the application validates the request, checks permissions, then executes the real function in its own runtime.</li>
+          <li><strong>Return Result:</strong> the execution result is passed back to the LLM, which composes the final user-facing response.</li>
+        </ol>
+        <pre><code>def get_weather(city: str) -> dict:
+    """Get current weather for a city."""
+    return weather_api.fetch(city)
+
+# Schema exposed to the LLM:
+{
+  "name": "get_weather",
+  "description": "Get current weather for a city",
+  "parameters": {
+    "type": "object",
+    "properties": { "city": {"type": "string", "description": "City name"} },
+    "required": ["city"]
+  }
+}</code></pre>
+        <p><strong>Golden rule:</strong> the LLM says "Call get_weather with Pune" — it does <em>not</em> execute code. Your app reads the request and decides: <code>if is_allowed("get_weather"): result = get_weather("Pune") else: result = {"error": "Not permitted"}</code>.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example — Why JSON?</p>
+        <table class="mini-table">
+          <tr><th>Property</th><th>Why it matters</th></tr>
+          <tr><td>Machine-Readable</td><td>Parse with one call — <code>json.loads()</code> in Python, <code>JSON.parse()</code> in JS — no regex</td></tr>
+          <tr><td>Structured Key-Value Pairs</td><td>Every field explicitly named — access <code>response["action"]</code> directly</td></tr>
+          <tr><td>Language-Independent</td><td>Works identically in Python, JS, Go, Ruby, or any HTTP client</td></tr>
+          <tr><td>API-Compatible</td><td>The universal standard for REST — your agent fits right in</td></tr>
+        </table>
+        <p>User: "What's the weather in Pune?" → LLM generates <code>{"name":"get_weather","arguments":{"city":"Pune"}}</code> → App executes → returns <code>{"temperature":28,"condition":"Rain"}</code>. The LLM never touches the weather API — it only requests; the application executes.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Structured Outputs turn an LLM's fuzzy natural-language intent into a deterministic, Python-ready, API-compatible request —
+        this is the exact mechanism the Agent Loop (Topic 3) uses at the "Decide" step, and the exact mechanism Tool Integration
+        (Topic 5) relies on to safely execute real actions. It is the contract layer that makes the entire agent architecture
+        auditable and secure.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  FAAI — Unit 2 · LLM Reasoning, Agent Loops &amp; Tool Integration · Built from course lecture decks, cross-checked for flow.
+</footer>
+</body>
+</html>
