@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — RAG &amp; Agent Memory Architectures</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 6px;color:var(--navy-2);}
+  h3{font-size:16.5px;color:var(--navy-2);margin:22px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;background:var(--coral-light);flex:none;}
+  .card p{font-size:13.5px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+
+  .topic{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 10px;margin:26px 0;box-shadow:0 2px 10px rgba(60,20,90,0.06);}
+  .topic-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .topic-head h3{margin:0;font-size:19px;color:var(--navy);}
+  .topic-num{font-size:12px;font-weight:700;color:#fff;background:var(--violet);padding:3px 10px;border-radius:999px;}
+  .part{margin:16px 0;padding:14px 16px;border-radius:10px;background:#faf7fd;border:1px solid var(--line);}
+  .part-label{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--coral);margin:0 0 8px;display:flex;align-items:center;gap:6px;}
+  .part-label .n{width:19px;height:19px;border-radius:50%;background:var(--coral);color:#fff;font-size:11px;display:inline-flex;align-items:center;justify-content:center;}
+  .part p, .part ul{margin-bottom:0;font-size:13.6px;}
+  .part ul{margin-top:6px;}
+
+  .diagram{background:#fff;border:1.5px dashed var(--violet);border-radius:12px;padding:18px;margin:6px 0;}
+  .flow{display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .flow .box{background:linear-gradient(135deg,var(--navy-2),#5a2a8c);color:#fff;padding:10px 14px;border-radius:10px;font-size:12.5px;font-weight:600;text-align:center;min-width:90px;box-shadow:0 2px 6px rgba(60,20,90,0.18);}
+  .flow .box.alt{background:linear-gradient(135deg,var(--coral),#ff8a8e);}
+  .flow .box.ghost{background:#fff;color:var(--navy-2);border:1.5px solid var(--violet);}
+  .flow .arrow{font-size:18px;color:var(--violet);font-weight:700;}
+  .stack-note{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;}
+
+  .mini-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  .mini-table th{background:var(--navy-2);color:#fff;padding:6px 9px;text-align:left;}
+  .mini-table td{padding:6px 9px;border-bottom:1px solid var(--line);}
+
+  pre{background:#211530;color:#e8dcff;padding:14px 16px;border-radius:10px;font-size:12.3px;overflow-x:auto;margin:10px 0;}
+  pre code{background:none;color:inherit;padding:0;}
+
+  .tier{border-radius:12px;padding:14px 16px;margin:10px 0;}
+  .tier.t1{background:#eef7ff;border:1px solid #bfe0ff;}
+  .tier.t2{background:#fff5e9;border:1px solid #ffdca8;}
+  .tier h5{margin:0 0 6px;font-size:13px;color:var(--navy-2);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · FAAI · UNIT 3</span>
+  <h1>📚 RAG &amp; Agent Memory Architectures</h1>
+  <p>Why LLMs "forget" &amp; the context window problem · short-term vs long-term agent memory (episodic, semantic, procedural) ·
+     Embeddings, Vector Databases &amp; Similarity Search · Retrieval-Augmented Generation (RAG) &amp; Knowledge Grounding.
+     Every topic follows the exam format: <strong>Definition → Diagram → Working → Example → Conclusion.</strong></p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="../Unit%201/index.html" style="color:var(--coral);">← Unit 1</a>
+    <a href="../Unit%202/index.html" style="color:var(--coral);">← Unit 2</a>
+    <a href="#t1">1 · Memory Limitations</a>
+    <a href="#t2">2 · Agent Memory Architectures</a>
+    <a href="#t3">3 · Embeddings &amp; Vector DBs</a>
+    <a href="#t4">4 · RAG</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- TOPIC 1 -->
+  <section id="t1">
+    <p class="eyebrow">Unit 3 · Topic 1 of 4</p>
+    <h2>Memory Limitations of LLMs &amp; the Context Window</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Does an LLM Actually Have Memory?</h3><span class="topic-num">5 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>LLMs don't have unlimited, permanent memory of everything you've told them. They generate responses based only on
+        information available in their <strong>current context</strong> — relevant conversation must still be present in context to
+        be recalled accurately. This is an <strong>architectural constraint, not a cognitive one</strong> — not "LLMs forget like
+        humans," but rather "previously-provided information may no longer be available in the model's active context."</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — The Context Window</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">System Instructions</div>
+            <div class="box ghost">User Messages &amp; Conversation</div>
+            <div class="box ghost">Retrieved Docs &amp; Tool Results</div>
+          </div>
+          <p class="stack-note">All three share one fixed-size <strong>token budget</strong> (the context window) — like a desk with limited space: eventually you can't fit everything.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <ol class="steps">
+          <li><strong>Tokenization:</strong> LLMs measure context in <em>tokens</em> (words, subwords, punctuation), not sentences. Context length = maximum tokenized information processed in one interaction.</li>
+          <li><strong>The long-conversation problem:</strong> in very long conversations, older information may be truncated, summarized, or selectively retrieved — "unlimited history" is a myth; there is always a ceiling.</li>
+          <li><strong>Result:</strong> information from earlier messages becomes unavailable or diluted over time.</li>
+          <li><strong>The agentic-AI problem:</strong> if an agent works for hours/days/across multiple conversations, you cannot simply keep putting everything into the context window — agent memory architecture becomes essential (next topic).</li>
+        </ol>
+        <table class="mini-table">
+          <tr><th>State</th><th>Memory</th></tr>
+          <tr><td>Current task info — destination, date, passengers. Tells the agent <em>where it is right now</em>.</td><td>Persistent info — preferences, past facts. Tells the agent <em>what it remembers across time</em>.</td></tr>
+        </table>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Short-Term Memory</strong> (key question: "What do I need to know right now?") — user request, current plan, tool
+        results, intermediate results. <strong>Long-Term Memory</strong> (key question: "What should I retain for future
+        interactions?") — e.g. a flight-booking agent remembering "window seats," "economy class," "morning flights" and recalling
+        them in a later, unrelated conversation session.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Understanding the context window as a hard, finite budget — not human-like forgetting — is what motivates every design
+        choice in the rest of Unit 3: structured agent memory tiers (Topic 2) and external retrieval via vector databases / RAG
+        (Topics 3–4) exist specifically to work around this limitation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section id="t2">
+    <p class="eyebrow">Unit 3 · Topic 2 of 4</p>
+    <h2>Agent Memory Architectures: Short-Term, Long-Term &amp; Reflection</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>The Cognitive Memory Stack</h3><span class="topic-num">6 marks · very high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Agent Memory Architecture</strong> is the cognitive storage and retrieval system that organizes an agent's
+        knowledge into <strong>Short-Term Working Memory</strong> (in-context buffers) and <strong>Long-Term Persistent Memory</strong>
+        (episodic event streams, semantic knowledge bases, and procedural routines), enabling continuous learning and
+        personalization across sessions.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Multi-Tier Memory Stack</p>
+        <div class="diagram">
+          <div class="tier t1">
+            <h5>TIER 1 · WORKING MEMORY — active in-context scratchpad, ~0ms latency</h5>
+            <p style="margin:0;font-size:12.5px;">Active user goal · current ReAct step/sub-plan · ephemeral tool observations</p>
+          </div>
+          <div class="flow" style="margin:6px 0;"><div class="arrow" style="transform:rotate(90deg);">↓ consolidate &amp; reflect</div></div>
+          <div class="tier t2">
+            <h5>TIER 2 · PERSISTENT MEMORY — external datastores, 10–100ms latency</h5>
+            <div class="grid cols-3" style="margin:6px 0 0;">
+              <div class="card" style="padding:10px 12px;"><h4 style="font-size:13px;">1. Episodic</h4><p style="font-size:12px;">Autobiographical event logs: "Task #42: Refund rejected (missing doc)." Indexed by timestamp.</p></div>
+              <div class="card" style="padding:10px 12px;"><h4 style="font-size:13px;">2. Semantic</h4><p style="font-size:12px;">Generalized facts / user profile: "Rahul prefers morning flights, pure veg." Timestamp-independent.</p></div>
+              <div class="card" style="padding:10px 12px;"><h4 style="font-size:13px;">3. Procedural</h4><p style="font-size:12px;">How-to skills: "To query salary: parse → sanitize → query." Tool schemas &amp; few-shot patterns.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <h3>Memory Hardware Hierarchy (L1 → L4)</h3>
+        <table class="mini-table">
+          <tr><th>Layer</th><th>Store</th><th>Latency</th><th>Durability</th></tr>
+          <tr><td>L1 · Context</td><td>Prompt context (inside GPU forward pass)</td><td>~0ms</td><td>Ephemeral — erased on process end</td></tr>
+          <tr><td>L2 · KV-Cache</td><td>In-memory KV cache (vLLM PagedAttention)</td><td>~5ms</td><td>Session — recycled across turns</td></tr>
+          <tr><td>L3 · Vector Index</td><td>Qdrant/Milvus/Pinecone, HNSW ANN cosine retrieval</td><td>~25ms</td><td>Persistent — durable for months/years</td></tr>
+          <tr><td>L4 · Cold Storage</td><td>Postgres/S3 event logs, SQL query</td><td>~120ms</td><td>Immutable — full audit trail</td></tr>
+        </table>
+        <h3>Memory Decision Protocol (on every new fact)</h3>
+        <ol class="steps">
+          <li><strong>Is it useful? (Relevance)</strong> — filter ephemeral chatter ("ok", "good morning") from durable facts ("I changed my email").</li>
+          <li><strong>Does it conflict? (Consistency)</strong> — check against existing knowledge (e.g. "Vegetarian" vs new "I now eat chicken").</li>
+          <li><strong>What action?</strong> — Insert (new entity), Update/Replace (supersede old fact), or Ignore.</li>
+        </ol>
+        <h3>The Generative Agents Retrieval Score (Stanford/Google)</h3>
+        <p><code>Score = α<sub>recency</sub>·Recency + α<sub>importance</sub>·Importance + α<sub>relevance</sub>·Relevance</code></p>
+        <ul>
+          <li><strong>Recency:</strong> exponential decay γ<sup>Δt</sup> — recently accessed memories rank higher.</li>
+          <li><strong>Importance:</strong> LLM-assigned poignancy score 1–10 (a marriage proposal = 10, eating breakfast = 1).</li>
+          <li><strong>Relevance:</strong> cosine similarity between the query embedding and the stored memory embedding.</li>
+        </ul>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example — Reflection Engine</p>
+        <p>Raw memory stream: 10:05 AM "orders black coffee with oat milk" (importance 2) → 11:30 AM "discusses lactose intolerance"
+        (importance 8) → 2:15 PM "avoids dairy-based dessert" (importance 7). Once accumulated importance crosses a threshold
+        (Σ I(e) &gt; 150), a <strong>reflection is triggered</strong>: the LLM asks itself "What are the 3 most salient high-level
+        questions about the subjects above?" → generates "Does Rahul have strict dietary/dairy restrictions?" — turning raw episodic
+        events into a reusable semantic insight.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Separating memory into Working (fast, ephemeral) vs Persistent (episodic/semantic/procedural, durable) — and scoring
+        retrieval by recency + importance + relevance — lets an agent behave consistently over days or months instead of resetting
+        every conversation. The "Relevance" component (cosine similarity of embeddings) is exactly what Topic 3, Embeddings &amp;
+        Vector Databases, explains in depth.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section id="t3">
+    <p class="eyebrow">Unit 3 · Topic 3 of 4</p>
+    <h2>Embeddings, Vector Databases &amp; Similarity Search</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Turning Meaning into Numbers</h3><span class="topic-num">6 marks · very high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>Computers don't understand words — only numbers. An <strong>embedding</strong> is a dense numerical vector that captures
+        the semantic meaning of text; similar meanings produce similar (nearby) vectors, letting AI compare <em>ideas</em>, not just
+        keywords. <strong>Example:</strong> "How do agents remember?" and "Long-term memory stores interactions" use completely
+        different words but mean similar things — keyword search fails here, but embeddings find the match.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Embedding Generation &amp; Search Pipeline</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box">Raw Text</div>
+            <div class="arrow">→</div>
+            <div class="box">Tokenizer</div>
+            <div class="arrow">→</div>
+            <div class="box">Transformer Encoder</div>
+            <div class="arrow">→</div>
+            <div class="box alt">Embedding Vector<br><span style="font-weight:400;font-size:11px;">384–1536 dims</span></div>
+          </div>
+          <div class="flow" style="margin-top:16px;">
+            <div class="box ghost">User Question</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Embedding Model</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Vector Search</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">LLM Context</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Code &amp; Distance Metrics</p>
+        <pre><code>from sentence_transformers import SentenceTransformer
+model = SentenceTransformer("all-MiniLM-L6-v2")
+sentences = ["Artificial Intelligence is amazing", "AI is fascinating", "I love cricket"]
+embeddings = model.encode(sentences)
+print(embeddings.shape)  # (3, 384)
+
+from sklearn.metrics.pairwise import cosine_similarity
+similarity = cosine_similarity([embeddings[0]], embeddings[1:])
+# Higher score = more related — sentence 1 & 2 score highest (same meaning, different words)</code></pre>
+        <pre><code>import faiss
+index = faiss.IndexFlatL2(embeddings.shape[1])
+index.add(np.array(embeddings))
+query = model.encode(["Artificial Intelligence"])
+distances, ids = index.search(np.array(query), k=2)  # nearest-neighbor search</code></pre>
+        <table class="mini-table">
+          <tr><th>Distance Metric</th><th>What it measures</th></tr>
+          <tr><td>Cosine Similarity</td><td>Angle between two vectors (most common for text)</td></tr>
+          <tr><td>Euclidean Distance</td><td>Straight-line distance between two points</td></tr>
+          <tr><td>Dot Product</td><td>Magnitude-aware similarity</td></tr>
+        </table>
+        <p><strong>Vector DB vs Traditional DB:</strong> SQL = exact match, structured data, WHERE clauses. Vector DB = semantic
+        match, nearest-neighbor search, AI-native (FAISS, Pinecone, ChromaDB, Weaviate, Milvus, Qdrant use <strong>HNSW</strong> —
+        Hierarchical Navigable Small World — indexing for fast approximate nearest-neighbor lookup across millions of vectors).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>HR Chatbot case study:</strong> Employee asks "How many casual leaves can I take?" → query is embedded → vector DB
+        retrieves the relevant Leave Policy chunk → the retrieved context is injected into the LLM prompt → LLM answers accurately.
+        This exact end-to-end flow (User Question → Embedding → Vector Search → LLM Context) powers everything from "ChatGPT with
+        PDFs" to enterprise chatbots — and is precisely the Retrieval half of RAG (next topic).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Embeddings + vector databases let an AI system search by <em>meaning</em> instead of exact keyword match, and scale that
+        search to millions of documents via approximate nearest-neighbor indexes like FAISS/HNSW. This is the retrieval engine that
+        Retrieval-Augmented Generation is built on top of.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section id="t4">
+    <p class="eyebrow">Unit 3 · Topic 4 of 4</p>
+    <h2>Retrieval-Augmented Generation (RAG) &amp; Knowledge Grounding</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Grounding LLM Answers in Real Documents</h3><span class="topic-num">6 marks · very high-yield, likely the anchor question</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>LLMs have <strong>static knowledge</strong> (no access to private documents, real-time data, or domain-specific info) and
+        produce <strong>confident hallucinations</strong> — plausible-sounding but factually wrong answers with no uncertainty
+        signal. <strong>RAG (Retrieval-Augmented Generation)</strong> solves this in three steps: <strong>Retrieval</strong> (find
+        relevant info from external knowledge sources in real time), <strong>Augmented</strong> (enhance the LLM's prompt with that
+        retrieved context), <strong>Generation</strong> (produce a grounded, evidence-backed answer using the enriched input).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — RAG's Two-Phase Architecture</p>
+        <div class="diagram">
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin-bottom:8px;">Offline — Ingestion (happens once / on updates)</p>
+          <div class="flow">
+            <div class="box">Ingest Docs</div>
+            <div class="arrow">→</div>
+            <div class="box">Chunk &amp; Embed</div>
+            <div class="arrow">→</div>
+            <div class="box alt">Store Vectors</div>
+          </div>
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin:16px 0 8px;">Online — Query (happens per user request)</p>
+          <div class="flow">
+            <div class="box ghost">User Query</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Embed Query</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Match Top-k Vectors</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Inject into Prompt</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">LLM → Grounded Answer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Chunking Strategy</p>
+        <p>A 500-page PDF cannot (and should not) be sent to the LLM for every query — context windows have limits and flooding them
+        wastes tokens. A <strong>chunk</strong> is a smaller section of a document, ideally scoped to a single topic, making it
+        independently retrievable — e.g. Chunk 1 = "Introduction," Chunk 2 = "Attendance Policy," Chunk 3 = "Exam Rules"; the query
+        "What attendance is required?" retrieves only Chunk 2.</p>
+        <table class="mini-table">
+          <tr><th>Chunk Size</th><th>Trade-off</th></tr>
+          <tr><td>Small (~50 tokens)</td><td>High precision retrieval, but context may be incomplete</td></tr>
+          <tr><td>Large (~5000 tokens)</td><td>Better continuity, but irrelevant content + higher token cost</td></tr>
+        </table>
+        <p><strong>Chunk overlap</strong> preserves context across hard boundaries: Chunk 1 = A B C D E, Chunk 2 = D E F G H — tokens
+        D and E bridge the gap so meaning isn't severed mid-sentence. More overlap = better context preservation but higher storage/embedding cost.</p>
+        <h3>RAG vs Fine-Tuning</h3>
+        <p>Fine-tuning bakes knowledge into model weights — slow and costly. RAG retrieves knowledge dynamically at inference time —
+        faster, cheaper, and far more practical when the knowledge base changes frequently (e.g. a policy document updated every semester).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example — Knowledge Grounding</p>
+        <p><strong>Without grounding:</strong> "I think the deadline is the 15th…" — potential hallucination, no source.
+        <strong>With grounding:</strong> "According to the policy document, the deadline is March 15th." — evidence-based, traceable.
+        Grounding matters most where being wrong is costly: <strong>Medical</strong> (incorrect clinical info can harm patients),
+        <strong>Financial/Legal</strong> (regulatory compliance demands accuracy), <strong>Education/Corporate</strong> (attendance
+        rules, HR policy must be grounded in official documents).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>RAG transforms an LLM's "I think…" into "According to the evidence…" — combining the reasoning fluency of an LLM with the
+        factual reliability of a live, updatable knowledge base, without the cost of retraining the model. It is the natural endpoint
+        of Unit 3: Memory Limitations (Topic 1) motivate external storage, Agent Memory Architectures (Topic 2) organize it, Embeddings
+        &amp; Vector DBs (Topic 3) make it searchable, and RAG (Topic 4) is the production pattern that ties all three together into a
+        grounded, hallucination-resistant agent.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  FAAI — Unit 3 · RAG &amp; Agent Memory Architectures · Built from course lecture decks, cross-checked for flow.
+</footer>
+</body>
+</html>

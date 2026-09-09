@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Foundations of Intelligent Agents &amp; Agentic AI</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 6px;color:var(--navy-2);}
+  h2 .sub{display:block;font-size:14px;font-weight:400;color:var(--muted);margin-top:4px;}
+  h3{font-size:16.5px;color:var(--navy-2);margin:22px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .grid.cols-5{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));}
+  .grid.cols-6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;background:var(--coral-light);flex:none;}
+  .card p{font-size:13.5px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+
+  /* ===== Exam-answer topic block (5-part format) ===== */
+  .topic{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 10px;margin:26px 0;box-shadow:0 2px 10px rgba(60,20,90,0.06);}
+  .topic-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .topic-head h3{margin:0;font-size:19px;color:var(--navy);}
+  .topic-num{font-size:12px;font-weight:700;color:#fff;background:var(--violet);padding:3px 10px;border-radius:999px;}
+  .part{margin:16px 0;padding:14px 16px;border-radius:10px;background:#faf7fd;border:1px solid var(--line);}
+  .part-label{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--coral);margin:0 0 8px;display:flex;align-items:center;gap:6px;}
+  .part-label .n{width:19px;height:19px;border-radius:50%;background:var(--coral);color:#fff;font-size:11px;display:inline-flex;align-items:center;justify-content:center;}
+  .part p, .part ul{margin-bottom:0;font-size:13.6px;}
+  .part ul{margin-top:6px;}
+
+  /* diagram boxes */
+  .diagram{background:#fff;border:1.5px dashed var(--violet);border-radius:12px;padding:18px;margin:6px 0;}
+  .flow{display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .flow .box{background:linear-gradient(135deg,var(--navy-2),#5a2a8c);color:#fff;padding:10px 14px;border-radius:10px;font-size:12.5px;font-weight:600;text-align:center;min-width:90px;box-shadow:0 2px 6px rgba(60,20,90,0.18);}
+  .flow .box.alt{background:linear-gradient(135deg,var(--coral),#ff8a8e);}
+  .flow .box.ghost{background:#fff;color:var(--navy-2);border:1.5px solid var(--violet);}
+  .flow .arrow{font-size:18px;color:var(--violet);font-weight:700;}
+  .flow.vertical{flex-direction:column;}
+  .flow.vertical .arrow{transform:rotate(90deg);}
+  .stack-note{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;}
+  .loop-badge{display:inline-block;background:var(--amber);color:#4a3400;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-top:8px;}
+
+  .mini-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  .mini-table th{background:var(--navy-2);color:#fff;padding:6px 9px;text-align:left;}
+  .mini-table td{padding:6px 9px;border-bottom:1px solid var(--line);}
+
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;background:#f3eefe;color:var(--violet);margin:0 4px 4px 0;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · FAAI · UNIT 1</span>
+  <h1>🤖 Foundations of Intelligent Agents &amp; Agentic AI</h1>
+  <p>What an intelligent agent is · the Agent–Environment–PEAS loop · the 6 dimensions that classify every environment ·
+     the 5 agent architectures (Simple Reflex → Learning) · Traditional AI vs Agentic AI &amp; the 4 design patterns ·
+     and how LLMs power modern agents. Every topic follows the exam format:
+     <strong>Definition → Diagram → Working → Example → Conclusion.</strong></p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#t1">1 · Intelligent Agents</a>
+    <a href="#t2">2 · PEAS Framework</a>
+    <a href="#t3">3 · Environment Types</a>
+    <a href="#t4">4 · Agent Architectures</a>
+    <a href="#t5">5 · Traditional vs Agentic AI</a>
+    <a href="#t6">6 · LLM-Powered Agents</a>
+    <a href="../Unit%202/index.html" style="color:var(--coral);">Unit 2 →</a>
+    <a href="../Unit%203/index.html" style="color:var(--coral);">Unit 3 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- TOPIC 1 -->
+  <section id="t1">
+    <p class="eyebrow">Unit 1 · Topic 1 of 6</p>
+    <h2>Introduction to Intelligent Agents &amp; Autonomous Systems</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>What is an Intelligent Agent?</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>An <strong>Intelligent Agent</strong> is any entity that perceives its environment through <strong>sensors</strong>,
+        reasons about what it perceives, and acts upon that environment through <strong>actuators</strong> to achieve specific goals.
+        In short: <code>Agent = Perception + Reasoning + Action</code>. It is <strong>autonomous</strong> (acts without constant human
+        input), <strong>goal-driven</strong>, <strong>rational</strong> (chooses the best available action), <strong>reactive</strong>
+        (responds to real-time changes) and <strong>adaptive/learning</strong> (improves from experience). Classic thought experiment:
+        ChatGPT can generate text, but it cannot on its own book a flight, compare hotel prices, and pay for you — that extra
+        "something" (planning + memory + tools + autonomous action) is exactly what turns a language model into an agent.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — The Agent–Environment Interaction Loop</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">Environment</div>
+            <div class="arrow">→</div>
+            <div class="box">Sensors<br><span style="font-weight:400;font-size:11px;">(Perception)</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">AI / Reasoning<br><span style="font-weight:400;font-size:11px;">(Decision)</span></div>
+            <div class="arrow">→</div>
+            <div class="box">Actuators<br><span style="font-weight:400;font-size:11px;">(Action)</span></div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Environment</div>
+          </div>
+          <p class="stack-note">The loop never stops: environment changes → sensors detect it → reasoning decides → actuators respond → environment changes again.</p>
+          <div style="text-align:center;"><span class="loop-badge">↺ Continuous Perceive–Reason–Act Cycle</span></div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <ol class="steps">
+          <li><strong>Sense:</strong> Sensors (camera, GPS, microphone, API polling) collect raw percepts from the environment.</li>
+          <li><strong>Interpret:</strong> Raw percepts feed into a knowledge base / internal representation.</li>
+          <li><strong>Reason:</strong> The reasoning engine (rule set, search, or an LLM) evaluates the percept against the agent's goal.</li>
+          <li><strong>Decide:</strong> The best available action is selected.</li>
+          <li><strong>Act:</strong> Actuators (motors, brakes, speakers, API calls) execute the chosen action back on the environment, and the cycle repeats.</li>
+        </ol>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Tesla Autopilot:</strong> cameras/radar/GPS <em>perceive</em> the road every second → the AI model <em>reasons</em>
+        about obstacles, lane markings and speed → brakes/steering/throttle <em>act</em> in real time → the road changes and the
+        cycle repeats. Other everyday agents: Alexa/Siri (voice → intent → skill execution), Google Maps (traffic percepts → routing
+        reasoning → turn-by-turn actuation), Amazon warehouse robots.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>An intelligent agent's defining strength over a plain program is <strong>autonomy under a continuous feedback loop</strong> —
+        it does not just compute an output once, it keeps sensing and adapting, which is the foundation every later topic (PEAS,
+        environments, architectures, and finally LLM-powered agents) builds on.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px;">The AI → Agentic AI Evolution Ladder</h3>
+    <div class="grid cols-5">
+      <div class="card"><h4><span class="icon">📏</span>Rule-Based AI</h4><p>Fixed IF-THEN logic, no learning.</p></div>
+      <div class="card"><h4><span class="icon">📊</span>Machine Learning</h4><p>Learns patterns from data.</p></div>
+      <div class="card"><h4><span class="icon">🧠</span>Deep Learning</h4><p>Neural networks, complex patterns.</p></div>
+      <div class="card"><h4><span class="icon">✨</span>Generative AI</h4><p>Creates text/images (ChatGPT, DALL·E).</p></div>
+      <div class="card" style="border-color:var(--coral);"><h4><span class="icon">🤖</span>Agentic AI</h4><p>Plans &amp; acts autonomously (AI Research Agent).</p></div>
+    </div>
+    <p style="margin-top:10px;font-size:13px;color:var(--muted);">1956 Dartmouth Conference (birth of "AI") → 1980 Expert Systems → 1997 Deep Blue beats Kasparov → 2012 AlexNet/Deep Learning surge → 2022 ChatGPT/GenAI → Today: Agentic AI (agents that plan, act, use tools).</p>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section id="t2">
+    <p class="eyebrow">Unit 1 · Topic 2 of 6</p>
+    <h2>Agent–Environment Interaction &amp; the PEAS Framework</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>PEAS Framework</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>PEAS</strong> is a systematic framework used to fully specify a task environment before designing an agent, standing for
+        <strong>P</strong>erformance measure, <strong>E</strong>nvironment, <strong>A</strong>ctuators, <strong>S</strong>ensors. Defining
+        PEAS forces a designer to be precise about what "success" means, where the agent operates, how it acts, and how it perceives —
+        before a single line of the agent program is written.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — PEAS applied to a Self-Driving Taxi</p>
+        <div class="diagram">
+          <div class="grid cols-4" style="margin:0;">
+            <div class="card" style="text-align:center;"><h4 style="justify-content:center;">🎯 Performance</h4><p>Safety, speed, legal driving, passenger comfort, minimal fuel</p></div>
+            <div class="card" style="text-align:center;"><h4 style="justify-content:center;">🌍 Environment</h4><p>Roads, traffic, pedestrians, signals, weather</p></div>
+            <div class="card" style="text-align:center;"><h4 style="justify-content:center;">🦾 Actuators</h4><p>Steering, accelerator, brake, horn, display</p></div>
+            <div class="card" style="text-align:center;"><h4 style="justify-content:center;">📡 Sensors</h4><p>Cameras, GPS, speedometer, LiDAR, engine sensors</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Component Anatomy</p>
+        <table class="mini-table">
+          <tr><th>Component</th><th>Role</th><th>Example</th></tr>
+          <tr><td>Environment</td><td>Everything surrounding the agent</td><td>Road, home, hospital</td></tr>
+          <tr><td>Sensor</td><td>Collects raw data</td><td>Camera, GPS, radar</td></tr>
+          <tr><td>AI Model (Reasoning)</td><td>Processes data, makes decisions</td><td>Neural network / rule engine</td></tr>
+          <tr><td>Actuator</td><td>Executes the physical/digital action</td><td>Motor, brake, speaker</td></tr>
+        </table>
+        <p style="margin-top:8px;">Without sensors the agent is <strong>blind</strong>; without actuators it is <strong>powerless</strong>. The full loop is <strong>Perception → Reasoning/Planning → Action → Feedback</strong>, and feedback (e.g. a customer rating) is used to refine future decisions.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Food-delivery agent:</strong> Performance = fast &amp; accurate delivery, customer satisfaction; Environment = city roads,
+        restaurants, traffic; Actuators = driver-assignment messages, route display, notifications; Sensors = order data, GPS location,
+        restaurant prep-time feed. It perceives an order → reasons about restaurant/route options → assigns a driver → uses ratings as
+        feedback to keep improving.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>PEAS gives a <strong>reusable checklist</strong> for specifying <em>any</em> agent — from a thermostat to a self-driving car —
+        which is exactly why it is the standard first step in agent design, and it directly feeds into classifying the environment (next topic).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section id="t3">
+    <p class="eyebrow">Unit 1 · Topic 3 of 6</p>
+    <h2>Environment Types &amp; Classification</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>The 6 Dimensions of Task Environments</h3><span class="topic-num">6 marks · high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>The <strong>Agent Environment</strong> is the external world the agent perceives and acts in. Its properties along six
+        fundamental dimensions determine how complex the agent's program must be — whether it needs memory, search/planning, or
+        probabilistic reasoning.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — The 6 Dimensions (Simple ↔ Complex)</p>
+        <div class="diagram">
+          <table class="mini-table">
+            <tr><th>Dimension</th><th>Simple</th><th>Complex</th></tr>
+            <tr><td>Observability</td><td>Fully Observable</td><td>Partially Observable</td></tr>
+            <tr><td>Determinism</td><td>Deterministic</td><td>Stochastic</td></tr>
+            <tr><td>Episode Structure</td><td>Episodic</td><td>Sequential</td></tr>
+            <tr><td>Time Dynamism</td><td>Static</td><td>Dynamic (Semidynamic in between)</td></tr>
+            <tr><td>State Space</td><td>Discrete</td><td>Continuous</td></tr>
+            <tr><td>Agent Count</td><td>Single-Agent</td><td>Multi-Agent</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Architectural Impact of Each Dimension</p>
+        <ol class="steps">
+          <li><strong>Fully vs Partially Observable:</strong> Chess = fully observable (board fully visible). Poker / driving in fog = partially observable (hidden cards, blind spots). <em>Consequence:</em> partial observability mandates <strong>internal state / memory</strong> to track a belief state.</li>
+          <li><strong>Deterministic vs Stochastic:</strong> Next state fully determined by current state+action (deterministic) vs randomness/noise present (stochastic, e.g. dice, sensor noise). <em>Consequence:</em> stochastic worlds need <strong>probabilistic policies</strong> and contingency plans.</li>
+          <li><strong>Episodic vs Sequential:</strong> Spam classification = episodic (each email independent). Chess/driving = sequential (current move constrains the future). <em>Consequence:</em> sequential worlds demand <strong>lookahead planning</strong> — greedy choices cause long-term disaster.</li>
+          <li><strong>Static vs Dynamic:</strong> Crossword = static (world waits while you think). Autonomous driving = dynamic (world changes while you deliberate); chess-with-a-clock = <strong>semidynamic</strong> (world frozen, but your score/time ticks). <em>Consequence:</em> dynamic worlds need real-time event loops.</li>
+          <li><strong>Discrete vs Continuous:</strong> 64 chess squares = discrete. Steering angle/speed = continuous (infinite real values). <em>Consequence:</em> continuous state needs discretization/embedding buckets.</li>
+          <li><strong>Single-Agent vs Multi-Agent:</strong> Solitaire = single-agent. Poker/self-driving traffic = multi-agent (competitive or cooperative, game-theoretic dynamics).</li>
+        </ol>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example — Master Classification Table</p>
+        <table class="mini-table">
+          <tr><th>Task</th><th>Observable</th><th>Deterministic</th><th>Episodic</th><th>Static</th><th>Discrete</th><th>Agents</th></tr>
+          <tr><td>Chess with Clock</td><td>Fully</td><td>Deterministic</td><td>Sequential</td><td>Semidynamic</td><td>Discrete</td><td>Multi (Competitive)</td></tr>
+          <tr><td>Autonomous Taxi</td><td>Partially</td><td>Stochastic</td><td>Sequential</td><td>Dynamic</td><td>Continuous</td><td>Multi (Mixed)</td></tr>
+          <tr><td>Medical Diagnosis</td><td>Partially</td><td>Stochastic</td><td>Sequential</td><td>Static</td><td>Continuous/Disc</td><td>Single</td></tr>
+          <tr><td>Poker</td><td>Partially</td><td>Stochastic</td><td>Sequential</td><td>Static</td><td>Discrete</td><td>Multi (Competitive)</td></tr>
+          <tr><td>Image Classification</td><td>Fully</td><td>Deterministic</td><td>Episodic</td><td>Static</td><td>Discrete</td><td>Single</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong>Bonus distinction:</strong> Known vs Unknown ≠ Observability. Known/Unknown is about whether the agent knows the <em>rules/physics</em> of the world (e.g. a fully-visible video game you've never played before is Fully Observable but Unknown — the agent must explore to learn the transition function).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>The hardest possible environment is <strong>Partially Observable, Stochastic, Sequential, Dynamic, Continuous, Multi-Agent</strong>
+        (e.g. real-world autonomous driving) — because it simultaneously demands memory, probabilistic policies, lookahead planning,
+        real-time responsiveness, and negotiation with other agents. This is exactly why modern agentic-AI systems (LLM + tools + memory)
+        are needed instead of simple reflex programs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section id="t4">
+    <p class="eyebrow">Unit 1 · Topic 4 of 6</p>
+    <h2>Types of Agents: Simple Reflex → Model-Based → Goal-Based → Utility-Based → Learning</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>The 5 Agent Architectures</h3><span class="topic-num">6 marks · very high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>Agent architectures describe the internal data structures and reasoning engines that convert incoming percepts into outgoing
+        actions. They range from stateless reflex agents to self-improving learning agents — each layer adds a new capability on top of the last.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Evolution of Cognitive Capability</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box">1. Simple Reflex<br><span style="font-weight:400;font-size:11px;">IF-THEN, zero memory</span></div>
+            <div class="arrow">→</div>
+            <div class="box">2. Model-Based<br><span style="font-weight:400;font-size:11px;">+ internal state</span></div>
+            <div class="arrow">→</div>
+            <div class="box">3. Goal-Based<br><span style="font-weight:400;font-size:11px;">+ goals &amp; search</span></div>
+            <div class="arrow">→</div>
+            <div class="box">4. Utility-Based<br><span style="font-weight:400;font-size:11px;">+ utility U(s)</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">5. Learning<br><span style="font-weight:400;font-size:11px;">+ critic &amp; self-improvement</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Each Architecture</p>
+
+        <h3>1. Simple Reflex Agent</h3>
+        <p>Operates purely on Condition-Action rules: <code>IF condition THEN action</code>. No memory of past percepts.
+        <strong>Fatal flaw:</strong> perceptual aliasing — in a partially observable environment, two different real states can
+        produce the identical percept, trapping the agent in an infinite loop. <em>Example: a thermostat.</em></p>
+
+        <h3>2. Model-Based Reflex Agent</h3>
+        <p>Maintains an <strong>internal state</strong> combining the current percept with past observations, using two knowledge
+        pieces: how the world evolves on its own, and how the agent's own actions affect the world. State update:
+        <code>s_t = UPDATE(s_t-1, a_t-1, p_t)</code>. Overcomes perceptual aliasing. <em>Example: a robot vacuum that remembers a room map.</em></p>
+
+        <h3>3. Goal-Based Agent</h3>
+        <p>Combines the world model with explicit <strong>goals</strong> — desirable future situations — and performs search/planning
+        (forward simulation) to pick actions that lead there. <strong>Limitation:</strong> binary decision metric (goal reached: yes/1
+        or no/0) — cannot weigh trade-offs between multiple valid paths. <em>Example: GPS routing, Chess AI.</em></p>
+
+        <h3>4. Utility-Based Agent</h3>
+        <p>Uses a continuous <strong>utility function U(s)</strong> that scores how desirable a state is, choosing
+        <code>a* = argmax<sub>a</sub> Σ P(s'|s,a)·U(s')</code>. This allows optimal trade-offs when goals conflict — e.g. a route 3 min
+        slower but ₹20 cheaper and 80% safer can score higher than the "fastest" route. <em>Example: ride-share dispatch, algorithmic trading.</em></p>
+
+        <h3>5. Learning Agent</h3>
+        <p>Adds a <strong>Critic</strong> that evaluates performance against a fixed standard, a <strong>Learning Element</strong> that
+        updates the agent's policy based on that feedback, and a <strong>Problem Generator</strong> that suggests exploratory actions
+        to discover better strategies over time. <em>Example: AlphaGo, autonomous robotics, recommendation engines.</em></p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example — Master Comparison Table</p>
+        <table class="mini-table">
+          <tr><th>Architecture</th><th>Working Principle</th><th>Memory</th><th>Decision Process</th><th>Application</th></tr>
+          <tr><td>Simple Reflex</td><td>Condition-Action rules</td><td>None (stateless)</td><td>Direct sensory mapping</td><td>Thermostat, conveyor sorter</td></tr>
+          <tr><td>Model-Based</td><td>Internal state + world physics</td><td>State history</td><td>Infers true world state before acting</td><td>Robot vacuum, adaptive cruise control</td></tr>
+          <tr><td>Goal-Based</td><td>Goal satisfaction via search</td><td>State + search tree</td><td>Deliberative lookahead planning</td><td>GPS routing, Chess AI</td></tr>
+          <tr><td>Utility-Based</td><td>Expected-utility maximization</td><td>State + preference weights</td><td>Calculates optimal trade-offs U(s)</td><td>Trading, ride-share dispatch</td></tr>
+          <tr><td>Learning</td><td>Critic evaluates performance</td><td>Feedback history / policy logs</td><td>Critic feedback updates policy; explores</td><td>AlphaGo, autonomous robotics</td></tr>
+        </table>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Each architecture solves the previous one's limitation: memory fixes perceptual aliasing, goals fix "no direction", utility
+        fixes "can't compare options", and learning fixes "can't improve over time." Modern LLM-powered agents (Topic 6) are essentially
+        Learning + Utility + Goal-based reasoning implemented with a language model as the reasoning engine.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 5 -->
+  <section id="t5">
+    <p class="eyebrow">Unit 1 · Topic 5 of 6</p>
+    <h2>Traditional AI vs Agentic AI &amp; the 4 Agent Design Patterns</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Why Do We Need Agentic AI?</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>Imagine asking an AI assistant: <em>"Plan my 4-day Goa trip under ₹30,000 — book flights, reserve a hotel, check the
+        weather, and prepare an itinerary."</em> Classical/Traditional AI is designed for single, specific tasks: no multi-step
+        planning, no memory across steps, and no autonomous tool access — it always needs continuous human guidance. <strong>Agentic
+        AI</strong> is an AI system that understands goals, reasons about problems, plans multiple connected steps, uses external
+        tools, and executes tasks autonomously — behaving like a skilled digital employee rather than a simple chatbot.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Traditional AI vs Agentic AI</p>
+        <table class="mini-table">
+          <tr><th>Dimension</th><th>Traditional AI</th><th>Agentic AI</th></tr>
+          <tr><td>Scope</td><td>Performs one task</td><td>Completes entire workflows</td></tr>
+          <tr><td>Behavior</td><td>Reactive</td><td>Proactive</td></tr>
+          <tr><td>Planning</td><td>No planning</td><td>Multi-step planning</td></tr>
+          <tr><td>Memory</td><td>No persistent memory</td><td>Uses memory across sessions</td></tr>
+          <tr><td>Reasoning</td><td>Limited</td><td>Advanced</td></tr>
+          <tr><td>Tools</td><td>Cannot use external tools</td><td>Uses APIs, search, databases</td></tr>
+          <tr><td>Autonomy</td><td>Requires frequent user input</td><td>Works autonomously toward goals</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong>Key takeaway:</strong> Traditional AI solves a single problem. Agentic AI completes an entire workflow — from goal to result.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — The 4 Agent Design Patterns</p>
+        <div class="grid cols-4">
+          <div class="card"><h4><span class="icon">👤</span>Single-Agent</h4><p>One agent handles the entire task end to end. <em>e.g. ChatGPT answering a question.</em></p></div>
+          <div class="card"><h4><span class="icon">🧭</span>Planner–Executor</h4><p>One component plans; another executes the plan. <em>e.g. AI project-management assistant.</em></p></div>
+          <div class="card"><h4><span class="icon">🧩</span>Multi-Agent</h4><p>Multiple specialized agents collaborate on sub-tasks. <em>e.g. AI software-development team.</em></p></div>
+          <div class="card"><h4><span class="icon">🪞</span>Reflection</h4><p>The agent reviews and critiques its own output before responding. <em>e.g. AI proofreading an essay.</em></p></div>
+        </div>
+        <p style="margin-top:12px;">Characteristics that make a system "agentic": <strong>Autonomy</strong> (operates without constant oversight), <strong>Planning &amp; Reasoning</strong> (decomposes complex goals into actionable steps), <strong>Tool Integration</strong> (connects to search engines, APIs, databases), <strong>Memory &amp; Feedback</strong> (remembers context and improves from outcomes).</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Case study — AI Research Assistant:</strong> Prompt: "Prepare a report on Electric Vehicles in India." The agent
+        autonomously (1) understands the goal, (2) searches academic databases, (3) collects &amp; filters relevant papers,
+        (4) summarizes key findings into a structured, professional report — with no step-by-step hand-holding.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Classical AI has limits — single-task, reactive systems cannot handle complex real-world workflows. Agentic AI is
+        autonomous: it reasons, plans, uses tools, and completes entire workflows independently. The architecture equation is
+        <code>LLM + Planner + Memory + Tools + Feedback = a complete agentic system</code> — and the LLM is what supplies the
+        reasoning "brain" (next topic).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 6 -->
+  <section id="t6">
+    <p class="eyebrow">Unit 1 · Topic 6 of 6</p>
+    <h2>LLM-Powered Agents: Architectures &amp; Applications</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>From Passive Chatbots to Autonomous Agents</h3><span class="topic-num">5–6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>An <strong>LLM-Powered Agent</strong> is an intelligent system that uses a Large Language Model as its reasoning engine,
+        combined with memory, planning, and external tools, to complete tasks autonomously. The LLM alone only understands and
+        generates language; wrapping it with planning + memory + tools + environment access is what turns it into a true agent.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — LLM-Powered Agent Architecture</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">User Goal</div>
+            <div class="arrow">→</div>
+            <div class="box alt">LLM<br><span style="font-weight:400;font-size:11px;">Reasoning Engine</span></div>
+          </div>
+          <div class="flow" style="margin-top:14px;">
+            <div class="box">Planner<br><span style="font-weight:400;font-size:11px;">breaks goal into sub-steps</span></div>
+            <div class="box">Memory<br><span style="font-weight:400;font-size:11px;">retains context</span></div>
+            <div class="box">Tools/APIs<br><span style="font-weight:400;font-size:11px;">executes real actions</span></div>
+            <div class="box">Feedback<br><span style="font-weight:400;font-size:11px;">self-correction</span></div>
+          </div>
+          <p class="stack-note">The LLM sits at the center, orchestrating Planner ↔ Memory ↔ Tool-Executor ↔ Feedback to act on the Environment.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <p><strong>Classroom example:</strong> "Summarize this PDF and email it to my manager." → (1) reads &amp; parses the PDF,
+        (2) summarizes key content, (3) drafts a professional email, (4) sends it via an email tool. The LLM is the brain; planning,
+        memory and tools enable the real-world action.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example — Applications</p>
+        <div class="grid cols-3">
+          <div class="card"><h4><span class="icon">🗣️</span>Virtual Assistants</h4><p>Siri, Alexa, Google Assistant — reminders, scheduling, smart-device control.</p></div>
+          <div class="card"><h4><span class="icon">🔎</span>Research Assistants</h4><p>Automating literature review, summarizing papers, structured reports.</p></div>
+          <div class="card"><h4><span class="icon">📈</span>Productivity Automation</h4><p>Email drafting, calendar scheduling, meeting summarization at scale.</p></div>
+        </div>
+        <p style="margin-top:10px;">Industry spread: Healthcare (report summarization), Finance (fraud detection), Education (AI tutors), Retail (recommendations), Logistics (route optimization), Legal (contract review).</p>
+        <p><strong>Benefits:</strong> saves time, faster decisions, higher productivity, scales to complex workloads. <strong>Challenges:</strong> hallucinations, unsafe tool usage, privacy/security risk, high compute cost, ethical concerns.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>An LLM becomes far more powerful when combined with memory, planning and external tools — this is the single biggest idea
+        of Unit 1, and it is the direct bridge into Unit 2, which studies <em>how</em> the LLM reasons (Chain-of-Thought, Self-Consistency,
+        ReAct) and <em>how</em> it plans and calls tools reliably.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  FAAI — Unit 1 · Foundations of Intelligent Agents &amp; Agentic AI · Built from course lecture decks, cross-checked for flow.
+</footer>
+</body>
+</html>
