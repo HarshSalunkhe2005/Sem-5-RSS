@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — Cloud Architecture</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#33415f;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:var(--navy-2);}
+  .callout.warn{background:#fff6e9;border-left-color:var(--amber);}
+  .callout.warn p{color:#8a5a00;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .grid.cols-6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  .card h4{margin:0 0 8px;font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:var(--sky-light);flex:none;}
+  .card p{font-size:13.8px;margin:0 0 6px;}
+  .card.num{border-top:4px solid var(--sky);}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f4f7fd;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#33415f;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--sky);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .stack{display:flex;flex-direction:column;gap:6px;margin:22px 0;}
+  .layer{border-radius:10px;padding:12px 18px;color:#fff;}
+  .layer .name{font-weight:700;font-size:14.5px;}
+  .layer .sub{font-size:12px;opacity:.9;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;} .layer.l5{background:#8ec2f4;color:#0b1e3f;}
+
+  .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+  .tag.req{background:#e6f7ec;color:#1a7a3c;}
+  .tag.extra{background:#fdeaea;color:#b23b3b;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .fig-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · UNIT 3</span>
+  <h1>🏗️ Cloud Architecture</h1>
+  <p>Cloud architecture layers &amp; models (IaaS/PaaS/SaaS) · architecture for cloud applications ·
+     the 12 cloud application requirements · SOA for cloud applications · parallelization within cloud
+     applications · multi-tier application architecture · a survey of cloud tools &amp; platforms.</p>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#layers">Layers &amp; Models</a>
+    <a href="#app-arch">App Architecture</a>
+    <a href="#requirements">12 App Requirements</a>
+    <a href="#soa">SOA</a>
+    <a href="#parallelization">Parallelization</a>
+    <a href="#multi-tier">Multi-Tier Architecture</a>
+    <a href="#tools">Cloud Tools &amp; Platforms</a>
+    <a href="../Unit%202/index.html" style="color:var(--sky);">← Unit 2</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- LAYERS & MODELS -->
+  <section id="layers">
+    <p class="eyebrow">01 · Every cloud service fits one of these three layers <span class="tag req">EXAM SCOPE</span></p>
+    <h2>Cloud Architecture — Layers &amp; Models</h2>
+    <p>Cloud architecture refers to the components — databases, software capabilities, applications —
+      that companies use to leverage cloud resources for business problems. The stack is built as three
+      layers, each renting out a different amount of control to the customer.</p>
+
+    <div class="stack">
+      <div class="layer l3"><div class="name">SaaS — Software as a Service</div><div class="sub">The application itself. Provider manages everything.</div></div>
+      <div class="layer l2"><div class="name">PaaS — Platform as a Service</div><div class="sub">Dev/test/deploy environment. Provider manages infra + runtime.</div></div>
+      <div class="layer l1"><div class="name">IaaS — Infrastructure as a Service</div><div class="sub">Raw compute, storage, network. Provider manages only hardware.</div></div>
+    </div>
+
+    <h3>IaaS — Infrastructure as a Service</h3>
+    <p>The basic layer — hardware and network. What distinguishes it from a regular hosting company:
+      <strong>scalability</strong> and <strong>virtualization</strong>. Providers scale so the marginal
+      cost of more storage/bandwidth is minimal, and virtualization lets them use up to 90% of compute
+      resources vs idle traditional servers. <em>Example: Gmail's ~8GB free storage per user, backed by
+      Google's giant data centers.</em></p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Key Features</h4><ul style="margin-bottom:0;">
+        <li>Highly scalable resources</li><li>Enterprise-grade infrastructure</li>
+        <li>Cost depends on consumption</li><li>Multitenant architecture — one piece of hardware serves many users</li>
+        <li>Client gets complete control over the infrastructure</li></ul></div>
+      <div class="card"><h4>Adv / Disadv</h4>
+        <p><strong>+</strong> Most flexible/dynamic model, pay-as-you-go, automated hardware deployment, virtualized management frees up staff time.</p>
+        <p style="margin-bottom:0;"><strong>−</strong> Data-security issues from multitenancy, vendor outages block access, teams need training on new infra.</p></div>
+    </div>
+
+    <h3>PaaS — Platform as a Service</h3>
+    <p>Provides resources to actually <em>build</em> applications — combined with IaaS it lets you
+      develop, test, run and host applications, supporting the entire lifecycle from build → test →
+      deploy → maintain → update. Includes infra <em>plus</em> dev tools, DB management systems, etc.
+      <em>Example: Microsoft Azure — full dev+deploy environment with hosting.</em></p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Key Features</h4><ul style="margin-bottom:0;">
+        <li>Develop, test, host apps in the same environment</li><li>Resources scale up/down with business needs</li>
+        <li>Multiple users can access the same app in development</li><li>User does <em>not</em> have complete infra control</li>
+        <li>Web services &amp; DBs integrated; remote teams collaborate easily</li></ul></div>
+      <div class="card"><h4>Adv / Disadv</h4>
+        <p><strong>+</strong> Highly scalable/available/multi-tenant, quickened+simplified dev, reduced cost &amp; coding, automated policy, easy hybrid-cloud migration.</p>
+        <p style="margin-bottom:0;"><strong>−</strong> Data security, existing-infra compatibility, dependency on vendor's reliability/support.</p></div>
+    </div>
+
+    <h3>SaaS — Software as a Service</h3>
+    <p>The actual software — organizations rent the usage of a SaaS application and users connect over
+      the internet; the app must be web-based/accessible from anywhere. Provider offers <em>both</em>
+      software and hardware. It makes no sense to ask "cloud or SaaS?" — SaaS is simply a layer in the
+      cloud stack.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Key Features</h4><ul style="margin-bottom:0;">
+        <li>Subscription model</li><li>No download/install/upgrade needed</li>
+        <li>Resources scale with requirements</li><li>Accessible from any connected device</li>
+        <li>Provider is responsible for everything</li></ul></div>
+      <div class="card"><h4>Adv / Disadv</h4>
+        <p><strong>+</strong> No hardware/setup cost, automated upgrades, cross-device, accessible anywhere, pay-as-you-go, scalable, easy customization.</p>
+        <p style="margin-bottom:0;"><strong>−</strong> Loss of control, limited solution range, connectivity is mandatory.</p></div>
+    </div>
+
+    <h3>Cloud Service Provider</h3>
+    <p>A third-party company offering a cloud-based platform, infrastructure, application, or storage
+      service — pay only for what you use, like a utility (electricity/gas). Benefits: scalability &amp;
+      flexibility (no physical-server limits), reliability (multiple redundant data centers),
+      customisation, and responsive load balancing. Trade-off: businesses must still evaluate security —
+      access controls and compliance configurations for data stored in someone else's cloud.</p>
+  </section>
+
+  <!-- APP ARCHITECTURE -->
+  <section id="app-arch">
+    <p class="eyebrow">02 · What every cloud app actually needs <span class="tag req">EXAM SCOPE</span></p>
+    <h2>Architecture for Cloud Applications</h2>
+    <p>A cloud application's architecture is built <em>on top of</em> the IaaS/PaaS/SaaS stack above: the
+      provider's infrastructure and platform layers host the application's own frontend, backend, and
+      data layers. Designing this architecture is a step-by-step process — collect requirements → analyze
+      → design → evaluate/improve → deliver → operate continuously — governed by 6 design principles.</p>
+
+    <h3>6 Principles of Cloud Architecture Design</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>1️⃣ Reasonable Deployment</h4><p>Public cloud = VMs + high-performance
+        physical hosts. Private deployment = packaged independent software for a select user base.
+        Hybrid = unified management across public cloud + private platforms (VMware, OpenStack,
+        physical servers).</p></div>
+      <div class="card"><h4>2️⃣ Business Continuity</h4><p><strong>High Availability</strong> —
+        redundancy prevents interruption. <strong>Continuous Operations</strong> — fault-free uptime.
+        <strong>Disaster Recovery</strong> — restore apps/data in a different environment after damage.</p></div>
+      <div class="card"><h4>3️⃣ Elastic Expansion</h4><p>Decouple components (dynamic vs static data)
+        first: stay stateless (state in Redis), add load balancing, decouple via message queues/API
+        Gateway, enable global load balancing across hybrid/multi-cloud.</p></div>
+      <div class="card"><h4>4️⃣ Performance Efficiency</h4><p><strong>Compute</strong>: higher-config
+        hosts + clusters. <strong>Storage/caching</strong>: Redis hot-data cache, in-memory compute.
+        <strong>Network</strong>: pick the optimal data center per region.</p></div>
+      <div class="card"><h4>5️⃣ Security Compliance</h4><p>Separate master/sub-accounts &amp; key pairs,
+        least-privilege roles, ACLs + security groups, VPC isolation, prevent DDoS/SQLi/XSS, keep access
+        &amp; operation logs.</p></div>
+      <div class="card"><h4>6️⃣ Continuous Operation</h4><p>Monitor resources/services/events, alert via
+        phone/SMS/email, auto-handle via callback functions, auto-scale on CPU/metrics, track cost and
+        alarm on balance to avoid runaway spend.</p></div>
+    </div>
+  </section>
+
+  <!-- 12 REQUIREMENTS -->
+  <section id="requirements">
+    <p class="eyebrow">03 · What a production cloud app must satisfy <span class="tag req">EXAM SCOPE · high-yield</span></p>
+    <h2>Cloud Application Requirements</h2>
+    <p>Building a cloud application is a 12-step requirement checklist — each with a concrete example
+      of what "good" looks like.</p>
+    <ol class="steps">
+      <li><strong>Requirement Analysis</strong> — identify the business problem/objectives, determine
+        user requirements, analyze workload patterns. <em>e.g. an online-learning platform needs video
+        streaming, authentication, assessment modules.</em></li>
+      <li><strong>Scalability</strong> — support increasing/decreasing workloads, allocate resources
+        dynamically. <em>e.g. online exams auto-add servers under load.</em></li>
+      <li><strong>Availability</strong> — stay accessible with minimal downtime via redundancy/failover.
+        <em>e.g. e-commerce sites must stay up during festive sales.</em></li>
+      <li><strong>Reliability</strong> — perform consistently without failure; data integrity + fault
+        tolerance. <em>e.g. banking apps must complete every transaction accurately.</em></li>
+      <li><strong>Performance</strong> — fast response times via load balancing + resource optimization.
+        <em>e.g. shopping-site search results in seconds.</em></li>
+      <li><strong>Security</strong> — protect data/apps/infra: authentication, authorization, encryption,
+        auditing. <em>e.g. healthcare systems securing patient records.</em></li>
+      <li><strong>Data Management</strong> — efficient storage/retrieval/backup/recovery, distributed DBs
+        + big-data support. <em>e.g. social media storing billions of posts/images.</em></li>
+      <li><strong>Interoperability</strong> — work across different cloud platforms via standard
+        APIs/protocols. <em>e.g. an AWS-deployed app interacting with Azure-hosted services.</em></li>
+      <li><strong>Elasticity</strong> — auto-provision/release resources on demand, pay only for what's
+        used. <em>e.g. video-streaming services add capacity for a live event.</em></li>
+      <li><strong>Cost Efficiency</strong> — optimize utilization, pick the right service model
+        (IaaS/PaaS/SaaS). <em>e.g. startups use SaaS to skip infra costs.</em></li>
+      <li><strong>Compliance &amp; Governance</strong> — adhere to legal/regulatory policy, maintain
+        audit trails/data-privacy standards. <em>e.g. financial institutions complying with RBI/data-
+        protection regulation.</em></li>
+      <li><strong>Monitoring &amp; Maintenance</strong> — continuously monitor performance/usage;
+        logging, alerting, automated maintenance. <em>e.g. cloud monitoring tools detecting server
+        failure and notifying admins instantly.</em></li>
+    </ol>
+  </section>
+
+  <!-- SOA -->
+  <section id="soa">
+    <p class="eyebrow">04 · How cloud apps are decomposed into independent services <span class="tag req">EXAM SCOPE</span></p>
+    <h2>Service-Oriented Architecture (SOA) for Cloud Applications</h2>
+    <p><strong>SOA</strong> structures an application as a collection of loosely-coupled, independently
+      deployable services, each implementing one business capability, communicating over a network.</p>
+
+    <div class="grid cols-3">
+      <div class="card"><h4><span class="icon">🙋</span>Service Consumer</h4><p>The client/application
+        requesting a service — web app, mobile app, or another service. <em>e.g. a customer placing an
+        order on an e-commerce site.</em></p></div>
+      <div class="card"><h4><span class="icon">🏭</span>Service Provider</h4><p>Creates and provides
+        the service, publishing its details for consumers. <em>e.g. a Payment Service exposing online
+        payment functionality.</em></p></div>
+      <div class="card"><h4><span class="icon">📇</span>Service Registry</h4><p>Directory of available
+        services enabling dynamic discovery. <em>Examples: UDDI, Eureka Server, Consul.</em></p></div>
+      <div class="card"><h4><span class="icon">🚌</span>Enterprise Service Bus (ESB)</h4><p>Middleware
+        enabling inter-service communication: message routing, data transformation, load balancing,
+        security enforcement, protocol conversion.</p></div>
+      <div class="card"><h4><span class="icon">🧩</span>Cloud Services</h4><p>Each business capability
+        as an independent service — <em>Authentication, Inventory, Payment, Shipping, Notification.</em></p></div>
+      <div class="card"><h4><span class="icon">☁️</span>Cloud Infrastructure</h4><p>Supplies compute,
+        storage, networking, virtualization underneath every service. <em>AWS EC2, Microsoft Azure,
+        Google Cloud Platform.</em></p></div>
+    </div>
+    <div class="callout"><p>SOA is what makes a cloud application <strong>elastic and interoperable</strong>
+      (Requirements 8 &amp; 9 above) — each service scales independently and can be swapped or upgraded
+      without touching the rest of the system.</p></div>
+  </section>
+
+  <!-- PARALLELIZATION -->
+  <section id="parallelization">
+    <p class="eyebrow">05 · Using the cloud's near-unlimited resources at once <span class="tag req">EXAM SCOPE</span></p>
+    <h2>Parallelization within Cloud Applications</h2>
+    <p><strong>Parallelization</strong> is dividing a large computational task into smaller tasks executed
+      simultaneously across multiple processors, VMs, containers, or cloud resources. Cloud computing's
+      virtually unlimited resources make parallel execution efficient and scalable.</p>
+
+    <h3>Why parallelize in the cloud</h3>
+    <div class="grid cols-4">
+      <div class="card"><h4>⏱️ Reduce execution time</h4></div>
+      <div class="card"><h4>🚀 Improve performance</h4></div>
+      <div class="card"><h4>📊 Handle large-scale data</h4></div>
+      <div class="card"><h4>📡 Real-time analytics</h4></div>
+    </div>
+    <p><em>Example: processing millions of customer transactions on an e-commerce platform simultaneously
+      instead of one-by-one.</em></p>
+
+    <h3>Common parallelization patterns</h3>
+    <table>
+      <thead><tr><th>Pattern</th><th>How it works</th><th>Cloud example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Data Parallelism</strong></td><td>Split a large dataset into chunks; run the
+          <em>same</em> operation on each chunk concurrently, merge results.</td>
+          <td>MapReduce / Apache Spark processing a large log file across worker nodes.</td></tr>
+        <tr><td><strong>Task Parallelism</strong></td><td>Split a workflow into <em>different</em>
+          independent sub-tasks that run concurrently.</td>
+          <td>A video-transcoding pipeline running audio-extraction, thumbnailing, and compression at once.</td></tr>
+        <tr><td><strong>Pipeline Parallelism</strong></td><td>Break a task into sequential stages;
+          different items flow through different stages simultaneously.</td>
+          <td>An ETL pipeline where one batch is being transformed while the next is being extracted.</td></tr>
+        <tr><td><strong>Request-level Parallelism</strong></td><td>Multiple independent user requests
+          served concurrently by auto-scaled, stateless service instances.</td>
+          <td>A load-balanced web-app tier handling thousands of simultaneous HTTP requests.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- MULTI-TIER -->
+  <section id="multi-tier">
+    <p class="eyebrow">06 · Structuring an app into independent layers <span class="tag req">EXAM SCOPE</span></p>
+    <h2>Multi-Tier Application Architecture</h2>
+    <p>Multi-tier (N-tier) architecture physically separates an application's presentation, processing,
+      and data logic into independent tiers — each can be developed, deployed, scaled, and secured
+      separately, which is exactly what makes an app a good fit for elastic cloud infrastructure.</p>
+
+    <div class="stack">
+      <div class="layer l3"><div class="name">Presentation Tier</div><div class="sub">UI the user interacts with — web/mobile frontend, HTML/CSS/JS or a mobile app.</div></div>
+      <div class="layer l2"><div class="name">Application (Logic) Tier</div><div class="sub">Business logic, processing, APIs — the "brain" of the app, often itself split into microservices.</div></div>
+      <div class="layer l1"><div class="name">Data Tier</div><div class="sub">Databases &amp; storage — SQL/NoSQL, file/object storage, caches.</div></div>
+    </div>
+
+    <h3>Why go multi-tier instead of one monolith?</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4><span class="icon">📈</span>Independent Scaling</h4><p>Scale the busy tier
+        (e.g. the app/logic tier under load) without over-provisioning the others.</p></div>
+      <div class="card"><h4><span class="icon">🔐</span>Better Security</h4><p>The data tier can sit in
+        a private subnet, never directly exposed to the internet — only the app tier can reach it.</p></div>
+      <div class="card"><h4><span class="icon">🔧</span>Independent Maintenance</h4><p>Update/redeploy
+        one tier (e.g. the frontend) without touching the others.</p></div>
+      <div class="card"><h4><span class="icon">♻️</span>Reusability</h4><p>The same backend/data tier
+        can serve multiple frontends — a web app and a mobile app both calling the same APIs.</p></div>
+    </div>
+
+    <h3>2-Tier vs 3-Tier vs N-Tier</h3>
+    <table>
+      <thead><tr><th>Model</th><th>Structure</th><th>Trade-off</th></tr></thead>
+      <tbody>
+        <tr><td><strong>2-Tier</strong></td><td>Client talks directly to the database (client-server).</td>
+          <td>Simple, but the client is tightly coupled to the DB — hard to scale/secure.</td></tr>
+        <tr><td><strong>3-Tier</strong></td><td>Presentation → Application → Data, each on its own
+          server/service.</td><td>Standard cloud-web-app pattern — good balance of scalability, security,
+          maintainability.</td></tr>
+        <tr><td><strong>N-Tier</strong></td><td>3-tier further split — e.g. separate API gateway,
+          multiple microservices, caching tier, CDN tier.</td><td>Maximum flexibility/scalability, but
+          more operational complexity to manage.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><p><strong>Cloud fit:</strong> a typical 3-tier web app on AWS looks like
+      <code>CloudFront/CDN → Load Balancer → EC2/App Servers (app tier) → RDS/DynamoDB (data tier)</code>
+      — each tier auto-scales and fails over independently.</p></div>
+  </section>
+
+  <!-- TOOLS & PLATFORMS -->
+  <section id="tools">
+    <p class="eyebrow">07 · Who actually builds this stack <span class="tag req">EXAM SCOPE</span></p>
+    <h2>Study of Cloud Tools &amp; Platforms</h2>
+    <p>A survey of the major commercial and open-source platforms/tools used to build, deploy, and manage
+      cloud applications — grouped by what problem each one solves.</p>
+
+    <h3>Major public cloud providers (IaaS/PaaS/SaaS all-in-one)</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4><span class="icon">🟧</span>AWS (Amazon Web Services)</h4><p>Market leader —
+        EC2 (compute), S3 (storage), RDS/DynamoDB (databases), Lambda (serverless).</p></div>
+      <div class="card"><h4><span class="icon">🔵</span>Microsoft Azure</h4><p>Strong enterprise/hybrid-
+        cloud integration — Azure VMs, Blob Storage, Azure SQL, Azure Functions.</p></div>
+      <div class="card"><h4><span class="icon">🔴</span>Google Cloud Platform (GCP)</h4><p>Strong in
+        data/ML — Compute Engine, Cloud Storage, BigQuery, Cloud Functions.</p></div>
+    </div>
+
+    <h3>Open-source cloud implementation platforms</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4><span class="icon">🌐</span>OpenStack</h4><p>Open-source IaaS platform for
+        building private/public clouds — modular services for compute (Nova), storage (Swift/Cinder),
+        networking (Neutron), identity (Keystone).</p></div>
+      <div class="card"><h4><span class="icon">🐝</span>Eucalyptus / OpenNebula</h4><p>Earlier open-
+        source private-cloud platforms, AWS-API-compatible (Eucalyptus) — let organizations run
+        "AWS-like" infrastructure on their own hardware.</p></div>
+    </div>
+
+    <h3>Virtualization &amp; container tools</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4><span class="icon">🐳</span>Docker</h4><p>Packages an app + its dependencies
+        into a lightweight, portable container image.</p></div>
+      <div class="card"><h4><span class="icon">☸️</span>Kubernetes</h4><p>Orchestrates, auto-scales, and
+        self-heals fleets of containers across a cluster.</p></div>
+      <div class="card"><h4><span class="icon">🖥️</span>Xen / KVM / VMware</h4><p>Hypervisors that
+        create the VMs underneath every IaaS offering (see Unit 2).</p></div>
+    </div>
+
+    <h3>Infrastructure-as-Code &amp; automation</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4><span class="icon">📜</span>Terraform</h4><p>Declarative, cloud-agnostic
+        infrastructure provisioning — define infra in code, apply it identically across AWS/Azure/GCP.</p></div>
+      <div class="card"><h4><span class="icon">🔁</span>Ansible / Chef / Puppet</h4><p>Configuration-
+        management tools that automate server setup, application deployment, and ongoing config drift.</p></div>
+    </div>
+
+    <h3>Cloud programming / simulation tools (for hands-on labs)</h3>
+    <div class="pillbar">
+      <span>CloudSim (simulation)</span><span>Amazon EC2 / AWS CLI</span><span>Google Colab</span>
+      <span>Postman (API testing)</span><span>GitHub Actions (CI/CD)</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Cloud Computing — Unit 3 · Cloud Architecture · Built from official course Module 3 (+ standard supplementary coverage for Multi-Tier Architecture and Cloud Tools/Platforms, cross-checked against the syllabus).
+</footer>
+</body>
+</html>
