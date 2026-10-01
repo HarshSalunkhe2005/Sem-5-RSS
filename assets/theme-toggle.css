@@ -1,0 +1,28 @@
+/* Sem-5-RSS dark mode — invert+hue-rotate trick.
+   Every page here has its own hand-written <style> with a different palette,
+   so instead of re-theming 30+ files individually, flip the whole rendered
+   page: invert(1) turns light backgrounds dark (and vice versa), hue-rotate
+   (180deg) brings hues back close to their original look instead of their
+   inverted complements. Glyphs/emoji are the only thing that looks slightly
+   off; there are no photos on this site, so that's an acceptable trade. */
+html[data-theme="dark"]{
+  filter: invert(1) hue-rotate(180deg);
+  background:#fff;
+}
+html[data-theme="dark"] img,
+html[data-theme="dark"] svg,
+html[data-theme="dark"] video,
+html[data-theme="dark"] iframe{
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.theme-toggle-btn{
+  position:fixed; bottom:18px; right:18px; z-index:999;
+  width:42px; height:42px; border-radius:50%;
+  border:1px solid rgba(0,0,0,.15); background:#fff; color:#333;
+  font-size:17px; cursor:pointer; box-shadow:0 2px 12px rgba(0,0,0,.18);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .15s;
+}
+.theme-toggle-btn:hover{ transform:scale(1.08); }
+@media print{ .theme-toggle-btn{ display:none; } }

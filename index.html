@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sem 5 — Revision Notes</title>
+<meta name="description" content="Live, clickable revision notes for Sem 5 — Cloud Computing, NLP, Computer Networks, Deep Learning, Foundations of Agentic AI.">
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:64px 24px 48px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4.4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 18px;color:var(--navy-2);}
+
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:0 1px 3px rgba(60,20,90,0.06);text-decoration:none;color:inherit;display:block;transition:border-color .2s, transform .15s;}
+  .card:hover{border-color:var(--violet);transform:translateY(-2px);}
+  .card h4{margin:0 0 6px;font-size:14.5px;color:var(--navy-2);}
+  .card p{margin:0;font-size:13px;color:var(--muted);}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+</style>
+<link rel="stylesheet" href="assets/theme-toggle.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · B.TECH CSE/AIML</span>
+  <h1>Revision Notes</h1>
+  <p>Standalone pages — diagrams, worked numericals, question banks — built so you click a link
+     and start reading, not hunt through PPTs the night before an exam.</p>
+</header>
+
+<main>
+
+  <section id="cc">
+    <p class="eyebrow">01 · Cloud Computing (CC)</p>
+    <h2>Infrastructure you don't own, running code you do</h2>
+    <div class="grid">
+      <a class="card" href="CC/Unit%201/index.html"><h4>Unit 1</h4><p>Overview of Cloud Computing</p></a>
+      <a class="card" href="CC/Unit%202/index.html"><h4>Unit 2</h4><p>Virtualization</p></a>
+      <a class="card" href="CC/Unit%203/index.html"><h4>Unit 3</h4><p>Cloud Architecture</p></a>
+    </div>
+  </section>
+
+  <section id="nlp">
+    <p class="eyebrow">02 · Natural Language Processing (NLP)</p>
+    <h2>Teaching machines to read between the lines</h2>
+    <div class="grid">
+      <a class="card" href="NLP/Unit%201/index.html"><h4>Unit 1</h4><p>Introduction to Language &amp; NLP</p></a>
+      <a class="card" href="NLP/Unit%201/question-bank.html"><h4>Unit 1 · Q&amp;A</h4><p>Question Bank answers</p></a>
+      <a class="card" href="NLP/Unit%202/index.html"><h4>Unit 2</h4><p>Feature Extraction &amp; Language Modeling</p></a>
+      <a class="card" href="NLP/Unit%202/numericals.html"><h4>Unit 2 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="NLP/Unit%202/question-bank.html"><h4>Unit 2 · Q&amp;A</h4><p>Question Bank answers</p></a>
+      <a class="card" href="NLP/Unit%203/index.html"><h4>Unit 3</h4><p>Word Embeddings</p></a>
+      <a class="card" href="NLP/Unit%203/numericals.html"><h4>Unit 3 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="NLP/Unit%203/question-bank.html"><h4>Unit 3 · Q&amp;A</h4><p>Question Bank answers</p></a>
+    </div>
+  </section>
+
+  <section id="cn">
+    <p class="eyebrow">03 · Computer Networks (CN)</p>
+    <h2>How a packet gets from here to there</h2>
+    <div class="grid">
+      <a class="card" href="CN/Unit%201/index.html"><h4>Unit 1</h4><p>Internet Basics &amp; Protocols</p></a>
+      <a class="card" href="CN/Unit%201/numericals.html"><h4>Unit 1 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="CN/Unit%201/question-bank.html"><h4>Unit 1 · Q&amp;A</h4><p>20 questions, answered</p></a>
+      <a class="card" href="CN/Unit%202/index.html"><h4>Unit 2</h4><p>Application Layer</p></a>
+      <a class="card" href="CN/Unit%202/question-bank.html"><h4>Unit 2 · Q&amp;A</h4><p>20 questions, answered</p></a>
+      <a class="card" href="CN/Unit%203/index.html"><h4>Unit 3</h4><p>Transport Layer</p></a>
+      <a class="card" href="CN/Unit%203/numericals.html"><h4>Unit 3 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="CN/Unit%203/question-bank.html"><h4>Unit 3 · Q&amp;A</h4><p>20 questions, answered</p></a>
+      <a class="card" href="CN/PYQs/index.html"><h4>PYQs</h4><p>Dec'23 ×2, May'24, Dec'24, Dec'25</p></a>
+    </div>
+  </section>
+
+  <section id="dl">
+    <p class="eyebrow">04 · Deep Learning (DL)</p>
+    <h2>Neurons, gradients, and the math between them</h2>
+    <div class="grid">
+      <a class="card" href="DL/Unit%201/index.html"><h4>Unit 1</h4><p>Introduction to Deep Learning</p></a>
+      <a class="card" href="DL/Unit%201/numericals.html"><h4>Unit 1 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="DL/Unit%201/question-bank.html"><h4>Unit 1 · Q&amp;A</h4><p>Q1–55, answered</p></a>
+      <a class="card" href="DL/Unit%202/index.html"><h4>Unit 2</h4><p>Advances in NN &amp; DL</p></a>
+      <a class="card" href="DL/Unit%202/numericals.html"><h4>Unit 2 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="DL/Unit%202/question-bank.html"><h4>Unit 2 · Q&amp;A</h4><p>Q56–110, answered</p></a>
+      <a class="card" href="DL/Unit%203/index.html"><h4>Unit 3</h4><p>Activations, Loss, Generalization &amp; Optimization</p></a>
+      <a class="card" href="DL/Unit%203/numericals.html"><h4>Unit 3 · Numericals</h4><p>Worked, step-by-step</p></a>
+      <a class="card" href="DL/Unit%203/question-bank.html"><h4>Unit 3 · Q&amp;A</h4><p>Q111–158, answered</p></a>
+      <a class="card" href="DL/PYQs/index.html"><h4>PYQs</h4><p>Dec'23, May'24, Dec'24, May'25</p></a>
+    </div>
+  </section>
+
+  <section id="faai">
+    <p class="eyebrow">05 · Foundations of Agentic AI (FAAI)</p>
+    <h2>From reflex agents to LLMs that plan and act</h2>
+    <div class="grid">
+      <a class="card" href="FAAI/Unit%201/index.html"><h4>Unit 1</h4><p>Intelligent Agents, PEAS, Environments, Architectures, Agentic AI, LLM-Powered Agents</p></a>
+      <a class="card" href="FAAI/Unit%202/index.html"><h4>Unit 2</h4><p>CoT, Self-Consistency &amp; ToT, ReAct, Planning, Tools, Structured Outputs</p></a>
+      <a class="card" href="FAAI/Unit%203/index.html"><h4>Unit 3</h4><p>Memory Limits, Agent Memory, Embeddings, RAG</p></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>Sem 5 — Revision Notes · built page by page, course by course.</footer>
+<script src="assets/theme-toggle.js" defer></script>
+</body>
+</html>

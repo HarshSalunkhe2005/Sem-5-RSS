@@ -65,7 +65,10 @@
 
   footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
   @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
 </style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
 </head>
 <body>
 
@@ -75,6 +78,7 @@
   <p>Network application architectures (client-server to microservices) · how processes
      actually talk to the network · HTTP from 0.9 to 3 · FTP, SMTP, and DNS · P2P
      architectures · and the socket-programming basics underneath it all.</p>
+  <a class="back" href="../../">← Back to site home</a>
 </header>
 
 <nav class="toc">
@@ -305,5 +309,6 @@ Response: HTTP/1.1 200 OK</pre>
 
 <footer>Unit 2 — Application Layer · Sem 5 revision notes</footer>
 
+<script src="../../assets/theme-toggle.js" defer></script>
 </body>
 </html>
