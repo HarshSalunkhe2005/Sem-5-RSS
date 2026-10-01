@@ -87,7 +87,10 @@
   .tier.t1{background:#eef7ff;border:1px solid #bfe0ff;}
   .tier.t2{background:#fff5e9;border:1px solid #ffdca8;}
   .tier h5{margin:0 0 6px;font-size:13px;color:var(--navy-2);}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
 </style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
 </head>
 <body>
 
@@ -97,6 +100,7 @@
   <p>Why LLMs "forget" &amp; the context window problem · short-term vs long-term agent memory (episodic, semantic, procedural) ·
      Embeddings, Vector Databases &amp; Similarity Search · Retrieval-Augmented Generation (RAG) &amp; Knowledge Grounding.
      Every topic follows the exam format: <strong>Definition → Diagram → Working → Example → Conclusion.</strong></p>
+  <a class="back" href="../../">← Back to site home</a>
 </header>
 
 <nav class="toc">
@@ -416,5 +420,6 @@ distances, ids = index.search(np.array(query), k=2)  # nearest-neighbor search</
 <footer>
   FAAI — Unit 3 · RAG &amp; Agent Memory Architectures · Built from course lecture decks, cross-checked for flow.
 </footer>
+<script src="../../assets/theme-toggle.js" defer></script>
 </body>
 </html>

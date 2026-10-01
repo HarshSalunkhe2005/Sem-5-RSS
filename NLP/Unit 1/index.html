@@ -90,7 +90,10 @@
   footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
 
   @media (max-width:640px){ .mitigate ul{columns:1;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
 </style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
 </head>
 <body>
 
@@ -102,6 +105,7 @@
      parsing &amp; grammar · Named Entity Recognition. Every diagram from the deck is included below —
      not just text.</p>
   <div class="hero-fig"><img src="images/p017.png" alt="Unit 1 topic overview"></div>
+  <a class="back" href="../../">← Back to site home</a>
 </header>
 
 <nav class="toc">
@@ -807,5 +811,6 @@ doc = nlp(<span class="s">"Elon Musk founded Tesla in 2003"</span>)
 
 <footer>Unit 1 — Introduction to Language &amp; NLP · Sem 5 revision notes · TEE7101, SIT Pune</footer>
 
+<script src="../../assets/theme-toggle.js" defer></script>
 </body>
 </html>

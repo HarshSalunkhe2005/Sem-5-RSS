@@ -65,7 +65,10 @@
 
   footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
   @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
 </style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
 </head>
 <body>
 
@@ -76,6 +79,7 @@
      CountVectorizer — then using those numbers to build probabilistic language models, Naive
      Bayes classifiers, and a first look at the generative models (N-Gram → RNN → LSTM →
      Transformer → GPT) that come next.</p>
+  <a class="back" href="../../">← Back to site home</a>
 </header>
 
 <nav class="toc">
@@ -377,5 +381,6 @@ print(X.toarray())
 
 <footer>Unit 2 — Feature Extraction &amp; Language Modeling · Sem 5 revision notes</footer>
 
+<script src="../../assets/theme-toggle.js" defer></script>
 </body>
 </html>
