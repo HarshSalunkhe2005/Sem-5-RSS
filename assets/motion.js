@@ -23,6 +23,23 @@
     el.addEventListener('pointerleave', resetCard);
   });
 
+  // --- reveal cards/topics on scroll-in (class toggle, not a scroll-timeline
+  // animation, so it never fights the hover-tilt transform on the same property) ---
+  var revealEls = document.querySelectorAll('.card2.reveal, .topic2.reveal');
+  if (revealEls.length && 'IntersectionObserver' in window){
+    var revealIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          revealIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    revealEls.forEach(function(el){ revealIo.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
   // --- flip cards: click/Enter toggles for keyboard & touch users ---
   document.querySelectorAll('.flip-wrap').forEach(function(el){
     el.setAttribute('tabindex', '0');
