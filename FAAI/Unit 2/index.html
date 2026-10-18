@@ -108,6 +108,7 @@
     <a href="#t4">4 · Agent Planning</a>
     <a href="#t5">5 · Tool Integration</a>
     <a href="#t6">6 · Structured Outputs</a>
+    <a href="#t7">7 · Hallucination &amp; Vector DB</a>
     <a href="../Unit%203/index.html" style="color:var(--coral);">Unit 3 →</a>
   </div>
 </nav>
@@ -540,6 +541,68 @@ else:
         this is the exact mechanism the Agent Loop (Topic 3) uses at the "Decide" step, and the exact mechanism Tool Integration
         (Topic 5) relies on to safely execute real actions. It is the contract layer that makes the entire agent architecture
         auditable and secure.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="t7">
+    <p class="eyebrow">Unit 2 · Topic 7 of 7 · <span style="color:var(--violet);">syllabus gap-fill</span></p>
+    <h2>Hallucinations, Knowledge Cutoff, Document Processing &amp; Vector Databases</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Why Plain LLMs Fail — and the Fixes</h3><span class="topic-num">5–6 marks · syllabus topic</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Hallucination</strong> = an LLM producing fluent, confident output that is factually wrong or unsupported (invented facts,
+        fake citations, wrong numbers). <strong>Knowledge cutoff</strong> = the date after which the model's training data stops — it
+        knows nothing about later events and cannot see private/company data. Both are consequences of how LLMs work: they predict the most
+        <em>likely</em> next token from static training data; they do not "look up" truth.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — From Problem to Fix</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box alt">Hallucination<br><span style="font-weight:400;font-size:11px;">confident but wrong</span></div><div class="arrow">+</div>
+            <div class="box alt">Knowledge Cutoff<br><span style="font-weight:400;font-size:11px;">stale / private data missing</span></div><div class="arrow">→</div>
+            <div class="box">Document Processing<br><span style="font-weight:400;font-size:11px;">load · clean · chunk</span></div><div class="arrow">→</div>
+            <div class="box">Embeddings → Vector DB<br><span style="font-weight:400;font-size:11px;">semantic search</span></div><div class="arrow">→</div>
+            <div class="box ghost">Grounded Answer (RAG, Unit 3)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <table class="mini-table">
+          <tr><th>Problem</th><th>Cause</th><th>Mitigation</th></tr>
+          <tr><td>Hallucination</td><td>Next-token prediction, no fact-checking, gaps in training data</td><td>Ground in retrieved documents (RAG), ask for citations, Self-Consistency, tool use (calculator/search), lower temperature, human/fact verification</td></tr>
+          <tr><td>Knowledge cutoff</td><td>Training data frozen at a date</td><td>Search-engine/API tools for live data; RAG over fresh documents (no retraining)</td></tr>
+          <tr><td>Private data unseen</td><td>Model never trained on your files</td><td>Document processing + vector DB + retrieval</td></tr>
+        </table>
+        <h3>Document processing (to make documents usable by an LLM)</h3>
+        <ol class="steps">
+          <li><strong>Load / parse</strong> PDFs, DOCX, HTML, databases (OCR for scans).</li>
+          <li><strong>Clean</strong> text — remove headers/footers, noise, duplicates.</li>
+          <li><strong>Chunk</strong> into topic-sized pieces (with overlap) so each fits the context window and is independently retrievable.</li>
+          <li><strong>Embed</strong> each chunk into a vector capturing meaning.</li>
+          <li><strong>Store</strong> vectors (+ metadata) in a <strong>vector database</strong> (FAISS, Chroma, Pinecone, Milvus…).</li>
+        </ol>
+        <p><strong>Vector database:</strong> stores embeddings and answers "which stored vectors are closest in meaning to this query vector?" using
+        similarity metrics (cosine, Euclidean, dot product) — semantic search, unlike a SQL database's exact-match lookups. Details &amp; indexing
+        (ANN/HNSW) are in Unit 3.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p>Asked "What is the 2026 leave policy of my company?", a plain LLM either admits ignorance (cutoff) or invents a plausible policy
+        (hallucination). With document processing + vector DB, the agent retrieves the actual policy chunk and answers with the source.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Hallucination and knowledge cutoff are the core reasons agents need <strong>tools and retrieval</strong>. Reasoning strategies (CoT/ToT/ReAct)
+        make the model think better; document processing + vector databases make it <em>know</em> better — which leads directly into RAG (Unit 3).</p>
       </div>
     </div>
   </section>

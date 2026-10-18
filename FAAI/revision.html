@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAAI — Cheat Sheet &amp; Likely Questions (Units 1–5)</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 14px;color:var(--navy-2);}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th,th{background:var(--navy-2);color:#fff;text-align:left;padding:9px 12px;font-weight:600;}
+  td{padding:8px 12px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.6em;}
+  .qa .q .marks{margin-left:auto;font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 3.5em;}
+  .qa .a ul{margin:4px 0 0;padding-left:20px;}
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px;}
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q{flex-wrap:wrap;} .qa .q .marks{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · FAAI · FULL SYLLABUS (UNITS 1–5)</span>
+  <h1>⚡ Cheat Sheet &amp; Likely Questions</h1>
+  <p>Last-hour revision: one-glance comparison tables first, then ~35 likely exam questions with crisp model answers.
+     Units 4–5 and a few Unit 2/3 items were written from standard course content to match the official syllabus.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#cheat">Cheat Sheet</a>
+    <a href="#u1">Unit 1 Q&amp;A</a>
+    <a href="#u2">Unit 2 Q&amp;A</a>
+    <a href="#u3">Unit 3 Q&amp;A</a>
+    <a href="#u4">Unit 4 Q&amp;A</a>
+    <a href="#u5">Unit 5 Q&amp;A</a>
+    <a href="Unit%201/index.html">Unit 1 notes</a>
+    <a href="Unit%202/index.html">Unit 2</a>
+    <a href="Unit%203/index.html">Unit 3</a>
+    <a href="Unit%204/index.html">Unit 4</a>
+    <a href="Unit%205/index.html">Unit 5</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="cheat">
+  <p class="eyebrow">One-page memory dump</p>
+  <h2>Cheat Sheet</h2>
+
+  <table>
+    <tr><th>Unit 1</th><th>Remember</th></tr>
+    <tr><td>Agent</td><td>Sensors → Reasoning → Actuators in a loop. Agent = Perception + Reasoning + Action.</td></tr>
+    <tr><td>PEAS</td><td>Performance, Environment, Actuators, Sensors.</td></tr>
+    <tr><td>6 env. dimensions</td><td>Observable · Deterministic · Episodic · Static · Discrete · Single-agent (each vs its opposite). Hardest = partially observable, stochastic, sequential, dynamic, continuous, multi-agent.</td></tr>
+    <tr><td>5 agent types</td><td>Simple Reflex (IF-THEN, no memory) → Model-Based (+state) → Goal-Based (+goals/search) → Utility-Based (+U(s)) → Learning (+critic, learning element, problem generator).</td></tr>
+    <tr><td>Agentic AI</td><td>LLM + Planner + Memory + Tools + Feedback. 4 patterns: Single-agent, Planner–Executor, Multi-agent, Reflection.</td></tr>
+  </table>
+
+  <table>
+    <tr><th>Unit 2</th><th>Remember</th></tr>
+    <tr><td>CoT / Self-Consistency / ToT</td><td>One chain · many chains + majority vote · branching tree with evaluate &amp; prune.</td></tr>
+    <tr><td>ReAct / agent loop</td><td>Decide → Execute (tool) → Observe → repeat. Stop on: final answer, MAX_STEPS, failure limit, high-risk action.</td></tr>
+    <tr><td>Planning</td><td>Task decomposition, sequential, hierarchical (HTN), long-horizon. Static Plan-and-Solve vs dynamic replanning; Reflexion = verbal self-critique.</td></tr>
+    <tr><td>Tools &amp; JSON</td><td>Search, APIs, DB, vector DB, code interpreter. Function calling: LLM <em>requests</em> JSON, app <em>executes</em> (gatekeeper principle).</td></tr>
+    <tr><td>Hallucination / cutoff</td><td>Fix with RAG, tools, citations, self-consistency.</td></tr>
+  </table>
+
+  <table>
+    <tr><th>Unit 3</th><th>Remember</th></tr>
+    <tr><td>Context window</td><td>Fixed token budget shared by system prompt + chat + retrieved docs → older info truncated.</td></tr>
+    <tr><td>Memory</td><td>Short-term (working/in-context) vs long-term: Episodic (events), Semantic (facts), Procedural (how-to). Retrieval score = recency + importance + relevance.</td></tr>
+    <tr><td>RAG</td><td>Ingest → chunk → embed → store | query → embed → top-k → inject → LLM. Small chunk = precise but little context; large = context but noisy; overlap bridges boundaries. RAG vs fine-tuning: RAG cheaper, updatable.</td></tr>
+    <tr><td>Similarity</td><td>Cosine (angle), Euclidean (distance), dot product. ANN indexes: Flat, IVF, HNSW, PQ.</td></tr>
+    <tr><td>Advanced retrieval</td><td>Hybrid (BM25 + vector) · Re-ranking (cross-encoder) · Multi-hop (iterative retrieval).</td></tr>
+  </table>
+
+  <table>
+    <tr><th>Unit 4</th><th>Remember</th></tr>
+    <tr><td>Multi-agent</td><td>Several specialised agents cooperating; communicate via message passing / shared memory.</td></tr>
+    <tr><td>MCP</td><td>Open standard for connecting agents to tools/data. Host/client ↔ server; exposes resources, tools, prompts over JSON-RPC. Solves N×M integrations.</td></tr>
+    <tr><td>Roles</td><td>Planner, Executor, Research, Critic. Models: hierarchical, role-based, cooperative.</td></tr>
+    <tr><td>Swarm</td><td>Decentralised coordination → emergent behaviour (ants, boids).</td></tr>
+    <tr><td>Deployment</td><td>API-based deployment, monitoring &amp; logging, scaling.</td></tr>
+  </table>
+
+  <table>
+    <tr><th>Unit 5</th><th>Remember</th></tr>
+    <tr><td>Metrics</td><td>Task completion (success rate), tool efficiency, latency &amp; cost; benchmarks.</td></tr>
+    <tr><td>Hallucination fixes</td><td>Fact verification + retrieval grounding.</td></tr>
+    <tr><td>Guardrails</td><td>Output validation + tool-access restriction (least privilege, human approval).</td></tr>
+    <tr><td>Security</td><td>Prompt injection (direct/indirect), data leakage, tool misuse.</td></tr>
+    <tr><td>Responsible AI</td><td>Bias mitigation, transparency &amp; explainability.</td></tr>
+  </table>
+</section>
+
+<section id="u1">
+  <p class="eyebrow">Unit 1 — Introduction</p>
+  <h2>Likely Questions</h2>
+
+  <div class="qa"><p class="q"><span class="num">Q1</span>What is an intelligent agent? Explain the perceive–reason–act cycle with a diagram. <span class="marks">5–6</span></p>
+  <div class="a">An agent perceives its environment through <strong>sensors</strong>, reasons, and acts through <strong>actuators</strong> to achieve goals; it is autonomous, goal-driven, rational, reactive and adaptive. Diagram: Environment → Sensors → Reasoning/Decision → Actuators → Environment (continuous loop). Example: Tesla Autopilot — cameras/radar sense the road, the model decides, brakes/steering act.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q2</span>Explain PEAS with an example. <span class="marks">5</span></p>
+  <div class="a">PEAS specifies a task environment: <strong>P</strong>erformance measure, <strong>E</strong>nvironment, <strong>A</strong>ctuators, <strong>S</strong>ensors. Self-driving taxi: P = safety, speed, legality, comfort; E = roads, traffic, pedestrians; A = steering, accelerator, brake, horn; S = cameras, GPS, LiDAR, speedometer.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q3</span>Classify environments along the six dimensions; give examples. <span class="marks">6</span></p>
+  <div class="a">Fully/partially observable (chess / poker); deterministic/stochastic (chess / driving); episodic/sequential (spam filter / chess); static/dynamic (crossword / driving); discrete/continuous (chess squares / steering angle); single/multi-agent (solitaire / poker). Real-world driving is the hardest: partially observable, stochastic, sequential, dynamic, continuous, multi-agent.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q4</span>Explain the types of agents (simple reflex → learning) with limitations and examples. <span class="marks">6</span></p>
+  <div class="a"><ul><li><strong>Simple reflex:</strong> condition-action rules, no memory; fails under perceptual aliasing (thermostat).</li><li><strong>Model-based:</strong> keeps internal state of how the world evolves/actions affect it (robot vacuum).</li><li><strong>Goal-based:</strong> uses goals + search/planning; binary success only (GPS routing).</li><li><strong>Utility-based:</strong> maximises utility U(s), handles trade-offs (ride dispatch).</li><li><strong>Learning:</strong> critic + learning element + problem generator (AlphaGo).</li></ul></div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q5</span>Traditional AI vs Agentic AI; list the 4 design patterns. <span class="marks">5–6</span></p>
+  <div class="a">Traditional AI: single task, reactive, no planning/memory/tools, needs frequent user input. Agentic AI: whole workflows, proactive, multi-step planning, memory, tools/APIs, autonomous. Patterns: <strong>Single-agent, Planner–Executor, Multi-agent, Reflection</strong>.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q6</span>What is an LLM-powered agent? Draw its architecture and give applications. <span class="marks">5–6</span></p>
+  <div class="a">An agent that uses an LLM as its reasoning engine, combined with planner, memory and tools. Diagram: User goal → LLM → {Planner, Memory, Tools/APIs, Feedback} → action. Applications: virtual assistants (Siri/Alexa), research assistants, productivity automation. Challenges: hallucination, unsafe tool use, privacy, cost.</div></div>
+</section>
+
+<section id="u2">
+  <p class="eyebrow">Unit 2 — LLM Strategies</p>
+  <h2>Likely Questions</h2>
+
+  <div class="qa"><p class="q"><span class="num">Q7</span>Explain Chain-of-Thought reasoning with benefits and limitations. <span class="marks">5–6</span></p>
+  <div class="a">The LLM generates intermediate reasoning steps before the final answer (Understand → Step 1 → Step 2 → Answer). Benefits: accuracy, explainability, handles multi-step problems. Limitations: slower, more tokens/cost, wrong assumption → wrong conclusion, overkill for simple queries.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q8</span>Compare CoT, Self-Consistency and Tree-of-Thought. <span class="marks">6</span></p>
+  <div class="a">CoT = single reasoning path. Self-Consistency = several independent paths, <strong>majority vote</strong> on the final answer. ToT = branching exploration where each branch is evaluated, weak ones pruned, strongest continued (search with backtracking). Example: tech-fest budget — compare options A/B/C, prune the over-budget one.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q9</span>Explain the ReAct framework / agent loop with termination controls. <span class="marks">6</span></p>
+  <div class="a">ReAct interleaves <strong>Reason and Act</strong>: Decide → Execute tool → Observe → loop until a final answer. Termination: final answer generated, MAX_STEPS reached, tool-failure limit, high-risk action requiring human approval. Tool registry (allowlist) prevents calling unregistered functions. Dependent tools run sequentially; independent ones in parallel.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q10</span>Explain agent planning: decomposition, sequential, hierarchical, long-horizon; static vs dynamic planning. <span class="marks">5–6</span></p>
+  <div class="a">Decomposition splits a goal into sub-tasks (avoids attention dilution); sequential = ordered pipeline; hierarchical (HTN) = goal → tasks → primitive actions; long-horizon = hundreds of steps needing checkpoints. Static Plan-and-Solve crashes if a step fails; dynamic replanning (interleaved ReAct, Reflexion's verbal self-critique) adapts to observations.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q11</span>Why do agents need tools? List tool types and the tool-selection process. <span class="marks">5–6</span></p>
+  <div class="a">LLMs have a knowledge cutoff, no external access, weak math, and cannot act. Tools: search engine, APIs, databases, vector DB, code interpreter, productivity tools (email/calendar). Selection: understand intent → identify capability → match tool → execute &amp; return. Challenges: wrong tool choice, API failures, security, cost.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q12</span>What is function calling / structured output? Why JSON? <span class="marks">6</span></p>
+  <div class="a">Free-text output is unparsable and inconsistent; structured output forces machine-readable JSON. Function calling: (1) app exposes function schemas, (2) LLM emits a JSON call, (3) app validates &amp; executes, (4) result returned to the LLM. The LLM only <em>requests</em>; the app <em>executes</em> — a security gatekeeper. JSON is machine-readable, key-value structured, language-independent, API-compatible.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q13</span>What are hallucinations and knowledge cutoff? How are they mitigated? <span class="marks">5</span></p>
+  <div class="a">Hallucination: confident but wrong output from next-token prediction. Cutoff: no knowledge after training date or of private data. Mitigation: retrieval grounding (RAG), search/API tools, citations, self-consistency, verification; process documents (clean, chunk, embed) into a vector DB.</div></div>
+</section>
+
+<section id="u3">
+  <p class="eyebrow">Unit 3 — RAG &amp; Agent Strategies</p>
+  <h2>Likely Questions</h2>
+
+  <div class="qa"><p class="q"><span class="num">Q14</span>Explain the context window and why LLMs "forget" in long conversations. <span class="marks">5</span></p>
+  <div class="a">Context is a fixed token budget shared by system instructions, conversation and retrieved docs. In long chats older content is truncated/summarised, so it is no longer available — an architectural limit, not human-like forgetting. This motivates agent memory and RAG.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q15</span>Explain agent memory architectures (short-term, long-term: episodic, semantic, procedural). <span class="marks">6</span></p>
+  <div class="a">Short-term/working memory = in-context scratchpad (current goal, plan, tool results; fast, ephemeral). Long-term = external persistent store: <strong>episodic</strong> (past events), <strong>semantic</strong> (facts/user profile), <strong>procedural</strong> (how-to skills). New facts go through a relevance/consistency check → insert/update/ignore. Retrieval ranks by recency + importance + relevance; reflection turns raw events into insights.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q16</span>What are embeddings and vector databases? Name similarity metrics. <span class="marks">6</span></p>
+  <div class="a">An embedding is a dense vector capturing semantic meaning (similar meaning → nearby vectors). A vector DB (FAISS, Chroma, Pinecone, Milvus) stores them and does nearest-neighbour search by meaning, unlike SQL's exact match. Metrics: cosine similarity (angle), Euclidean distance, dot product.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q17</span>Explain RAG architecture with a diagram, chunking trade-offs and RAG vs fine-tuning. <span class="marks">6 — anchor question</span></p>
+  <div class="a">Offline: ingest docs → chunk → embed → store vectors. Online: query → embed → top-k match → inject into prompt → LLM gives a grounded answer. Small chunks = precise but incomplete; large = continuity but noisy/costly; overlap preserves context across boundaries. Fine-tuning bakes knowledge into weights (slow, costly); RAG retrieves at inference (cheap, easily updated). Grounding reduces hallucination.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q18</span>Write short notes on ANN search and indexing strategies. <span class="marks">4–5</span></p>
+  <div class="a">Exact search compares with all vectors (slow). ANN trades slight recall for speed. Indexes: Flat (exact), IVF (cluster then search nearest clusters), HNSW (layered navigable graph — fast, high recall, memory heavy), PQ (compression).</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q19</span>Explain hybrid retrieval, re-ranking and multi-hop retrieval. <span class="marks">5–6</span></p>
+  <div class="a">Hybrid = BM25 keyword + dense vector, fused (e.g. RRF). Re-ranking = cross-encoder re-scores top-N candidates (query+chunk jointly) and keeps the best few. Multi-hop = iterative retrieve → reason → new sub-query → retrieve, to chain facts across documents.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q20</span>Describe the knowledge ingestion pipeline. <span class="marks">4</span></p>
+  <div class="a">Data preprocessing (parse, clean, metadata) → document indexing (chunk, embed, store in vector + keyword index) → retrieval optimization (tune chunk size/overlap/top-k, filters, hybrid, re-rank, evaluate recall@k, refresh index).</div></div>
+</section>
+
+<section id="u4">
+  <p class="eyebrow">Unit 4 — Multi-Agent Systems &amp; MCP</p>
+  <h2>Likely Questions</h2>
+
+  <div class="qa"><p class="q"><span class="num">Q21</span>What is a multi-agent system? Why use it over a single agent? <span class="marks">5</span></p>
+  <div class="a">A distributed AI system of multiple autonomous agents that interact to solve a problem (collaborative intelligence). Benefits: specialisation, parallelism, modularity, robustness (no single point of failure), better handling of complex tasks. Costs: coordination overhead, more tokens/latency, harder debugging.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q22</span>Explain agent communication: message passing and protocols. <span class="marks">5</span></p>
+  <div class="a">Agents exchange structured messages (sender, receiver, intent/performative such as request/inform, content) directly (message passing) or via a shared store (blackboard). Protocols define format and order (e.g. FIPA-ACL style, JSON messages, agent-to-agent protocols). Can be synchronous or asynchronous.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q23</span>What is Model Context Protocol (MCP)? Explain its architecture and compare with traditional API integration. <span class="marks">6 — likely</span></p>
+  <div class="a">MCP is an open standard for connecting AI applications to tools and data in a uniform way. Without it every agent×tool pair needs custom glue (N×M); with it, N+M. Architecture: <strong>Host/Client</strong> (the AI app) ↔ <strong>MCP Server</strong> exposing <strong>resources</strong> (data), <strong>tools</strong> (actions) and prompts, over JSON-RPC (stdio/HTTP). Compared with traditional APIs: standard discovery of capabilities, one protocol instead of bespoke APIs, reusable servers, interoperability across agents/models.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q24</span>Describe agent roles and collaboration models. <span class="marks">5–6</span></p>
+  <div class="a">Roles: <strong>Planner</strong> (decomposes goal), <strong>Executor</strong> (performs actions/tools), <strong>Research</strong> (gathers information), <strong>Critic</strong> (reviews/validates output). Models: hierarchical (manager delegates to workers), role-based (fixed specialised roles), cooperative problem solving (peers share results toward a common goal).</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q25</span>Explain swarm intelligence and give applications of multi-agent systems. <span class="marks">5</span></p>
+  <div class="a">Swarm intelligence: many simple agents follow local rules with no central control (decentralised coordination) and complex global behaviour emerges (emergent behaviour) — ant colonies, bird flocks, drone swarms. Applications: autonomous research assistants, software-development agents (planner/coder/tester/critic), business-automation agents.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q26</span>What are the deployment considerations for agent systems? <span class="marks">4</span></p>
+  <div class="a">API-based deployment (expose the agent as a service), monitoring and logging (traces, tool calls, errors, cost, latency), scaling (concurrency, queues, caching, rate limits, horizontal scaling).</div></div>
+</section>
+
+<section id="u5">
+  <p class="eyebrow">Unit 5 — Evaluation, Safety &amp; Governance</p>
+  <h2>Likely Questions</h2>
+
+  <div class="qa"><p class="q"><span class="num">Q27</span>Why is evaluating agents hard? Explain the key metrics. <span class="marks">6</span></p>
+  <div class="a">Agents are non-deterministic, multi-step and tool-using, so judging only the final text is not enough. Metrics: <strong>task completion</strong> (success rate), <strong>tool efficiency</strong> (correct/necessary tool calls, redundant calls), <strong>latency and cost</strong> (time, tokens, $ per task). Use benchmarks and repeated runs to compare systems.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q28</span>How can hallucination be mitigated in agents? <span class="marks">5</span></p>
+  <div class="a">Fact verification (cross-check claims against trusted sources/tools or a verifier agent) and retrieval grounding (RAG with citations). Also constrain outputs, lower temperature, self-consistency.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q29</span>What are agent guardrails? Explain output validation and tool access restrictions. <span class="marks">6</span></p>
+  <div class="a">Guardrails are controls that keep agent behaviour safe and within bounds. <strong>Output validation</strong>: check schema/format, safety and policy before using or showing output. <strong>Tool access restrictions</strong>: allowlist, least-privilege permissions, sandboxing, and human approval for high-risk/irreversible actions.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q30</span>Explain security risks: prompt injection, data leakage, tool misuse. <span class="marks">6 — likely</span></p>
+  <div class="a"><ul><li><strong>Prompt injection:</strong> malicious instructions in user input (direct) or in retrieved web pages/documents (indirect) hijack the agent. Mitigate: separate instructions from data, input filtering, restrict tools, confirm risky actions.</li><li><strong>Data leakage:</strong> agent reveals sensitive/private data via outputs or tool calls. Mitigate: access control, redaction, least privilege, logging.</li><li><strong>Tool misuse:</strong> agent calls tools wrongly or with excessive authority (delete data, send emails). Mitigate: allowlists, argument validation, sandboxing, human approval.</li></ul></div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q31</span>What is Responsible AI? Explain bias mitigation and transparency/explainability. <span class="marks">5</span></p>
+  <div class="a">Building AI that is fair, accountable and trustworthy. Bias mitigation: diverse/representative data, fairness testing across groups, monitoring. Transparency and explainability: reveal reasoning traces/sources, keep audit logs, provide citations so decisions can be inspected.</div></div>
+
+  <div class="qa"><p class="q"><span class="num">Q32</span>Draw a defense-in-depth safety pipeline for an agent. <span class="marks">5</span></p>
+  <div class="a">User input → <strong>input guardrail</strong> (injection/PII filter) → agent (LLM + planner) → <strong>tool gate</strong> (allowlist, validation, approval) → tool execution (sandbox) → <strong>output guardrail</strong> (validation, grounding check) → user; <strong>monitoring &amp; logging</strong> across every stage.</div></div>
+</section>
+
+</main>
+
+<footer>FAAI — Cheat Sheet &amp; Likely Questions · Units 4–5 and a few Unit 2/3 items written from standard course content to match the official syllabus; verify against lecture slides where possible.</footer>
+<script src="../assets/theme-toggle.js" defer></script>
+</body>
+</html>

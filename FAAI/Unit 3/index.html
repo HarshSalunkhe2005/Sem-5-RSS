@@ -111,6 +111,9 @@
     <a href="#t2">2 · Agent Memory Architectures</a>
     <a href="#t3">3 · Embeddings &amp; Vector DBs</a>
     <a href="#t4">4 · RAG</a>
+    <a href="#t5">5 · ANN, Hybrid &amp; Ingestion</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">Unit 4 →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
   </div>
 </nav>
 
@@ -411,6 +414,90 @@ distances, ids = index.search(np.array(query), k=2)  # nearest-neighbor search</
         of Unit 3: Memory Limitations (Topic 1) motivate external storage, Agent Memory Architectures (Topic 2) organize it, Embeddings
         &amp; Vector DBs (Topic 3) make it searchable, and RAG (Topic 4) is the production pattern that ties all three together into a
         grounded, hallucination-resistant agent.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="t5">
+    <p class="eyebrow">Unit 3 · Topic 5 of 5 · <span style="color:var(--violet);">syllabus gap-fill</span></p>
+    <h2>Vector Indexing (ANN), Advanced Retrieval &amp; Knowledge Ingestion Pipelines</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Making Retrieval Fast, Accurate and Production-Ready</h3><span class="topic-num">6 marks · syllabus topic</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>Basic RAG (embed → top-k similarity) breaks down at scale and on hard questions. This topic covers three syllabus items:
+        <strong>(a) Approximate Nearest Neighbour (ANN) search &amp; indexing strategies</strong> — finding "close enough" vectors among millions
+        quickly instead of comparing the query against every vector; <strong>(b) Advanced retrieval methods</strong> — Hybrid retrieval,
+        Re-ranking models, Multi-hop retrieval; <strong>(c) Knowledge ingestion pipelines</strong> — Data preprocessing → Document indexing →
+        Retrieval optimization.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Advanced RAG Pipeline</p>
+        <div class="diagram">
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin-bottom:8px;">Ingestion Pipeline (offline)</p>
+          <div class="flow">
+            <div class="box">Load Docs (PDF/HTML/DB)</div><div class="arrow">→</div>
+            <div class="box">Clean &amp; Preprocess</div><div class="arrow">→</div>
+            <div class="box">Chunk + Metadata</div><div class="arrow">→</div>
+            <div class="box">Embed</div><div class="arrow">→</div>
+            <div class="box alt">Index (Vector + Keyword)</div>
+          </div>
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin:16px 0 8px;">Retrieval (online)</p>
+          <div class="flow">
+            <div class="box ghost">Query</div><div class="arrow">→</div>
+            <div class="box ghost">Hybrid Search (BM25 + Vector)</div><div class="arrow">→</div>
+            <div class="box ghost">Top-50 candidates</div><div class="arrow">→</div>
+            <div class="box ghost">Re-ranker → Top-5</div><div class="arrow">→</div>
+            <div class="box ghost">LLM → Answer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <h3>A. ANN search &amp; indexing strategies</h3>
+        <p><strong>Exact (brute-force / "Flat") search</strong> compares the query with every stored vector — perfectly accurate but O(N·d),
+        too slow for millions of vectors. <strong>ANN</strong> trades a small loss of recall for a huge speed-up.</p>
+        <table class="mini-table">
+          <tr><th>Index</th><th>Idea</th><th>Trade-off</th></tr>
+          <tr><td>Flat</td><td>Compare against all vectors</td><td>100% recall, slowest</td></tr>
+          <tr><td>IVF (inverted file)</td><td>Cluster vectors (k-means); search only the nearest few clusters</td><td>Fast; may miss neighbours in unsearched clusters</td></tr>
+          <tr><td>HNSW</td><td>Multi-layer navigable small-world graph; greedy descent from sparse top layer to dense bottom layer</td><td>Very fast, high recall; high memory</td></tr>
+          <tr><td>PQ (product quantization)</td><td>Compress vectors into short codes</td><td>Big memory saving; lower precision</td></tr>
+        </table>
+        <h3>B. Advanced retrieval methods</h3>
+        <ul>
+          <li><strong>Hybrid retrieval:</strong> combine <em>keyword/lexical</em> search (BM25/TF-IDF — good for exact names, IDs, rare terms) with
+          <em>dense vector</em> search (good for meaning/paraphrase); merge the two ranked lists (e.g. weighted score or Reciprocal Rank Fusion).</li>
+          <li><strong>Re-ranking models:</strong> fast first-stage retrieval returns ~50 candidates; a slower but more accurate
+          <em>cross-encoder</em> re-ranker reads (query, chunk) <em>together</em> and re-scores them; keep the top 3–5 for the LLM prompt.
+          (Bi-encoder = embeds query and chunk separately → fast; cross-encoder = joint attention → accurate.)</li>
+          <li><strong>Multi-hop retrieval:</strong> for questions whose answer needs chaining facts across documents ("Who is the CEO of the company
+          that acquired X?"), the agent retrieves → reasons → forms a new sub-query → retrieves again, repeating until it has enough evidence
+          (this is the ReAct loop applied to retrieval).</li>
+        </ul>
+        <h3>C. Knowledge ingestion pipeline</h3>
+        <ol class="steps">
+          <li><strong>Data preprocessing:</strong> extract text (PDF/HTML parsing, OCR), clean noise (headers/footers, duplicates), normalise, attach metadata (source, date, section).</li>
+          <li><strong>Document indexing:</strong> chunk (with overlap) → embed each chunk → store vectors + metadata in the vector DB (plus a keyword index for hybrid).</li>
+          <li><strong>Retrieval optimization:</strong> tune chunk size/overlap, top-k, metadata filters, hybrid weights, add a re-ranker, and evaluate with recall@k / answer-faithfulness; refresh the index when documents change.</li>
+        </ol>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p>Enterprise support bot over 50,000 policy PDFs: a user asks about "Form 16-B refund timeline". Pure vector search may return generic refund
+        text; <strong>hybrid</strong> search also matches the exact token "16-B" via BM25; the <strong>re-ranker</strong> pushes the exact policy
+        chunk to rank 1; HNSW keeps latency in milliseconds; and the nightly ingestion pipeline re-indexes updated PDFs so answers never go stale.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>ANN indexing gives <strong>speed</strong>, hybrid retrieval + re-ranking give <strong>accuracy</strong>, multi-hop gives
+        <strong>reasoning depth</strong>, and a clean ingestion pipeline gives <strong>freshness</strong> — together they turn a demo-grade RAG
+        into a production-grade one.</p>
       </div>
     </div>
   </section>
