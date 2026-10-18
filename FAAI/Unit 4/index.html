@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Multi-Agent Systems &amp; MCP</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 6px;color:var(--navy-2);}
+  h3{font-size:16.5px;color:var(--navy-2);margin:22px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;background:var(--coral-light);flex:none;}
+  .card p{font-size:13.5px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+
+  .topic{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 10px;margin:26px 0;box-shadow:0 2px 10px rgba(60,20,90,0.06);}
+  .topic-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .topic-head h3{margin:0;font-size:19px;color:var(--navy);}
+  .topic-num{font-size:12px;font-weight:700;color:#fff;background:var(--violet);padding:3px 10px;border-radius:999px;}
+  .part{margin:16px 0;padding:14px 16px;border-radius:10px;background:#faf7fd;border:1px solid var(--line);}
+  .part-label{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--coral);margin:0 0 8px;display:flex;align-items:center;gap:6px;}
+  .part-label .n{width:19px;height:19px;border-radius:50%;background:var(--coral);color:#fff;font-size:11px;display:inline-flex;align-items:center;justify-content:center;}
+  .part p, .part ul{margin-bottom:0;font-size:13.6px;}
+  .part ul{margin-top:6px;}
+
+  .diagram{background:#fff;border:1.5px dashed var(--violet);border-radius:12px;padding:18px;margin:6px 0;}
+  .flow{display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .flow .box{background:linear-gradient(135deg,var(--navy-2),#5a2a8c);color:#fff;padding:10px 14px;border-radius:10px;font-size:12.5px;font-weight:600;text-align:center;min-width:90px;box-shadow:0 2px 6px rgba(60,20,90,0.18);}
+  .flow .box.alt{background:linear-gradient(135deg,var(--coral),#ff8a8e);}
+  .flow .box.ghost{background:#fff;color:var(--navy-2);border:1.5px solid var(--violet);}
+  .flow .arrow{font-size:18px;color:var(--violet);font-weight:700;}
+  .stack-note{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;}
+
+  .mini-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px;}
+  .mini-table th{background:var(--navy-2);color:#fff;padding:6px 9px;text-align:left;}
+  .mini-table td{padding:6px 9px;border-bottom:1px solid var(--line);}
+
+  pre{background:#211530;color:#e8dcff;padding:14px 16px;border-radius:10px;font-size:12.3px;overflow-x:auto;margin:10px 0;}
+  pre code{background:none;color:inherit;padding:0;}
+
+  .tier{border-radius:12px;padding:14px 16px;margin:10px 0;}
+  .tier.t1{background:#eef7ff;border:1px solid #bfe0ff;}
+  .tier.t2{background:#fff5e9;border:1px solid #ffdca8;}
+  .tier h5{margin:0 0 6px;font-size:13px;color:var(--navy-2);}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · FAAI · UNIT 4</span>
+  <h1>🤝 Multi-Agent Systems &amp; Model Context Protocol (MCP)</h1>
+  <p>Intro to multi-agent systems · agent communication (message passing, protocols, sync vs async, blackboard) ·
+     Model Context Protocol (MCP) · agent roles &amp; collaboration models · swarm intelligence &amp; applications · deployment considerations.
+     Every topic follows the exam format: <strong>Definition → Diagram → Working → Example → Conclusion.</strong></p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="../Unit%201/index.html" style="color:var(--coral);">← Unit 1</a>
+    <a href="../Unit%202/index.html" style="color:var(--coral);">← Unit 2</a>
+    <a href="../Unit%203/index.html" style="color:var(--coral);">← Unit 3</a>
+    <a href="#t1">1 · Intro to MAS</a>
+    <a href="#t2">2 · Agent Communication</a>
+    <a href="#t3">3 · MCP</a>
+    <a href="#t4">4 · Roles &amp; Collaboration</a>
+    <a href="#t5">5 · Swarm Intelligence</a>
+    <a href="#t6">6 · Deployment</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- TOPIC 1 -->
+  <section id="t1">
+    <p class="eyebrow">Unit 4 · Topic 1 of 6</p>
+    <h2>Introduction to Multi-Agent Systems</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Distributed AI, Collaborative Intelligence &amp; Why Multi-Agent</h3><span class="topic-num">5 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>A <strong>Multi-Agent System (MAS)</strong> is a system made of <strong>several autonomous agents</strong> that share an
+        environment, interact with each other, and work (cooperatively or competitively) towards individual and/or common goals. It
+        is a form of <strong>distributed AI</strong>: intelligence, control and data are spread across many agents instead of being
+        held by one central program. <strong>Collaborative intelligence</strong> means the group achieves outcomes that no single
+        agent could achieve alone, by combining specialised skills, knowledge and tools. Each agent is typically a Unit 1/2-style
+        agent (LLM + reasoning loop such as <strong>ReAct</strong> + tools + memory); a MAS adds <em>coordination</em> between them.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Multi-Agent System</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box">User Goal / Task</div>
+            <div class="arrow">→</div>
+            <div class="box alt">Coordinator / Orchestrator</div>
+          </div>
+          <div class="flow" style="margin:10px 0;"><div class="arrow">↓ delegates sub-tasks ↓</div></div>
+          <div class="flow">
+            <div class="box ghost">Agent A<br><span style="font-weight:400;font-size:11px;">LLM + tools + memory</span></div>
+            <div class="arrow">⇄</div>
+            <div class="box ghost">Agent B<br><span style="font-weight:400;font-size:11px;">LLM + tools + memory</span></div>
+            <div class="arrow">⇄</div>
+            <div class="box ghost">Agent C<br><span style="font-weight:400;font-size:11px;">LLM + tools + memory</span></div>
+          </div>
+          <div class="flow" style="margin:10px 0;"><div class="arrow">↓ read / write ↓</div></div>
+          <div class="flow">
+            <div class="box">Shared Environment: tools, databases, APIs, shared memory</div>
+          </div>
+          <p class="stack-note">⇄ = inter-agent communication (messages / shared state). Each agent is autonomous; the group is coordinated.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working — Why Multi-Agent vs Single Agent</p>
+        <ol class="steps">
+          <li><strong>Decompose:</strong> a complex goal is broken into sub-tasks (planning, as in Unit 2).</li>
+          <li><strong>Assign:</strong> each sub-task goes to the agent best suited for it (specialised prompt, tools, memory).</li>
+          <li><strong>Act in parallel / in sequence:</strong> agents run their own reasoning loops and call their own tools.</li>
+          <li><strong>Communicate:</strong> agents exchange results, requests and feedback (Topic 2).</li>
+          <li><strong>Integrate:</strong> partial outputs are merged into one final answer; conflicts are resolved by a coordinator or a critic.</li>
+        </ol>
+        <table class="mini-table">
+          <tr><th>Aspect</th><th>Single Agent</th><th>Multi-Agent System</th></tr>
+          <tr><td>Context / prompt</td><td>One growing context window; overloaded on long tasks (Unit 3 limits)</td><td>Each agent holds a smaller, focused context</td></tr>
+          <tr><td>Specialisation</td><td>One generalist prompt and tool set</td><td>Specialist agents with dedicated tools and instructions</td></tr>
+          <tr><td>Parallelism</td><td>Mostly sequential</td><td>Sub-tasks can run concurrently</td></tr>
+          <tr><td>Reliability</td><td>Single point of failure; no second opinion</td><td>Cross-checking by critic/reviewer agents; one agent can fail without total failure</td></tr>
+          <tr><td>Modularity</td><td>Hard to change one skill without affecting all</td><td>Add / replace an agent independently</td></tr>
+          <tr><td>Cost &amp; complexity</td><td>Simpler, cheaper, easier to debug</td><td>More LLM calls, coordination overhead, harder debugging</td></tr>
+        </table>
+        <p style="margin-top:8px;"><strong>Rule of thumb:</strong> prefer a single agent for simple tasks; move to multi-agent when the task is complex, needs distinct skills, or benefits from parallel work and review.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Trip-planning system:</strong> a Flight agent searches flights, a Hotel agent searches stays, a Budget agent checks
+        cost limits, and a Coordinator combines everything into one itinerary. Another example: a software-bug system in which a
+        Developer agent writes a fix and a Tester agent runs the tests and reports back.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>A MAS replaces one overloaded generalist with a team of cooperating specialists, giving modularity, parallelism,
+        robustness and better quality through review — at the cost of extra coordination. It extends Unit 3's lesson (context windows
+        are finite) by splitting the work and the context across agents, and the remaining topics of this unit explain <em>how</em>
+        they talk (Topic 2), connect to tools (Topic 3), divide roles (Topic 4) and scale (Topics 5–6).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section id="t2">
+    <p class="eyebrow">Unit 4 · Topic 2 of 6</p>
+    <h2>Agent Communication</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Message Passing, Protocols, Sync vs Async &amp; Blackboard</h3><span class="topic-num">6 marks · high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Agent communication</strong> is the exchange of information, requests and results between agents so they can
+        coordinate. It rests on <strong>message passing</strong>: a sender agent builds a structured message and delivers it to one
+        or more receivers, who interpret it and act. A <strong>communication protocol</strong> fixes the message format, meaning
+        (semantics) and the allowed order of exchanges, so that independently built agents understand one another. Communication is
+        also the way agents share the <strong>memory</strong> and tool outputs discussed in Unit 3.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Message Passing vs Shared Memory (Blackboard)</p>
+        <div class="diagram">
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin-bottom:8px;">(a) Message passing — direct communication</p>
+          <div class="flow">
+            <div class="box">Sender Agent</div>
+            <div class="arrow">→</div>
+            <div class="box alt">Message<br><span style="font-weight:400;font-size:11px;">performative + content</span></div>
+            <div class="arrow">→</div>
+            <div class="box">Receiver Agent</div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Reply / Action</div>
+          </div>
+          <p style="text-align:center;font-weight:700;color:var(--navy-2);font-size:13px;margin:16px 0 8px;">(b) Shared memory — blackboard architecture</p>
+          <div class="flow">
+            <div class="box ghost">Agent 1</div>
+            <div class="arrow">⇄</div>
+            <div class="box alt">Blackboard<br><span style="font-weight:400;font-size:11px;">shared workspace</span></div>
+            <div class="arrow">⇄</div>
+            <div class="box ghost">Agent 2</div>
+            <div class="arrow">⇄</div>
+            <div class="box ghost">Agent 3</div>
+          </div>
+          <p class="stack-note">In (a) agents address each other; in (b) agents read and write a common store and never talk directly.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <ol class="steps">
+          <li><strong>Compose:</strong> the sender creates a message with sender, receiver, intent and content.</li>
+          <li><strong>Transport:</strong> the message is delivered through a channel (in-process queue, message broker, HTTP call).</li>
+          <li><strong>Interpret:</strong> the receiver reads the intent (e.g. request vs inform) and parses the content.</li>
+          <li><strong>Act:</strong> the receiver reasons (ReAct), may call tools, and updates its own memory.</li>
+          <li><strong>Respond:</strong> the receiver replies (answer, agree, refuse, failure) and the conversation continues or ends.</li>
+        </ol>
+
+        <h3>Communication protocols</h3>
+        <ul>
+          <li><strong>FIPA-ACL (Agent Communication Language):</strong> classic standard from the Foundation for Intelligent Physical Agents, based on <em>speech acts</em>. Each message carries a <strong>performative</strong> stating the intent. Common performatives: <code>inform</code> (tell a fact), <code>request</code> (ask for an action), <code>query-if</code> / <code>query-ref</code> (ask for information), <code>propose</code>, <code>accept-proposal</code>, <code>reject-proposal</code>, <code>cfp</code> (call for proposal), <code>agree</code>, <code>refuse</code>, <code>failure</code>.</li>
+          <li><strong>JSON messages (modern LLM agents):</strong> agents exchange structured JSON (or natural language wrapped in JSON) with fields such as role, type and content; easy to validate and log.</li>
+          <li><strong>A2A-style protocols (Agent2Agent):</strong> an open protocol for agents built by different vendors to discover each other (via a public "agent card" describing capabilities), send tasks and receive results over standard web transport (HTTP, JSON-based messages). It focuses on <em>agent-to-agent</em> talk, whereas MCP (Topic 3) focuses on <em>agent-to-tool</em> access.</li>
+        </ul>
+        <pre><code>// FIPA-ACL style (simplified)
+(request :sender planner :receiver researcher
+         :content "find top 3 papers on RAG" :language text)
+
+// JSON message style
+{ "from": "planner", "to": "researcher",
+  "type": "request", "content": "find top 3 papers on RAG" }</code></pre>
+
+        <table class="mini-table">
+          <tr><th>Synchronous</th><th>Asynchronous</th></tr>
+          <tr><td>Sender sends and <strong>waits</strong> (blocks) for the reply</td><td>Sender sends and <strong>continues</strong>; reply arrives later (queue, callback, event)</td></tr>
+          <tr><td>Simple, easy to reason about; tight coupling</td><td>Loosely coupled, scalable, tolerant of slow or offline agents</td></tr>
+          <tr><td>A slow agent blocks the caller</td><td>More complex: ordering, retries, correlation of replies</td></tr>
+          <tr><td>Good for short, dependent steps</td><td>Good for long-running or parallel tasks</td></tr>
+        </table>
+
+        <table class="mini-table">
+          <tr><th>Message Passing</th><th>Shared Memory / Blackboard</th></tr>
+          <tr><td>Explicit point-to-point or broadcast messages</td><td>Common workspace all agents read and write</td></tr>
+          <tr><td>Clear ownership of data; easy to audit who said what</td><td>Easy information sharing; no need to know who needs the data</td></tr>
+          <tr><td>Scales well across machines (distributed)</td><td>Needs concurrency control; shared store can be a bottleneck</td></tr>
+          <tr><td>Agents loosely coupled to each other's addresses</td><td>Agents coupled through the shared data format</td></tr>
+        </table>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Customer support:</strong> a Triage agent sends a <code>request</code> to a Billing agent ("check refund status of order
+        #123"); the Billing agent calls its tools and replies with an <code>inform</code> containing the result, or a <code>refuse</code> /
+        <code>failure</code> if it cannot. In a <strong>blackboard</strong> variant, a research team writes findings, partial drafts and
+        open questions to a shared board, and each specialist picks up whatever it can improve — a classic pattern for complex problems
+        with no fixed order of steps.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Well-defined messages and protocols make agents interoperable and their behaviour auditable. Choose <strong>message
+        passing</strong> for directed, scalable, auditable exchanges and a <strong>blackboard</strong> for opportunistic, shared-workspace
+        collaboration; choose <strong>asynchronous</strong> communication for scale and long tasks, <strong>synchronous</strong> for simple
+        dependent steps. The next topic, MCP, standardises the other kind of communication — agent to tools and data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section id="t3">
+    <p class="eyebrow">Unit 4 · Topic 3 of 6</p>
+    <h2>Model Context Protocol (MCP)</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>A Standard Way to Connect Agents to Tools &amp; Data</h3><span class="topic-num">6 marks · very high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>The <strong>Model Context Protocol (MCP)</strong> is an <strong>open standard</strong> (introduced by Anthropic) that defines
+        one common way for AI applications to connect to external tools, data sources and prompts. It is often described as a
+        <strong>"USB-C port for AI"</strong>: build a tool connector once as an MCP server and any MCP-capable application can use it.</p>
+        <p style="margin-top:8px;"><strong>Motivation — the N × M integration problem:</strong> without a standard, every AI application
+        (N) needs custom glue code for every tool or data source (M), i.e. <strong>N × M</strong> separate integrations to build and
+        maintain. With MCP each application implements the client side once and each tool implements the server side once, so the
+        work becomes <strong>N + M</strong>. This builds on Unit 2's <strong>tool calling</strong>: MCP standardises <em>how</em> tools are
+        described, discovered and invoked.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — MCP Architecture</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box alt">Host Application<br><span style="font-weight:400;font-size:11px;">chat app / IDE / agent + LLM</span></div>
+          </div>
+          <div class="flow" style="margin:8px 0;"><div class="arrow">↓ one MCP client per server ↓</div></div>
+          <div class="flow">
+            <div class="box">MCP Client 1</div>
+            <div class="box">MCP Client 2</div>
+            <div class="box">MCP Client 3</div>
+          </div>
+          <div class="flow" style="margin:8px 0;"><div class="arrow">⇅ JSON-RPC 2.0 over stdio / HTTP ⇅</div></div>
+          <div class="flow">
+            <div class="box ghost">MCP Server A<br><span style="font-weight:400;font-size:11px;">files</span></div>
+            <div class="box ghost">MCP Server B<br><span style="font-weight:400;font-size:11px;">database</span></div>
+            <div class="box ghost">MCP Server C<br><span style="font-weight:400;font-size:11px;">web API</span></div>
+          </div>
+          <div class="flow" style="margin:8px 0;"><div class="arrow">↓ each server exposes ↓</div></div>
+          <div class="flow">
+            <div class="box">Tools<br><span style="font-weight:400;font-size:11px;">actions the model can call</span></div>
+            <div class="box">Resources<br><span style="font-weight:400;font-size:11px;">data to read</span></div>
+            <div class="box">Prompts<br><span style="font-weight:400;font-size:11px;">reusable templates</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <h3>Architecture components</h3>
+        <ul>
+          <li><strong>Host:</strong> the user-facing AI application (chat assistant, IDE, agent app) that contains the LLM, manages clients and enforces user consent/security.</li>
+          <li><strong>Client:</strong> a connector inside the host that keeps a <em>1-to-1 connection</em> with one MCP server.</li>
+          <li><strong>Server:</strong> a lightweight program that exposes capabilities of a system (file system, database, GitHub, web API, etc.) through the protocol.</li>
+          <li><strong>Tools:</strong> executable functions the <em>model</em> can decide to call (e.g. <code>search_flights</code>); may have side effects.</li>
+          <li><strong>Resources:</strong> read-only data the application can load as context (files, records, documents) — connects to Unit 3 grounding / RAG context.</li>
+          <li><strong>Prompts:</strong> reusable, parameterised prompt templates the <em>user</em> can invoke (e.g. a "summarise this PR" template).</li>
+        </ul>
+        <h3>Lifecycle</h3>
+        <ol class="steps">
+          <li><strong>Connect &amp; initialise:</strong> client and server open a connection, exchange protocol version and declare capabilities (<code>initialize</code>).</li>
+          <li><strong>Discover:</strong> client lists what the server offers (<code>tools/list</code>, <code>resources/list</code>, <code>prompts/list</code>); tool descriptions and JSON schemas are given to the LLM.</li>
+          <li><strong>Decide:</strong> the LLM, in its ReAct loop, chooses a tool and arguments for the user's request.</li>
+          <li><strong>Invoke:</strong> the host (after any needed user approval) sends <code>tools/call</code> through the client; the server runs the action.</li>
+          <li><strong>Return:</strong> the result is sent back and added to the LLM context; the loop continues until the task is done.</li>
+        </ol>
+        <pre><code>// Request (client -> server)
+{ "jsonrpc": "2.0", "id": 1, "method": "tools/call",
+  "params": { "name": "get_weather", "arguments": { "city": "Pune" } } }
+
+// Response (server -> client)
+{ "jsonrpc": "2.0", "id": 1,
+  "result": { "content": [ { "type": "text", "text": "31 C, clear" } ] } }</code></pre>
+        <h3>Transport — JSON-RPC</h3>
+        <p>All MCP messages use <strong>JSON-RPC 2.0</strong> (requests with <code>id</code>, responses, and one-way notifications). Two standard transports:</p>
+        <ul>
+          <li><strong>stdio:</strong> the host launches the server as a local subprocess and exchanges messages over standard input/output — simple, fast, best for local tools.</li>
+          <li><strong>HTTP (Streamable HTTP, earlier HTTP + SSE):</strong> the server runs remotely and clients talk to it over HTTP, with streaming for server-to-client messages — suited to remote, shared, multi-user servers (with authentication).</li>
+        </ul>
+        <h3>MCP vs traditional API integration</h3>
+        <table class="mini-table">
+          <tr><th>Aspect</th><th>Traditional API Integration</th><th>MCP</th></tr>
+          <tr><td>Interface</td><td>Different for every service (REST, GraphQL, SDKs, auth styles)</td><td>One uniform protocol (JSON-RPC) for all servers</td></tr>
+          <tr><td>Integration effort</td><td>Custom code per app per service (N × M)</td><td>Write a server once, reuse in every host (N + M)</td></tr>
+          <tr><td>Discovery</td><td>Developer reads docs and hard-codes calls</td><td>Runtime discovery: <code>tools/list</code> returns names, descriptions, schemas</td></tr>
+          <tr><td>Designed for</td><td>Developers / deterministic programs</td><td>LLM-driven agents that choose tools dynamically</td></tr>
+          <tr><td>Context</td><td>Request/response only</td><td>Also resources, prompts and (optionally) server-to-client features such as sampling</td></tr>
+          <tr><td>Relationship</td><td colspan="2">MCP does not replace APIs — an MCP server usually <em>wraps</em> an existing API in a standard, agent-friendly interface.</td></tr>
+        </table>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Coding assistant:</strong> an IDE (host) connects through clients to a GitHub MCP server, a database MCP server and a
+        file-system MCP server. Asked "find failing tests and open an issue", the LLM lists the available tools, reads files via
+        resources, calls the test/database tools, then calls the GitHub <code>create_issue</code> tool — with no custom integration code written
+        for that IDE. The same servers can be reused unchanged in a chat application or in a multi-agent system, where each agent
+        gets the set of MCP tools relevant to its role.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>MCP removes the N × M integration burden and gives agents a <strong>standard, discoverable, interoperable</strong> way to use
+        tools and data: write a connector once, use it with any compliant host or agent, swap models or applications freely, and
+        keep a central place for permissions and security (user consent, least privilege). Together with agent-to-agent protocols
+        (Topic 2), it forms the interoperability layer of modern agentic systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section id="t4">
+    <p class="eyebrow">Unit 4 · Topic 4 of 6</p>
+    <h2>Agent Roles &amp; Collaboration Models</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Planner, Executor, Research &amp; Critic Agents</h3><span class="topic-num">6 marks · high-yield</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p>In a multi-agent system each agent is given a <strong>role</strong> — a defined responsibility expressed through its system
+        prompt, tools, memory and permissions. A <strong>collaboration model</strong> defines how these role-agents are organised and
+        how they work together: <strong>hierarchical</strong> (a manager delegates to workers), <strong>role-based</strong> (a team of
+        specialists with fixed duties) and <strong>cooperative problem solving</strong> (agents share a common goal and jointly build the
+        solution). Splitting roles reduces each agent's context load and lets each be tuned for one job.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Role-Based Hierarchical Team with Feedback Loop</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box alt">Planner (Manager) Agent<br><span style="font-weight:400;font-size:11px;">decomposes goal, assigns tasks</span></div>
+          </div>
+          <div class="flow" style="margin:8px 0;"><div class="arrow">↓ delegates ↓</div></div>
+          <div class="flow">
+            <div class="box">Research Agent<br><span style="font-weight:400;font-size:11px;">gathers info (search, RAG)</span></div>
+            <div class="box">Executor Agent<br><span style="font-weight:400;font-size:11px;">acts: code, APIs, tools</span></div>
+          </div>
+          <div class="flow" style="margin:8px 0;"><div class="arrow">↓ outputs ↓</div></div>
+          <div class="flow">
+            <div class="box ghost">Critic Agent<br><span style="font-weight:400;font-size:11px;">reviews, tests, scores</span></div>
+            <div class="arrow">→</div>
+            <div class="box ghost">Approved? Yes → Final Answer</div>
+          </div>
+          <p class="stack-note">If the Critic rejects, feedback flows back up to the Planner/Executor for revision (loop). Reflection from Unit 2/3, applied between agents.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <table class="mini-table">
+          <tr><th>Role</th><th>Responsibility</th><th>Typical tools / memory</th></tr>
+          <tr><td><strong>Planner</strong></td><td>Understands the goal, breaks it into ordered sub-tasks, assigns them, replans when something fails</td><td>Planning prompts; task list / plan state</td></tr>
+          <tr><td><strong>Executor</strong></td><td>Carries out a sub-task: calls tools/APIs, writes code, performs the action, reports the result</td><td>Tool calling, MCP servers, code runner</td></tr>
+          <tr><td><strong>Research</strong></td><td>Finds and summarises the information needed: web search, document retrieval</td><td>Search tools, vector DB / RAG (Unit 3)</td></tr>
+          <tr><td><strong>Critic</strong></td><td>Checks outputs for correctness, completeness and policy; gives actionable feedback or approves</td><td>Rubrics, test runners, fact-checking against sources</td></tr>
+        </table>
+        <ol class="steps">
+          <li><strong>Plan:</strong> the Planner turns the user goal into sub-tasks.</li>
+          <li><strong>Research:</strong> the Research agent retrieves the facts and context required.</li>
+          <li><strong>Execute:</strong> the Executor performs the actions using tools.</li>
+          <li><strong>Critique:</strong> the Critic evaluates the result against the goal and criteria.</li>
+          <li><strong>Iterate or finish:</strong> on failure the feedback goes back and the cycle repeats (with an iteration limit); on success the result is returned.</li>
+        </ol>
+        <h3>Collaboration models</h3>
+        <ul>
+          <li><strong>Hierarchical structure:</strong> a tree of authority — a manager/supervisor agent decomposes work and delegates to sub-agents (which may have their own sub-agents) and aggregates their results. Clear control and accountability; the manager can become a bottleneck or single point of failure.</li>
+          <li><strong>Role-based collaboration:</strong> agents are defined by fixed roles (like a software team: product owner, developer, tester); communication follows the role structure and workflow (sequential pipeline, or round-table discussion).</li>
+          <li><strong>Cooperative problem solving:</strong> agents share one goal, exchange partial results and knowledge, and may negotiate or vote (via messages or a blackboard from Topic 2); the solution emerges from combining contributions. Contrast with <em>competitive</em> setups (debate, adversarial) where agents argue to improve quality.</li>
+        </ul>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Writing a market report:</strong> the Planner outlines sections; the Research agent retrieves facts via RAG; the
+        Executor drafts text and builds tables/charts using tools; the Critic checks claims against the retrieved sources and
+        flags unsupported statements; the draft is revised until the Critic approves. In code generation, the Critic is often a
+        Tester agent that executes unit tests and returns failures to the Executor.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Clear roles plus a defined collaboration structure give focused prompts, easier debugging, and built-in quality control
+        through the Critic loop. Hierarchy provides control; role-based teams provide specialisation; cooperative problem solving
+        provides combined intelligence. When no central manager exists and coordination is purely local, we move to swarm approaches (next topic).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 5 -->
+  <section id="t5">
+    <p class="eyebrow">Unit 4 · Topic 5 of 6</p>
+    <h2>Swarm Intelligence &amp; Real-World Applications</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>Decentralized Coordination &amp; Emergent Behaviour</h3><span class="topic-num">6 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Swarm intelligence</strong> is the collective behaviour of many simple agents that follow <em>local rules</em> and
+        interact only with neighbours and their environment — with <strong>no central controller</strong> (<strong>decentralized
+        coordination</strong>). Complex, useful group-level patterns arise that no individual agent plans or understands:
+        <strong>emergent behaviour</strong>. Inspiration comes from nature: ant colonies, bird flocks, fish schools, bee swarms.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Swarm: Local Rules → Emergent Behaviour (Stigmergy)</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">Many simple agents<br><span style="font-weight:400;font-size:11px;">no leader</span></div>
+            <div class="arrow">→</div>
+            <div class="box">Local rules<br><span style="font-weight:400;font-size:11px;">sense neighbours / environment</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">Emergent global behaviour<br><span style="font-weight:400;font-size:11px;">shortest path, flocking, consensus</span></div>
+          </div>
+          <div class="flow" style="margin-top:16px;">
+            <div class="box ghost">Agent</div>
+            <div class="arrow">→ leaves marker →</div>
+            <div class="box">Shared Environment<br><span style="font-weight:400;font-size:11px;">pheromone / shared state</span></div>
+            <div class="arrow">→ influences →</div>
+            <div class="box ghost">Other Agents</div>
+          </div>
+          <p class="stack-note">Indirect communication through the environment is called <strong>stigmergy</strong>.</p>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <table class="mini-table">
+          <tr><th>Example</th><th>Local rule(s)</th><th>Emergent result</th></tr>
+          <tr><td><strong>Ant colony</strong></td><td>Wander; on finding food return to the nest laying pheromone; follow stronger pheromone; pheromone evaporates</td><td>Shortest path to food emerges (basis of Ant Colony Optimization)</td></tr>
+          <tr><td><strong>Boids (flocking)</strong></td><td>Separation (avoid crowding), Alignment (match neighbours' heading), Cohesion (move toward neighbours' centre)</td><td>Realistic, coordinated flock movement with no leader</td></tr>
+          <tr><td><strong>Stigmergy</strong></td><td>Agents modify the environment; the modified environment guides the next action</td><td>Indirect coordination without direct messaging (e.g. pheromone trails, termite nests, shared documents/state)</td></tr>
+        </table>
+        <ol class="steps">
+          <li>Many agents are initialised with identical simple rules and limited local perception.</li>
+          <li>Each agent senses neighbours / environment and acts; no agent has the global picture.</li>
+          <li>Actions change the environment (markers, positions, shared state), which influences other agents (positive feedback reinforces good paths; evaporation/decay removes bad ones).</li>
+          <li>Global order <em>emerges</em> over iterations: a solution, pattern, or consensus.</li>
+        </ol>
+        <p style="margin-top:8px;"><strong>Properties:</strong> robustness (loss of some agents is tolerated), scalability (add more agents), flexibility (adapts to change), low individual complexity. <strong>Limits:</strong> hard to predict or debug emergent behaviour, slower convergence, harder to guarantee exact outcomes than with a central planner (Topic 4).</p>
+
+        <h3>Real-world applications of multi-agent / agentic systems</h3>
+        <div class="grid cols-3" style="margin:6px 0 0;">
+          <div class="card" style="padding:10px 12px;"><h4 style="font-size:13px;">🔎 Autonomous Research Assistants</h4><p style="font-size:12px;">Multiple agents search, read and summarise sources in parallel (RAG + web tools), a synthesiser merges findings and a critic checks citations against the retrieved sources.</p></div>
+          <div class="card" style="padding:10px 12px;"><h4 style="font-size:13px;">💻 Software-Development Agents</h4><p style="font-size:12px;">Planner breaks down the feature, coder agents implement, tester agent runs tests, reviewer agent critiques; tools (repo, shell, CI) are accessed through tool calling / MCP.</p></div>
+          <div class="card" style="padding:10px 12px;"><h4 style="font-size:13px;">🏢 Business-Automation Agents</h4><p style="font-size:12px;">Agents handle workflows such as support triage, invoice processing, scheduling and report generation by coordinating CRM, email and database tools, with human approval for sensitive steps.</p></div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Warehouse / drone swarms and routing:</strong> many simple robots or vehicles coordinate through local rules and shared signals to
+        cover an area or find efficient routes without a central dispatcher; Ant Colony Optimization is used for routing problems. For
+        LLM agents, the analogy is many lightweight worker agents that read and update a shared state or task board
+        (stigmergy-like), picking up open work without a manager assigning each task.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>Swarm intelligence shows that sophisticated behaviour can emerge from simple agents and local interaction, giving
+        decentralized, robust and scalable coordination. In practice, agentic applications (research, software development, business
+        automation) often blend structured roles (Topic 4) with swarm-like parallelism and shared state, choosing control vs
+        flexibility according to the task.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 6 -->
+  <section id="t6">
+    <p class="eyebrow">Unit 4 · Topic 6 of 6</p>
+    <h2>Deployment Considerations</h2>
+    <div class="topic">
+      <div class="topic-head"><h3>API-Based Deployment, Monitoring &amp; Logging, Scaling</h3><span class="topic-num">5 marks</span></div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">1</span>Definition / Introduction</p>
+        <p><strong>Deployment</strong> is moving an agent or multi-agent system from a prototype to a reliable service that real users
+        and other systems can call. Key concerns are <strong>how it is exposed</strong> (API-based deployment), <strong>how it is
+        observed</strong> (monitoring and logging) and <strong>how it handles growth</strong> (scaling). Agents are harder to operate
+        than ordinary software because they are non-deterministic, multi-step, call external tools, and cost money per LLM call.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">2</span>Neat Labeled Diagram — Deployed Agent System</p>
+        <div class="diagram">
+          <div class="flow">
+            <div class="box ghost">Client / App / Other Services</div>
+            <div class="arrow">→</div>
+            <div class="box">API Gateway<br><span style="font-weight:400;font-size:11px;">auth, rate limit</span></div>
+            <div class="arrow">→</div>
+            <div class="box alt">Agent Service(s)<br><span style="font-weight:400;font-size:11px;">replicated, stateless workers</span></div>
+          </div>
+          <div class="flow" style="margin:10px 0;"><div class="arrow">↓ ↑</div></div>
+          <div class="flow">
+            <div class="box">LLM API</div>
+            <div class="box">Tools / MCP Servers</div>
+            <div class="box">Memory: Vector DB + State Store</div>
+            <div class="box">Task Queue</div>
+          </div>
+          <div class="flow" style="margin:10px 0;"><div class="arrow">↓ emits ↓</div></div>
+          <div class="flow">
+            <div class="box ghost">Logs · Metrics · Traces → Monitoring Dashboard &amp; Alerts</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">3</span>Step-by-Step Working</p>
+        <h3>1. API-based deployment</h3>
+        <ul>
+          <li>Wrap the agent behind a standard interface (typically <strong>REST/HTTP API</strong>, e.g. built with FastAPI/Flask) so any client can send a request and receive a response; use <strong>streaming</strong> for long responses and <strong>async jobs</strong> (submit task → poll or webhook) for long-running agent tasks.</li>
+          <li>Package with containers (Docker) and run on cloud / Kubernetes / serverless; keep configuration and <strong>API keys in environment variables or a secrets manager</strong>, never in code.</li>
+          <li>Add <strong>authentication, authorization and rate limiting</strong>; apply least-privilege to tools (MCP servers) and require human approval for risky actions; validate inputs and outputs (guardrails, prompt-injection defence).</li>
+          <li>Version prompts, models and tools so changes can be rolled back.</li>
+        </ul>
+        <h3>2. Monitoring &amp; logging</h3>
+        <ul>
+          <li><strong>Logging:</strong> record each request, prompt, model response, tool call (name, arguments, result), error and final output, with a trace/correlation ID tying a multi-agent run together — essential for debugging non-deterministic behaviour and for audit. Mask sensitive data/PII.</li>
+          <li><strong>Metrics:</strong> latency, error rate, token usage and <strong>cost per request</strong>, tool-call failure rate, number of loop iterations, task success rate.</li>
+          <li><strong>Tracing:</strong> view the full chain of reasoning steps and agent-to-agent messages.</li>
+          <li><strong>Evaluation &amp; alerts:</strong> monitor output quality (hallucination, user feedback, automated evals) and alert on spikes in errors, cost or latency; set limits on iterations and spend to stop runaway agent loops.</li>
+        </ul>
+        <h3>3. Scaling agent systems</h3>
+        <ul>
+          <li><strong>Horizontal scaling:</strong> run many identical, <strong>stateless</strong> agent instances behind a load balancer; keep conversation state and memory externally (database, vector store, cache — Unit 3) so any instance can serve any request.</li>
+          <li><strong>Queues &amp; async workers:</strong> use a message queue to absorb bursts and run long tasks in the background; supports asynchronous agent communication (Topic 2).</li>
+          <li><strong>Cost and latency control:</strong> cache repeated results, use smaller/cheaper models for simple steps, limit context size, batch and parallelise independent sub-tasks, respect LLM API rate limits with retries and back-off.</li>
+          <li><strong>Reliability:</strong> timeouts, retries, fallbacks (alternate model or tool), graceful degradation, and per-agent isolation so one failing agent does not bring the whole system down.</li>
+        </ul>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">4</span>Real-World Example</p>
+        <p><strong>Customer-support agent service:</strong> exposed as a REST endpoint behind an API gateway, running as several container
+        replicas; chat history is stored in an external database and knowledge in a vector DB; tool access goes through MCP servers
+        with limited permissions. Every run is logged with a trace ID, dashboards show latency and token cost, an alert fires if error
+        rate rises, and replicas are added automatically at peak hours while a queue handles heavy back-office tasks.</p>
+      </div>
+
+      <div class="part">
+        <p class="part-label"><span class="n">5</span>Conclusion / Key Advantage</p>
+        <p>A production agent system needs more than a good prompt: a clean <strong>API</strong>, strong <strong>observability</strong>
+        (logs, metrics, traces) and a <strong>scalable, secure</strong> architecture with controlled cost. These practices make
+        multi-agent systems dependable, debuggable and affordable, completing the journey of Unit 4 from agent teams and protocols
+        (MCP, A2A-style messaging) to running them in the real world.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  FAAI — Unit 4 · Multi-Agent Systems &amp; MCP · Built from the course syllabus, cross-checked for flow.
+</footer>
+<script src="../../assets/theme-toggle.js" defer></script>
+</body>
+</html>
