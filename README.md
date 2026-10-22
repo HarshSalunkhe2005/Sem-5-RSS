@@ -13,6 +13,8 @@ URLs by hand.
 | Unit 1 | Overview of Cloud Computing | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CC/Unit%201/index.html) |
 | Unit 2 | Virtualization | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CC/Unit%202/index.html) |
 | Unit 3 | Cloud Architecture | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CC/Unit%203/index.html) |
+| Unit 4 | Cloud Security, CSPM, Single Sign-On | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CC/Unit%204/index.html) |
+| Unit 5 | HPC on Cloud, Load Balancing, Resource Utilization | [Open ↗](https://harshsalunkhe2005.github.io/Sem-5-RSS/CC/Unit%205/index.html) |
 
 ## Natural Language Processing (NLP)
 
