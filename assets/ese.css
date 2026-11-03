@@ -100,7 +100,7 @@ footer{color:var(--muted);}
 .ese-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0;padding:10px 12px;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;font-size:14px;}
 .ese-bar .grow{flex:1;min-width:120px;}
 .ese-meter{height:8px;background:var(--line);border-radius:99px;overflow:hidden;min-width:120px;}
-.ese-meter>i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s var(--ease);}
+.ese-meter>i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;background:var(--accent);transition:transform .4s var(--ease);}
 
 /* question-bank reveal */
 .qa.has-reveal .a{display:none;margin-top:8px;}

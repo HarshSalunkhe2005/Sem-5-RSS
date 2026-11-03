@@ -55,7 +55,7 @@
     function qid(i) { return rel + "#" + i; }
     function refresh() {
       var n = 0; qas.forEach(function (q, i) { var on = !!S.qa[qid(i)]; q.classList.toggle("done", on); if (on) n++; q.style.display = (hideDone && on) ? "none" : ""; });
-      meterFill.style.width = (100 * n / qas.length) + "%"; meterTxt.textContent = n + " / " + qas.length + " got it";
+      meterFill.style.transform = "scaleX(" + (n / qas.length) + ")"; meterTxt.textContent = n + " / " + qas.length + " got it";
     }
     qas.forEach(function (q, i) {
       var a = q.querySelector(".a"); if (!a) return;
@@ -213,7 +213,7 @@
         if (shuf) shuffle(view); if (reset) idx = 0; draw();
       }
       function draw() {
-        fill.style.width = (100 * known() / cards.length) + "%";
+        fill.style.transform = "scaleX(" + (known() / cards.length) + ")";
         wrap.classList.remove("flipped");
         if (!view.length) { fr.innerHTML = '<div class="txt">Nothing left here. Switch the filter or shuffle everything.</div>'; bk.innerHTML = ""; meta.textContent = known() + " / " + cards.length + " known"; return; }
         idx = (idx + view.length) % view.length; var c = view[idx];
@@ -243,7 +243,7 @@
       var a = el("a", "prog-card"); a.href = BASE + s + "/" + (man[s].flash ? "flashcards.html" : "Unit 1/index.html"); a.href = encodeURI(a.href);
       var fcAll = Object.keys(S.fc).filter(function (k) { return k.indexOf(s + "/") === 0; }).length;
       a.innerHTML = "<h3></h3><div class=\"ese-meter\"><i></i></div><div class=\"n\"></div>";
-      a.querySelector("h3").textContent = s; a.querySelector("i").style.width = (100 * done / pages.length) + "%";
+      a.querySelector("h3").textContent = s; a.querySelector("i").style.transform = "scaleX(" + (done / pages.length) + ")";
       a.querySelector(".n").textContent = done + " / " + pages.length + " pages revised · " + fcAll + " flashcards known";
       pr.appendChild(a);
     });
