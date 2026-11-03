@@ -35,6 +35,9 @@
   footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
 </style>
 <link rel="stylesheet" href="assets/theme-toggle.css">
+<link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/ese.css">
 </head>
 <body>
 
@@ -46,6 +49,14 @@
 </header>
 
 <main>
+
+  <section id="progress">
+    <p class="eyebrow">Your revision</p>
+    <h2>Where you are</h2>
+    <p>Tick "Mark as revised" on any page and it shows up here. Saved on this device only.</p>
+    <div id="progress-root" class="prog-grid"></div>
+    <script>window.ESE_MANIFEST={"DL":["DL/Unit 1/index.html","DL/Unit 1/numericals.html","DL/Unit 1/question-bank.html","DL/Unit 2/index.html","DL/Unit 2/numericals.html","DL/Unit 2/question-bank.html","DL/Unit 3/index.html","DL/Unit 3/numericals.html","DL/Unit 3/question-bank.html","DL/PYQs/index.html","DL/cheatsheet.html"]};</script>
+  </section>
 
   <section id="cc">
     <p class="eyebrow">01 · Cloud Computing (CC)</p>
@@ -103,6 +114,8 @@
       <a class="card" href="DL/Unit%203/index.html"><h4>Unit 3</h4><p>Activations, Loss, Generalization &amp; Optimization</p></a>
       <a class="card" href="DL/Unit%203/numericals.html"><h4>Unit 3 · Numericals</h4><p>Worked, step-by-step</p></a>
       <a class="card" href="DL/Unit%203/question-bank.html"><h4>Unit 3 · Q&amp;A</h4><p>Q111–158, answered</p></a>
+      <a class="card" href="DL/cheatsheet.html"><h4>Cheat sheet and likely questions</h4><p>Formulas, parameter counter, ranked by past papers</p></a>
+      <a class="card" href="DL/flashcards.html"><h4>Flashcards</h4><p>Every question-bank question, flip and self-mark</p></a>
       <a class="card" href="DL/PYQs/index.html"><h4>PYQs</h4><p>Dec'23, May'24, Dec'24, May'25</p></a>
     </div>
   </section>
@@ -112,5 +125,6 @@
 
 <footer>Sem 5 — Revision Notes · built page by page, course by course.</footer>
 <script src="assets/theme-toggle.js" defer></script>
+<script src="assets/ese.js" defer></script>
 </body>
 </html>

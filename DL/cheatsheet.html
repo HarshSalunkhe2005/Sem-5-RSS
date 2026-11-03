@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Learning cheat sheet and likely ESE questions</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f3ecfb;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · CHEAT SHEET</span>
+  <h1>Cheat sheet and likely ESE questions</h1>
+  <p>The formulas to memorise, a parameter counter, and the questions most likely to come, ranked by how often the four past papers asked them.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#formulas">Formulas</a>
+    <a href="#pairs">Pick the pair</a>
+    <a href="#counting">Parameter counter</a>
+    <a href="#likely">Likely ESE questions</a>
+    <a href="Unit%201/index.html">Unit 1</a>
+    <a href="Unit%202/index.html">Unit 2</a>
+    <a href="Unit%203/index.html">Unit 3</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="formulas">
+  <p class="eyebrow">Memorise these</p>
+  <h2>One-page formula sheet</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Topic</th><th>Formula / rule</th><th>Remember</th></tr></thead>
+    <tbody>
+      <tr><td>Neuron</td><td><code>z = Σ wᵢxᵢ + b,  a = f(z)</code></td><td>Weights = importance, bias = threshold shift</td></tr>
+      <tr><td>Perceptron update</td><td><code>w ← w + η(y − ŷ)x,  b ← b + η(y − ŷ)</code></td><td>Only changes when the prediction is wrong</td></tr>
+      <tr><td>Sigmoid</td><td><code>σ(z) = 1/(1+e⁻ᶻ),  σ′ = σ(1−σ)</code></td><td>Range (0,1); max slope 0.25, so vanishing gradient</td></tr>
+      <tr><td>Tanh</td><td><code>tanh′ = 1 − tanh²</code></td><td>Range (−1,1), zero-centred, still saturates</td></tr>
+      <tr><td>ReLU / Leaky</td><td><code>max(0,z) / max(0.1z, z)</code></td><td>Gradient 1 for z&gt;0; ReLU can "die"</td></tr>
+      <tr><td>Softmax</td><td><code>eᶻⁱ / Σ eᶻʲ</code></td><td>Output layer, multi-class, sums to 1</td></tr>
+      <tr><td>MSE</td><td><code>(1/n) Σ (y − ŷ)²</code></td><td>Regression, linear output</td></tr>
+      <tr><td>Binary cross-entropy</td><td><code>−[y log ŷ + (1−y) log(1−ŷ)]</code></td><td>Two classes, sigmoid output</td></tr>
+      <tr><td>Categorical cross-entropy</td><td><code>−Σ y_k log ŷ_k</code></td><td>Many classes, softmax output</td></tr>
+      <tr><td>Backprop (chain rule)</td><td><code>∂L/∂w = ∂L/∂a · ∂a/∂z · ∂z/∂w</code></td><td>Forward stores values, backward reuses them</td></tr>
+      <tr><td>Gradient descent</td><td><code>θ ← θ − η ∇L(θ)</code></td><td>η too small: slow. Too large: diverges</td></tr>
+      <tr><td>Momentum</td><td><code>v ← βv + η∇L,  θ ← θ − v</code></td><td>β ≈ 0.9: remembers about 10 steps</td></tr>
+      <tr><td>AdaGrad / RMSprop</td><td>divide step by √(sum of squared grads) / √(decaying average)</td><td>AdaGrad rate dies over time, RMSprop fixes that</td></tr>
+      <tr><td>Adam</td><td>momentum + RMSprop + bias correction</td><td>β₁=0.9, β₂=0.999, ε=1e-8</td></tr>
+      <tr><td>L2 / L1</td><td><code>L + λΣw²  /  L + λΣ|w|</code></td><td>L2 shrinks weights, L1 pushes some to exactly 0 (sparse)</td></tr>
+      <tr><td>Dropout</td><td>zero each neuron with prob. p; inverted dropout scales by 1/(1−p)</td><td>Behaves like an ensemble of 2ᴹ thinned nets</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="pairs">
+  <p class="eyebrow">Choose without thinking</p>
+  <h2>Output activation and loss always go as a pair</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Task</th><th>Output activation</th><th>Loss</th></tr></thead>
+    <tbody>
+      <tr><td>Regression (a number)</td><td>Linear</td><td>MSE</td></tr>
+      <tr><td>Two classes</td><td>Sigmoid</td><td>Binary cross-entropy</td></tr>
+      <tr><td>One of many classes</td><td>Softmax</td><td>Categorical cross-entropy</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Diagnose training vs validation error</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Train</th><th>Validation</th><th>Problem</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>High</td><td>High</td><td>High bias (underfit)</td><td>Bigger model, train longer</td></tr>
+      <tr><td>Low</td><td>High</td><td>High variance (overfit)</td><td>More data, L2/L1, dropout, early stopping</td></tr>
+      <tr><td>Low</td><td>Low</td><td>Good fit</td><td>Done</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="counting">
+  <p class="eyebrow">The PYQs ask this twice</p>
+  <h2>Parameter counter</h2>
+  <p>A dense layer has <code>n_in × n_out</code> weights and <code>n_out</code> biases. A conv layer has <code>filters × (k × k × C_in + 1)</code> parameters. Try the 784 → 128 → 64 → 10 network from the May 2024 paper.</p>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Layer sizes (comma separated)<br><input id="ffnn-in" class="ese-btn" style="min-width:230px;" value="784,128,64,10"></label>
+    <button class="ese-btn primary" id="ffnn-go" type="button">Count</button>
+  </div>
+  <div id="ffnn-out" class="callout"><p>Press Count.</p></div>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Filters<br><input id="cv-f" class="ese-btn" style="width:80px;" value="5"></label>
+    <label>Kernel k<br><input id="cv-k" class="ese-btn" style="width:80px;" value="3"></label>
+    <label>Input channels<br><input id="cv-c" class="ese-btn" style="width:80px;" value="1"></label>
+    <button class="ese-btn primary" id="cv-go" type="button">Count conv layer</button>
+  </div>
+  <div id="cv-out" class="callout"><p>Press Count conv layer. (May 2024: 5 filters, k=3, 1 channel gives 50; then 2 filters on 5 channels gives 92.)</p></div>
+</section>
+
+<section id="likely">
+  <p class="eyebrow">Built from the four real papers (Dec 2023 to May 2025)</p>
+  <h2>Likely ESE questions, ranked</h2>
+  <p>Each row shows how many of the 4 papers tested it and the marks they gave. Start at the top. Items marked <strong>Unit 4/5</strong> are not on this site yet: they are the biggest gap and are being added from the course decks.</p>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Topic and typical question</th><th>Seen in</th><th>Marks</th><th>Study</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>RNN and LSTM.</strong> How an RNN handles sequences, vanishing gradient in RNNs, LSTM gates (forget/input/output), RNN vs LSTM, RNN vs CNN, applications.</td><td>4 of 4</td><td>2 + 6 to 7</td><td><strong>Unit 4/5 (in progress)</strong></td></tr>
+      <tr><td>2</td><td><strong>Optimizers.</strong> BGD vs SGD vs mini-batch, momentum, AdaGrad, RMSprop, Adam, comparison.</td><td>4 of 4</td><td>2 to 5</td><td><a href="Unit%203/index.html#optimization">Unit 3 optimisers</a>, <a href="Unit%203/question-bank.html">Q&amp;A</a></td></tr>
+      <tr><td>3</td><td><strong>Vanishing and exploding gradients.</strong> Cause, effect, fixes.</td><td>4 of 4</td><td>2 to 4</td><td><a href="Unit%202/index.html#backprop">Unit 2 backprop</a>, <a href="Unit%203/index.html#activations">Unit 3 activations</a></td></tr>
+      <tr><td>4</td><td><strong>Backpropagation.</strong> Chain rule, forward and backward pass, how weights and biases update.</td><td>3 of 4</td><td>2 to 7</td><td><a href="Unit%202/index.html#backprop">Unit 2 backprop</a> (step-through diagram), <a href="Unit%202/numericals.html">numericals</a></td></tr>
+      <tr><td>5</td><td><strong>Activation and loss functions.</strong> "Explain four important ..." and "choose the loss for the problem".</td><td>3 of 4</td><td>3 to 7</td><td><a href="Unit%203/index.html#activations">Unit 3</a></td></tr>
+      <tr><td>6</td><td><strong>Autoencoders.</strong> Undercomplete vs overcomplete, layer-wise pre-training, use in feature learning.</td><td>3 of 4</td><td>2 to 3</td><td><strong>Unit 4/5 (in progress)</strong></td></tr>
+      <tr><td>7</td><td><strong>CNN architectures.</strong> AlexNet, VGG-16, and counting trainable parameters in conv layers.</td><td>2 of 4</td><td>3 to 5</td><td><strong>Unit 4/5 (in progress)</strong>, plus the counter above</td></tr>
+      <tr><td>8</td><td><strong>Parameter counting.</strong> Weights and biases per layer of a feed-forward net (784 → 128 → 64 → 10).</td><td>2 of 4</td><td>4</td><td>Counter above</td></tr>
+      <tr><td>9</td><td><strong>XOR, AND, OR with a neural network.</strong> Why XOR needs a hidden layer.</td><td>2 of 4 (older papers)</td><td>2 + 5</td><td><a href="Unit%202/index.html#shallow">Unit 2 shallow networks</a></td></tr>
+      <tr><td>10</td><td><strong>Regularisation.</strong> L1 vs L2, dropout, early stopping, overfitting.</td><td>2 of 4 (recent)</td><td>7</td><td><a href="Unit%203/index.html#bias-variance">Unit 3 bias-variance</a></td></tr>
+      <tr><td>11</td><td><strong>Basics.</strong> ANN vs DL, biological neuron vs perceptron, reasons for DL, applications, challenges, effect of depth and data.</td><td>2 of 4 (recent)</td><td>2 + 7</td><td><a href="Unit%201/index.html">Unit 1</a></td></tr>
+      <tr><td>12</td><td><strong>Hyperparameters and tuning.</strong></td><td>2 of 4</td><td>2 to 3</td><td><a href="Unit%203/index.html#scheduling">Unit 3 LR scheduling</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><strong>How to use this:</strong> the long answers are 6 to 7 marks and appear in Part B. Rows 1, 2, 4, 5 and 10 are the ones that have carried the most marks. If you only have a night, do rows 1 to 5, then the flashcards.</p></div>
+</section>
+
+</main>
+
+<footer>SEM 5 · DEEP LEARNING · CHEAT SHEET · Sem 5 revision notes</footer>
+<script>
+(function(){
+  function $(i){return document.getElementById(i);}
+  $('ffnn-go').addEventListener('click',function(){
+    var L=$('ffnn-in').value.split(',').map(function(x){return parseInt(x,10);}).filter(function(x){return x>0;});
+    if(L.length<2){$('ffnn-out').innerHTML='<p>Enter at least two sizes, e.g. 784,128,64,10</p>';return;}
+    var W=0,B=0,rows='';
+    for(var i=1;i<L.length;i++){var w=L[i-1]*L[i],b=L[i];W+=w;B+=b;rows+='<tr><td>Layer '+i+' ('+L[i-1]+' → '+L[i]+')</td><td>'+L[i-1]+' × '+L[i]+' = '+w.toLocaleString()+'</td><td>'+b+'</td></tr>';}
+    $('ffnn-out').innerHTML='<table><thead><tr><th>Layer</th><th>Weights</th><th>Biases</th></tr></thead><tbody>'+rows+'</tbody></table><p><strong>Total weights '+W.toLocaleString()+', total biases '+B.toLocaleString()+', total parameters '+(W+B).toLocaleString()+'</strong></p>';
+  });
+  $('cv-go').addEventListener('click',function(){
+    var f=+$('cv-f').value,k=+$('cv-k').value,c=+$('cv-c').value;
+    if(!(f>0&&k>0&&c>0)){$('cv-out').innerHTML='<p>Enter positive numbers.</p>';return;}
+    $('cv-out').innerHTML='<p>'+f+' × ('+k+'×'+k+'×'+c+' + 1) = '+f+' × '+(k*k*c+1)+' = <strong>'+(f*(k*k*c+1))+' trainable parameters</strong> (activation layers add none).</p>';
+  });
+})();
+</script>
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>
