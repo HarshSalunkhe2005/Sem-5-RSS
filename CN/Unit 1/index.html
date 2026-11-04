@@ -67,6 +67,9 @@
   .back:hover{background:rgba(255,255,255,0.12);}
 </style>
 <link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
 </head>
 <body>
 
@@ -89,6 +92,8 @@
     <a href="#performance">Delay, Loss &amp; Throughput</a>
     <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
     <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">Unit 4 →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
   </div>
 </nav>
 
@@ -126,7 +131,11 @@
 
     <h3>Network-layer protocols</h3>
     <div class="grid cols-4">
-      <div class="card"><h4>IP</h4><p>Responsible for routing — the core network-layer protocol, but not the only one.</p></div>
+      <div class="card"><h4>IP</h4><p>Responsible for routing — the core network-layer protocol, but not the only one.</p>
+<!--fig:cn-encaps-->
+<figure class="fig" data-caps='["Application layer produces the message (for example an HTTP request).","Transport layer adds its header (ports, sequence numbers): the unit is a segment.","Network layer adds the IP header (source and destination IP): the unit is a datagram (packet).","Link layer adds a frame header and trailer (MAC addresses, error check): the unit is a frame.","Physical layer sends the frame as bits on the medium. The receiver strips the headers in reverse order going up."]' data-intro="Send one message down the stack." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Encapsulation down the protocol stack" style="min-width:620px"><defs><marker id="fa1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-acc" x="20" y="24" width="170" height="52" rx="8"/></g><g data-s="1"><text class="tb" x="105" y="50" text-anchor="middle">Application</text></g><g data-s="1"><text class="tm" x="105" y="68" text-anchor="middle">message</text></g><g data-s="2"><rect class="s-acc" x="20" y="94" width="170" height="52" rx="8"/></g><g data-s="2"><text class="tb" x="105" y="120" text-anchor="middle">Transport</text></g><g data-s="2"><text class="tm" x="105" y="138" text-anchor="middle">segment</text></g><g data-s="2"><line class="arr" x1="105" y1="76" x2="105" y2="94" marker-end="url(#fa1)"/></g><g data-s="3"><rect class="s-acc" x="20" y="164" width="170" height="52" rx="8"/></g><g data-s="3"><text class="tb" x="105" y="190" text-anchor="middle">Network</text></g><g data-s="3"><text class="tm" x="105" y="208" text-anchor="middle">datagram</text></g><g data-s="3"><line class="arr" x1="105" y1="146" x2="105" y2="164" marker-end="url(#fa1)"/></g><g data-s="4"><rect class="s-acc" x="20" y="234" width="170" height="52" rx="8"/></g><g data-s="4"><text class="tb" x="105" y="260" text-anchor="middle">Link</text></g><g data-s="4"><text class="tm" x="105" y="278" text-anchor="middle">frame</text></g><g data-s="4"><line class="arr" x1="105" y1="216" x2="105" y2="234" marker-end="url(#fa1)"/></g><g data-s="5"><rect class="s-acc" x="20" y="304" width="170" height="52" rx="8"/></g><g data-s="5"><text class="tb" x="105" y="330" text-anchor="middle">Physical</text></g><g data-s="5"><text class="tm" x="105" y="348" text-anchor="middle">bits</text></g><g data-s="5"><line class="arr" x1="105" y1="286" x2="105" y2="304" marker-end="url(#fa1)"/></g><g data-s="1"><rect class="s-mark" x="330" y="34" width="220" height="32" rx="8"/></g><g data-s="1"><text class="tb" x="440" y="56" text-anchor="middle">message</text></g><g data-s="2"><rect class="s-fill" x="270" y="104" width="60" height="32" rx="8"/></g><g data-s="2"><text class="tb" x="300" y="126" text-anchor="middle">Ht</text></g><g data-s="2"><rect class="s-mark" x="330" y="104" width="220" height="32" rx="8"/></g><g data-s="2"><text class="tb" x="440" y="126" text-anchor="middle">message</text></g><g data-s="3"><rect class="s-fill" x="210" y="174" width="60" height="32" rx="8"/></g><g data-s="3"><text class="tb" x="240" y="196" text-anchor="middle">Hn</text></g><g data-s="3"><rect class="s-fill" x="270" y="174" width="60" height="32" rx="8"/></g><g data-s="3"><text class="tb" x="300" y="196" text-anchor="middle">Ht</text></g><g data-s="3"><rect class="s-mark" x="330" y="174" width="220" height="32" rx="8"/></g><g data-s="3"><text class="tb" x="440" y="196" text-anchor="middle">message</text></g><g data-s="4"><rect class="s-fill" x="150" y="244" width="60" height="32" rx="8"/></g><g data-s="4"><text class="tb" x="180" y="266" text-anchor="middle">Hl</text></g><g data-s="4"><rect class="s-fill" x="210" y="244" width="60" height="32" rx="8"/></g><g data-s="4"><text class="tb" x="240" y="266" text-anchor="middle">Hn</text></g><g data-s="4"><rect class="s-fill" x="270" y="244" width="60" height="32" rx="8"/></g><g data-s="4"><text class="tb" x="300" y="266" text-anchor="middle">Ht</text></g><g data-s="4"><rect class="s-fill" x="330" y="220" width="32" height="s-mark" rx="8"/></g><g data-s="4"><text class="tb" x="440" y="266" text-anchor="middle">message</text></g><g data-s="4"><rect class="s-fill" x="550" y="244" width="60" height="32" rx="8"/></g><g data-s="4"><text class="tb" x="580" y="266" text-anchor="middle">Tl</text></g><g data-s="5"><text class="tm" x="440" y="336" text-anchor="middle">0 1 0 1 1 0 0 1 0 1 …  (bits on the wire)</text></g></svg></div><figcaption>Send one message down the stack.</figcaption></figure>
+<!--/fig:cn-encaps-->
+</div>
       <div class="card"><h4>IPsec</h4><p>A collection of protocols (ESP, AH, SA) that set up encrypted, authenticated IP connections over a VPN.</p></div>
       <div class="card"><h4>ICMP</h4><p>Reports errors and status — e.g. tells the source when a router can't deliver a packet.</p></div>
       <div class="card"><h4>IGMP</h4><p>Sets up one-to-many (multicast) connections, so many computers can receive packets aimed at one IP address.</p></div>
@@ -209,7 +218,11 @@
 
     <h3>Delay (latency) — four components</h3>
     <div class="grid cols-4">
-      <div class="card"><h4>Processing</h4><p>Time for a router/switch to process the header, check errors, pick the next hop.</p></div>
+      <div class="card"><h4>Processing</h4><p>Time for a router/switch to process the header, check errors, pick the next hop.</p>
+<!--fig:cn-delay-->
+<figure class="fig" data-caps='["Total delay at a node: d_nodal = d_proc + d_queue + d_trans + d_prop.","Processing: checking headers, choosing the output link. Here 0.02 ms.","Queuing: waiting in the buffer. Depends on traffic. Here 0.5 ms.","Transmission: pushing all bits onto the link: L / R = 12,000 bits / 10 Mbps = 1.20 ms.","Propagation: bits travelling along the wire: d / s = 2,000 km / (2×10⁸ m/s) = 10 ms. Total ≈ 11.72 ms."]' data-intro="Add the delays one by one." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 360" role="img" aria-label="The four components of nodal delay" style="min-width:620px"><defs><marker id="fa2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="2"><rect class="s-fill" x="60" y="120" width="4" height="70" rx="0"/></g><g data-s="2"><text class="tb" x="62" y="110" text-anchor="middle">processing</text></g><g data-s="2"><text class="tm" x="62" y="210" text-anchor="middle">0.02 ms</text></g><g data-s="3"><rect class="s-acc" x="64" y="120" width="27.3037542662116" height="70" rx="0"/></g><g data-s="3"><text class="tb" x="77.6518771331058" y="110" text-anchor="middle">queuing</text></g><g data-s="3"><text class="tm" x="77.6518771331058" y="210" text-anchor="middle">0.50 ms</text></g><g data-s="4"><rect class="s-mark" x="91.3037542662116" y="120" width="65.52901023890784" height="70" rx="0"/></g><g data-s="4"><text class="tb" x="124.06825938566553" y="110" text-anchor="middle">transmission</text></g><g data-s="4"><text class="tm" x="124.06825938566553" y="210" text-anchor="middle">1.2 ms</text></g><g data-s="5"><rect class="s-acc" x="156.83276450511943" y="120" width="546.0750853242321" height="70" rx="0"/></g><g data-s="5"><text class="tb" x="429.87030716723547" y="110" text-anchor="middle">propagation</text></g><g data-s="5"><text class="tm" x="429.87030716723547" y="210" text-anchor="middle">10.0 ms</text></g><g data-s="1"><line class="s-ink" x1="60" y1="100" x2="700" y2="100"/></g><g data-s="1"><text class="tb" x="380" y="60" text-anchor="middle">d_nodal = d_proc + d_queue + d_trans + d_prop</text></g><g data-s="5"><rect class="s-mark" x="60" y="260" width="640" height="40" rx="8"/></g><g data-s="5"><text class="tm" x="380" y="286" text-anchor="middle">total ≈ 11.72 ms  (propagation dominates here; with a slow link, transmission would)</text></g></svg></div><figcaption>Add the delays one by one.</figcaption></figure>
+<!--/fig:cn-delay-->
+</div>
       <div class="card"><h4>Queuing</h4><p>Time a packet waits in a router's queue due to congestion.</p></div>
       <div class="card"><h4>Transmission</h4><p>Time to push all the packet's bits onto the link — depends on packet size and link bandwidth.</p></div>
       <div class="card"><h4>Propagation</h4><p>Time for the signal to physically travel the medium — depends on distance and propagation speed.</p></div>
@@ -249,5 +262,6 @@
 <footer>Unit 1 — Internet Basics and Protocols · Sem 5 revision notes</footer>
 
 <script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
 </body>
 </html>

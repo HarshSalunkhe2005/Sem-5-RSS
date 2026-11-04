@@ -69,6 +69,9 @@
   .back:hover{background:rgba(255,255,255,0.12);}
 </style>
 <link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
 </head>
 <body>
 
@@ -90,6 +93,8 @@
     <a href="#dns">DNS</a>
     <a href="#p2p">P2P Architectures</a>
     <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">Unit 4 →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
   </div>
 </nav>
 
@@ -160,6 +165,10 @@
     <p class="eyebrow">03 · The protocol of the Web</p>
     <h2>HTTP — Evolution &amp; How It Works</h2>
     <p>HTTP was released in 1991 by Tim Berners-Lee, with the launch of the World Wide Web.</p>
+<!--fig:cn-httprtt-->
+<figure class="fig" data-caps='["A page = 1 base HTML file + 5 objects. Count round-trip times (RTT).","Non-persistent HTTP: every object needs a new TCP connection: 1 RTT to open it and 1 RTT for the request/response. 6 objects × 2 RTT = 12 RTT.","Persistent HTTP, one request at a time: open the connection once (1 RTT), then 1 RTT per object: 1 + 6 = 7 RTT.","Persistent with pipelining: send the requests back to back: 1 RTT to connect, 1 RTT for the base page, then about 1 RTT for all 5 objects together = 3 RTT."]' data-intro="Compare three strategies." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="HTTP connections: round trips for a page with 5 objects" style="min-width:620px"><defs><marker id="fa3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="axis" x1="190" y1="330" x2="190" y2="60"/><g data-s="2"><text class="tb" x="180" y="102" text-anchor="end">Non-persistent</text></g><g data-s="2"><rect class="s-fill" x="190" y="70" width="552" height="52" rx="0"/></g><g data-s="2"><line class="grid-l" x1="236" y1="70" x2="236" y2="122"/></g><g data-s="2"><line class="grid-l" x1="282" y1="70" x2="282" y2="122"/></g><g data-s="2"><line class="grid-l" x1="328" y1="70" x2="328" y2="122"/></g><g data-s="2"><line class="grid-l" x1="374" y1="70" x2="374" y2="122"/></g><g data-s="2"><line class="grid-l" x1="420" y1="70" x2="420" y2="122"/></g><g data-s="2"><line class="grid-l" x1="466" y1="70" x2="466" y2="122"/></g><g data-s="2"><line class="grid-l" x1="512" y1="70" x2="512" y2="122"/></g><g data-s="2"><line class="grid-l" x1="558" y1="70" x2="558" y2="122"/></g><g data-s="2"><line class="grid-l" x1="604" y1="70" x2="604" y2="122"/></g><g data-s="2"><line class="grid-l" x1="650" y1="70" x2="650" y2="122"/></g><g data-s="2"><line class="grid-l" x1="696" y1="70" x2="696" y2="122"/></g><g data-s="2"><text class="tb" x="754" y="102" text-anchor="start">12 RTT</text></g><g data-s="3"><text class="tb" x="180" y="192" text-anchor="end">Persistent</text></g><g data-s="3"><rect class="s-acc" x="190" y="160" width="322" height="52" rx="0"/></g><g data-s="3"><line class="grid-l" x1="236" y1="160" x2="236" y2="212"/></g><g data-s="3"><line class="grid-l" x1="282" y1="160" x2="282" y2="212"/></g><g data-s="3"><line class="grid-l" x1="328" y1="160" x2="328" y2="212"/></g><g data-s="3"><line class="grid-l" x1="374" y1="160" x2="374" y2="212"/></g><g data-s="3"><line class="grid-l" x1="420" y1="160" x2="420" y2="212"/></g><g data-s="3"><line class="grid-l" x1="466" y1="160" x2="466" y2="212"/></g><g data-s="3"><text class="tb" x="524" y="192" text-anchor="start">7 RTT</text></g><g data-s="4"><text class="tb" x="180" y="282" text-anchor="end">Persistent + pipelining</text></g><g data-s="4"><rect class="s-mark" x="190" y="250" width="138" height="52" rx="0"/></g><g data-s="4"><line class="grid-l" x1="236" y1="250" x2="236" y2="302"/></g><g data-s="4"><line class="grid-l" x1="282" y1="250" x2="282" y2="302"/></g><g data-s="4"><text class="tb" x="340" y="282" text-anchor="start">3 RTT</text></g></svg></div><figcaption>Compare three strategies.</figcaption></figure>
+<!--/fig:cn-httprtt-->
+
 
     <div class="table-wrap"><table>
       <thead><tr><th>Version</th><th>Year</th><th>Major features</th><th>Limitation solved</th></tr></thead>
@@ -272,6 +281,10 @@ Response: HTTP/1.1 200 OK</pre>
     <h2>Domain Name System (DNS)</h2>
     <p>DNS translates human-readable names (<code>www.google.com</code>) into machine-readable
       IP addresses (<code>142.250.190.14</code>) — a hierarchical, distributed database.</p>
+<!--fig:cn-dns-->
+<figure class="fig" data-caps='["The browser asks its local DNS resolver for the IP of www.example.com. (Assume nothing is cached.)","The resolver asks a root server. The root does not know the answer but says \"ask the .com servers\".","The resolver asks a .com TLD server, which replies \"ask the authoritative server for example.com\".","The resolver asks the authoritative server, which holds the record and returns the IP address.","The resolver returns the IP to the browser and caches it (until its TTL expires), so the next lookup is instant."]' data-intro="Follow one lookup." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 440" role="img" aria-label="DNS resolution of www.example.com (iterative from the local resolver)" style="min-width:620px"><defs><marker id="fa4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-acc" x="10" y="96" width="160" height="48" rx="8"/><text class="tb" x="90" y="126" text-anchor="middle">Browser</text><rect class="s-fill" x="190" y="196" width="160" height="48" rx="8"/><text class="tb" x="270" y="226" text-anchor="middle">Local resolver</text><rect class="s-fill" x="480" y="36" width="160" height="48" rx="8"/><text class="tb" x="560" y="66" text-anchor="middle">Root server</text><rect class="s-fill" x="480" y="156" width="160" height="48" rx="8"/><text class="tb" x="560" y="186" text-anchor="middle">.com TLD server</text><rect class="s-fill" x="480" y="276" width="160" height="48" rx="8"/><text class="tb" x="560" y="306" text-anchor="middle">example.com authoritative</text><g data-s="1"><line class="arr" x1="170" y1="135" x2="214" y2="200" marker-end="url(#fa4)"/></g><g data-s="1"><text class="tm" x="100" y="190" text-anchor="start">1 query</text></g><g data-s="2"><line class="arr" x1="350" y1="200" x2="480" y2="78" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="440" y="100" text-anchor="end">2 who is .com?</text></g><g data-s="2"><line class="arr-acc" x1="480" y1="92" x2="350" y2="214" marker-end="url(#fb4)"/></g><g data-s="3"><line class="arr" x1="350" y1="218" x2="480" y2="184" marker-end="url(#fa4)"/></g><g data-s="3"><text class="tm" x="410" y="238" text-anchor="middle">3 ask .com</text></g><g data-s="3"><line class="arr-acc" x1="480" y1="196" x2="350" y2="226" marker-end="url(#fb4)"/></g><g data-s="4"><line class="arr" x1="350" y1="236" x2="480" y2="292" marker-end="url(#fa4)"/></g><g data-s="4"><text class="tm" x="400" y="296" text-anchor="end">4 ask auth</text></g><g data-s="4"><line class="arr-acc" x1="480" y1="304" x2="350" y2="244" marker-end="url(#fb4)"/></g><g data-s="5"><line class="arr-acc" x1="214" y1="238" x2="170" y2="150" marker-end="url(#fb4)"/></g><g data-s="5"><text class="acc-t" x="120" y="250" text-anchor="start">5 IP address</text></g></svg></div><figcaption>Follow one lookup.</figcaption></figure>
+<!--/fig:cn-dns-->
+
 
     <h3>How a lookup works</h3>
     <ol class="steps">
@@ -310,5 +323,6 @@ Response: HTTP/1.1 200 OK</pre>
 <footer>Unit 2 — Application Layer · Sem 5 revision notes</footer>
 
 <script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Networks cheat sheet and likely ESE questions</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · CHEAT SHEET</span>
+  <h1>Cheat sheet and likely ESE questions</h1>
+  <p>The formulas to memorise, three calculators (subnetting, CRC, delay) pre-filled with real past-paper numbers, and the topics ranked by how often the five papers asked them.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#formulas">Formulas</a>
+    <a href="#calc">Calculators</a>
+    <a href="#likely">Likely questions</a>
+    <a href="pyq-topics.html">Past-paper topics</a>
+    <a href="Unit%201/index.html">Unit 1</a>
+    <a href="Unit%202/index.html">Unit 2</a>
+    <a href="Unit%203/index.html">Unit 3</a>
+    <a href="Unit%204/index.html">Unit 4</a>
+    <a href="Unit%205/index.html">Unit 5</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="formulas">
+  <p class="eyebrow">Memorise these</p>
+  <h2>One-page formula sheet</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Topic</th><th>Formula / rule</th><th>Remember</th></tr></thead>
+    <tbody>
+      <tr><td>Transmission delay</td><td><code>d_trans = L / R</code></td><td>L bits, R bits per second</td></tr>
+      <tr><td>Propagation delay</td><td><code>d_prop = d / s</code></td><td>s ≈ 2×10⁸ m/s in copper or fibre</td></tr>
+      <tr><td>Nodal delay</td><td><code>d_proc + d_queue + d_trans + d_prop</code></td><td>Queuing depends on traffic</td></tr>
+      <tr><td>Store-and-forward, N links</td><td><code>N · L / R</code></td><td>Each router receives the whole packet first</td></tr>
+      <tr><td>Throughput</td><td>rate of the bottleneck link</td><td>min of the link rates on the path</td></tr>
+      <tr><td>Subnet host count</td><td><code>2^(32 − prefix) − 2</code></td><td>Minus network and broadcast address</td></tr>
+      <tr><td>Number of subnets</td><td><code>2^(borrowed bits)</code></td><td>/24 to /26 borrows 2 bits, 4 subnets</td></tr>
+      <tr><td>Block size</td><td><code>256 − last mask octet</code></td><td>/26: 256 − 192 = 64</td></tr>
+      <tr><td>IP classes (first octet)</td><td>A 1–126, B 128–191, C 192–223, D 224–239, E 240–255</td><td>Default masks /8, /16, /24</td></tr>
+      <tr><td>Fragmentation</td><td>offset = data bytes before it ÷ 8</td><td>MF = 1 on all but the last fragment</td></tr>
+      <tr><td>Stop-and-wait utilisation</td><td><code>(L/R) / (RTT + L/R)</code></td><td>Poor on long fat links</td></tr>
+      <tr><td>Window sizes (k-bit sequence)</td><td>Go-Back-N ≤ 2ᵏ − 1,  Selective Repeat ≤ 2ᵏ⁻¹</td><td>Needed to avoid ambiguity</td></tr>
+      <tr><td>TCP slow start</td><td>cwnd doubles every RTT up to ssthresh</td><td>Then +1 per RTT; on loss Tahoe: 1, Reno: halve</td></tr>
+      <tr><td>UDP / Internet checksum</td><td>16-bit one's complement of the sum</td><td>Receiver adds everything: all 1s means OK</td></tr>
+      <tr><td>CRC</td><td>append r zeros (r = degree of G), divide by G in modulo-2</td><td>Remainder 0 at the receiver = no error detected</td></tr>
+      <tr><td>Pure / slotted ALOHA</td><td><code>S = G e^(−2G)</code>  /  <code>S = G e^(−G)</code></td><td>Max 18.4 % at G = 0.5 / 36.8 % at G = 1</td></tr>
+      <tr><td>Dijkstra (link state)</td><td>settle the closest node, relax neighbours</td><td>Needs the full topology (OSPF)</td></tr>
+      <tr><td>Bellman-Ford (distance vector)</td><td><code>D_x(y) = min_v { c(x,v) + D_v(y) }</code></td><td>Only neighbours' vectors (RIP, hop count, max 15)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="calc">
+  <p class="eyebrow">Try it on real exam numbers</p>
+  <h2>Subnet calculator</h2>
+  <p>Try the May 2024 paper: <code>193.27.100.110</code> with prefix <code>26</code>.</p>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>IPv4 address<br><input id="sn-ip" class="ese-btn" value="193.27.100.110" style="width:170px;"></label>
+    <label>Prefix /<br><input id="sn-p" class="ese-btn" value="26" style="width:70px;"></label>
+    <button class="ese-btn primary" id="sn-go" type="button">Compute</button>
+  </div>
+  <div id="sn-out" class="callout"><p>Press Compute.</p></div>
+
+  <h2>CRC calculator</h2>
+  <p>Sender: enter the dataword and divisor to get the codeword. Receiver: enter the received codeword and the divisor to check for an error (Dec 2024 paper: divisor <code>1011</code>, received <code>1001110</code>).</p>
+  <p><strong>Worked answer to that question:</strong> the sender's dataword 1001 with divisor 1011 gives remainder 110, so the correct codeword is <code>1001110</code>. The received word is exactly that, and dividing it by 1011 leaves remainder 000, so <strong>no error is detected</strong>.</p>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Dataword<br><input id="crc-d" class="ese-btn" value="1001" style="width:170px;"></label>
+    <label>Divisor<br><input id="crc-g" class="ese-btn" value="1011" style="width:130px;"></label>
+    <button class="ese-btn primary" id="crc-send" type="button">Make codeword</button>
+  </div>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Received codeword<br><input id="crc-r" class="ese-btn" value="1001110" style="width:200px;"></label>
+    <button class="ese-btn primary" id="crc-check" type="button">Check for error</button>
+  </div>
+  <div id="crc-out" class="callout"><p>Press a button.</p></div>
+
+  <h2>Delay calculator</h2>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Packet size L (bytes)<br><input id="dl-L" class="ese-btn" value="1500" style="width:110px;"></label>
+    <label>Rate R (Mbps)<br><input id="dl-R" class="ese-btn" value="10" style="width:90px;"></label>
+    <label>Distance d (km)<br><input id="dl-d" class="ese-btn" value="2000" style="width:100px;"></label>
+    <label>Hops N (store-and-forward)<br><input id="dl-N" class="ese-btn" value="3" style="width:90px;"></label>
+    <button class="ese-btn primary" id="dl-go" type="button">Compute</button>
+  </div>
+  <div id="dl-out" class="callout"><p>Press Compute.</p></div>
+</section>
+
+<section id="likely">
+  <p class="eyebrow">Built from the five real papers (Nov 2023 to Nov 2025)</p>
+  <h2>Likely ESE questions, ranked</h2>
+  <p>Each row shows how many of the 5 papers tested the topic. Topics marked <strong>past-paper topics</strong> are asked regularly but are not in the faculty decks: they are collected on their own page.</p>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Topic and typical question</th><th>Seen in</th><th>Study</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Data link layer.</strong> Framing, bit and byte stuffing, error control, flow control, CRC with a concrete example, parity.</td><td>5 of 5</td><td><a href="Unit%205/index.html#crc">Unit 5 CRC</a>, <a href="Unit%205/numericals.html">numericals</a>, <a href="pyq-topics.html#framing">framing and stuffing</a></td></tr>
+      <tr><td>2</td><td><strong>Routing.</strong> Distance vector with an example, RIP (metric, limits, v1 vs v2), OSPF workflow, unicast vs multicast, router forwarding.</td><td>4 of 5</td><td><a href="Unit%204/index.html#distance-vector">Unit 4 distance vector</a>, <a href="Unit%204/index.html#ospf">OSPF</a>, <a href="Unit%204/numericals.html">numericals</a></td></tr>
+      <tr><td>3</td><td><strong>IPv4.</strong> Subnetting numerical (subnet, broadcast, hosts), header fields, address classes, fragmentation with an example, IPv4 vs IPv6.</td><td>4 of 5</td><td><a href="Unit%204/index.html#subnetting">Unit 4 subnetting</a>, <a href="pyq-topics.html#ip-header">IPv4 header</a>, calculator above</td></tr>
+      <tr><td>4</td><td><strong>OSI model.</strong> Draw it and explain layers, with protocol examples; session and presentation layers.</td><td>4 of 5</td><td><a href="pyq-topics.html#osi">Past-paper topics: OSI</a></td></tr>
+      <tr><td>5</td><td><strong>Application layer.</strong> HTTP, SMTP and email retrieval, SNMP, TELNET, WWW, P2P vs client-server.</td><td>5 of 5</td><td><a href="Unit%202/index.html">Unit 2</a>, <a href="pyq-topics.html#snmp">SNMP, TELNET</a></td></tr>
+      <tr><td>6</td><td><strong>TCP.</strong> Congestion control phases (slow start numerical), TCP vs UDP, ARQ, sliding window, reliable data transfer.</td><td>5 of 5</td><td><a href="Unit%203/index.html#congestion">Unit 3 congestion</a> (step-through), <a href="Unit%203/index.html#arq">ARQ</a></td></tr>
+      <tr><td>7</td><td><strong>Network topologies and transmission media</strong>: pros and cons.</td><td>3 of 5</td><td><a href="pyq-topics.html#topologies">Past-paper topics</a></td></tr>
+      <tr><td>8</td><td><strong>Switching.</strong> Circuit vs packet, datagram vs virtual circuit, network core vs edge.</td><td>3 of 5</td><td><a href="Unit%201/index.html">Unit 1</a>, <a href="Unit%204/index.html#vc-datagram">Unit 4 VC vs datagram</a></td></tr>
+      <tr><td>9</td><td><strong>ARP.</strong> Why the request is a broadcast and the reply a unicast.</td><td>1 of 5</td><td><a href="pyq-topics.html#arp">ARP</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><strong>How to use this:</strong> each paper has about five 6 to 7 mark Part B questions. Rows 1 to 3 and 6 produced a long answer in almost every paper. If you only have one night: do the data link layer, distance vector, IPv4 and TCP congestion, then the flashcards.</p></div>
+</section>
+
+</main>
+
+<footer>SEM 5 · COMPUTER NETWORKS · CHEAT SHEET · Sem 5 revision notes</footer>
+<script>
+(function(){
+  function $(i){return document.getElementById(i);}
+  function ip2n(s){var p=s.trim().split('.');if(p.length!==4)return null;var n=0;for(var i=0;i<4;i++){var v=+p[i];if(!(v>=0&&v<=255)||p[i]==='')return null;n=n*256+v;}return n;}
+  function n2ip(n){return [n>>>24&255,n>>>16&255,n>>>8&255,n&255].join('.');}
+  $('sn-go').addEventListener('click',function(){
+    var ip=ip2n($('sn-ip').value),p=parseInt($('sn-p').value,10);
+    if(ip===null||!(p>=1&&p<=32)){$('sn-out').innerHTML='<p>Enter a valid IPv4 address and prefix 1–32.</p>';return;}
+    var mask=p===32?0xFFFFFFFF:((0xFFFFFFFF<<(32-p))>>>0), net=(ip&mask)>>>0, bc=(net|(~mask>>>0))>>>0, hosts=p>=31?0:Math.pow(2,32-p)-2;
+    var f=ip>>>24, cls=f<128?'A':f<192?'B':f<224?'C':f<240?'D (multicast)':'E (reserved)', def=f<128?8:f<192?16:f<224?24:null;
+    var subs=(def!==null&&p>def)?Math.pow(2,p-def)+' (borrowing '+(p-def)+' bits from the default /'+def+')':'n/a';
+    $('sn-out').innerHTML='<div class="tw"><table><tbody><tr><td>Class</td><td>'+cls+'</td></tr><tr><td>Subnet mask</td><td>'+n2ip(mask)+'</td></tr><tr><td>Subnet (network) address</td><td><strong>'+n2ip(net)+'</strong></td></tr><tr><td>Directed broadcast address</td><td><strong>'+n2ip(bc)+'</strong></td></tr><tr><td>Usable host range</td><td>'+(hosts>0?n2ip(net+1)+' – '+n2ip(bc-1):'none')+'</td></tr><tr><td>Hosts per subnet</td><td><strong>'+hosts+'</strong> = 2^'+(32-p)+' − 2</td></tr><tr><td>Number of subnets</td><td>'+subs+'</td></tr></tbody></table></div>';
+  });
+  function xorDiv(bits,g){var a=bits.split('').map(Number),G=g.split('').map(Number),steps=[];for(var i=0;i<=a.length-G.length;i++){if(a[i]){for(var j=0;j<G.length;j++)a[i+j]^=G[j];}}return a.slice(a.length-(G.length-1)).join('');}
+  function ok(s){return /^[01]+$/.test(s);}
+  $('crc-send').addEventListener('click',function(){
+    var d=$('crc-d').value.trim(),g=$('crc-g').value.trim();
+    if(!ok(d)||!ok(g)||g.length<2||g[0]!=='1'){$('crc-out').innerHTML='<p>Use 0/1 strings; the divisor must start with 1 and have at least 2 bits.</p>';return;}
+    var z=Array(g.length).join('0'),rem=xorDiv(d+z,g);
+    $('crc-out').innerHTML='<p>Append '+(g.length-1)+' zeros: <code>'+d+z+'</code>. Divide by <code>'+g+'</code> (modulo-2): remainder <strong>'+rem+'</strong>.</p><p>Codeword to send = <strong>'+d+rem+'</strong></p>';
+  });
+  $('crc-check').addEventListener('click',function(){
+    var r=$('crc-r').value.trim(),g=$('crc-g').value.trim();
+    if(!ok(r)||!ok(g)||g.length<2||g[0]!=='1'||r.length<g.length){$('crc-out').innerHTML='<p>Enter valid bit strings (codeword longer than the divisor).</p>';return;}
+    var rem=xorDiv(r,g),zero=/^0+$/.test(rem);
+    $('crc-out').innerHTML='<p>Divide <code>'+r+'</code> by <code>'+g+'</code>: remainder <strong>'+rem+'</strong>.</p><p>'+(zero?'Remainder is zero: <strong>no error detected</strong>.':'Remainder is non-zero: <strong>the codeword contains an error</strong> and is rejected.')+'</p>';
+  });
+  $('dl-go').addEventListener('click',function(){
+    var L=+$('dl-L').value*8,R=+$('dl-R').value*1e6,d=+$('dl-d').value*1000,N=+$('dl-N').value;
+    if(!(L>0&&R>0&&d>=0&&N>0)){$('dl-out').innerHTML='<p>Enter positive numbers.</p>';return;}
+    var tt=L/R*1000,tp=d/2e8*1000;
+    $('dl-out').innerHTML='<p>Transmission delay = L/R = '+L+' bits / '+(R/1e6)+' Mbps = <strong>'+tt.toFixed(3)+' ms</strong></p><p>Propagation delay = d/s = '+(d/1000)+' km / (2×10⁸ m/s) = <strong>'+tp.toFixed(3)+' ms</strong></p><p>Store-and-forward over '+N+' links (same length each): N·L/R = <strong>'+(N*tt).toFixed(3)+' ms</strong> transmission in total, plus propagation.</p>';
+  });
+})();
+</script>
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>

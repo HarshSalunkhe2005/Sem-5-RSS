@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 Numericals — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 6px;color:var(--navy-2);}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;font-family:Consolas,monospace;}
+
+  .given{font-family:Consolas,monospace;font-size:13.5px;background:#f3ecfb;border-radius:10px;padding:12px 16px;margin:14px 0 18px;color:var(--navy-2);}
+  .answer{background:#eafaf0;border-left:4px solid #2fa860;border-radius:10px;padding:14px 20px;margin:18px 0;font-weight:700;color:#1c7a45;font-family:Consolas,monospace;font-size:14.5px;}
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+
+  .problem{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin:26px 0;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .problem h4{margin:0 0 2px;font-size:18px;color:var(--navy-2);}
+  .problem .tag{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:14px;font-size:14px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+  .steps li .label{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}
+  .steps li .calc{font-family:Consolas,monospace;font-size:14.5px;color:var(--ink);}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;font-family:Consolas,monospace;font-size:13px;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .problem{padding:18px;} }
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:#fff3d6;color:#8a5a00;border:1px solid var(--amber);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 4</span>
+  <h1>🧮 Unit 4 — Worked Numericals</h1>
+  <p>Network address and host ID, broadcast and usable hosts, equal and VLSM subnetting,
+     longest-prefix match, Dijkstra link-state, Bellman-Ford distance-vector,
+     count-to-infinity, and IPv4 fragmentation — every step shown.</p>
+  <a class="back" href="index.html">← Back to Unit 4 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#netid">Network &amp; Host ID</a>
+    <a href="#broadcast">Broadcast &amp; hosts</a>
+    <a href="#subnets">Equal subnets</a>
+    <a href="#vlsm">VLSM</a>
+    <a href="#lpm">Longest-prefix match</a>
+    <a href="#dijkstra">Dijkstra</a>
+    <a href="#bellman">Bellman-Ford</a>
+    <a href="#cti">Count-to-infinity</a>
+    <a href="#fragmentation">Fragmentation</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 4 notes</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%203/numericals.html">Unit 3 numericals</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="netid">
+    <p class="eyebrow">Numerical 1</p>
+    <h2>Network address and Host ID (deck examples)</h2>
+    <p>Rule: every <code>1</code> bit in the mask is a network bit, every <code>0</code> bit is a host bit. Network address = IP AND mask; Host ID = the remaining host bits.</p>
+
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:20px;">(a) 172.16.5.120 with mask 255.255.0.0</h3>
+    <div class="given">IP = 172.16.5.120, mask = 255.255.0.0 (/16). Find the network address and Host ID.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Count the mask bits</span><span class="calc">255.255.0.0 = 11111111.11111111.00000000.00000000 → /16: first 16 bits network, last 16 bits host</span></li>
+      <li><span class="label">Network portion (keep the first 16 bits, zero the rest)</span><span class="calc">172.16.|5.120 → 172.16.0.0</span></li>
+      <li><span class="label">Host portion</span><span class="calc">5.120 = 00000101.01111000</span></li>
+    </ol>
+    <div class="answer">Network address = 172.16.0.0; Host ID = 5.120</div>
+    </div>
+
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:24px;">(b) 10.20.30.45 with mask 255.0.0.0</h3>
+    <div class="given">IP = 10.20.30.45, mask = 255.0.0.0 (/8). Find the network address and Host ID.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Count the mask bits</span><span class="calc">255.0.0.0 = 11111111.00000000.00000000.00000000 → /8: first 8 bits network, last 24 bits host</span></li>
+      <li><span class="label">Network portion</span><span class="calc">10.|20.30.45 → 10.0.0.0</span></li>
+      <li><span class="label">Host portion</span><span class="calc">20.30.45 = 00010100.00011110.00101101</span></li>
+    </ol>
+    <div class="answer">Network address = 10.0.0.0; Host ID = 20.30.45</div>
+    </div>
+  </section>
+
+  <section id="broadcast">
+    <p class="eyebrow">Numerical 2 <span class="tag">Beyond the deck</span></p>
+    <h2>Network address, broadcast address and usable hosts</h2>
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:6px;">(a) 192.168.10.77/26</h3>
+    <div class="given">IP = 192.168.10.77, prefix /26. Find mask, network, broadcast, first/last usable host, number of usable hosts.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Mask for /26</span><span class="calc">26 ones = 11111111.11111111.11111111.11000000 = 255.255.255.192</span></li>
+      <li><span class="label">Network address: AND the last octet</span><span class="calc">77 = 01001101; 192 = 11000000; AND = 01000000 = 64 → 192.168.10.64</span></li>
+      <li><span class="label">Broadcast: set all 6 host bits to 1</span><span class="calc">01111111 = 127 → 192.168.10.127</span></li>
+      <li><span class="label">Usable range</span><span class="calc">192.168.10.65 to 192.168.10.126</span></li>
+      <li><span class="label">Usable hosts</span><span class="calc">2^(32−26) − 2 = 2^6 − 2 = 64 − 2 = 62</span></li>
+    </ol>
+    <div class="answer">Network = 192.168.10.64; Broadcast = 192.168.10.127; Hosts = .65 – .126 (62 usable)</div>
+    </div>
+
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:24px;">(b) 130.45.151.154/20 (mask not on an octet boundary)</h3>
+    <div class="given">IP = 130.45.151.154, prefix /20.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Mask for /20</span><span class="calc">11111111.11111111.11110000.00000000 = 255.255.240.0</span></li>
+      <li><span class="label">Third octet: 151 AND 240</span><span class="calc">151 = 10010111; 240 = 11110000; AND = 10010000 = 144 → network 130.45.144.0</span></li>
+      <li><span class="label">Broadcast: host bits (4 in octet 3 + 8 in octet 4) all 1</span><span class="calc">third octet 10011111 = 159, fourth 255 → 130.45.159.255</span></li>
+      <li><span class="label">Usable hosts</span><span class="calc">2^12 − 2 = 4096 − 2 = 4094 (130.45.144.1 to 130.45.159.254)</span></li>
+    </ol>
+    <div class="answer">Network = 130.45.144.0; Broadcast = 130.45.159.255; 4094 usable hosts</div>
+    </div>
+  </section>
+
+  <section id="subnets">
+    <p class="eyebrow">Numerical 3 <span class="tag">Beyond the deck</span></p>
+    <h2>Subnetting 192.168.1.0/24 into 4 equal subnets (CIDR)</h2>
+    <div class="given">Network 192.168.1.0/24 (class C). Divide into 4 equal subnets.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Bits to borrow</span><span class="calc">2^b ≥ 4 → b = 2 bits from the host part</span></li>
+      <li><span class="label">New prefix and mask</span><span class="calc">/24 + 2 = /26 → 255.255.255.192</span></li>
+      <li><span class="label">Block size and hosts</span><span class="calc">block = 256 − 192 = 64 addresses; usable = 64 − 2 = 62 per subnet</span></li>
+      <li><span class="label">List the subnets (add 64 each time)</span><span class="calc">see table below</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Subnet</th><th>Network address</th><th>Usable range</th><th>Broadcast</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>192.168.1.0/26</td><td>192.168.1.1 – 192.168.1.62</td><td>192.168.1.63</td></tr>
+        <tr><td>2</td><td>192.168.1.64/26</td><td>192.168.1.65 – 192.168.1.126</td><td>192.168.1.127</td></tr>
+        <tr><td>3</td><td>192.168.1.128/26</td><td>192.168.1.129 – 192.168.1.190</td><td>192.168.1.191</td></tr>
+        <tr><td>4</td><td>192.168.1.192/26</td><td>192.168.1.193 – 192.168.1.254</td><td>192.168.1.255</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">4 subnets of /26 (mask 255.255.255.192), 62 usable hosts each</div>
+    </div>
+  </section>
+
+  <section id="vlsm">
+    <p class="eyebrow">Numerical 4 <span class="tag">Beyond the deck</span></p>
+    <h2>VLSM: unequal subnets from 192.168.10.0/24</h2>
+    <div class="given">Required hosts: LAN-A 100, LAN-B 50, LAN-C 25, LAN-D 10, and one point-to-point WAN link (2 routers). Allocate largest first.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">LAN-A needs 100 hosts</span><span class="calc">100 + 2 = 102 ≤ 128 = 2^7 → 7 host bits → /25 → 192.168.10.0/25 (126 usable)</span></li>
+      <li><span class="label">LAN-B needs 50</span><span class="calc">50 + 2 = 52 ≤ 64 = 2^6 → /26 → next free block 192.168.10.128/26 (62 usable)</span></li>
+      <li><span class="label">LAN-C needs 25</span><span class="calc">25 + 2 = 27 ≤ 32 = 2^5 → /27 → 192.168.10.192/27 (30 usable)</span></li>
+      <li><span class="label">LAN-D needs 10</span><span class="calc">10 + 2 = 12 ≤ 16 = 2^4 → /28 → 192.168.10.224/28 (14 usable)</span></li>
+      <li><span class="label">WAN link needs 2</span><span class="calc">2 + 2 = 4 = 2^2 → /30 → 192.168.10.240/30 (2 usable)</span></li>
+      <li><span class="label">Check what is left</span><span class="calc">last used address is 192.168.10.243, so 192.168.10.244 – .255 (12 addresses) remain free</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Subnet</th><th>Network / prefix</th><th>Mask</th><th>Usable range</th><th>Broadcast</th></tr></thead>
+      <tbody>
+        <tr><td>LAN-A</td><td>192.168.10.0/25</td><td>255.255.255.128</td><td>.1 – .126</td><td>192.168.10.127</td></tr>
+        <tr><td>LAN-B</td><td>192.168.10.128/26</td><td>255.255.255.192</td><td>.129 – .190</td><td>192.168.10.191</td></tr>
+        <tr><td>LAN-C</td><td>192.168.10.192/27</td><td>255.255.255.224</td><td>.193 – .222</td><td>192.168.10.223</td></tr>
+        <tr><td>LAN-D</td><td>192.168.10.224/28</td><td>255.255.255.240</td><td>.225 – .238</td><td>192.168.10.239</td></tr>
+        <tr><td>WAN</td><td>192.168.10.240/30</td><td>255.255.255.252</td><td>.241 – .242</td><td>192.168.10.243</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">/25, /26, /27, /28 and /30 blocks fit in the /24 with no overlap (12 addresses spare)</div>
+    </div>
+  </section>
+
+  <section id="lpm">
+    <p class="eyebrow">Numerical 5 <span class="tag">Beyond the deck</span></p>
+    <h2>Forwarding table and longest-prefix match</h2>
+    <div class="given">Router forwarding table (prefix → next hop):
+200.23.16.0/21 → A &nbsp;|&nbsp; 200.23.18.0/23 → B &nbsp;|&nbsp; 200.23.18.128/25 → C &nbsp;|&nbsp; 200.23.24.0/21 → E &nbsp;|&nbsp; 0.0.0.0/0 (default) → D
+Find the next hop for 200.23.16.5, 200.23.18.200, 200.23.19.7, 200.23.25.9 and 8.8.8.8.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Range of each prefix (only the changing octets)</span><span class="calc">/21 on 200.23.16.0 → 200.23.16.0 – 200.23.23.255; /23 on 200.23.18.0 → 200.23.18.0 – 200.23.19.255; /25 on 200.23.18.128 → 200.23.18.128 – 200.23.18.255; /21 on 200.23.24.0 → 200.23.24.0 – 200.23.31.255</span></li>
+      <li><span class="label">Rule</span><span class="calc">collect every matching prefix, then take the one with the longest prefix length</span></li>
+      <li><span class="label">Check each destination</span><span class="calc">see table below</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Destination</th><th>Matching prefixes</th><th>Longest</th><th>Next hop</th></tr></thead>
+      <tbody>
+        <tr><td>200.23.16.5</td><td>/21 (A), /0 (D)</td><td>/21</td><td>A</td></tr>
+        <tr><td>200.23.18.200</td><td>/25 (C), /23 (B), /21 (A), /0 (D)</td><td>/25</td><td>C</td></tr>
+        <tr><td>200.23.19.7</td><td>/23 (B), /21 (A), /0 (D)</td><td>/23</td><td>B</td></tr>
+        <tr><td>200.23.25.9</td><td>/21 on 200.23.24.0 (E), /0 (D)</td><td>/21</td><td>E</td></tr>
+        <tr><td>8.8.8.8</td><td>/0 (D) only</td><td>/0</td><td>D (default route)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">200.23.16.5 → A; 200.23.18.200 → C; 200.23.19.7 → B; 200.23.25.9 → E; 8.8.8.8 → D</div>
+    </div>
+  </section>
+
+  <section id="dijkstra">
+    <p class="eyebrow">Numerical 6 <span class="tag">Beyond the deck</span></p>
+    <h2>Link-state: Dijkstra's shortest path from A</h2>
+    <div class="given">Link costs: A–B 2, A–C 5, A–D 1, B–C 3, B–D 2, C–D 3, C–E 1, C–F 5, D–E 1, E–F 2.
+Notation: D(v) = least cost known to v, p(v) = predecessor. Compute least-cost paths from A.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Initialisation, N' = {A}</span><span class="calc">D(B)=2,p=A; D(C)=5,p=A; D(D)=1,p=A; D(E)=∞; D(F)=∞</span></li>
+      <li><span class="label">Add D (smallest = 1), N' = {A,D}. Relax D's neighbours</span><span class="calc">B: min(2, 1+2=3) = 2; C: min(5, 1+3=4) = 4,p=D; E: 1+1 = 2,p=D</span></li>
+      <li><span class="label">Add B (2; tie with E, take B), N' = {A,D,B}. Relax</span><span class="calc">C: min(4, 2+3=5) = 4 (no change)</span></li>
+      <li><span class="label">Add E (2), N' = {A,D,B,E}. Relax</span><span class="calc">C: min(4, 2+1=3) = 3,p=E; F: 2+2 = 4,p=E</span></li>
+      <li><span class="label">Add C (3), N' = {A,D,B,E,C}. Relax</span><span class="calc">F: min(4, 3+5=8) = 4 (no change)</span></li>
+      <li><span class="label">Add F (4). All nodes done</span><span class="calc">N' = {A,D,B,E,C,F}</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Step</th><th>N'</th><th>D(B),p</th><th>D(C),p</th><th>D(D),p</th><th>D(E),p</th><th>D(F),p</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>A</td><td>2,A</td><td>5,A</td><td>1,A</td><td>∞</td><td>∞</td></tr>
+        <tr><td>1</td><td>AD</td><td>2,A</td><td>4,D</td><td>(1,A)</td><td>2,D</td><td>∞</td></tr>
+        <tr><td>2</td><td>ADB</td><td>(2,A)</td><td>4,D</td><td>(1,A)</td><td>2,D</td><td>∞</td></tr>
+        <tr><td>3</td><td>ADBE</td><td>(2,A)</td><td>3,E</td><td>(1,A)</td><td>(2,D)</td><td>4,E</td></tr>
+        <tr><td>4</td><td>ADBEC</td><td>(2,A)</td><td>(3,E)</td><td>(1,A)</td><td>(2,D)</td><td>4,E</td></tr>
+        <tr><td>5</td><td>ADBECF</td><td>(2,A)</td><td>(3,E)</td><td>(1,A)</td><td>(2,D)</td><td>(4,E)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Values in brackets are final. Reading predecessors backwards gives the paths:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Destination</th><th>Path</th><th>Cost</th><th>A's next hop</th></tr></thead>
+      <tbody>
+        <tr><td>B</td><td>A–B</td><td>2</td><td>B</td></tr>
+        <tr><td>C</td><td>A–D–E–C</td><td>3</td><td>D</td></tr>
+        <tr><td>D</td><td>A–D</td><td>1</td><td>D</td></tr>
+        <tr><td>E</td><td>A–D–E</td><td>2</td><td>D</td></tr>
+        <tr><td>F</td><td>A–D–E–F</td><td>4</td><td>D</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">Least costs from A: B=2, C=3, D=1, E=2, F=4; A forwards everything except B via D</div>
+    </div>
+  </section>
+
+  <section id="bellman">
+    <p class="eyebrow">Numerical 7</p>
+    <h2>Distance-vector: Bellman-Ford rounds (deck network)</h2>
+    <div class="given">Links (deck example): A–B = 1, B–C = 1, A–D = 4, D–C = 1. Each router starts knowing only itself (0) and its direct neighbours, then repeatedly applies d<sub>x</sub>(y) = min over neighbours v of { c(x,v) + d<sub>v</sub>(y) } using the neighbours' vectors from the previous round. Entries are cost (next hop).</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Round 0: initial vectors (∞ = not yet known)</span><span class="calc">A: A=0, B=1, C=∞, D=4 | B: A=1, B=0, C=1, D=∞ | C: A=∞, B=1, C=0, D=1 | D: A=4, B=∞, C=1, D=0</span></li>
+      <li><span class="label">Round 1: example, A to C</span><span class="calc">via B: c(A,B) + d_B(C) = 1 + 1 = 2; via D: c(A,D) + d_D(C) = 4 + 1 = 5 → min = 2 (next hop B)</span></li>
+      <li><span class="label">Round 1: the other new entries</span><span class="calc">B→D: via C = 1+1 = 2 (C); C→A: via B = 1+1 = 2 (B); D→B: via C = 1+1 = 2 (C). A→D stays 4: via B would be 1+∞.</span></li>
+      <li><span class="label">Round 2: example, D to A</span><span class="calc">direct: 4; via C: c(D,C) + d_C(A) = 1 + 2 = 3 → min = 3 (next hop C). Likewise A→D via B: 1 + d_B(D) = 1 + 2 = 3 (B)</span></li>
+      <li><span class="label">Round 3: recompute every entry</span><span class="calc">no entry changes → the network has converged</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Router</th><th>Round</th><th>to A</th><th>to B</th><th>to C</th><th>to D</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>0</td><td>0</td><td>1 (B)</td><td>∞</td><td>4 (D)</td></tr>
+        <tr><td>A</td><td>1</td><td>0</td><td>1 (B)</td><td>2 (B)</td><td>4 (D)</td></tr>
+        <tr><td>A</td><td>2</td><td>0</td><td>1 (B)</td><td>2 (B)</td><td>3 (B)</td></tr>
+        <tr><td>B</td><td>0</td><td>1 (A)</td><td>0</td><td>1 (C)</td><td>∞</td></tr>
+        <tr><td>B</td><td>1, 2</td><td>1 (A)</td><td>0</td><td>1 (C)</td><td>2 (C)</td></tr>
+        <tr><td>C</td><td>0</td><td>∞</td><td>1 (B)</td><td>0</td><td>1 (D)</td></tr>
+        <tr><td>C</td><td>1, 2</td><td>2 (B)</td><td>1 (B)</td><td>0</td><td>1 (D)</td></tr>
+        <tr><td>D</td><td>0</td><td>4 (A)</td><td>∞</td><td>1 (C)</td><td>0</td></tr>
+        <tr><td>D</td><td>1</td><td>4 (A)</td><td>2 (C)</td><td>1 (C)</td><td>0</td></tr>
+        <tr><td>D</td><td>2</td><td>3 (C)</td><td>2 (C)</td><td>1 (C)</td><td>0</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">Converged after 2 update rounds. A→C = 2 via B; D→A = 3 via C (matches the deck's table)</div>
+    </div>
+  </section>
+
+  <section id="cti">
+    <p class="eyebrow">Numerical 8</p>
+    <h2>Count-to-infinity and poison reverse</h2>
+    <div class="given">Routers A, B, C in a line, A–B = 1, B–C = 1; network X hangs off A. Before failure: d_A(X) = 0, d_B(X) = 1 (via A), d_C(X) = 2 (via B). The A–X link then fails. RIP's infinity is 16.</div>
+    <div>
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:14px;">Without any fix (deck table)</h3>
+    <ol class="steps">
+      <li><span class="label">A detects the failure</span><span class="calc">d_A(X) = ∞; B has not heard yet and still says d_B(X) = 1</span></li>
+      <li><span class="label">A hears B's stale vector</span><span class="calc">d_A(X) = c(A,B) + d_B(X) = 1 + 1 = 2</span></li>
+      <li><span class="label">B hears A's new value</span><span class="calc">d_B(X) = 1 + 2 = 3</span></li>
+      <li><span class="label">A again</span><span class="calc">d_A(X) = 1 + 3 = 4; then B = 5, A = 6, B = 7, A = 8 …</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Update</th><th>d_A(X)</th><th>d_B(X)</th></tr></thead>
+      <tbody>
+        <tr><td>before failure</td><td>0</td><td>1</td></tr>
+        <tr><td>failure, stale info at B</td><td>∞</td><td>1</td></tr>
+        <tr><td>1</td><td>2</td><td>1</td></tr>
+        <tr><td>2</td><td>2</td><td>3</td></tr>
+        <tr><td>3</td><td>4</td><td>3</td></tr>
+        <tr><td>4</td><td>4</td><td>5</td></tr>
+        <tr><td>…</td><td>6, 8, …</td><td>7, 9, …</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">The distances climb by 2 per exchange until they hit infinity (16 in RIP); packets for X loop between A and B meanwhile</div>
+    </div>
+
+    <div>
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:24px;">With split horizon + poison reverse</h3>
+    <ol class="steps">
+      <li><span class="label">Normal advertisement from B to A (B reaches X through A)</span><span class="calc">B tells A: d(X) = ∞ (poisoned), instead of 1</span></li>
+      <li><span class="label">A's link to X fails</span><span class="calc">A has d_A(X) = ∞ and B's advertisement is also ∞ → A has no alternative route</span></li>
+      <li><span class="label">A advertises to B</span><span class="calc">B hears X = ∞ from its next hop A → d_B(X) = ∞; on the next update C also learns d_C(X) = ∞</span></li>
+    </ol>
+    <div class="answer">No counting: X becomes unreachable at A, B and C within a couple of updates (triggered updates make it immediate)</div>
+    <p style="margin-top:10px">Poison reverse stops two-router loops like this one. Loops through three or more routers can still occur, which is why hold-down timers and a small "infinity" are used as well.</p>
+    </div>
+  </section>
+
+  <section id="fragmentation">
+    <p class="eyebrow">Numerical 9 <span class="tag">Beyond the deck</span></p>
+    <h2>IPv4 fragmentation (MTU, offset, MF flag)</h2>
+    <div class="given">A datagram of total length 4000 bytes (20-byte header + 3980 bytes data) must cross a link with MTU 1500 bytes. Find each fragment's data size, total length, fragment offset and MF flag.</div>
+    <div>
+    <ol class="steps">
+      <li><span class="label">Data capacity per fragment</span><span class="calc">MTU − header = 1500 − 20 = 1480 bytes; 1480 is divisible by 8 (1480 / 8 = 185), so it is allowed</span></li>
+      <li><span class="label">Number of fragments</span><span class="calc">3980 / 1480 = 2.69 → 3 fragments: 1480 + 1480 + 1020 = 3980</span></li>
+      <li><span class="label">Fragment offsets (in 8-byte units)</span><span class="calc">0; 1480 / 8 = 185; 2960 / 8 = 370</span></li>
+      <li><span class="label">MF flag</span><span class="calc">1 for every fragment except the last (the last has MF = 0)</span></li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Fragment</th><th>Data (bytes)</th><th>Total length</th><th>Offset</th><th>MF</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1480</td><td>1500</td><td>0</td><td>1</td></tr>
+        <tr><td>2</td><td>1480</td><td>1500</td><td>185</td><td>1</td></tr>
+        <tr><td>3</td><td>1020</td><td>1040</td><td>370</td><td>0</td></tr>
+      </tbody>
+    </table></div>
+    <div class="answer">3 fragments; offsets 0, 185, 370; MF = 1, 1, 0 (all share the same Identification)</div>
+    <p style="margin-top:10px">Check: offset of the last fragment × 8 + its data = 370 × 8 + 1020 = 2960 + 1020 = 3980 bytes, which is the original data size.</p>
+    </div>
+
+    <div>
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:24px;">Same datagram, MTU 576</h3>
+    <ol class="steps">
+      <li><span class="label">Data capacity, rounded down to a multiple of 8</span><span class="calc">576 − 20 = 556 → 556 / 8 = 69.5 → 69 × 8 = 552 bytes</span></li>
+      <li><span class="label">Number of fragments</span><span class="calc">3980 / 552 = 7.2 → 8 fragments: 7 × 552 = 3864, last = 3980 − 3864 = 116 bytes</span></li>
+      <li><span class="label">Offsets</span><span class="calc">0, 69, 138, 207, 276, 345, 414, 483 (483 × 8 = 3864 ✓)</span></li>
+      <li><span class="label">Total lengths and MF</span><span class="calc">first seven: 552 + 20 = 572 bytes, MF = 1; last: 116 + 20 = 136 bytes, MF = 0</span></li>
+    </ol>
+    <div class="answer">8 fragments: 7 × 572 bytes (MF=1) and 1 × 136 bytes (MF=0), offsets 0 to 483 in steps of 69</div>
+    </div>
+
+    <div>
+    <h3 style="font-size:15px;color:var(--navy-2);margin-top:24px;">Fragmenting a fragment (MTU 620)</h3>
+    <div class="given">Fragment 2 from the first part (1480 data bytes, offset 185, MF = 1) reaches a link with MTU 620.</div>
+    <ol class="steps">
+      <li><span class="label">Data capacity</span><span class="calc">620 − 20 = 600 bytes (600 / 8 = 75 ✓)</span></li>
+      <li><span class="label">Split 1480 bytes</span><span class="calc">600 + 600 + 280 = 1480</span></li>
+      <li><span class="label">Offsets continue from 185</span><span class="calc">185; 185 + 75 = 260; 260 + 75 = 335</span></li>
+      <li><span class="label">MF flags</span><span class="calc">all three keep MF = 1, because more data of the original datagram (fragment 3) still follows</span></li>
+    </ol>
+    <div class="answer">New pieces: (600 B, offset 185, MF 1), (600 B, offset 260, MF 1), (280 B, offset 335, MF 1)</div>
+    <p style="margin-top:10px">Check: 335 × 8 + 280 = 2960, which is exactly the offset (370 × 8) of the original fragment 3.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 4 Numericals · Computer Networks · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

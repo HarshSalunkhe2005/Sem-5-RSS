@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 Question Bank — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .q .meta{font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+
+  .qa .a ul,.qa .a ol{margin:6px 0 8px;padding-left:20px;}
+  .qa .a p{margin:0 0 8px;}
+  .qa .a li{margin-bottom:4px;}
+  .qa .a table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;background:#fff;}
+  .qa .a thead th{background:var(--navy-2);color:#fff;text-align:left;padding:7px 10px;font-weight:600;}
+  .qa .a tbody td{padding:7px 10px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  .table-wrap{overflow-x:auto;}
+
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#fff4dc;color:#8a5a00;border:1px solid #f1d089;border-radius:999px;padding:1px 9px;margin-left:8px;vertical-align:middle;font-family:Calibri,Arial,sans-serif;}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 5</span>
+  <h1>📚 Unit 5 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to all 20 official question-bank items (CO5).</p>
+  <a class="back" href="index.html">← Back to Unit 5 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="index.html" style="color:var(--coral);">← Unit 5 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="../Unit%201/index.html">CN Unit 1</a><a href="../Unit%202/index.html">CN Unit 2</a><a href="../Unit%203/index.html">CN Unit 3</a>
+  </div>
+</nav>
+
+<main>
+  <section>
+    <p class="eyebrow">Unit 5: Link Layer</p>
+    <h2>Question Bank — CO5</h2>
+    <p class="range">All 20 questions, as given in the official question bank</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Define link layer. <span class="meta">L1 · 2 marks</span></p><div class="a"><p>The link layer (data link layer, OSI layer 2) is responsible for moving data across a single link between adjacent nodes: it converts the data stream into signals bit by bit, and at the receiver assembles the signals back into <strong>frames</strong> and hands them to the upper layer. It has two sub-layers: LLC (flow and error control) and MAC (control of the medium).</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Explain framing in data link layer. <span class="meta">L2 · 4 marks</span></p><div class="a"><p>Framing: the data-link layer takes <strong>packets from the Network layer and encapsulates them into frames</strong> (header + payload + trailer), then sends each frame bit by bit on the hardware. At the receiver it picks up the signals and assembles them back into frames. The header carries the layer-2 (hardware) addresses and control information; the trailer carries the error-detection bits.</p>
+<p><span class="tag">Beyond the deck</span> To mark frame boundaries: (1) character count; (2) flag bytes with byte stuffing; (3) flag bits <code>01111110</code> with bit stuffing — a 0 is inserted after every five consecutive 1s in the data, e.g. <code>0110111110111111</code> is sent as <code>011011111001111101</code>, and the receiver removes the stuffed 0.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Describe parity checking. <span class="meta">L2 · 4 marks</span></p><div class="a"><p>Parity adds one redundant bit so the receiver can check the data. <strong>Even parity:</strong> append 1 if the block has an odd number of 1s, 0 if it has an even number, so the total number of 1s is even (odd parity makes it odd). The receiver recounts the 1s; the wrong parity means an error.</p>
+<p>Example: 1011001 has four 1s → parity bit 0 → 10110010.</p>
+<ul><li><strong>Advantages:</strong> detects all single-bit errors and any odd number of errors; one extra bit per data unit; fast and easy.</li>
+<li><strong>Disadvantage:</strong> misses an even number of bit errors (deck example: 1010101 corrupted to 1111101 still shows even parity).</li></ul>
+<p>Two-dimensional parity adds parity per row and per column; it detects and corrects all single-bit errors and detects 2- and 3-bit errors.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Explain checksum method. <span class="meta">L2 · 6 marks</span></p><div class="a"><p>Checksum divides the data into equal segments and uses <strong>1's-complement</strong> addition.</p>
+<ul><li><strong>Sender:</strong> split the data into k segments of m bits; add them with 1's-complement arithmetic (carry out of the MSB is added back to the LSB); complement the sum to get the checksum; send the checksum with the data.</li>
+<li><strong>Receiver:</strong> add all received segments including the checksum, complement the result. All zeros means accept; otherwise discard.</li></ul>
+<p>Example (8-bit words): 10011001 + 11100010 + 00100100 + 10000100 = 00100101 (after end-around carries) → checksum = 11011010. Receiver: 00100101 + 11011010 = 11111111 → complement 00000000 → accepted. (Full steps on the <a href="numericals.html#checksum">Numericals page</a>.)</p>
+<p>It is cheap to compute in software, used by IP/TCP/UDP, but weaker than CRC.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Discuss CRC error detection. <span class="meta">L2 · 4 marks</span></p><div class="a"><p>CRC is based on <strong>binary (modulo-2) division</strong>, not addition. A sender-agreed generator (divisor) of k bits is used: append k−1 zeros to the data, divide modulo 2, and the remainder (k−1 bits) is the CRC; the codeword is the data followed by the CRC, so it is exactly divisible by the generator. The receiver divides the received codeword by the same generator: <strong>remainder 0 → accept</strong>, non-zero remainder → damaged, reject. Codeword length = n + k − 1.</p>
+<p><span class="tag">Beyond the deck</span> A generator with r check bits catches every burst error up to r bits long and all single-bit errors; Ethernet uses a 32-bit CRC computed in hardware.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Apply CRC on a binary message. <span class="meta">L3 · 4 marks</span></p><div class="a"><p>Message (data) = 1101011011, generator = 10011 (x⁴ + x + 1), so k = 5.</p>
+<ol><li>Append k−1 = 4 zeros: 11010110110000.</li>
+<li>Modulo-2 division (XOR the generator at each leading 1):<ul><li>11010110110000 ⊕ 10011000000000 = 01001110110000</li><li>01001110110000 ⊕ 01001100000000 = 00000010110000</li><li>00000010110000 ⊕ 00000010011000 = 00000000101000</li><li>00000000101000 ⊕ 00000000100110 = 00000000001110</li></ul></li>
+<li>Remainder = last 4 bits = <strong>1110</strong>.</li>
+<li>Transmitted codeword = 1101011011 + 1110 = <strong>11010110111110</strong>.</li></ol>
+<p>Receiver check: dividing 11010110111110 by 10011 gives remainder 0000 → accepted. (A second example with the deck's data 1010000 and x³ + 1: CRC = 011, codeword 1010000011 — see the Numericals page.)</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Explain random access protocols. <span class="meta">L2 · 6 marks</span></p><div class="a"><p>In random-access protocols all stations have equal priority; any station may send whenever the medium is idle or when it has data, with <strong>no fixed time and no fixed sequence</strong> of stations. Collisions can occur, so the protocol defines how to reduce them and recover.</p>
+<ul><li><strong>Pure ALOHA:</strong> send at once, wait for an ACK; if none comes, wait a random back-off time Tb and resend.</li>
+<li><strong>Slotted ALOHA:</strong> time is divided into slots and a station may send only at the start of a slot, which reduces collisions. <span class="tag">Beyond the deck</span> Max throughput: pure 18.4% (1/2e), slotted 36.8% (1/e).</li>
+<li><strong>CSMA:</strong> sense the medium first; send if idle, wait if busy. Collisions are still possible because of propagation delay.</li>
+<li><strong>CSMA/CD:</strong> stop transmitting as soon as a collision is detected, then back off.</li>
+<li><strong>CSMA/CA:</strong> avoid collisions in advance (wireless).</li></ul></div></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Discuss CSMA/CD protocol. <span class="meta">L2 · 6 marks</span></p><div class="a"><p>Carrier Sense Multiple Access with Collision Detection: stations first sense the medium and can <strong>terminate transmission as soon as a collision is detected</strong>, instead of finishing a corrupted frame.</p>
+<ol><li><span class="tag">Beyond the deck</span> Sense the channel; send if idle, wait if busy.</li><li>Listen while sending; if no collision, the frame completes.</li><li>On collision, stop, send a short jam signal.</li><li>Binary exponential backoff: after the n-th collision wait K × 512 bit times with K chosen from 0 … 2<sup>min(n,10)</sup> − 1; give up after 16 attempts.</li></ol>
+<p><span class="tag">Beyond the deck</span> A frame must last at least 2·Tp so the sender is still transmitting when the collision signal returns (10 Mbps Ethernet: 512 bits = 64 bytes). It is used on wired, half-duplex Ethernet.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q9</span>Explain CSMA/CA protocol. <span class="meta">L2 · 6 marks</span></p><div class="a"><p>Carrier Sense Multiple Access with Collision <strong>Avoidance</strong>. A wireless sender cannot reliably detect collisions while sending, so the protocol avoids them and uses acknowledgements to confirm success (the deck notes that the sender checks for acknowledgement signals; if only its own signal is seen the data was sent successfully).</p>
+<p><span class="tag">Beyond the deck</span> IEEE 802.11 procedure:</p>
+<ol><li>If the channel is idle for DIFS, transmit the frame.</li><li>If busy, choose a random backoff, count down only while idle, transmit at 0.</li><li>Receiver sends an ACK after SIFS; no ACK means collision/loss, so double the backoff window and retry.</li><li>Optional RTS/CTS handshake reserves the channel and solves the hidden-terminal problem.</li></ol></div></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>Compare CSMA/CD and CSMA/CA. <span class="meta">L4 · 8 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> Comparison:</p><div class="table-wrap"><table><thead><tr><th>Aspect</th><th>CSMA/CD</th><th>CSMA/CA</th></tr></thead><tbody><tr><td>Meaning</td><td>Collision Detection</td><td>Collision Avoidance</td></tr><tr><td>Medium</td><td>Wired Ethernet (802.3)</td><td>Wireless LAN (802.11)</td></tr><tr><td>Strategy</td><td>Detect while sending, abort, jam, back off</td><td>Avoid beforehand: IFS, random backoff, optional RTS/CTS</td></tr><tr><td>Detects collisions?</td><td>Yes, by listening while sending</td><td>No; relies on a missing ACK</td></tr><tr><td>Acknowledgement</td><td>Not required at link level</td><td>Mandatory per frame</td></tr><tr><td>Hidden terminal</td><td>Not an issue</td><td>Real problem; RTS/CTS helps</td></tr><tr><td>Backoff used</td><td>After a collision only</td><td>Before sending on a busy channel and after a missing ACK</td></tr><tr><td>Overhead</td><td>Low</td><td>Higher</td></tr></tbody></table></div><p>Both first sense the carrier (CSMA), then differ in how they handle collisions.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Explain taking-turns protocols. <span class="meta">L2 · 6 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> Taking-turns (controlled-access) protocols let only one node transmit at a time, so there are <strong>no collisions</strong>.</p>
+<ul><li><strong>Polling:</strong> a master node polls each other node in turn and lets it send up to a limited number of frames. Pros: no collisions or empty slots. Cons: polling overhead and delay, master is a single point of failure (e.g. Bluetooth).</li>
+<li><strong>Token passing:</strong> a small token frame circulates in a fixed order; only the holder may send, then it passes the token on. Pros: decentralised, efficient. Cons: token overhead and latency; one failed node or a lost token can stop the channel (Token Ring, FDDI).</li></ul>
+<p>Reservation is a third variant: stations announce in a reservation period which intervals they will use.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Describe DOCSIS architecture. <span class="meta">L2 · 6 marks</span></p><div class="a"><p>DOCSIS (Data Over Cable Service Interface Specifications) carries data over RF/coaxial cable using the existing cable-TV infrastructure; started with DOCSIS 1.0 in 1997 (CableLabs).</p>
+<ul><li>Evolution (deck): 1.0 – 40 Mbps down / 10 Mbps up; 1.1 – same rates plus VoIP; 2.0 (2002) – 40 down / 30 up; 3.0 (2006) – channel bonding, IP multicast, IPv6, AES encryption; 4.0 (published 2020) – near-symmetric multi-gigabit over HFC.</li>
+<li><span class="tag">Beyond the deck</span> Architecture: home <strong>cable modems</strong> connect over coax/HFC to a <strong>CMTS</strong> at the cable headend. FDM divides the spectrum into several downstream and upstream channels.</li>
+<li>Downstream is a broadcast from the CMTS (no collisions). Upstream is divided into time <strong>mini-slots</strong>; the CMTS broadcasts MAP messages assigning mini-slots to modems, and modems request capacity in contention mini-slots using random access with binary backoff.</li></ul></div></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>A manufacturing plant using wireless communication experiences frequent collisions during data transmission. Analyze how CSMA/CA can improve network efficiency. <span class="meta">L4 · 6 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> In a wireless plant, nodes cannot detect collisions while transmitting (radio cannot send and listen at once), and machines far apart may be hidden terminals. Collisions waste airtime and force retransmissions.</p>
+<ul><li><strong>Carrier sensing plus IFS</strong> means a node transmits only when the channel is idle for DIFS.</li>
+<li><strong>Random backoff</strong> counted down only while idle spreads out nodes that were waiting, so they do not all start together when the channel frees up; the window doubles after each failure.</li>
+<li><strong>ACK after SIFS</strong> confirms delivery, so losses are recovered quickly.</li>
+<li><strong>RTS/CTS</strong> reserves the channel and silences hidden nodes; a collision then wastes only a short RTS frame instead of a long data frame.</li></ul>
+<p>Result: fewer and cheaper collisions and higher useful throughput, at the cost of some fixed overhead (IFS, ACK, RTS/CTS) which pays off when load is high or frames are long.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>A communication channel introduces burst errors in transmitted frames. Evaluate the effectiveness of parity, checksum, and CRC techniques for error detection. <span class="meta">L4 · 6 marks</span></p><div class="a"><p>A burst error flips a run of consecutive bits.</p><div class="table-wrap"><table><thead><tr><th>Method</th><th>Effect on burst errors</th></tr></thead><tbody><tr><td>Simple parity</td><td>Catches the burst only if it flips an odd number of bits; a burst that flips an even number is missed, so about half of bursts slip through. Weak.</td></tr><tr><td>2D parity</td><td>Better, spreading bits over rows and columns, but some patterns are still missed. Moderate.</td></tr><tr><td>Checksum</td><td>Detects most bursts, but because it is a sum, compensating flips can cancel and word order is ignored. Moderate; good for software use.</td></tr><tr><td>CRC</td><td>Detects every burst no longer than the CRC length r, and longer bursts with probability about 1 − 2<sup>−r</sup>. Strongest. <span class="tag">Beyond the deck</span></td></tr></tbody></table></div><p>Conclusion: CRC is the right choice for burst-prone channels; parity is the weakest. That is why link layers (Ethernet, Wi-Fi) use CRC.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>An Internet service provider wants to improve traffic engineering across its backbone network. Assess how MPLS can help optimize packet forwarding. <span class="meta">L5 · 6 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> MPLS forwards packets by a short <strong>label</strong> in a 32-bit shim header (20-bit label, 3-bit TC, 1-bit S, 8-bit TTL) placed between the link-layer and IP headers.</p>
+<ul><li><strong>Faster forwarding:</strong> label-switching routers do an exact-match label lookup and swap the label, instead of a longest-prefix IP lookup.</li>
+<li><strong>Traffic engineering:</strong> label-switched paths (set up with RSVP-TE/LDP) can be routed explicitly around congested links, so load is spread over several paths rather than all following the IP shortest path.</li>
+<li><strong>Fast reroute:</strong> pre-established backup LSPs restore service within milliseconds after a link failure.</li>
+<li><strong>QoS and VPNs:</strong> the TC bits mark class of service and label stacking isolates customer traffic on the shared backbone.</li></ul>
+<p>Assessment: MPLS gives the ISP control over paths and better link utilisation and resilience, at the cost of extra signalling and operational complexity.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Evaluate CRC over parity and checksum. <span class="meta">L5 · 10 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span></p><div class="table-wrap"><table><thead><tr><th>Criterion</th><th>Parity</th><th>Checksum</th><th>CRC</th></tr></thead><tbody><tr><td>Basis</td><td>Count of 1s</td><td>1's-complement addition</td><td>Modulo-2 polynomial division</td></tr><tr><td>Redundancy</td><td>1 bit (or 1 per row and column)</td><td>Typically 16 bits</td><td>r bits, e.g. 32 for Ethernet</td></tr><tr><td>Single-bit errors</td><td>Detected</td><td>Detected</td><td>Detected</td></tr><tr><td>Even number of bit errors</td><td>Missed</td><td>Mostly detected</td><td>Detected (good generator)</td></tr><tr><td>Burst errors</td><td>Weak</td><td>Moderate</td><td>All bursts ≤ r bits, nearly all longer ones</td></tr><tr><td>Order of data</td><td>Not relevant</td><td>Insensitive (swapped words undetected)</td><td>Sensitive; position matters</td></tr><tr><td>Implementation</td><td>Trivial</td><td>Cheap in software</td><td>Shift register / XOR in hardware, very fast</td></tr><tr><td>Typical use</td><td>Memory, serial lines</td><td>IP, TCP, UDP headers</td><td>Ethernet, Wi-Fi, PPP frames</td></tr></tbody></table></div><p>Evaluation: CRC needs only slightly more redundancy than the others but gives much stronger and more predictable detection, particularly for burst errors that dominate real channels, and it is cheap in hardware. Parity is cheap but weak; checksum is a good software compromise for higher layers. The deck's one-line summary: unlike checksum, which is addition-based, CRC is based on binary division, and a zero remainder means accept.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>A cable Internet provider experiences unfair bandwidth allocation among users during peak hours. Explain how DOCSIS manages upstream and downstream communication to address this issue. <span class="meta">L4 · 8 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> (DOCSIS basics are in the deck; the scheduling details are standard textbook material.)</p>
+<ul><li><strong>Channels:</strong> frequency-division multiplexing splits the cable into several downstream and upstream channels, and DOCSIS 3.0 <em>channel bonding</em> lets a modem use several channels together for more capacity.</li>
+<li><strong>Downstream:</strong> the CMTS is the only transmitter, so it broadcasts to all modems with no collisions and can schedule and rate-limit each user.</li>
+<li><strong>Upstream:</strong> shared by many modems, so it is divided into time <strong>mini-slots</strong>. A modem requests mini-slots in contention slots (random access with binary backoff); the CMTS then publishes a <strong>MAP</strong> message on the downstream channel saying which modem may send in which mini-slots. Data transmission is therefore scheduled and collision-free.</li>
+<li><strong>Fairness:</strong> because the CMTS decides who gets mini-slots, it can enforce per-user rate limits and quality-of-service classes (DOCSIS 1.1 added QoS for services like VoIP), so a few heavy users cannot take all the capacity at peak time.</li></ul>
+<p>The provider can additionally add more bonded channels or split congested nodes (DOCSIS 3.x/4.0 give more spectrum).</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>A data center wants to run multiple logical networks over the same physical infrastructure for different clients. Design a solution using link virtualization concepts and justify its advantages. <span class="meta">L6 · 6 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span></p>
+<ol><li><strong>Per-client VLANs:</strong> assign each client its own VLAN ID (IEEE 802.1Q, 12-bit ID, 4094 usable). Switch ports for that client's servers are in that VLAN; the links between switches are <strong>trunks</strong> carrying tagged frames for all VLANs.</li>
+<li><strong>Overlay for scale:</strong> where more than 4094 tenants or Layer-3 spanning is needed, use VXLAN: each tenant's Ethernet frames are encapsulated in UDP/IP with a 24-bit network ID (about 16 million networks).</li>
+<li><strong>Inter-network traffic</strong> only through a router/firewall, so tenants stay isolated unless policy allows.</li>
+<li><strong>Per-tenant rate limits / QoS</strong> on shared uplinks; optionally MPLS VPNs across sites.</li></ol>
+<p><strong>Advantages:</strong> isolation and security (separate broadcast domains), efficient use of shared hardware and lower cost, flexibility (move a client or VM by configuration, no re-cabling), smaller broadcast domains and easier management.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>Design a frame delivery mechanism. <span class="meta">L6 · 6 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> Design for delivering a packet over one link (Ethernet-style):</p>
+<ol><li><strong>Framing:</strong> encapsulate the network-layer packet into a frame: header (destination and source MAC addresses, type), payload, trailer (CRC). Mark boundaries with flag bits and bit stuffing.</li>
+<li><strong>Addressing:</strong> use unique layer-2 hardware addresses; ARP finds the MAC address for the next-hop IP address.</li>
+<li><strong>Medium access:</strong> on a shared medium sense the channel first (CSMA/CD for wired, CSMA/CA for wireless) and back off on collisions.</li>
+<li><strong>Synchronization:</strong> a preamble lets receiver and sender clocks align.</li>
+<li><strong>Error control:</strong> the sender computes a CRC over the frame; the receiver recomputes it, discards bad frames, and the sender retransmits when no ACK arrives (stop-and-wait or sliding window ARQ, mainly needed on error-prone links such as Wi-Fi).</li>
+<li><strong>Flow control:</strong> the receiver tells the sender when to slow down (windowing or pause frames) so slower stations are not overwhelmed.</li>
+<li><strong>Delivery:</strong> the receiver accepts the frame only if the destination MAC matches (or is broadcast), strips the header and trailer and passes the packet up.</li></ol></div></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>Create a logical network using virtualization concepts. <span class="meta">L6 · 6 marks</span></p><div class="a"><p><span class="tag">Beyond the deck</span> Example: one physical switch, two departments (Sales and Engineering) that need separate networks.</p><div class="table-wrap"><table><thead><tr><th>Switch ports</th><th>VLAN</th><th>Subnet</th><th>Purpose</th></tr></thead><tbody><tr><td>1–12</td><td>VLAN 10 (Sales)</td><td>192.168.10.0/24</td><td>Sales hosts</td></tr><tr><td>13–24</td><td>VLAN 20 (Engineering)</td><td>192.168.20.0/24</td><td>Engineering hosts</td></tr><tr><td>Trunk port 25</td><td>10 and 20 (802.1Q tagged)</td><td>—</td><td>Link to the router/second switch</td></tr></tbody></table></div><ol><li>Create the VLANs on the switch and put each port in its VLAN (access ports); hosts then see separate broadcast domains although they share the hardware.</li>
+<li>Configure a trunk to the router (router-on-a-stick) or a Layer-3 switch; frames carry a 12-bit VLAN ID in the 802.1Q tag.</li>
+<li>The router has one sub-interface per VLAN (192.168.10.1 and 192.168.20.1) and applies access rules; a Sales host cannot reach Engineering unless allowed.</li>
+<li>To extend the logical network over an IP network (another building or data centre), tunnel it with VXLAN or an MPLS VPN.</li></ol>
+<p>The result is two isolated logical networks over one physical infrastructure.</p></div></div>
+  </section>
+</main>
+
+<footer>Unit 5 Question Bank · Computer Networks · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

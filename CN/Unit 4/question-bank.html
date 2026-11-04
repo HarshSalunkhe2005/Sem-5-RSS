@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 Question Bank — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .q .meta{font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:#fff3d6;color:#8a5a00;border:1px solid var(--amber);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+  .qa .a table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;background:#fff;}
+  .qa .a th{background:var(--navy-2);color:#fff;text-align:left;padding:7px 10px;font-weight:600;}
+  .qa .a td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .qa .a ul,.qa .a ol{margin:6px 0 8px;padding-left:20px;}
+  .qa .a{max-width:760px;overflow-x:auto;}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 4</span>
+  <h1>📚 Unit 4 — Question Bank Answers</h1>
+  <p>Exam-ready answers to all 20 official question-bank items (CO4), written to the marks given.</p>
+  <a class="back" href="index.html">← Back to Unit 4 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="index.html" style="color:var(--coral);">← Unit 4 notes</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="../Unit%201/">Unit 1</a>
+    <a href="../Unit%202/">Unit 2</a>
+    <a href="../Unit%203/">Unit 3</a>
+  </div>
+</nav>
+
+<main>
+  <section>
+    <p class="eyebrow">Unit 4: Network Layer</p>
+    <h2>Question Bank — CO4</h2>
+    <p class="range">All 20 questions, as given in the official question bank</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Define network layer. <span class="meta">L1 · 2 marks</span></p><div class="a">The network layer is the 3rd layer of the OSI model. It is responsible for <strong>host-to-host delivery of packets across multiple networks</strong>, using logical (IP) addressing and routing to choose the path from source to destination. Its protocols include IP, ICMP, and routing protocols such as RIP, OSPF and BGP.</div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q2</span>Differentiate datagram and virtual circuit networks. <span class="meta">L2 · 6 marks</span></p><div class="a">
+      <table>
+        <thead><tr><th>Basis</th><th>Datagram network</th><th>Virtual-circuit network</th></tr></thead>
+        <tbody>
+          <tr><td>Connection</td><td>Connectionless; no set-up</td><td>Connection-oriented; set-up, data transfer and teardown phases</td></tr>
+          <tr><td>Routing decision</td><td>For every packet, independently, using dynamic routing tables</td><td>Once, at set-up; all packets follow the same path</td></tr>
+          <tr><td>Resources</td><td>Not reserved; allocated on demand, first-come first-served</td><td>Buffers and bandwidth reserved before transmission</td></tr>
+          <tr><td>Header</td><td>Full destination address in every packet</td><td>Common routing info / short VC identifier after set-up</td></tr>
+          <tr><td>Order and reliability</td><td>Packets may take different routes and arrive out of order; receiver must reorder</td><td>Packets arrive in the order sent; more dependable</td></tr>
+          <tr><td>Best suited to</td><td>A few packets</td><td>Longer data transmission</td></tr>
+          <tr><td>Example</td><td>The IP network (Internet)</td><td>ATM</td></tr>
+        </tbody>
+      </table>
+      A datagram network is simple and flexible but offers no guarantees; a virtual circuit gives a predictable, ordered path at the cost of set-up overhead and a more costly implementation.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q3</span>Explain IPv4 addressing. <span class="meta">L2 · 6 marks</span></p><div class="a">
+      An IPv4 address is a <strong>32-bit</strong> logical address that identifies a device's connection to a network. It is written as four 8-bit octets in <strong>dotted-decimal</strong> notation (each 0 to 255), e.g. <code>185.107.80.231</code>, which in binary is four groups of 8 bits.
+      <ul>
+        <li><strong>Parts:</strong> a <em>network part</em> (identifies the network and its class), a <em>host part</em> (identifies the machine, unique within the network) and an optional <em>subnet number</em> (for dividing a large network into subnets).</li>
+        <li><strong>Classful addressing:</strong> five classes. A starts with bit 0 (first byte 0-127), B with 10 (128-191), C with 110 (192-223), D with 1110 (224-239, multicast), E with 1111 (240-255, reserved).</li>
+        <li><strong>Subnet mask / CIDR:</strong> a mask (or <code>/n</code> prefix) marks which bits are network bits, e.g. 172.16.5.120 with 255.255.0.0 (/16) has network address 172.16.0.0 and host ID 5.120.</li>
+      </ul>
+      Limitation: only 2<sup>32</sup> addresses, which is why IPv6 was introduced.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q4</span>Describe IPv6 features. <span class="meta">L2 · 6 marks</span></p><div class="a">
+      IPv6 (developed by the IETF) is the latest version of IP, with a 128-bit address written as 8 groups of 16 bits in hexadecimal, separated by colons. Features:
+      <ul>
+        <li><strong>Large address space:</strong> 128 bits, 2<sup>96</sup> times larger than IPv4's.</li>
+        <li><strong>Better header format:</strong> options are moved out of the base header, so routing is simpler and faster.</li>
+        <li><strong>New options</strong> and <strong>extensibility:</strong> the protocol can grow for new technologies and applications.</li>
+        <li><strong>Resource allocation:</strong> the type-of-service field is replaced by <em>traffic class</em> and <em>flow label</em>, so real-time audio and video can get special handling.</li>
+        <li><strong>Security:</strong> encryption and authentication give confidentiality and integrity.</li>
+        <li><strong>Three address types:</strong> unicast (one interface), multicast (a group), anycast (one of a group, usually the nearest).</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q5</span>Compare IPv4 and IPv6. <span class="meta">L4 · 8 marks</span></p><div class="a">
+      <table>
+        <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+        <tbody>
+          <tr><td>Address size</td><td>32 bits</td><td>128 bits</td></tr>
+          <tr><td>Address space</td><td>2<sup>32</sup> (about 4.3 billion)</td><td>2<sup>128</sup></td></tr>
+          <tr><td>Notation</td><td>Dotted decimal: 192.168.0.1</td><td>Colon hex: 2001:db8::1</td></tr>
+          <tr><td>Header</td><td>20 to 60 bytes, variable, with options</td><td>Fixed 40 bytes; options in extension headers</td></tr>
+          <tr><td>Header checksum</td><td>Yes</td><td>No</td></tr>
+          <tr><td>Fragmentation</td><td>Source and routers</td><td>Source only</td></tr>
+          <tr><td>QoS</td><td>Type of service</td><td>Traffic class and flow label</td></tr>
+          <tr><td>Address types</td><td>Unicast, multicast, broadcast</td><td>Unicast, multicast, anycast</td></tr>
+          <tr><td>Security</td><td>Optional (IPsec added on)</td><td>IPsec support built in (encryption and authentication)</td></tr>
+          <tr><td>Configuration</td><td>Manual or DHCP; often needs NAT</td><td>Auto-configuration; no NAT needed</td></tr>
+          <tr><td>Routing</td><td>Large tables, non-hierarchical</td><td>Hierarchical, aggregatable addresses</td></tr>
+        </tbody>
+      </table>
+      IPv6 solves IPv4's address exhaustion and adds better routing efficiency, QoS and security. The two are not directly compatible, so they coexist via dual stack, tunnelling and translation.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q6</span>Explain ICMP protocol. <span class="meta">L2 · 6 marks</span></p><div class="a">
+      The <strong>Internet Control Message Protocol</strong> is a network-layer, connectionless protocol that supports IP. IP has no built-in mechanism for error and control messages, so routers and hosts use ICMP to report errors (destination unreachable, time exceeded, parameter problem) and for diagnostics.
+      <ul>
+        <li><strong>Packet format:</strong> carried inside an IP datagram. Header: Type (8 bits), Code (8 bits), Checksum (16 bits), a 32-bit extended header (e.g. pointer to the error), then variable data (the offending IP header and part of its data).</li>
+        <li><strong>Common types:</strong> 0 echo reply, 3 destination unreachable, 5 redirect, 8 echo request, 11 time exceeded, 12 parameter problem.</li>
+        <li><strong>Tools:</strong> <em>ping</em> (echo request / reply, measures round-trip time) and <em>traceroute</em> (shows the route hop by hop).</li>
+        <li><strong>Weakness:</strong> no authentication, so it can be abused: ping of death, ICMP/ping flood, smurf attack, ICMP tunnelling, router-advertisement spoofing.</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q7</span>Discuss routing in computer networks. <span class="meta">L2 · 6 marks</span></p><div class="a">
+      <strong>Routing</strong> is the process of selecting the path along which packets travel from source to destination; a <strong>routing algorithm</strong> computes the least-cost path and fills each router's routing / forwarding table. At each router the destination address is looked up in that table to find the next hop (<em>forwarding</em>).
+      <ul>
+        <li><strong>Adaptive (dynamic) algorithms</strong> change routes as topology or load changes; <strong>non-adaptive (static)</strong> routes are computed in advance and loaded at boot; <strong>hybrid</strong> approaches combine both.</li>
+        <li>The main dynamic algorithms are <strong>Link-State</strong> (each router learns the whole map and runs Dijkstra) and <strong>Distance-Vector</strong> (routers share distance tables with neighbours; Bellman-Ford).</li>
+        <li><strong>Routing in the Internet</strong> is hierarchical, split into autonomous systems: inside an AS, RIP (distance vector) or OSPF (link state); between ASes, BGP (path vector).</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q8</span>Explain Link-State routing algorithm. <span class="meta">L2 · 8 marks</span></p><div class="a">
+      In link-state routing every router learns the <strong>complete topology</strong> and independently computes shortest paths to all nodes (usually with Dijkstra's algorithm).
+      <ol>
+        <li><strong>Discovery:</strong> routers send Hello packets to find neighbours and form adjacencies.</li>
+        <li><strong>Flooding:</strong> each router floods Link State Advertisements / Packets (its links, their costs, its neighbours) to all routers; each stores them in the <strong>link-state database (LSDB)</strong>, so all routers hold identical maps.</li>
+        <li><strong>SPF calculation:</strong> each router runs Shortest Path First (Dijkstra) on the LSDB to find the least-cost path to every destination and builds its forwarding table.</li>
+        <li><strong>Updates:</strong> on any change (link failure, new router) the affected router floods a new LSA and every router recomputes SPF.</li>
+        <li><strong>Aging:</strong> each LSA carries a time-to-live and is removed from the LSDB when it expires.</li>
+      </ol>
+      <strong>Dijkstra:</strong> start with the source in the set N'; repeatedly add the node with the smallest known cost and relax its neighbours using D(v) = min(D(v), D(w) + c(w,v)) until all nodes are included (worked example in the Numericals page).
+      <br><strong>Advantages:</strong> fast convergence, updates only on change, suits large networks. <strong>Disadvantages:</strong> more CPU and memory, more complex, vulnerable to spoofed LSAs. Example protocol: OSPF.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q9</span>Explain Distance Vector routing algorithm. <span class="meta">L2 · 8 marks</span></p><div class="a">
+      In distance-vector routing each router keeps a table of <em>destination, distance (cost), next hop</em> and exchanges its <strong>distance vector only with its directly connected neighbours</strong>, periodically or on change. It rests on the <strong>Bellman-Ford equation</strong>: <code>d<sub>x</sub>(y) = min<sub>v</sub>{c(x,v) + d<sub>v</sub>(y)}</code>.
+      <ol>
+        <li>Initially a router knows only cost 0 to itself and the costs to its direct neighbours.</li>
+        <li>It sends its vector to its neighbours and receives theirs.</li>
+        <li>For each destination it computes the cost through every neighbour and keeps the minimum, recording that neighbour as next hop.</li>
+        <li>If its table changed, it sends the new vector; the process repeats until nothing changes (convergence).</li>
+      </ol>
+      <strong>Example:</strong> links A-B 1, B-C 1, A-D 4, D-C 1. A to C: via B = 1+1 = 2, via D = 4+1 = 5, so A uses B (cost 2).
+      <br><strong>Problem:</strong> count-to-infinity after a failure (routers keep raising each other's distance). <strong>Remedies:</strong> split horizon, route poisoning, poison reverse, triggered updates, hold-down timers, small infinity (RIP: 16). Example protocol: RIP.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q10</span>Compare Link-State and Distance Vector routing. <span class="meta">L4 · 8 marks</span></p><div class="a">
+      <table>
+        <thead><tr><th>Basis</th><th>Link-State</th><th>Distance-Vector</th></tr></thead>
+        <tbody>
+          <tr><td>Knowledge</td><td>Whole topology (complete map)</td><td>Only distances and next hops reported by neighbours ("routing by rumour")</td></tr>
+          <tr><td>Information shared</td><td>Link states of own links, flooded to <em>all</em> routers</td><td>Whole routing table, sent only to <em>neighbours</em></td></tr>
+          <tr><td>Algorithm</td><td>Dijkstra (SPF)</td><td>Bellman-Ford</td></tr>
+          <tr><td>Updates</td><td>Only on topology change (event-driven)</td><td>Periodic (e.g. every 30 s in RIP) and on change</td></tr>
+          <tr><td>Convergence</td><td>Fast</td><td>Slow</td></tr>
+          <tr><td>Loops</td><td>Rare, because every router has the map</td><td>Count-to-infinity / routing loops</td></tr>
+          <tr><td>Resources</td><td>More CPU and memory</td><td>Light</td></tr>
+          <tr><td>Complexity</td><td>Complex to configure and manage</td><td>Simple</td></tr>
+          <tr><td>Scalability</td><td>Large networks</td><td>Small to medium networks</td></tr>
+          <tr><td>Examples</td><td>OSPF, IS-IS</td><td>RIP</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q11</span>A large enterprise plans to migrate from IPv4 to IPv6 due to address exhaustion. Analyze the technical challenges involved and propose an effective migration strategy. <span class="meta">L4 · 6 marks</span></p><div class="a">
+      <strong>Challenges:</strong>
+      <ul>
+        <li><strong>Incompatibility:</strong> IPv4 and IPv6 hosts cannot talk directly; the header formats and address sizes differ.</li>
+        <li><strong>Equipment and software:</strong> routers, firewalls, load balancers, monitoring tools and legacy applications may lack IPv6 support or hard-code IPv4 addresses.</li>
+        <li><strong>Security:</strong> firewall and ACL rules must be rewritten for IPv6, ICMPv6 must be handled correctly, and running two stacks doubles the attack surface.</li>
+        <li><strong>Addressing and routing:</strong> a new addressing plan, DNS (AAAA records), DHCPv6 / auto-configuration, and routing protocols that support IPv6 (OSPFv3, RIPng, BGP).</li>
+        <li><strong>Cost and skills:</strong> hardware upgrades, staff training, testing and downtime risk.</li>
+      </ul>
+      <strong>Strategy (phased):</strong>
+      <ol>
+        <li>Audit all devices and applications; upgrade or replace what cannot support IPv6.</li>
+        <li>Obtain an IPv6 allocation and design a hierarchical addressing plan.</li>
+        <li>Deploy <strong>dual stack</strong> first (IPv4 and IPv6 side by side), starting with the edge / internet-facing services.</li>
+        <li>Use <strong>tunnelling</strong> to cross IPv4-only segments and <strong>translation (NAT64 / DNS64)</strong> for IPv6-only to IPv4-only communication.</li>
+        <li>Update security policies, DNS and monitoring; pilot, then migrate departments gradually, and retire IPv4 only when no longer needed.</li>
+      </ol>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q12</span>A network administrator notices routing loops in a Distance Vector routing environment. Investigate the cause of the problem and recommend methods to avoid routing instability. <span class="meta">L4 · 6 marks</span></p><div class="a">
+      <strong>Cause:</strong> distance-vector routers only know what their neighbours tell them. When a link fails, a router can accept a neighbour's <em>stale</em> advertisement that still shows a route through itself, then each router bases its distance on the other's. They keep increasing the metric (<strong>count-to-infinity</strong>); packets loop between them and convergence is very slow. Example: A loses its link to X; B still advertises distance 1 to X; A adopts 2 via B; B then adopts 3 via A; and so on (2, 3, 4, ... up to 16 in RIP).
+      <br><strong>Remedies:</strong>
+      <ul>
+        <li><strong>Split horizon:</strong> do not advertise a route back out of the interface from which it was learned.</li>
+        <li><strong>Route poisoning:</strong> advertise a failed route with an infinite metric.</li>
+        <li><strong>Poison reverse:</strong> advertise the route back to the neighbour it came from, but with an infinite metric.</li>
+        <li><strong>Triggered updates:</strong> send an update immediately after a significant change.</li>
+        <li><strong>Hold-down timers:</strong> suppress possibly wrong information for a while after a failure.</li>
+        <li><strong>Limit infinity</strong> (RIP: 16 hops) so the count stops; or move to a link-state protocol such as OSPF for large networks.</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q13</span>During a cyberattack, routers in a network start receiving malformed packets. Explain how ICMP and routing protocols can help diagnose and mitigate the issue. <span class="meta">L4 · 6 marks</span></p><div class="a">
+      <strong>ICMP for diagnosis:</strong>
+      <ul>
+        <li>Routers that drop a malformed packet can report it with ICMP <em>Parameter Problem</em> (type 12; pointer shows the bad byte, codes for missing option or bad length), <em>Destination Unreachable</em> (type 3) or <em>Time Exceeded</em> (type 11). Logging these shows the source, type and volume of the bad traffic.</li>
+        <li><em>Ping</em> and <em>traceroute</em> locate which hop or path is affected or unreachable.</li>
+        <li>ICMP is itself abusable (ping of death, flood, smurf, tunnelling, router-advertisement spoofing), so unnecessary ICMP types should be filtered and rate-limited.</li>
+      </ul>
+      <strong>Routing protocols for mitigation:</strong>
+      <ul>
+        <li>Authenticate routing messages (RIPv2 authentication, OSPF authentication, BGP passwords) and filter routes so forged updates or spoofed LSAs cannot poison the tables.</li>
+        <li>Reroute: link-state / distance-vector protocols detect failed or overloaded links and recompute paths around the attacked segment; BGP policies can divert or drop traffic from the attacking AS.</li>
+        <li>Combine with access lists / firewalls dropping malformed packets and ingress filtering of spoofed source addresses (the TTL field also prevents endless looping).</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q14</span>Analyze shortest path routing. <span class="meta">L4 · 5 marks</span></p><div class="a">
+      Shortest-path routing models the network as a graph (routers = nodes, links = edges with a cost such as hop count, delay, bandwidth or money) and sends each packet along the <strong>least-cost path</strong> between source and destination.
+      <ul>
+        <li><strong>Link-State:</strong> every router has the full graph and runs <strong>Dijkstra</strong>: grow a set of nodes with final least cost, always adding the closest remaining node and relaxing its neighbours (D(v) = min(D(v), D(w)+c(w,v))). Complexity O(n<sup>2</sup>), or O(E log n) with a heap.</li>
+        <li><strong>Distance-Vector:</strong> routers use <strong>Bellman-Ford</strong>, d<sub>x</sub>(y) = min{c(x,v) + d<sub>v</sub>(y)}, without ever seeing the whole graph.</li>
+        <li><strong>Analysis:</strong> gives optimal paths for the chosen metric and a loop-free tree; cost and metric choice decide behaviour. Weaknesses: needs accurate, up-to-date costs; load-based metrics can cause route oscillation; with distance-vector, count-to-infinity.</li>
+      </ul>
+      Example (Numericals page): from A, least costs B=2, C=3, D=1, E=2, F=4, with C reached via A-D-E-C rather than the direct cost-5 link.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q15</span>Evaluate routing algorithm performance. <span class="meta">L5 · 5 marks</span></p><div class="a">
+      A routing algorithm is judged on these criteria:
+      <ul>
+        <li><strong>Correctness and optimality:</strong> does it find the least-cost loop-free path? (Link-state: yes; distance-vector: yes once converged, but can loop while converging.)</li>
+        <li><strong>Convergence speed:</strong> how fast all routers agree after a change. Link-state is fast; distance-vector is slow (count-to-infinity).</li>
+        <li><strong>Stability and robustness:</strong> behaviour under failures, load changes, wrong or malicious information.</li>
+        <li><strong>Overhead:</strong> control traffic, CPU and memory. Distance-vector is light but chatty (periodic updates); link-state needs a database and SPF computation but sends updates only on change.</li>
+        <li><strong>Scalability:</strong> hierarchy (areas, autonomous systems) is needed for large networks; RIP is limited to 15 hops.</li>
+        <li><strong>Simplicity and adaptivity:</strong> static routing is simple but cannot adapt; dynamic routing adapts at the price of complexity.</li>
+      </ul>
+      <strong>Verdict:</strong> link-state (OSPF) for large, fast-converging networks; distance-vector (RIP) for small, simple ones; path-vector (BGP) where policy between organisations matters.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q16</span>Illustrate subnetting with example. <span class="meta">L3 · 8 marks</span></p><div class="a">
+      <strong>Subnetting</strong> divides one network into smaller subnetworks by borrowing bits from the host part and using them as a subnet number. It reduces broadcast traffic, improves security and management, and uses addresses efficiently. The subnet mask (1s = network + subnet bits, 0s = host bits) marks the split; network address = IP AND mask.
+      <br><strong>Example:</strong> divide <code>192.168.1.0/24</code> into 4 equal subnets.
+      <ol>
+        <li>Need 4 subnets: 2<sup>b</sup> &ge; 4, so borrow b = 2 bits.</li>
+        <li>New prefix /24 + 2 = <strong>/26</strong>, mask 255.255.255.192.</li>
+        <li>Block size = 256 &minus; 192 = 64; usable hosts per subnet = 2<sup>6</sup> &minus; 2 = 62.</li>
+      </ol>
+      <table>
+        <thead><tr><th>Subnet</th><th>Network address</th><th>Usable hosts</th><th>Broadcast</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>192.168.1.0/26</td><td>.1 - .62</td><td>192.168.1.63</td></tr>
+          <tr><td>2</td><td>192.168.1.64/26</td><td>.65 - .126</td><td>192.168.1.127</td></tr>
+          <tr><td>3</td><td>192.168.1.128/26</td><td>.129 - .190</td><td>192.168.1.191</td></tr>
+          <tr><td>4</td><td>192.168.1.192/26</td><td>.193 - .254</td><td>192.168.1.255</td></tr>
+        </tbody>
+      </table>
+      Check a host: 192.168.1.77 AND 255.255.255.192 gives last octet 77 AND 192 = 64, so it is in subnet 2 (192.168.1.64/26). The deck's own examples: 172.16.5.120 with /16 gives network 172.16.0.0 and host ID 5.120; 10.20.30.45 with /8 gives network 10.0.0.0 and host ID 20.30.45. (VLSM variant on the Numericals page.)
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q17</span>Analyze packet forwarding process. <span class="meta">L4 · 8 marks</span></p><div class="a">
+      <strong>Forwarding</strong> is the per-packet action of moving a packet from a router's input link to the correct output link. (Routing is the separate process that computes the tables.) In a datagram (IP) network:
+      <ol>
+        <li><strong>Sender host:</strong> creates the IP datagram with source and destination IP. If the destination is on the same subnet (checked with the mask) it is delivered directly (MAC found via ARP); otherwise it is sent to the <strong>default gateway</strong> router.</li>
+        <li><strong>Router receives the frame</strong>, verifies the header checksum, and strips the link-layer header.</li>
+        <li><strong>Decrements TTL</strong>; if it reaches 0 the packet is dropped and an ICMP Time Exceeded is sent to the source. The header checksum is recomputed.</li>
+        <li><strong>Table lookup:</strong> the destination address is matched against the forwarding table; when several prefixes match, the <strong>longest-prefix match</strong> wins (default route 0.0.0.0/0 if nothing else matches). The entry gives the next hop and output interface.</li>
+        <li><strong>Fragmentation:</strong> if the datagram is larger than the outgoing link's MTU it is fragmented (unless DF is set, then dropped and ICMP "fragmentation needed" returned).</li>
+        <li><strong>Output:</strong> the packet is queued on the output link (first-come first-served) and encapsulated in a new frame addressed to the next hop's MAC. Packets for unreachable destinations are dropped with ICMP Destination Unreachable.</li>
+        <li>Repeats hop by hop until the destination router delivers it on the local network; the destination host reassembles fragments and passes the payload up (protocol field).</li>
+      </ol>
+      Each datagram is forwarded independently, so successive packets may take different routes if the tables change; a virtual-circuit network would instead use the VC table set up during connection set-up.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q18</span>A cloud service provider wants to optimize routing between geographically distributed data centers. Compare Link-State and Distance Vector routing algorithms for this scenario. <span class="meta">L5 · 6 marks</span></p><div class="a">
+      <table>
+        <thead><tr><th>Requirement</th><th>Link-State (e.g. OSPF / IS-IS)</th><th>Distance-Vector (e.g. RIP)</th></tr></thead>
+        <tbody>
+          <tr><td>Fast failover between sites</td><td>Fast convergence; every router recomputes from the full map</td><td>Slow; count-to-infinity risk, hold-down delays</td></tr>
+          <tr><td>Scale (many routers, links)</td><td>Good, especially with areas</td><td>Poor; RIP limited to 15 hops</td></tr>
+          <tr><td>Bandwidth overhead on WAN links</td><td>Updates only on change</td><td>Periodic full-table updates (every 30 s)</td></tr>
+          <tr><td>Path quality</td><td>True least-cost paths with detailed metrics (bandwidth, delay), multi-path possible</td><td>Hop count only (in RIP), ignores link capacity</td></tr>
+          <tr><td>Resources and complexity</td><td>More CPU, memory, configuration</td><td>Simple and light</td></tr>
+          <tr><td>Security</td><td>Authentication available; spoofed LSAs a risk</td><td>Weak; RIPv2 adds authentication</td></tr>
+        </tbody>
+      </table>
+      <strong>Recommendation:</strong> use <strong>link-state</strong> (OSPF with areas, or IS-IS) inside the provider's network for fast convergence and efficient use of expensive inter-DC links, with BGP at the boundary to other networks and for policy. Distance-vector is acceptable only for small, simple sites.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q19</span>Design a routing table for a small network. <span class="meta">L6 · 10 marks</span></p><div class="a">
+      <strong>Design.</strong> Three routers in a line, each with one LAN, joined by two /30 point-to-point links:
+      <ul>
+        <li>R1: LAN-1 <code>192.168.1.0/24</code> on eth0 (192.168.1.1); link to R2 <code>10.0.12.0/30</code> (R1 = .1, R2 = .2).</li>
+        <li>R2: LAN-2 <code>192.168.2.0/24</code> on eth0 (192.168.2.1); link to R1 on eth1 (10.0.12.2); link to R3 <code>10.0.23.0/30</code> on eth2 (R2 = .1, R3 = .2).</li>
+        <li>R3: LAN-3 <code>192.168.3.0/24</code> on eth0 (192.168.3.1); link to R2 on eth1 (10.0.23.2).</li>
+      </ul>
+      <strong>Routing table of R2</strong> (metric = hop count; connected networks are learned automatically, others by RIP/OSPF or by static entries):
+      <table>
+        <thead><tr><th>Destination</th><th>Mask / prefix</th><th>Next hop</th><th>Interface</th><th>Metric</th></tr></thead>
+        <tbody>
+          <tr><td>192.168.2.0</td><td>255.255.255.0 (/24)</td><td>directly connected</td><td>eth0</td><td>0</td></tr>
+          <tr><td>10.0.12.0</td><td>255.255.255.252 (/30)</td><td>directly connected</td><td>eth1</td><td>0</td></tr>
+          <tr><td>10.0.23.0</td><td>255.255.255.252 (/30)</td><td>directly connected</td><td>eth2</td><td>0</td></tr>
+          <tr><td>192.168.1.0</td><td>255.255.255.0 (/24)</td><td>10.0.12.1 (R1)</td><td>eth1</td><td>1</td></tr>
+          <tr><td>192.168.3.0</td><td>255.255.255.0 (/24)</td><td>10.0.23.2 (R3)</td><td>eth2</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <strong>Routing table of R1</strong> (R3 reached through R2):
+      <table>
+        <thead><tr><th>Destination</th><th>Mask / prefix</th><th>Next hop</th><th>Interface</th><th>Metric</th></tr></thead>
+        <tbody>
+          <tr><td>192.168.1.0</td><td>/24</td><td>directly connected</td><td>eth0</td><td>0</td></tr>
+          <tr><td>10.0.12.0</td><td>/30</td><td>directly connected</td><td>eth1</td><td>0</td></tr>
+          <tr><td>192.168.2.0</td><td>/24</td><td>10.0.12.2 (R2)</td><td>eth1</td><td>1</td></tr>
+          <tr><td>10.0.23.0</td><td>/30</td><td>10.0.12.2 (R2)</td><td>eth1</td><td>1</td></tr>
+          <tr><td>192.168.3.0</td><td>/24</td><td>10.0.12.2 (R2)</td><td>eth1</td><td>2</td></tr>
+        </tbody>
+      </table>
+      R3's table is the mirror image (everything on the left reached via 10.0.23.1). If R1 also connects to the Internet, add a <strong>default route</strong> <code>0.0.0.0/0</code> via the ISP gateway. <strong>Lookup rule:</strong> longest-prefix match, e.g. a packet for 192.168.3.25 arriving at R1 matches 192.168.3.0/24, so it is sent to 10.0.12.2. <strong>Design choices:</strong> /30 links waste few addresses; summarise or use RIP/OSPF so the tables update automatically after a failure.
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q20</span>Design a routing strategy for a smart city network that includes IoT devices, emergency services, and public Wi-Fi systems while ensuring scalability and reliability. <span class="meta">L6 · 6 marks</span></p><div class="a">
+      <ul>
+        <li><strong>Hierarchical, segmented addressing:</strong> use IPv6 (with IPv4 dual stack where needed) because of the vast number of IoT devices. Give each service its own prefix / VLAN / subnet: IoT sensors, emergency services, public Wi-Fi, city administration. Summarise prefixes at each level to keep routing tables small.</li>
+        <li><strong>Routing protocol layout:</strong> a <strong>link-state IGP (OSPF with areas)</strong> in the city core and each district for fast convergence and scalability, one area per district / service; <strong>BGP</strong> towards ISPs and cloud / other agencies for policy-based, multi-homed Internet access.</li>
+        <li><strong>Reliability:</strong> redundant links and routers (ring or mesh core, dual uplinks), fast failover (OSPF recalculates paths), second ISP for BGP multi-homing, redundant gateways.</li>
+        <li><strong>Priority for emergency services:</strong> dedicated routes / separate VRF or VLAN, QoS (traffic class / flow label in IPv6) to give emergency traffic the highest priority, so congestion from public Wi-Fi or IoT never delays it.</li>
+        <li><strong>Isolation and security:</strong> keep public Wi-Fi and IoT apart from emergency and administration networks with firewalls and ACLs; authenticate routing protocol messages; filter routes; rate-limit ICMP.</li>
+        <li><strong>IoT specifics:</strong> low-power devices use gateways / aggregation, IPv6 auto-configuration and multicast to scale; use default routes towards the gateway to keep their tables tiny.</li>
+        <li><strong>Operations:</strong> monitoring with ping / traceroute (ICMP) and plan capacity for growth.</li>
+      </ul>
+    </div></div>
+  </section>
+</main>
+
+<footer>Unit 4 Question Bank · Computer Networks · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

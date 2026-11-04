@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topics the past papers ask that the decks skip — Computer Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  h3{font-size:16.5px;margin:22px 0 6px;color:var(--navy-2);}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;font-family:Consolas,monospace;}
+  a.lnk{color:var(--coral);font-weight:600;}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#8a5a00;background:#fff4dc;border:1px solid #f5d9a0;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle;font-family:Calibri,Arial,sans-serif;}
+  ul,ol{color:#4a3d5c;max-width:820px;}
+  li{margin-bottom:4px;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .q .marks{font-weight:600;font-size:11.5px;color:var(--muted);background:#f3ecfb;border-radius:999px;padding:1px 9px;margin-left:auto;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:760px;}
+  .qa .a p{font-size:14px;margin:0 0 8px;}
+  .qa .a ul,.qa .a ol{margin:4px 0 10px;padding-left:20px;}
+  .qa .a li{margin-bottom:4px;}
+  .qa .a .sub{font-weight:700;color:var(--navy-2);margin:10px 0 3px;}
+
+  .given{font-family:Consolas,monospace;font-size:13.5px;background:#f3ecfb;border-radius:10px;padding:12px 16px;margin:14px 0 18px;color:var(--navy-2);overflow-x:auto;}
+  .answer{background:#eafaf0;border-left:4px solid #2fa860;border-radius:10px;padding:14px 20px;margin:18px 0;font-weight:700;color:#1c7a45;font-family:Consolas,monospace;font-size:14px;}
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .exam{background:#fff4dc;border-left:4px solid var(--amber);border-radius:10px;padding:12px 18px;margin:16px 0;}
+  .exam p{margin:0;color:#6b4700;font-size:13.8px;}
+  .problem{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin:22px 0;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .problem h4{margin:0 0 2px;font-size:17px;color:var(--navy-2);}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;font-size:13.3px;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+  pre.code{background:#1a0f2e;color:#eadcff;border-radius:10px;padding:14px 16px;font-family:Consolas,monospace;font-size:13px;overflow-x:auto;margin:12px 0;line-height:1.35;}
+
+  /* OSI stack diagram */
+  .osi{max-width:640px;margin:16px 0;display:grid;gap:4px;}
+  .osi .row{display:grid;grid-template-columns:34px 130px 1fr;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#fff;}
+  .osi .n{background:var(--coral);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .osi .nm{background:var(--navy-2);color:#fff;font-weight:600;font-size:13.5px;padding:8px 10px;}
+  .osi .ex{padding:8px 12px;font-size:13px;color:#4a3d5c;}
+  .osi .row.hl .nm{background:var(--violet);}
+
+  /* IPv4 header field grid: 32 columns = 32 bits */
+  .iph{display:grid;grid-template-columns:repeat(32,1fr);border:2px solid var(--navy-2);border-radius:8px;overflow:hidden;margin:16px 0;background:#fff;font-size:12.5px;text-align:center;min-width:560px;}
+  .iph div{padding:10px 4px;border:1px solid var(--line);color:var(--navy-2);font-weight:600;background:#fff;}
+  .iph div small{display:block;font-weight:400;color:#5a4a6c;font-size:11.5px;}
+  .iph .opt{background:#f3ecfb;}
+  .iph .dat{background:#fff0ef;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .problem{padding:16px;} .osi .row{grid-template-columns:30px 100px 1fr;} }
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · PAST-PAPER TOPICS</span>
+  <h1>🎯 Topics the past papers ask that the decks skip</h1>
+  <p>Topologies, transmission media, the OSI model, switching, framing and stuffing, piggybacking, the full IPv4 header,
+     ARP, SNMP, TELNET, email retrieval and more. Every section says which paper asked it, and points to the unit page
+     when the deck already covers it.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#topologies">Topologies</a>
+    <a href="#media">Media</a>
+    <a href="#osi">OSI model</a>
+    <a href="#switching">Switching</a>
+    <a href="#framing">Framing &amp; stuffing</a>
+    <a href="#flow-control">Flow control</a>
+    <a href="#ip-header">IPv4 header</a>
+    <a href="#ip-classes">IP classes</a>
+    <a href="#arp">ARP</a>
+    <a href="#routing-types">Unicast / multicast</a>
+    <a href="#snmp">SNMP</a>
+    <a href="#telnet">TELNET</a>
+    <a href="#email-retrieval">Email retrieval</a>
+    <a href="#www-http">WWW / HTTP</a>
+    <a href="#ipv4-vs-ipv6">IPv4 vs IPv6</a>
+    <a href="#qa" style="color:var(--coral);">Q&amp;A →</a>
+    <a href="PYQs/index.html" style="color:var(--coral);">CN PYQs →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===================== TOPOLOGIES ===================== -->
+  <section id="topologies">
+    <p class="eyebrow">Paper 1 Q1a · Paper 3 Q1a · Paper 4 Q2</p>
+    <h2>Network topologies <span class="tag">Beyond the deck</span></h2>
+    <p class="range">Topology = the way devices (nodes) and links are arranged. <strong>Physical</strong> topology is the actual cabling layout; <strong>logical</strong> topology is how data flows.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Topology</th><th>Layout</th><th>Pros</th><th>Cons</th><th>Use when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bus</strong></td><td>All nodes tap one shared backbone cable</td><td>Cheapest, least cable, easy to extend</td><td>Backbone failure kills the whole network; collisions rise with load; hard to troubleshoot; limited length</td><td>Tiny temporary LAN (legacy Ethernet)</td></tr>
+        <tr><td><strong>Star</strong></td><td>Every node linked to a central hub or switch</td><td>Easy to add or remove nodes; one cable failure affects only that node; easy fault finding</td><td>Central device is a single point of failure; more cable than bus</td><td>Offices, homes, most modern LANs</td></tr>
+        <tr><td><strong>Ring</strong></td><td>Each node linked to exactly two neighbours, forming a loop</td><td>Orderly access (e.g. token passing); predictable performance under load</td><td>One break or one dead node can stop the ring (unless dual ring); adding a node disturbs the ring</td><td>Token-ring style LANs, some metro fibre rings</td></tr>
+        <tr><td><strong>Mesh</strong></td><td>Every node linked to every other (full) or to several (partial)</td><td>Very reliable (many alternate paths); no traffic bottleneck; private dedicated links</td><td>Most expensive; a full mesh of <em>n</em> nodes needs n(n-1)/2 links and n-1 ports per node; complex to install</td><td>Backbones and critical links where uptime matters</td></tr>
+        <tr><td><strong>Tree / hybrid</strong></td><td>Stars hung off a bus or off a root (hierarchy); hybrid combines any of the above</td><td>Scalable; easy to segment; fault is isolated to a branch</td><td>Root or backbone failure splits the network; cabling and setup are complex</td><td>Campuses, large organisations with floors or departments</td></tr>
+      </tbody>
+    </table></div>
+
+    <pre class="code">BUS                         STAR                  RING               MESH (4 nodes)
+ A   B   C   D                 B                 A --- B             A ---- B
+ |   |   |   |              A  |  C              |     |             | \  / |
+=============== backbone       \ | /               D --- C             |  \/  |
+                               [HUB]                                    |  /\  |
+                                                                        D ---- C</pre>
+
+    <p><strong>Worked check:</strong> full mesh of 5 devices needs 5 x 4 / 2 = 10 links, and each device needs 4 ports.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Discuss advantages and disadvantages of three topologies" (Paper 1), "List pros and cons of topologies" (Paper 3), "What is network topology? Explain the different topologies" (Paper 4). Pick three or more, draw each, and give 2 pros and 2 cons.</p></div>
+  </section>
+
+  <!-- ===================== MEDIA ===================== -->
+  <section id="media">
+    <p class="eyebrow">Paper 2 Q1a</p>
+    <h2>Transmission media <span class="tag">Beyond the deck</span></h2>
+    <p class="range">Transmission medium = the physical path that carries the signal between sender and receiver. Two families: <strong>guided</strong> (wired) and <strong>unguided</strong> (wireless).</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Medium</th><th>Type</th><th>Bandwidth</th><th>Reliability</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Twisted pair</strong> (UTP / STP)</td><td>Guided, copper pairs twisted to cancel interference</td><td>Low to moderate; limited distance (about 100 m per LAN segment)</td><td>Moderate; STP shields better against noise than UTP</td><td>Lowest</td></tr>
+        <tr><td><strong>Coaxial cable</strong></td><td>Guided, central copper core inside a shield</td><td>Higher than twisted pair</td><td>Better noise immunity than UTP; tap points can be faulty</td><td>Moderate</td></tr>
+        <tr><td><strong>Optical fibre</strong></td><td>Guided, light pulses through glass or plastic core</td><td>Highest; very long distances</td><td>Very high: immune to electromagnetic interference, hard to tap</td><td>Highest (cable and terminal equipment), but cheap per bit at scale</td></tr>
+        <tr><td><strong>Wireless</strong> (radio, microwave, satellite, infrared)</td><td>Unguided, through air or space</td><td>Varies with band; shared and limited by spectrum</td><td>Lowest: interference, fading, weather, eavesdropping</td><td>No cable cost; spectrum and equipment cost</td></tr>
+      </tbody>
+    </table></div>
+    <div class="exam"><p><strong>Common exam question:</strong> "What are the various types of transmission media? How do they differ in bandwidth and reliability?" (Paper 2, 3 marks). Answer with the table columns: list four media, then rank bandwidth (fibre highest) and reliability (fibre best, wireless worst).</p></div>
+  </section>
+
+  <!-- ===================== OSI ===================== -->
+  <section id="osi">
+    <p class="eyebrow">Paper 1 Q2 · Paper 2 Q2 · Paper 3 Q1b · Paper 4 Q1a</p>
+    <h2>The OSI reference model <span class="tag">Beyond the deck</span></h2>
+    <p class="range">OSI = Open Systems Interconnection, a 7-layer model by ISO. Each layer uses the services of the layer below and offers services to the layer above. The deck only mentions layers in passing (see <a class="lnk" href="Unit%201/index.html#protocols">Unit 1 protocols across layers</a>, <a class="lnk" href="Unit%203/index.html#overview">Unit 3 transport</a>).</p>
+
+    <div class="osi">
+      <div class="row"><div class="n">7</div><div class="nm">Application</div><div class="ex">User services: HTTP, SMTP, FTP, DNS, TELNET</div></div>
+      <div class="row hl"><div class="n">6</div><div class="nm">Presentation</div><div class="ex">Translation, encryption, compression: TLS/SSL, JPEG, MPEG, ASCII/Unicode</div></div>
+      <div class="row hl"><div class="n">5</div><div class="nm">Session</div><div class="ex">Dialog control, synchronisation: NetBIOS, RPC</div></div>
+      <div class="row"><div class="n">4</div><div class="nm">Transport</div><div class="ex">Process-to-process delivery: TCP, UDP</div></div>
+      <div class="row"><div class="n">3</div><div class="nm">Network</div><div class="ex">Logical addressing, routing: IP, ICMP, OSPF, RIP</div></div>
+      <div class="row"><div class="n">2</div><div class="nm">Data link</div><div class="ex">Framing, MAC addressing, error and flow control: Ethernet, PPP, HDLC</div></div>
+      <div class="row"><div class="n">1</div><div class="nm">Physical</div><div class="ex">Bits on the medium: cables, hubs, Wi-Fi radio, RS-232</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);">Mnemonic top to bottom: <em>All People Seem To Need Data Processing</em>. Data is called message / segment / packet / frame / bits as it goes down from layer 7 to 1.</p>
+
+    <h3>Function of each layer</h3>
+    <ol>
+      <li><strong>Physical:</strong> sends raw bits as electrical, light or radio signals; defines connectors, voltage levels, bit rate and topology.</li>
+      <li><strong>Data link:</strong> turns bits into frames, adds hop-to-hop (MAC) addresses, detects errors, controls flow and access to the shared medium.</li>
+      <li><strong>Network:</strong> adds source and destination IP addresses and routes packets across networks.</li>
+      <li><strong>Transport:</strong> end-to-end delivery between processes using port numbers; segmentation, reliability (TCP), flow and congestion control.</li>
+      <li><strong>Session:</strong> opens, manages and closes the dialog between two applications.</li>
+      <li><strong>Presentation:</strong> makes the data understandable to both ends.</li>
+      <li><strong>Application:</strong> the interface to network services used by the user's programs.</li>
+    </ol>
+
+    <h3>Session and presentation layers in detail</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Session layer (5)</th><th>Presentation layer (6)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Role</strong></td><td>Network dialog controller: establishes, maintains and terminates sessions</td><td>Translator between application data format and network format</td></tr>
+        <tr><td><strong>Functions</strong></td><td>Dialog control (half-duplex or full-duplex turn taking); <strong>synchronisation</strong> by inserting checkpoints so a long transfer can resume from the last checkpoint after a crash; session recovery</td><td><strong>Translation</strong> between character codes (e.g. ASCII and EBCDIC) and data formats; <strong>encryption and decryption</strong>; <strong>compression</strong></td></tr>
+        <tr><td><strong>Example</strong></td><td>Checkpoint every 100 pages in a 2000-page file transfer; if it fails at page 523, resume from page 500</td><td>Sender encrypts and compresses a file; receiver decompresses and decrypts it</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><p>In practice TCP/IP has no separate session and presentation layers; their jobs are done by the application (or by libraries such as TLS).</p></div>
+
+    <h3>OSI vs TCP/IP</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Aspect</th><th>OSI model</th><th>TCP/IP model</th></tr></thead>
+      <tbody>
+        <tr><td>Layers</td><td>7</td><td>4 (or 5 if physical and data link are shown separately)</td></tr>
+        <tr><td>Mapping</td><td>Application + Presentation + Session</td><td>Application</td></tr>
+        <tr><td></td><td>Transport</td><td>Transport</td></tr>
+        <tr><td></td><td>Network</td><td>Internet</td></tr>
+        <tr><td></td><td>Data link + Physical</td><td>Network access (link)</td></tr>
+        <tr><td>Origin</td><td>Reference model made before the protocols; "model first"</td><td>Protocols came first; model describes them</td></tr>
+        <tr><td>Use</td><td>Teaching and reference</td><td>What the Internet really runs on</td></tr>
+        <tr><td>Connection service in network layer</td><td>Both connection-oriented and connectionless</td><td>Connectionless (IP) only at the Internet layer</td></tr>
+      </tbody>
+    </table></div>
+    <div class="exam"><p><strong>Common exam question:</strong> "Draw the OSI reference model and explain any three layers with protocol examples" (Paper 1 and 2 Q2, 6 marks). "Draw the OSI model and explain session and presentation layers" (Paper 3). "Diagrammatic view of exchange using OSI model" (Paper 4): draw two stacks side by side, data going down on the sender (each layer adds a header), across the physical link, and up on the receiver (each layer strips its header).</p></div>
+  </section>
+
+  <!-- ===================== SWITCHING ===================== -->
+  <section id="switching">
+    <p class="eyebrow">Paper 3 Q2 · Paper 5 Q1e</p>
+    <h2>Switched networks: definition and taxonomy <span class="tag">Beyond the deck</span></h2>
+    <p><strong>Switching</strong> is how data is moved from source to destination through intermediate nodes (switches or routers) rather than through a dedicated link between every pair. A <strong>switched network</strong> is a set of interconnected switches. The deck covers datagram and virtual-circuit networks in <a class="lnk" href="Unit%204/index.html#vc-datagram">Unit 4</a>; this is the wider taxonomy.</p>
+
+    <pre class="code">Switched networks
+ |-- Circuit switching            (dedicated path, reserved for the whole call)
+ |-- Message switching            (whole message stored and forwarded; historical)
+ `-- Packet switching             (message cut into packets)
+        |-- Datagram approach     (connectionless; each packet routed on its own)
+        `-- Virtual-circuit approach (connection-oriented; one path set up for all packets)</pre>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Circuit switching</th><th>Message switching</th><th>Packet switching</th></tr></thead>
+      <tbody>
+        <tr><td>Path</td><td>Dedicated end-to-end circuit set up before data</td><td>No setup; hop by hop</td><td>No dedicated path (datagram) or logical path (virtual circuit)</td></tr>
+        <tr><td>Data unit</td><td>Continuous stream</td><td>Entire message</td><td>Small packets</td></tr>
+        <tr><td>Resource use</td><td>Reserved even when idle (wasteful)</td><td>Store-and-forward; needs big buffers</td><td>Shared; good use of capacity</td></tr>
+        <tr><td>Delay</td><td>Setup delay, then none per hop</td><td>High (whole message at each node)</td><td>Low and variable (queuing)</td></tr>
+        <tr><td>Example</td><td>Classic telephone network</td><td>Early telegram / email-like relay</td><td>The Internet</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Datagram vs virtual circuit</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Datagram network</th><th>Virtual-circuit network</th></tr></thead>
+      <tbody>
+        <tr><td>Setup</td><td>None (connectionless)</td><td>Call setup before data, teardown after</td></tr>
+        <tr><td>Addressing</td><td>Full destination address in every packet</td><td>Short virtual-circuit number per hop after setup</td></tr>
+        <tr><td>Routing</td><td>Each packet routed independently; may arrive out of order</td><td>All packets follow the same path, in order</td></tr>
+        <tr><td>Router state</td><td>No per-connection state</td><td>Per-connection state in every switch</td></tr>
+        <tr><td>Failure</td><td>Packets re-route around a failed node</td><td>Circuit broken; must be set up again</td></tr>
+        <tr><td>Example</td><td>IP</td><td>ATM, Frame Relay, MPLS-style label paths</td></tr>
+      </tbody>
+    </table></div>
+    <p>See <a class="lnk" href="Unit%204/index.html#vc-datagram">Unit 4: virtual-circuit and datagram networks</a> for the full treatment and the three-service comparison asked in Paper 5.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Illustrate the definition and taxonomy of switched networks in detail. Explain any two" (Paper 3 Q2, 6 marks). Draw the tree above, then explain circuit switching and packet switching (or datagram and virtual circuit).</p></div>
+  </section>
+
+  <!-- ===================== FRAMING ===================== -->
+  <section id="framing">
+    <p class="eyebrow">Paper 1 Q3 · Paper 2 Q3 · Paper 3 Q3 · Paper 4 Q1b</p>
+    <h2>Data link layer: framing, byte stuffing, bit stuffing <span class="tag">Beyond the deck</span></h2>
+    <p><strong>Framing</strong> splits the stream of bits from the physical layer into frames so the receiver can tell where one frame ends and the next begins. A frame has header (addresses, control), payload and trailer (error-detection code). Methods: fixed-size frames, character (byte) count, <strong>flag with byte stuffing</strong>, <strong>flag with bit stuffing</strong>. Error control is in <a class="lnk" href="Unit%205/index.html#error-detection">Unit 5 error detection</a> and <a class="lnk" href="Unit%205/index.html#crc">CRC</a>; flow control is in the next section.</p>
+
+    <h3>Why stuffing is needed</h3>
+    <p>A flag pattern marks the frame boundary. If the payload happens to contain the same pattern, the receiver would wrongly end the frame early. Stuffing adds extra bits or bytes so the flag can never appear inside the data; the receiver removes them (destuffing).</p>
+
+    <div class="problem">
+      <h4>Byte stuffing (character stuffing) example</h4>
+      <p>Flag byte = <code>F</code>, escape byte = <code>ESC</code>. The sender inserts an <code>ESC</code> before any <code>F</code> or <code>ESC</code> found in the data.</p>
+      <div class="given">Data:     A  F  B  ESC  C<br>Stuffed:  A  ESC F  B  ESC ESC  C<br>On the wire: F | A ESC F B ESC ESC C | F</div>
+      <p>Receiver: sees <code>ESC</code>, discards it and takes the next byte literally. Result: A F B ESC C, the original data.</p>
+    </div>
+
+    <div class="problem">
+      <h4>Bit stuffing example</h4>
+      <p>Flag = <code>01111110</code>. Rule: after <strong>five consecutive 1s</strong> in the data, the sender always inserts a <code>0</code>. Receiver: after five consecutive 1s, remove the following 0.</p>
+      <div class="given">Data:    0 11111 1 0 11111 11 0   = 0111111011111110<br>Stuffed: 0 11111 <b>0</b> 1 0 11111 <b>0</b> 11 0 = 011111010111110110<br>On the wire: 01111110 | 011111010111110110 | 01111110</div>
+      <p><strong>Check:</strong> the data has a run of six 1s (so a 0 is stuffed after the first five) and a run of seven 1s (a 0 is stuffed after the first five). 16 data bits become 18 stuffed bits, and the stuffed stream never contains six 1s in a row, so it cannot imitate the flag. Destuffing removes each 0 that follows five 1s and returns the original 16 bits.</p>
+    </div>
+
+    <h3>Bit stuffing vs byte stuffing: why bit stuffing is better</h3>
+    <ul>
+      <li>It works on <strong>bits</strong>, so the frame can be any length; byte stuffing forces the frame to be a whole number of bytes.</li>
+      <li>It is <strong>independent of the character code</strong> (ASCII, Unicode or any binary data); byte stuffing is tied to 8-bit characters and a chosen flag and escape byte.</li>
+      <li><strong>Lower overhead:</strong> each stuffing costs 1 bit instead of a whole extra byte (8 bits).</li>
+      <li>Simple to do in hardware; used by HDLC and PPP-style links.</li>
+    </ul>
+    <div class="exam"><p><strong>Common exam question:</strong> "Explain the requirement of stuffing at the data link layer. List advantages of bit stuffing over byte stuffing" (Paper 3 Q3, 6 marks). "What is bit stuffing? Give an example" (Paper 4 Q1b, 3 marks). "Framing, error control and flow control in detail" (Papers 1 and 2 Q3).</p></div>
+  </section>
+
+  <!-- ===================== FLOW CONTROL ===================== -->
+  <section id="flow-control">
+    <p class="eyebrow">Paper 1 Q1b · Paper 2 Q1b · Paper 3 Q1c · Paper 5 Q4b</p>
+    <h2>Flow control and piggybacking <span class="tag">Beyond the deck</span></h2>
+    <p><strong>Flow control</strong> stops a fast sender from overwhelming a slow receiver. At the data link layer the two classic schemes are below. The deck covers the same ARQ protocols at the transport layer: <a class="lnk" href="Unit%203/index.html#arq">Unit 3 Stop-and-Wait, Go-Back-N, Selective Repeat</a>, plus <a class="lnk" href="extra-topics.html#app-scenarios">extra-topics scenario S8</a>.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Stop-and-wait</th><th>Sliding window</th></tr></thead>
+      <tbody>
+        <tr><td>Idea</td><td>Send one frame, wait for its ACK, then send the next</td><td>Send up to W frames before an ACK; window slides as ACKs arrive</td></tr>
+        <tr><td>Utilisation</td><td>Low on long or fast links (link idle while waiting)</td><td>High; pipelining keeps the link busy</td></tr>
+        <tr><td>Complexity</td><td>Very simple; 1-bit sequence number</td><td>Needs sequence numbers and buffers</td></tr>
+        <tr><td>Best suited</td><td>Short links, low data rate, simple devices</td><td>Long-delay or high-bandwidth links</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Where each sliding-window protocol is best suited (Paper 1 Q1b)</h3>
+    <ul>
+      <li><strong>Go-Back-N:</strong> low error rate and a simple receiver with little buffer memory (receiver window = 1). A loss costs a whole window of retransmissions.</li>
+      <li><strong>Selective Repeat:</strong> noisy or lossy, long-delay links (e.g. satellite) where resending only the lost frame saves bandwidth, and the receiver has the buffer space to hold out-of-order frames.</li>
+    </ul>
+
+    <h3>Piggybacking</h3>
+    <p>In two-way (full-duplex) communication, instead of sending a separate ACK frame, the receiver delays the ACK and attaches it to the header of its own next data frame going the other way (the ACK field rides along with the data).</p>
+    <pre class="code">Without piggybacking:   A --data--> B,   B --ACK--> A,   B --data--> A,   A --ACK--> B   (4 frames)
+With piggybacking:      A --data--> B,   B --data+ACK--> A,   A --data+ACK--> B            (3 frames)</pre>
+    <p><strong>Justification (Paper 3 Q1c):</strong> the ACK costs only a few header bits when carried inside a data frame, whereas a separate ACK frame uses its own header, trailer and channel access. So fewer frames are sent, header overhead falls, and bandwidth and processing are better used. Trade-off: the receiver must wait for outgoing data, and if none is ready within a timeout it sends a stand-alone ACK so the sender does not time out.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Piggybacking is the better utilization of bandwidth. Justify" (Paper 3 Q1c, 3 marks). "How does ARQ work?" (Paper 2 Q1b). "Suitability of stop and wait ARQ in modern high-speed networks" (Paper 5 Q4b): simple, but the sender idles for a full round trip per frame, so utilisation is very low.</p></div>
+  </section>
+
+  <!-- ===================== IP HEADER ===================== -->
+  <section id="ip-header">
+    <p class="eyebrow">Paper 3 Q5 · Paper 4 Q5</p>
+    <h2>IPv4 header: every field explained</h2>
+    <p class="range">Field list and sizes are already in <a class="lnk" href="Unit%204/index.html#ipv4">Unit 4 IPv4 datagram header</a>; fragmentation numericals in <a class="lnk" href="Unit%204/numericals.html">Unit 4 numericals</a>. Below is the missing <strong>diagram</strong> and the reasoning for each field. <span class="tag">Beyond the deck</span></p>
+
+    <div class="table-wrap">
+    <div class="iph" role="img" aria-label="IPv4 header field layout, 32 bits wide">
+      <div style="grid-column:span 4">Version<small>4</small></div>
+      <div style="grid-column:span 4">IHL<small>4</small></div>
+      <div style="grid-column:span 8">ToS / DSCP<small>8</small></div>
+      <div style="grid-column:span 16">Total length<small>16</small></div>
+
+      <div style="grid-column:span 16">Identification<small>16</small></div>
+      <div style="grid-column:span 3">Flags<small>3: 0 DF MF</small></div>
+      <div style="grid-column:span 13">Fragment offset<small>13</small></div>
+
+      <div style="grid-column:span 8">TTL<small>8</small></div>
+      <div style="grid-column:span 8">Protocol<small>8</small></div>
+      <div style="grid-column:span 16">Header checksum<small>16</small></div>
+
+      <div style="grid-column:span 32">Source IP address<small>32</small></div>
+      <div style="grid-column:span 32">Destination IP address<small>32</small></div>
+      <div class="opt" style="grid-column:span 32">Options + padding<small>0 to 40 bytes (optional)</small></div>
+      <div class="dat" style="grid-column:span 32">Data (payload: TCP / UDP / ICMP segment)</div>
+    </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);">Each row is 32 bits (4 bytes). The header is 20 bytes without options (5 rows) and at most 60 bytes.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Field</th><th>Bits</th><th>Explanation</th></tr></thead>
+      <tbody>
+        <tr><td>Version</td><td>4</td><td>IP version: 0100 for IPv4. The router uses it to know how to read the rest.</td></tr>
+        <tr><td>IHL (header length)</td><td>4</td><td>Header length in 32-bit words; minimum 5 (20 bytes), maximum 15 (60 bytes). Tells where options end and data begin.</td></tr>
+        <tr><td>ToS / DSCP</td><td>8</td><td>Originally Type of Service (delay, throughput, reliability). Modern use: 6-bit DSCP for priority class (QoS) + 2-bit ECN for congestion notification.</td></tr>
+        <tr><td>Total length</td><td>16</td><td>Header + data in bytes; maximum 65,535.</td></tr>
+        <tr><td>Identification</td><td>16</td><td>Same value in all fragments of one original datagram, so the receiver can group them for reassembly.</td></tr>
+        <tr><td>Flags</td><td>3</td><td>Bit 0 reserved (0). <strong>DF</strong> = Don't Fragment (if packet is too big, router drops it and sends ICMP). <strong>MF</strong> = More Fragments (1 on all fragments except the last).</td></tr>
+        <tr><td>Fragment offset</td><td>13</td><td>Position of this fragment's data in the original datagram, in units of 8 bytes.</td></tr>
+        <tr><td>TTL</td><td>8</td><td>Hop limit; each router decrements it by 1, and at 0 the packet is discarded (ICMP Time Exceeded sent). Stops packets looping forever.</td></tr>
+        <tr><td>Protocol</td><td>8</td><td>Which upper-layer protocol gets the payload: 6 = TCP, 17 = UDP, 1 = ICMP.</td></tr>
+        <tr><td>Header checksum</td><td>16</td><td>Error check of the header only (not the data). Recomputed at every router because TTL changes.</td></tr>
+        <tr><td>Source address</td><td>32</td><td>IP address of the sender.</td></tr>
+        <tr><td>Destination address</td><td>32</td><td>IP address of the receiver; routers forward using this.</td></tr>
+        <tr><td>Options</td><td>0 to 320</td><td>Rarely used extras: record route, source route, timestamp. Padded to a multiple of 32 bits.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Fragmentation fields, worked example (Paper 4 Q5)</h3>
+    <div class="given">Datagram: 4000 bytes total = 20-byte header + 3980 bytes data. Link MTU = 1500 bytes. Identification = 777 (any value).</div>
+    <p>Each fragment can carry at most 1500 - 20 = 1480 bytes of data; 1480 is a multiple of 8, so it is allowed (an offset must count whole 8-byte units).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Fragment</th><th>Data bytes</th><th>Total length</th><th>Offset field</th><th>MF</th><th>ID</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1480</td><td>1500</td><td>0</td><td>1</td><td>777</td></tr>
+        <tr><td>2</td><td>1480</td><td>1500</td><td>1480 / 8 = 185</td><td>1</td><td>777</td></tr>
+        <tr><td>3</td><td>1020 (3980 - 2960)</td><td>1040</td><td>2960 / 8 = 370</td><td>0</td><td>777</td></tr>
+      </tbody>
+    </table></div>
+    <p>Reassembly happens only at the destination host: it collects all pieces with ID 777, orders them by offset, and knows it has everything when it has the fragment with MF = 0 and no gaps.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Investigate the IPv4 header and explain all the fields with a neat diagram" (Paper 3 Q5, 7 marks). "Discuss the fields related to fragmentation and reassembly and illustrate with an example" (Paper 4 Q5, 7 marks): Identification, flags (DF, MF), fragment offset, total length.</p></div>
+  </section>
+
+  <!-- ===================== IP CLASSES ===================== -->
+  <section id="ip-classes">
+    <p class="eyebrow">Paper 3 Q1d · Paper 4 Q1d</p>
+    <h2>IP address classes A to E and "find the class" practice</h2>
+    <p class="range">The class table and deck example are in <a class="lnk" href="Unit%204/index.html#ipv4">Unit 4 classful addressing</a>. This section adds the host counts and the practice drills the papers ask. <span class="tag">Beyond the deck</span></p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Class</th><th>First byte</th><th>Leading bits</th><th>Default mask</th><th>Net / host bits</th><th>Hosts per network</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>0 - 127 (1 - 126 usable; 127 is loopback)</td><td>0</td><td>255.0.0.0</td><td>8 / 24</td><td>2<sup>24</sup> - 2 = 16,777,214</td><td>Very large networks</td></tr>
+        <tr><td>B</td><td>128 - 191</td><td>10</td><td>255.255.0.0</td><td>16 / 16</td><td>2<sup>16</sup> - 2 = 65,534</td><td>Medium networks</td></tr>
+        <tr><td>C</td><td>192 - 223</td><td>110</td><td>255.255.255.0</td><td>24 / 8</td><td>2<sup>8</sup> - 2 = 254</td><td>Small networks</td></tr>
+        <tr><td>D</td><td>224 - 239</td><td>1110</td><td>none</td><td>none</td><td>n/a</td><td>Multicast groups</td></tr>
+        <tr><td>E</td><td>240 - 255</td><td>1111</td><td>none</td><td>none</td><td>n/a</td><td>Reserved / experimental</td></tr>
+      </tbody>
+    </table></div>
+    <p>Rule: read only the <strong>first byte</strong> of the dotted-decimal address and see which range it falls in. The "-2" removes the network address (host bits all 0) and the broadcast address (host bits all 1).</p>
+
+    <div class="problem">
+      <h4>Paper 4 Q1d: find the class</h4>
+      <div class="given">i. 227.12.15.89 &nbsp;&nbsp; ii. 193.15.56.21</div>
+      <div class="answer">i. first byte 227 is in 224 - 239: Class D (multicast)<br>ii. first byte 193 is in 192 - 223: Class C</div>
+      <p>More practice: 10.4.9.1 (A), 130.5.6.7 (B), 172.20.4.4 (B), 200.1.1.1 (C), 240.0.0.5 (E), 14.23.120.8 (A), 191.255.0.1 (B, since 191 is the top of Class B).</p>
+    </div>
+    <div class="exam"><p><strong>Common exam question:</strong> "Discuss the classes of IP addresses" (Paper 3 Q1d, 2 marks): table of five classes with range and use. "Find the class of each IP address" (Paper 4 Q1d, 2 marks). For subnet numericals such as 193.27.100.110/26 see <a class="lnk" href="Unit%204/index.html#subnetting">Unit 4 subnetting</a>.</p></div>
+  </section>
+
+  <!-- ===================== ARP ===================== -->
+  <section id="arp">
+    <p class="eyebrow">Paper 4 Q4</p>
+    <h2>ARP: Address Resolution Protocol <span class="tag">Beyond the deck</span></h2>
+    <p><strong>ARP</strong> finds the MAC (physical) address of a device on the <em>same local network</em> when only its IP address is known. A frame on the LAN needs a destination MAC, but applications and routing use IPs (see <a class="lnk" href="extra-topics.html#addresses">MAC vs IP vs port</a>).</p>
+
+    <h3>Why the request is a broadcast and the reply a unicast</h3>
+    <ul>
+      <li><strong>Request = broadcast</strong> (destination MAC <code>FF:FF:FF:FF:FF:FF</code>): the sender does not know which device owns the target IP or its MAC (that is exactly what it is asking), so it cannot address anyone directly. Broadcasting reaches every host on the LAN; only the owner of the IP answers, the rest ignore it.</li>
+      <li><strong>Reply = unicast</strong> straight to the requester: the request already carries the requester's IP and MAC, so the target knows exactly who asked. Sending the answer to everyone would waste bandwidth and interrupt every host for no reason.</li>
+    </ul>
+
+    <div class="problem">
+      <h4>Worked example</h4>
+      <div class="given">Host A: IP 192.168.1.10, MAC AA:AA:AA:AA:AA:01<br>Host B: IP 192.168.1.20, MAC BB:BB:BB:BB:BB:02 (A does not know it)</div>
+      <ol>
+        <li>A wants to send to 192.168.1.20 and finds no entry in its ARP cache.</li>
+        <li>A broadcasts an <strong>ARP request</strong> (dest MAC FF:FF:FF:FF:FF:FF): "Who has 192.168.1.20? Tell 192.168.1.10 (AA:AA:AA:AA:AA:01)".</li>
+        <li>Every host receives it. Only B matches the IP; others drop it. B also stores A's IP-to-MAC pair in its own cache.</li>
+        <li>B sends a <strong>unicast ARP reply</strong> to AA:AA:AA:AA:AA:01: "192.168.1.20 is at BB:BB:BB:BB:BB:02".</li>
+        <li>A saves the pair in its <strong>ARP cache</strong> and sends the data frame to BB:BB:BB:BB:BB:02.</li>
+      </ol>
+    </div>
+    <p><strong>ARP cache:</strong> a table of recent IP-to-MAC mappings kept by each host, so ARP is not repeated for every packet; entries expire after a short time because addresses can change. If the destination is on another network, the host ARPs for its <strong>default gateway's</strong> MAC instead and the router repeats ARP on the next network.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Explain why an ARP request is sent as a broadcast and the reply as a unicast, using an example" (Paper 4 Q4, 6 marks).</p></div>
+  </section>
+
+  <!-- ===================== ROUTING TYPES ===================== -->
+  <section id="routing-types">
+    <p class="eyebrow">Paper 1 Q1c · Paper 2 Q1d</p>
+    <h2>Unicast, multicast and broadcast routing <span class="tag">Beyond the deck</span></h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Unicast</th><th>Multicast</th><th>Broadcast</th></tr></thead>
+      <tbody>
+        <tr><td>Communication</td><td>One sender to one receiver</td><td>One sender to a selected group</td><td>One sender to all hosts in the network</td></tr>
+        <tr><td>Destination address</td><td>Single host address</td><td>Group address (IPv4 Class D, 224.0.0.0 - 239.255.255.255)</td><td>All-ones host part (e.g. 255.255.255.255 limited broadcast)</td></tr>
+        <tr><td>Routing</td><td>Router looks up one next hop in the forwarding table</td><td>Multicast routing builds a distribution tree; packet is copied only where branches split. Hosts join via IGMP</td><td>Flooded to every host; routers normally do not forward it between networks</td></tr>
+        <tr><td>Efficiency</td><td>One copy per receiver if repeated</td><td>One copy per link in the tree; saves bandwidth</td><td>Wastes bandwidth and interrupts uninterested hosts</td></tr>
+        <tr><td>Example</td><td>Web page, email</td><td>IPTV, online lecture, stock ticker, RIPv2/OSPF updates</td><td>ARP request, DHCP discover</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>How a router makes a forwarding decision (Paper 2 Q1d):</strong> it reads the destination address from the packet, finds the best match in its forwarding table (the entry with the <em>longest prefix</em> matching), sends the packet out of the interface or to the next hop listed, and decrements TTL. The table is built by routing protocols (RIP, OSPF, BGP). See <a class="lnk" href="Unit%204/index.html#router">Unit 4: the router</a> and <a class="lnk" href="Unit%204/index.html#routing-intro">routing algorithms</a>; distance vector is on <a class="lnk" href="extra-topics.html#dvr">extra-topics</a>.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "What is unicast and multicast routing?" (Paper 1 Q1c, 3 marks).</p></div>
+  </section>
+
+  <!-- ===================== SNMP ===================== -->
+  <section id="snmp">
+    <p class="eyebrow">Paper 2 Q1e · Paper 3 Q6(b) · Paper 4 Q1e</p>
+    <h2>SNMP: Simple Network Management Protocol <span class="tag">Beyond the deck</span></h2>
+    <p><strong>SNMP</strong> is an application-layer protocol used to monitor and manage devices such as routers, switches, servers and printers from one central station.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Component</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Manager</strong> (NMS)</td><td>Management station run by the administrator; sends requests, receives responses and traps, shows alerts and reports</td></tr>
+        <tr><td><strong>Agent</strong></td><td>Software on each managed device; collects local information and answers the manager</td></tr>
+        <tr><td><strong>MIB</strong> (Management Information Base)</td><td>The structured database of objects an agent exposes (interface status, traffic counters, CPU load, uptime), each identified by an object ID (OID) in a tree. SMI defines how objects are named and typed</td></tr>
+      </tbody>
+    </table></div>
+
+    <pre class="code">  Manager (NMS)                                   Agent (router/switch/server) + MIB
+      |---- GetRequest / GetNextRequest (UDP 161) ---->|   read a value
+      |<--- GetResponse -------------------------------|
+      |---- SetRequest (UDP 161) --------------------->|   change a value (configure)
+      |<--- Trap (UDP 162): unsolicited alert ---------|   e.g. link down</pre>
+
+    <ul>
+      <li><strong>GET</strong> (GetRequest, GetNextRequest): manager reads object values from the agent's MIB (polling).</li>
+      <li><strong>SET</strong>: manager changes a value, e.g. disables an interface.</li>
+      <li><strong>TRAP</strong>: agent sends an alert on its own when an event occurs, without being polled.</li>
+      <li>Runs over <strong>UDP</strong> (ports 161 and 162) to keep management traffic light.</li>
+    </ul>
+    <h3>Why it matters</h3>
+    <p>Central monitoring of many devices; fault detection (traps tell you immediately); performance monitoring and capacity planning from traffic counters; remote configuration; accounting. Weakness: SNMPv1 and v2c send a plain-text "community string" as the only security; SNMPv3 adds authentication and encryption.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Explain the working of SNMP" (Paper 2 Q1e); "Assess the importance of SNMP" (Paper 4 Q1e); short note (Paper 3 Q6). Cover manager, agent, MIB, the three message types and the benefits.</p></div>
+  </section>
+
+  <!-- ===================== TELNET ===================== -->
+  <section id="telnet">
+    <p class="eyebrow">Paper 4 Q6</p>
+    <h2>TELNET as a client/server application <span class="tag">Beyond the deck</span></h2>
+    <p><strong>TELNET</strong> (TErminaL NETwork) lets a user log in to a remote machine and use it as if typing at its own keyboard. It is a client/server application over <strong>TCP, port 23</strong>.</p>
+    <ol>
+      <li>The user starts the <strong>TELNET client</strong> program and names the remote host (e.g. <code>telnet host</code>). The client opens a TCP connection to the TELNET server on port 23.</li>
+      <li>The keystrokes typed by the user go to the local <strong>terminal driver</strong>, which passes them to the TELNET client. The client converts them into a universal format called the <strong>NVT (Network Virtual Terminal)</strong> character set, so every type of terminal and OS can interoperate without knowing the other's details.</li>
+      <li>NVT data travels over TCP to the TELNET server on the remote host. The server converts NVT into the remote system's own format and hands it to a <strong>pseudo-terminal driver</strong>, which feeds the operating system as if the input came locally.</li>
+      <li>The remote OS asks for a login name and password (sent through the same path), then runs the user's commands; the output goes back the same way: OS to server, NVT conversion, TCP, client, local terminal screen.</li>
+      <li>Client and server can negotiate options (echo, terminal type) using control characters sent in-band. On logout, the TCP connection is closed.</li>
+    </ol>
+    <div class="callout"><p>Why TELNET is insecure: everything, including the username and password, travels as <strong>plain text</strong>, so anyone sniffing the path can read it. <strong>SSH</strong> (port 22) replaces it with encryption, server authentication and integrity protection, and is what is used today.</p></div>
+    <div class="exam"><p><strong>Common exam question:</strong> "Explain how TELNET functions as a client/server application, allowing a user to log on to a remote machine" (Paper 4 Q6, 6 marks). Sketch: terminal - client - TCP - server - pseudo-terminal - OS.</p></div>
+  </section>
+
+  <!-- ===================== EMAIL RETRIEVAL ===================== -->
+  <section id="email-retrieval">
+    <p class="eyebrow">Paper 4 Q6 (OR) · Paper 3 Q6(a) · Paper 5 Q3</p>
+    <h2>Email retrieval: POP3 vs IMAP <span class="tag">Beyond the deck</span></h2>
+    <p>SMTP, UA, MTA and MDA are covered in <a class="lnk" href="Unit%202/index.html#ftp-smtp">Unit 2 FTP and SMTP</a> and <a class="lnk" href="extra-topics.html#app-scenarios">extra-topics scenario S4</a>. The gap is the <strong>last step</strong>: <strong>SMTP is a push protocol</strong> (sender to server, server to server); it cannot be used by the recipient to fetch mail. The recipient's UA <strong>pulls</strong> mail with POP3 or IMAP.</p>
+
+    <h3>Steps to retrieve an email (Paper 4 Q6 OR)</h3>
+    <ol>
+      <li>The sender's mail goes by SMTP through the MTAs to the recipient's mail server, where the MDA stores it in the recipient's <strong>mailbox</strong>.</li>
+      <li>The recipient opens the mail client (UA), which opens a TCP connection to the mail server's retrieval service (POP3 port 110, IMAP port 143; 995 and 993 with TLS).</li>
+      <li>The client <strong>authenticates</strong> with username and password.</li>
+      <li>The client asks for the mailbox state/list of messages (POP3 <code>STAT</code>/<code>LIST</code>, IMAP folder list and headers).</li>
+      <li>The client fetches the selected messages (POP3 <code>RETR</code>, IMAP <code>FETCH</code>) and the user reads them.</li>
+      <li>The server marks or deletes messages as per the protocol (POP3 usually deletes after download; IMAP keeps them on the server), and the session is closed (<code>QUIT</code>/<code>LOGOUT</code>).</li>
+    </ol>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>POP3</th><th>IMAP</th></tr></thead>
+      <tbody>
+        <tr><td>Model</td><td>Download mail to the device; usually deleted from the server</td><td>Mail stays on the server; the client views and manages it remotely</td></tr>
+        <tr><td>Multiple devices</td><td>Poor: each device has a different copy</td><td>Good: all devices see the same mailbox and read/unread state</td></tr>
+        <tr><td>Folders on server</td><td>No (just the inbox)</td><td>Yes; can search and fetch headers or parts only</td></tr>
+        <tr><td>Offline use</td><td>Easy, mail is local</td><td>Needs a connection (unless client caches)</td></tr>
+        <tr><td>Server storage</td><td>Small</td><td>Larger</td></tr>
+        <tr><td>Port (plain / TLS)</td><td>110 / 995</td><td>143 / 993</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>SMTP session in order (Paper 5 Q3)</h3>
+    <pre class="code">C: (TCP connect to port 25)           S: 220 mail.example.com ready
+C: HELO client.example.org            S: 250 Hello
+C: MAIL FROM:&lt;faculty@sit.edu&gt;        S: 250 OK
+C: RCPT TO:&lt;student@mail.com&gt;         S: 250 OK
+C: DATA                               S: 354 Start mail input, end with &lt;CRLF&gt;.&lt;CRLF&gt;
+C: Subject: ... body ...  \r\n.\r\n   S: 250 Message queued
+C: QUIT                               S: 221 Bye</pre>
+    <p>Monitoring checklist for logs: 4xx replies (temporary failure, queue growing), 5xx replies (permanent rejection, bounces), repeated authentication failures, unusually large number of recipients per sender (spam or compromise), queue length and delivery delay.</p>
+    <div class="exam"><p><strong>Common exam question:</strong> "Describe the steps involved in retrieving or downloading an email from the mail server to the recipient's device" (Paper 4 Q6 OR, 6 marks); SMTP short note (Paper 3 Q6); SMTP session tutorial (Paper 5 Q3).</p></div>
+  </section>
+
+  <!-- ===================== WWW / HTTP ===================== -->
+  <section id="www-http">
+    <p class="eyebrow">Paper 2 Q6 (OR) · Paper 3 Q6(c)(d)</p>
+    <h2>WWW and HTTP: short notes <span class="tag">Beyond the deck</span></h2>
+    <p>Full HTTP treatment (non-persistent and persistent connections, request/response format, cookies, caching, HTTP/2 and 3) is in <a class="lnk" href="Unit%202/index.html#http">Unit 2 HTTP</a>. Use these as the 4-line short notes.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>WWW (World Wide Web)</th><th>HTTP (HyperText Transfer Protocol)</th></tr></thead>
+      <tbody><tr>
+        <td><ul>
+          <li>A distributed information system of linked hypertext documents (web pages) stored on web servers worldwide, reached over the Internet.</li>
+          <li>Built from: <strong>URL</strong> (address of a resource), <strong>HTML</strong> (page format), <strong>HTTP</strong> (transfer protocol), <strong>browser</strong> (client), <strong>web server</strong>.</li>
+          <li>The Web is a service on the Internet, not the Internet itself.</li>
+        </ul></td>
+        <td><ul>
+          <li>Application-layer protocol of the Web; client/server, request/response, runs over TCP (port 80; HTTPS on 443).</li>
+          <li><strong>Stateless</strong>: the server keeps no memory of earlier requests (cookies add state).</li>
+          <li>Request has a method (GET, POST, HEAD, PUT, DELETE), URL and headers; response has a status code (200 OK, 404 Not Found, 500 Server Error), headers and body.</li>
+        </ul></td>
+      </tr></tbody>
+    </table></div>
+    <div class="exam"><p><strong>Common exam question:</strong> "Explain the concepts of HTTP used in the application layer" (Paper 2 Q6 OR, 6 marks); "Short notes (any two): SMTP, SNMP, WWW, HTTP" (Paper 3 Q6). Also "Discuss the Application Layer and its role" (Paper 1 Q1e): the layer where user programs (browser, mail client) get network services through protocols such as HTTP, SMTP, DNS, FTP; see <a class="lnk" href="Unit%202/index.html#architectures">Unit 2</a>.</p></div>
+  </section>
+
+  <!-- ===================== IPv4 vs IPv6 ===================== -->
+  <section id="ipv4-vs-ipv6">
+    <p class="eyebrow">Paper 1 Q1d</p>
+    <h2>IPv4 vs IPv6, and why migrate</h2>
+    <p class="range">The full comparison table, IPv6 address format and transition techniques are already in <a class="lnk" href="Unit%204/index.html#ipv6">Unit 4 IPv6</a>. Only the "why transition" reasoning is added here. <span class="tag">Beyond the deck</span></p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+      <tbody>
+        <tr><td>Address size</td><td>32 bits (about 4.3 billion addresses, 2<sup>32</sup>)</td><td>128 bits (2<sup>128</sup>)</td></tr>
+        <tr><td>Header</td><td>20 to 60 bytes, variable</td><td>Fixed 40 bytes, simpler for routers</td></tr>
+        <tr><td>Checksum / fragmentation</td><td>Header checksum; routers can fragment</td><td>No header checksum; only the source fragments</td></tr>
+        <tr><td>Broadcast</td><td>Yes</td><td>No (multicast and anycast instead)</td></tr>
+        <tr><td>Configuration</td><td>Manual or DHCP</td><td>Auto-configuration built in</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Reasons for transitioning to IPv6</h3>
+    <ul>
+      <li><strong>Address exhaustion:</strong> 32 bits cannot cover the growing number of phones, IoT devices and servers; NAT only delays the problem and breaks end-to-end addressing.</li>
+      <li><strong>Simpler, faster header</strong> processing in routers and extension headers for options.</li>
+      <li><strong>Built-in support</strong> for multicast, anycast, auto-configuration, better QoS (traffic class, flow label) and IPsec.</li>
+      <li>Transition is gradual: dual stack, tunnelling and translation (see Unit 4).</li>
+    </ul>
+    <div class="exam"><p><strong>Common exam question:</strong> "Explain the difference between IPv4 and IPv6 and highlight reasons for transitioning" (Paper 1 Q1d, 3 marks): 4 to 5 table rows plus 2 reasons.</p></div>
+  </section>
+
+  <!-- ===================== Q&A ===================== -->
+  <section id="qa">
+    <p class="eyebrow">Past-paper Q&amp;A</p>
+    <h2>Twelve past-paper questions, answered</h2>
+    <p class="range">Use Show answer on each question to test yourself. Paper numbers: P1 = 27 Nov 2023, P2 = 02 Dec 2023, P3 = May 2024, P4 = Dec 2024, P5 = Nov 2025.</p>
+
+    <div class="qa"><p class="q"><span class="num">P1</span>Draw the OSI reference model and explain any three layers. Give protocol examples for each. (P1/P2 Q2)<span class="marks">6 marks</span></p>
+    <div class="a">
+      <p>Seven layers, top to bottom: Application, Presentation, Session, Transport, Network, Data link, Physical. Sender passes data down (each layer adds a header; the data link layer also adds a trailer); receiver passes it up, removing them.</p>
+      <ul>
+        <li><strong>Transport (4):</strong> process-to-process delivery using ports, segmentation, reliability, flow and congestion control. Protocols: TCP, UDP.</li>
+        <li><strong>Network (3):</strong> logical (IP) addressing and routing of packets between networks. Protocols: IP, ICMP, OSPF, RIP.</li>
+        <li><strong>Data link (2):</strong> framing, MAC addressing, error detection, flow and medium access control on each hop. Protocols: Ethernet, PPP, HDLC.</li>
+      </ul>
+      <p>Others for reference: Application (HTTP, SMTP, DNS), Presentation (TLS, JPEG, encoding/compression/encryption), Session (NetBIOS, RPC; dialog control and checkpoints), Physical (cables, signals). Draw the 7 boxes as in <a class="lnk" href="#osi">the OSI section</a>.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P2</span>Explain the functions of the session and presentation layers. (P3 Q1b)<span class="marks">3 marks</span></p>
+    <div class="a">
+      <p><strong>Session layer:</strong> establishes, maintains and terminates dialogs between applications; controls whose turn it is to send; inserts synchronisation checkpoints so a transfer can resume after failure.</p>
+      <p><strong>Presentation layer:</strong> translates between data formats and character codes, encrypts and decrypts, and compresses and decompresses, so both ends understand the data.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P3</span>Explain the requirement of stuffing at the data link layer and list the advantages of bit stuffing over byte stuffing. (P3 Q3)<span class="marks">6 marks</span></p>
+    <div class="a">
+      <p><strong>Need:</strong> frames are delimited by a flag pattern (e.g. 01111110). If the data contains the same pattern, the receiver would end the frame early. Stuffing inserts extra bits or bytes so the flag never appears inside the data; the receiver removes them.</p>
+      <p><strong>Byte stuffing:</strong> insert an ESC before any flag or ESC byte in the data. Example: A F B ESC C becomes A ESC F B ESC ESC C.</p>
+      <p><strong>Bit stuffing:</strong> after five consecutive 1s insert a 0. Example: 0111111011111110 becomes 011111010111110110.</p>
+      <p><strong>Advantages of bit stuffing:</strong> frames of any bit length; independent of character code; only 1 bit of overhead per stuffing instead of 8; easy hardware implementation.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P4</span>What is bit stuffing? Give an example. (P4 Q1b)<span class="marks">3 marks</span></p>
+    <div class="a">
+      <p>Bit stuffing is a framing technique where the sender inserts an extra 0 after every run of five consecutive 1s in the data, so the flag 01111110 cannot appear in the payload. The receiver deletes the 0 that follows five 1s.</p>
+      <p>Example: data 01111110 (has six 1s) becomes 011111010 after stuffing (a 0 after the first five 1s), then is framed as 01111110 | 011111010 | 01111110. The receiver sees five 1s followed by 0, removes it, and gets 01111110 back.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P5</span>Piggybacking is the better utilisation of bandwidth. Justify. (P3 Q1c)<span class="marks">3 marks</span></p>
+    <div class="a">
+      <p>In full-duplex communication the receiver, instead of sending a separate ACK frame, attaches the acknowledgment to its own next outgoing data frame. A data-plus-ACK frame costs only a few extra header bits, whereas a stand-alone ACK has its own header, trailer and channel access time.</p>
+      <p>So fewer frames are sent (3 instead of 4 in a data/data exchange), header overhead drops and the channel is used for useful data. If no data is ready, the receiver waits a short timeout and then sends a separate ACK.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P6</span>Investigate the IPv4 header and explain all the fields with a diagram. (P3 Q5)<span class="marks">7 marks</span></p>
+    <div class="a">
+      <p>Draw the 32-bit-wide grid from <a class="lnk" href="#ip-header">the IPv4 header section</a>: Row 1 Version (4), IHL (4), ToS/DSCP (8), Total length (16). Row 2 Identification (16), Flags (3), Fragment offset (13). Row 3 TTL (8), Protocol (8), Header checksum (16). Row 4 Source address (32). Row 5 Destination address (32). Then Options (variable) and data.</p>
+      <ul>
+        <li><strong>Version:</strong> 4. <strong>IHL:</strong> header length in 32-bit words (5 to 15, so 20 to 60 bytes).</li>
+        <li><strong>ToS/DSCP:</strong> priority and QoS class. <strong>Total length:</strong> header + data, max 65,535 bytes.</li>
+        <li><strong>Identification, Flags (DF, MF), Fragment offset:</strong> fragmentation and reassembly (offset in 8-byte units).</li>
+        <li><strong>TTL:</strong> hop limit, decremented per router, discarded at 0. <strong>Protocol:</strong> 6 TCP, 17 UDP, 1 ICMP.</li>
+        <li><strong>Header checksum:</strong> error check of the header only, recomputed at each hop.</li>
+        <li><strong>Source and destination addresses:</strong> 32-bit IPs. <strong>Options:</strong> record route, source route, timestamp; padded.</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P7</span>Find the class of each IP address: (i) 227.12.15.89 (ii) 193.15.56.21. (P4 Q1d)<span class="marks">2 marks</span></p>
+    <div class="a">
+      <p>Look only at the first byte. Ranges: A 0-127, B 128-191, C 192-223, D 224-239, E 240-255.</p>
+      <ul>
+        <li>(i) 227 is in 224-239, so <strong>Class D</strong> (multicast).</li>
+        <li>(ii) 193 is in 192-223, so <strong>Class C</strong> (default mask 255.255.255.0).</li>
+      </ul>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P8</span>Explain why an ARP request is broadcast and the reply unicast, with an example. (P4 Q4)<span class="marks">6 marks</span></p>
+    <div class="a">
+      <p>ARP maps an IP address to a MAC address inside one LAN. The requester knows the target IP but not its MAC, so it cannot address a frame to it; the request is therefore broadcast to FF:FF:FF:FF:FF:FF so that whichever host owns the IP can answer. The reply is unicast because the request already carried the requester's IP and MAC; replying only to it avoids interrupting every other host and saves bandwidth.</p>
+      <p>Example: A (192.168.1.10, MAC AA..01) wants B (192.168.1.20). A broadcasts "Who has 192.168.1.20?". All hosts receive it, only B responds with a unicast "192.168.1.20 is at BB..02" to A. A stores the pair in its ARP cache and sends the data frame to BB..02. B also caches A's mapping.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P9</span>What is unicast and multicast routing? (P1 Q1c)<span class="marks">3 marks</span></p>
+    <div class="a">
+      <p><strong>Unicast routing:</strong> a packet goes from one source to exactly one destination; the router uses the destination address to find a single next hop in its forwarding table (e.g. web browsing).</p>
+      <p><strong>Multicast routing:</strong> a packet goes from one source to a group of receivers identified by a group (Class D) address; routers build a distribution tree and copy the packet only where the path splits, so each link carries one copy. Hosts join groups with IGMP (e.g. live video, online lecture). Multicast saves bandwidth compared with sending a separate unicast copy to each receiver.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P10</span>What is network topology? List the pros and cons of bus, star, ring and mesh. (P1 Q1a, P3 Q1a, P4 Q2)<span class="marks">6 marks</span></p>
+    <div class="a">
+      <p>Topology is the arrangement of the nodes and links of a network.</p>
+      <ul>
+        <li><strong>Bus:</strong> pro: cheap, little cable. Con: backbone fault stops everyone; collisions; hard to troubleshoot.</li>
+        <li><strong>Star:</strong> pro: easy to add nodes, one link fault affects one node. Con: central hub or switch is a single point of failure.</li>
+        <li><strong>Ring:</strong> pro: orderly access, predictable performance. Con: a break or one failed node can stop the ring; adding nodes is disruptive.</li>
+        <li><strong>Mesh:</strong> pro: highest reliability, multiple paths, no bottleneck. Con: very costly; full mesh needs n(n-1)/2 links and n-1 ports per node.</li>
+        <li><strong>Tree/hybrid:</strong> pro: scalable, faults isolated to a branch. Con: root failure splits the network, complex cabling.</li>
+      </ul>
+      <p>Draw each small diagram from <a class="lnk" href="#topologies">the topologies section</a>.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P11</span>Which is better for online multiplayer gaming, TCP or UDP, where responsiveness is critical and occasional loss is acceptable? (P4 Q1c)<span class="marks">3 marks</span></p>
+    <div class="a">
+      <p><strong>UDP.</strong> Game state updates (positions, actions) are time-sensitive, and a late packet is useless because newer data replaces it. TCP would retransmit lost segments and deliver in order, so one lost packet stalls all later data behind it (head-of-line blocking) and adds delay. Its handshake, ACKs and congestion control add latency and jitter.</p>
+      <p>UDP is connectionless with an 8-byte header, no retransmission and no ordering delay, so latency is lowest. The game accepts occasional loss, or adds its own light reliability (sequence numbers, prediction) only for important events. TCP suits things that must arrive intact, such as login or chat. See <a class="lnk" href="extra-topics.html#transport-scenarios">extra-topics S6</a> and <a class="lnk" href="Unit%203/index.html#udp">Unit 3 UDP</a>.</p>
+    </div></div>
+
+    <div class="qa"><p class="q"><span class="num">P12</span>Explain how TELNET works, and describe the steps to retrieve an email from the mail server. (P4 Q6 and OR)<span class="marks">6 marks</span></p>
+    <div class="a">
+      <p class="sub">TELNET</p>
+      <p>Client/server application over TCP port 23. The user's keystrokes go to the TELNET client, which converts them to the universal NVT format and sends them over TCP to the TELNET server on the remote host. The server converts NVT to the host's format and feeds the OS through a pseudo-terminal, as if typed locally; output returns the same way. The user logs in with username and password and runs commands remotely. It is insecure because all data, including passwords, is plain text; SSH (port 22) replaces it.</p>
+      <p class="sub">Email retrieval</p>
+      <p>SMTP delivers the mail into the recipient's mailbox on the mail server (push). The recipient's mail client then connects over TCP to the server using POP3 (port 110) or IMAP (port 143), authenticates, lists the mailbox, fetches the messages (RETR or FETCH) and closes the session. POP3 downloads and normally deletes the server copy; IMAP leaves mail on the server and keeps all devices in sync.</p>
+    </div></div>
+  </section>
+
+</main>
+
+<footer>Topics the past papers ask that the decks skip · Computer Networks · Sem 5 revision notes</footer>
+
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>

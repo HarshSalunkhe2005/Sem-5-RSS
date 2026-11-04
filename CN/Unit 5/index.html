@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — The Link Layer</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#fff4dc;color:#8a5a00;border:1px solid #f1d089;border-radius:999px;padding:1px 9px;margin-left:8px;vertical-align:middle;font-family:Calibri,Arial,sans-serif;}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 5</span>
+  <h1>🔗 The Link Layer</h1>
+  <p>Link-layer basics, error detection and correction (parity, checksum, CRC),
+     random-access and taking-turns protocols, DOCSIS, link virtualization and MPLS.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#link-basics">Link layer basics</a>
+    <a href="#error-detection">Error detection</a>
+    <a href="#parity">Parity</a>
+    <a href="#checksum">Checksum</a>
+    <a href="#crc">CRC</a>
+    <a href="#mac-random-access">Random access</a>
+    <a href="#csma-cd">CSMA/CD</a>
+    <a href="#csma-ca">CSMA/CA</a>
+    <a href="#taking-turns">Taking turns</a>
+    <a href="#docsis">DOCSIS</a>
+    <a href="#link-virt">Link virtualization</a>
+    <a href="#mpls">MPLS</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%201/index.html">CN Unit 1</a><a href="../Unit%202/index.html">CN Unit 2</a><a href="../Unit%203/index.html">CN Unit 3</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">← Unit 4</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- 01 LINK BASICS -->
+  <section id="link-basics">
+    <p class="eyebrow">01 · Moving frames across one link</p>
+    <h2>Link Layer Basics</h2>
+    <p>The <strong>Data Link Layer</strong> is the second layer of the OSI model. It is responsible for converting the data stream into signals bit by bit and sending that over the underlying hardware. At the receiving end it picks up the electrical signals from the hardware, assembles them into a recognisable <strong>frame</strong> format and hands it to the upper layer.</p>
+
+    <h3>Two sub-layers</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Logical Link Control (LLC)</h4><p>Deals with protocols, <strong>flow control</strong> and <strong>error control</strong>.</p></div>
+      <div class="card"><h4>Media Access Control (MAC)</h4><p>Deals with the actual <strong>control of the media</strong> — who may transmit on a shared link and when.</p></div>
+    </div>
+
+    <h3>Functions of the data-link layer</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>1. Framing</h4><p>Takes packets from the Network layer and encapsulates them into <strong>frames</strong>, then sends each frame bit by bit on the hardware. The receiver assembles signals back into frames.</p></div>
+      <div class="card"><h4>2. Addressing</h4><p>Provides layer-2 <strong>hardware addressing</strong>. The hardware address is assumed to be unique on the link and is encoded into the hardware at manufacturing time.</p></div>
+      <div class="card"><h4>3. Synchronization</h4><p>When frames are sent on the link, both machines must be <strong>synchronized</strong> for the transfer to take place.</p></div>
+      <div class="card"><h4>4. Error control</h4><p>Signals may meet problems in transit and bits get flipped. These errors are <strong>detected</strong> and an attempt is made to recover the actual data bits. It also provides an error-reporting mechanism to the sender.</p></div>
+      <div class="card"><h4>5. Flow control</h4><p>Stations on the same link may have different speed or capacity. The layer ensures flow control so that both machines can exchange data at the same speed.</p></div>
+      <div class="card"><h4>6. Multi-access</h4><p>When hosts on a shared link transmit, collisions are very likely. The layer provides mechanisms such as <strong>CSMA/CD</strong> to access a shared medium among multiple systems.</p></div>
+    </div>
+
+    <h3>Framing: how a receiver finds frame boundaries <span class="tag">Beyond the deck</span></h3>
+    <p>A frame is <code>header | payload (the packet) | trailer</code>. The receiver needs a way to know where one frame ends and the next begins. Standard methods:</p>
+    <ul>
+      <li><strong>Character (byte) count</strong> — a header field says how many bytes follow. Simple, but one corrupted count desynchronises everything after it.</li>
+      <li><strong>Flag bytes with byte stuffing</strong> — frames start/end with a flag byte; if the flag (or the escape byte) appears in the data, an ESC byte is inserted before it.</li>
+      <li><strong>Flag bits with bit stuffing</strong> — frames start/end with the flag <code>01111110</code>; the sender inserts a <code>0</code> after every run of five consecutive 1s in the data, and the receiver removes it.</li>
+    </ul>
+    <div class="callout violet"><p><strong>Bit-stuffing example:</strong> data <code>0110111110111111</code> becomes <code>011011111001111101</code> on the wire (a 0 is inserted after each run of five 1s). The receiver deletes a 0 that follows five 1s, so the data can never be mistaken for the flag <code>01111110</code>.</p></div>
+
+    <h3>Addresses at different layers</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Address</th><th>Identifies</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td>Physical (MAC)</td><td>A network interface on the local network</td><td>Frame delivery on the link</td></tr>
+        <tr><td>Logical (IP)</td><td>Source and destination at the network layer</td><td>Routing between networks</td></tr>
+        <tr><td>Port</td><td>The application/service endpoint on a device (e.g. HTTPS = 443)</td><td>Reaching the right process</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Where it lives <span class="tag">Beyond the deck</span>:</strong> the link layer is implemented in the network adaptor (NIC); a MAC address is 48 bits (written as six hex bytes) and ARP maps an IP address to the MAC address on the same LAN. Typical link-layer services: framing, link access, reliable delivery on error-prone links (e.g. wireless), error detection/correction and flow control.</p>
+  </section>
+
+  <!-- 02 ERROR DETECTION -->
+  <section id="error-detection">
+    <p class="eyebrow">02 · Catching corrupted bits</p>
+    <h2>Error Detection and Correction</h2>
+    <p>Error detection ensures data is transmitted accurately without corruption. It works by adding extra (<strong>redundant</strong>) bits to the data so the receiver can verify its correctness. If errors are found, the receiver discards the frame and requests retransmission.</p>
+    <ul>
+      <li>Detects errors caused by <strong>noise or interference</strong>.</li>
+      <li>Uses <strong>redundant bits</strong> for consistency checking.</li>
+      <li>Common methods: <strong>Parity check, Checksum, CRC</strong>.</li>
+      <li>Ensures data integrity and reliable communication.</li>
+    </ul>
+
+    <h3>Types of errors</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>1. Single-bit error</h4><p>Only <strong>one bit</strong> of the transmitted data unit is altered (a 0 becomes 1 or vice versa), giving a corrupted data unit.</p></div>
+      <div class="card"><h4>2. Multiple-bit error</h4><p><strong>More than one bit</strong> is affected. Rarer than single-bit errors, but can occur in high-noise or high-interference environments.</p></div>
+      <div class="card"><h4>3. Burst error</h4><p>Several <strong>consecutive bits</strong> are flipped, producing a sequence of consecutive incorrect values.</p></div>
+    </div>
+
+    <h3>Error-detection methods in this unit</h3>
+    <ol class="steps">
+      <li><a href="#parity"><strong>Simple parity check</strong></a></li>
+      <li><a href="#parity"><strong>Two-dimensional parity check</strong></a></li>
+      <li><a href="#checksum"><strong>Checksum</strong></a></li>
+      <li><a href="#crc"><strong>Cyclic Redundancy Check (CRC)</strong></a></li>
+    </ol>
+
+    <h3>Detection vs. correction <span class="tag">Beyond the deck</span></h3>
+    <p><strong>Detection</strong> only tells the receiver that something is wrong (it then discards the frame and relies on retransmission/ARQ). <strong>Correction</strong> (forward error correction, FEC) lets the receiver also work out <em>which</em> bits are wrong and repair them without a resend, at the cost of more redundant bits. Two-dimensional parity is the simplest correcting scheme; Hamming codes are the classic one.</p>
+    <div class="callout"><p>A code with minimum Hamming distance <code>d</code> can <strong>detect</strong> up to <code>d − 1</code> bit errors and <strong>correct</strong> up to <code>⌊(d − 1)/2⌋</code> bit errors. No detection scheme is 100% reliable — an error pattern can occasionally slip through undetected.</p></div>
+  </section>
+
+  <!-- 03 PARITY -->
+  <section id="parity">
+    <p class="eyebrow">03 · The cheapest check</p>
+    <h2>Parity Checking</h2>
+
+    <h3>1. Simple parity check</h3>
+    <p>Simple bit parity adds one extra bit to the data. In <strong>even parity</strong>: a <code>1</code> is added to the block if it contains an <em>odd</em> number of 1s, and a <code>0</code> if it contains an <em>even</em> number of 1s. This makes the total number of 1s even, which is why it is called even-parity checking. (Odd parity does the opposite — the total number of 1s is made odd.)</p>
+    <p><strong>Example:</strong> data <code>1011001</code> has four 1s → parity bit 0 → codeword <code>10110010</code>.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Advantages</h4>
+        <p>Detects <strong>all single-bit errors</strong> and any <strong>odd number</strong> of bit errors.</p>
+        <p>Easy to implement in hardware and software; only <strong>one extra bit</strong> per data unit (e.g. per byte).</p>
+        <p>Fast to calculate and check, so errors are caught without significant delay.</p></div>
+      <div class="card"><h4>Disadvantages</h4>
+        <p>Cannot detect an <strong>even number</strong> of bit errors.</p>
+        <p><em>Deck example:</em> data 101010 is sent as <code>1010101</code> (even parity). If two bits flip, giving <code>1111101</code>, the receiver still counts an even number of 1s and wrongly concludes there is no error.</p></div>
+    </div>
+
+    <h3>2. Two-dimensional parity check</h3>
+    <p>Parity bits are calculated for <strong>each row</strong> (equivalent to a simple parity bit) and also for <strong>all columns</strong>; both sets are sent along with the data. At the receiving end the parity bits are recomputed on the received data and compared. A failing row plus a failing column pinpoints the bad bit, which can then be flipped back.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Advantages</h4>
+        <p>Can <strong>detect and correct all single-bit errors</strong>.</p>
+        <p>Can <strong>detect</strong> two- or three-bit errors occurring anywhere in the matrix.</p></div>
+      <div class="card"><h4>Disadvantages</h4>
+        <p>Cannot <em>correct</em> two- or three-bit errors — it can only detect them.</p>
+        <p>If the error is in a parity bit itself the scheme does not work as intended.</p></div>
+    </div>
+    <div class="callout"><p>Worked examples with a single-bit error located by row and column are on the <a href="numericals.html#parity-2d" style="color:#8a2020;font-weight:700;">Numericals page</a>.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Scheme</th><th>Detects</th><th>Corrects</th><th>Misses</th></tr></thead>
+      <tbody>
+        <tr><td>Simple parity</td><td>All single-bit and any odd number of bit errors</td><td>Nothing</td><td>Any even number of bit errors</td></tr>
+        <tr><td>2D parity</td><td>All 1-, 2- and 3-bit errors</td><td>Any single-bit error</td><td>Some patterns of 4 or more errors (e.g. four flips at the corners of a rectangle) <span class="tag">Beyond the deck</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- 04 CHECKSUM -->
+  <section id="checksum">
+    <p class="eyebrow">04 · Add, then complement</p>
+    <h2>Checksum</h2>
+    <p>The checksum method divides the data into equally sized segments and uses <strong>1's complement</strong> arithmetic to calculate the sum of these segments. The calculated checksum is sent along with the data. At the receiver the same process is repeated; if the result is all zeros the data is correct.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>At the sender</h4>
+        <ol class="steps">
+          <li>Divide the data into <strong>k segments</strong> of m bits each.</li>
+          <li>Add the segments using <strong>1's complement</strong> arithmetic to get the sum.</li>
+          <li><strong>Complement</strong> the sum — that is the checksum.</li>
+          <li>Send the checksum segment along with the data segments.</li>
+        </ol></div>
+      <div class="card"><h4>At the receiver</h4>
+        <ol class="steps">
+          <li>Add <strong>all received segments</strong> (data + checksum) using 1's complement arithmetic.</li>
+          <li><strong>Complement</strong> the sum.</li>
+          <li>If the result is <strong>zero</strong>, accept the data; otherwise discard it.</li>
+        </ol></div>
+    </div>
+    <div class="callout violet"><p><strong>1's-complement addition:</strong> add normally; if there is a carry out of the leftmost bit, add that carry back into the least-significant bit (end-around carry). The Internet checksum used by IP, TCP and UDP does this on 16-bit words. Worked 8-bit and 16-bit examples are on the <a href="numericals.html#checksum" style="color:#4a2f9e;font-weight:700;">Numericals page</a>.</p></div>
+    <h3>Strengths and weaknesses <span class="tag">Beyond the deck</span></h3>
+    <ul>
+      <li>Very cheap to compute in <strong>software</strong>, which is why transport and network layers use it.</li>
+      <li>Weaker than CRC: the sum does not depend on word order, so swapping two words, or two compensating bit flips in the same column, can go unnoticed.</li>
+      <li>Link layers prefer CRC because it is computed in hardware and detects burst errors much better.</li>
+    </ul>
+  </section>
+
+  <!-- 05 CRC -->
+  <section id="crc">
+    <p class="eyebrow">05 · Division, not addition</p>
+    <h2>Cyclic Redundancy Check (CRC)</h2>
+    <p>Unlike the checksum scheme, which is based on addition, <strong>CRC is based on binary division</strong>. A sequence of redundant bits — the CRC bits — is appended to the end of the data unit so that the resulting data unit becomes exactly divisible by a second, predetermined binary number (the <strong>generator</strong> / divisor).</p>
+<!--fig:cn-crc-->
+<figure class="fig" data-caps='["Data D = 1101011011, generator G = 10011 (degree 4). Append 4 zeros: 11010110110000.","XOR step 1: align G under the leading 1 at position 0 (no borrow, just XOR): 11010 ⊕ 10011 = 01001.","XOR step 2: align G under the leading 1 at position 1 (no borrow, just XOR): 10011 ⊕ 10011 = 00000.","XOR step 3: align G under the leading 1 at position 6 (no borrow, just XOR): 10110 ⊕ 10011 = 00101.","XOR step 4: align G under the leading 1 at position 8 (no borrow, just XOR): 10100 ⊕ 10011 = 00111.","Remainder = 1110. Transmit D followed by the CRC: 11010110111110.","Receiver divides the received 11010110111110 by G. Remainder 0 means no error detected."]' data-intro="Divide step by step." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 440" role="img" aria-label="CRC: long division in modulo-2 arithmetic" style="min-width:620px"><defs><marker id="fa12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><text class="tb" x="40" y="36" text-anchor="start">11010110110000  ÷  10011</text><g data-s="1"><text class="tm" x="40" y="70" text-anchor="start">11010</text></g><g data-s="1"><text class="acc-t" x="40" y="84" text-anchor="start">10011</text></g><g data-s="2"><text class="tm" x="56.5" y="100" text-anchor="start">10011</text></g><g data-s="2"><text class="acc-t" x="56.5" y="114" text-anchor="start">10011</text></g><g data-s="3"><text class="tm" x="139" y="130" text-anchor="start">10110</text></g><g data-s="3"><text class="acc-t" x="139" y="144" text-anchor="start">10011</text></g><g data-s="4"><text class="tm" x="172" y="160" text-anchor="start">10100</text></g><g data-s="4"><text class="acc-t" x="172" y="174" text-anchor="start">10011</text></g><g data-s="5"><rect class="s-mark" x="40" y="400" width="680" height="30" rx="0"/></g><g data-s="5"><text class="tb" x="380" y="421" text-anchor="middle">remainder 1110   →   send 11010110111110</text></g></svg></div><figcaption>Divide step by step.</figcaption></figure>
+<!--/fig:cn-crc-->
+
+    <p>At the destination the incoming data unit is divided by the same number. If there is <strong>no remainder</strong>, the data unit is assumed correct and is accepted. A <strong>remainder</strong> means the data unit was damaged in transit and must be rejected.</p>
+
+    <h3>CRC working</h3>
+    <p>Given a dataword of length <code>n</code> and a divisor of length <code>k</code>:</p>
+    <ol class="steps">
+      <li><strong>Step 1:</strong> append <code>k − 1</code> zeros to the original message.</li>
+      <li><strong>Step 2:</strong> perform <strong>modulo-2 division</strong> (XOR, no borrows or carries).</li>
+      <li><strong>Step 3:</strong> the <strong>remainder</strong> of the division is the CRC.</li>
+      <li><strong>Step 4:</strong> codeword = original data followed by the CRC (the data with the appended zeros replaced by the CRC).</li>
+    </ol>
+    <p><strong>Note:</strong> the CRC is exactly <code>k − 1</code> bits long, and the codeword length is <code>n + k − 1</code> bits.</p>
+
+    <h3>The deck's example</h3>
+    <p>Data to send = <code>1010000</code>, divisor given as the polynomial <code>x³ + 1</code> (binary <code>1001</code>, so k = 4).</p>
+    <ul>
+      <li>Append k − 1 = 3 zeros → <code>1010000000</code>.</li>
+      <li>Modulo-2 divide by <code>1001</code> → remainder <code>011</code> (full steps on the <a href="numericals.html#crc-deck">Numericals page</a>).</li>
+      <li>Codeword sent = <code>1010000</code> + <code>011</code> = <code>1010000011</code>.</li>
+      <li>Receiver divides <code>1010000011</code> by <code>1001</code> → remainder 0 → accept.</li>
+    </ul>
+    <div class="callout"><p><strong>Polynomial form:</strong> a bit string is read as a polynomial, one bit per power of x. So <code>1001</code> = x³ + 0x² + 0x + 1 = <code>x³ + 1</code>. The generator <code>10011</code> = <code>x⁴ + x + 1</code>.</p></div>
+
+    <h3>Why CRC is strong <span class="tag">Beyond the deck</span></h3>
+    <ul>
+      <li>With a generator of degree r (r check bits) it detects <strong>every burst error of length ≤ r</strong>.</li>
+      <li>A burst of length r + 1 is missed with probability 2<sup>−(r−1)</sup>; longer bursts with probability 2<sup>−r</sup>.</li>
+      <li>A well-chosen generator catches all single-bit and all odd-numbered bit errors (when divisible by x + 1).</li>
+      <li>Ethernet's frame check sequence (FCS) is a 32-bit CRC (CRC-32), computed in hardware by the NIC.</li>
+    </ul>
+  </section>
+
+  <!-- 06 MAC RANDOM ACCESS -->
+  <section id="mac-random-access">
+    <p class="eyebrow">06 · Sharing one channel</p>
+    <h2>Multiple Access &amp; Random Access Protocols</h2>
+    <p>Multiple access protocols operate in the <strong>Medium Access Control (MAC) sub-layer</strong> and allow a number of nodes or users to access a shared network channel. Several data streams originating from several nodes are transferred through the multi-point channel. Their objectives are: <strong>optimisation of transmission time, minimisation of collisions and avoidance of crosstalk</strong>.</p>
+<!--fig:cn-aloha-->
+<figure class="fig" data-caps='["Axes: offered load G (frames per frame-time) against throughput S (successful frames per frame-time).","Pure ALOHA: S = G·e^(−2G). Maximum at G = 0.5: S = 1/(2e) ≈ 0.184, about 18.4 percent efficiency.","Slotted ALOHA: frames start only at slot boundaries, halving the vulnerable period. S = G·e^(−G). Maximum at G = 1: S = 1/e ≈ 0.368, about 36.8 percent. Twice as efficient."]' data-intro="Plot both protocols." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="ALOHA throughput vs offered load" style="min-width:620px"><defs><marker id="fa13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="grid-l" x1="80" y1="320" x2="700" y2="320"/><text class="tm" x="70" y="325" text-anchor="end">0.0</text><line class="grid-l" x1="80" y1="250" x2="700" y2="250"/><text class="tm" x="70" y="255" text-anchor="end">0.1</text><line class="grid-l" x1="80" y1="180" x2="700" y2="180"/><text class="tm" x="70" y="185" text-anchor="end">0.2</text><line class="grid-l" x1="80" y1="110.00000000000003" x2="700" y2="110.00000000000003"/><text class="tm" x="70" y="115.00000000000003" text-anchor="end">0.3</text><line class="grid-l" x1="80" y1="40" x2="700" y2="40"/><text class="tm" x="70" y="45" text-anchor="end">0.4</text><text class="tm" x="80" y="342" text-anchor="middle">0</text><text class="tm" x="183.33333333333331" y="342" text-anchor="middle">0.5</text><text class="tm" x="286.66666666666663" y="342" text-anchor="middle">1</text><text class="tm" x="390" y="342" text-anchor="middle">1.5</text><text class="tm" x="493.3333333333333" y="342" text-anchor="middle">2</text><text class="tm" x="596.6666666666667" y="342" text-anchor="middle">2.5</text><text class="tm" x="700" y="342" text-anchor="middle">3</text><line class="axis" x1="80" y1="320" x2="700" y2="320"/><line class="axis" x1="80" y1="320" x2="80" y2="40"/><text class="tb" x="390" y="368" text-anchor="middle">offered load G</text><text class="tb" x="44" y="36" text-anchor="middle">S</text><g data-s="2"><path class="c3" d="M80.0 320.0 L87.8 295.6 L95.5 274.8 L103.3 257.1 L111.0 242.2 L118.8 229.8 L126.5 219.6 L134.3 211.3 L142.0 204.7 L149.8 199.7 L157.5 196.0 L165.3 193.5 L173.0 191.9 L180.8 191.3 L188.5 191.4 L196.3 192.2 L204.0 193.5 L211.8 195.3 L219.5 197.5 L227.3 200.0 L235.0 202.9 L242.8 205.9 L250.5 209.1 L258.3 212.4 L266.0 215.9 L273.8 219.4 L281.5 222.9 L289.3 226.4 L297.0 230.0 L304.8 233.5 L312.5 237.0 L320.3 240.4 L328.0 243.8 L335.8 247.1 L343.5 250.3 L351.3 253.4 L359.0 256.5 L366.8 259.4 L374.5 262.3 L382.3 265.1 L390.0 267.7 L397.8 270.3 L405.5 272.8 L413.3 275.1 L421.0 277.4 L428.8 279.6 L436.5 281.7 L444.3 283.7 L452.0 285.6 L459.7 287.4 L467.5 289.1 L475.3 290.8 L483.0 292.4 L490.8 293.9 L498.5 295.3 L506.3 296.7 L514.0 298.0 L521.8 299.2 L529.5 300.3 L537.3 301.5 L545.0 302.5 L552.8 303.5 L560.5 304.4 L568.3 305.3 L576.0 306.2 L583.8 307.0 L591.5 307.7 L599.3 308.4 L607.0 309.1 L614.8 309.8 L622.5 310.4 L630.3 310.9 L638.0 311.5 L645.8 312.0 L653.5 312.4 L661.3 312.9 L669.0 313.3 L676.8 313.7 L684.5 314.1 L692.3 314.5 L700.0 314.8 "/></g><g data-s="2"><circle class="s-mark" cx="183.33333333333331" cy="191.2421955899952" r="6"/></g><g data-s="2"><text class="blue-t" x="195.33333333333331" y="183.2421955899952" text-anchor="start">max 0.184 at G = 0.5</text></g><g data-s="3"><path class="c1" d="M80.0 320.0 L87.8 294.7 L95.5 271.3 L103.3 249.6 L111.0 229.6 L118.8 211.2 L126.5 194.2 L134.3 178.7 L142.0 164.4 L149.8 151.4 L157.5 139.6 L165.3 128.8 L173.0 119.1 L180.8 110.4 L188.5 102.6 L196.3 95.6 L204.0 89.5 L211.8 84.1 L219.5 79.4 L227.3 75.4 L235.0 72.0 L242.8 69.2 L250.5 66.9 L258.3 65.2 L266.0 63.9 L273.8 63.0 L281.5 62.6 L289.3 62.5 L297.0 62.8 L304.8 63.4 L312.5 64.3 L320.3 65.5 L328.0 67.0 L335.8 68.7 L343.5 70.6 L351.3 72.7 L359.0 75.0 L366.8 77.5 L374.5 80.1 L382.3 82.8 L390.0 85.7 L397.8 88.7 L405.5 91.8 L413.3 94.9 L421.0 98.2 L428.8 101.5 L436.5 104.9 L444.3 108.3 L452.0 111.7 L459.7 115.2 L467.5 118.7 L475.3 122.3 L483.0 125.8 L490.8 129.3 L498.5 132.9 L506.3 136.4 L514.0 140.0 L521.8 143.5 L529.5 147.0 L537.3 150.5 L545.0 154.0 L552.8 157.4 L560.5 160.9 L568.3 164.2 L576.0 167.6 L583.8 170.9 L591.5 174.2 L599.3 177.4 L607.0 180.6 L614.8 183.8 L622.5 186.9 L630.3 190.0 L638.0 193.0 L645.8 196.0 L653.5 198.9 L661.3 201.8 L669.0 204.6 L676.8 207.4 L684.5 210.1 L692.3 212.8 L700.0 215.4 "/></g><g data-s="3"><circle class="s-mark" cx="286.66666666666663" cy="62.48439117999038" r="6"/></g><g data-s="3"><text class="acc-t" x="298.66666666666663" y="54.48439117999038" text-anchor="start">max 0.368 at G = 1</text></g></svg></div><figcaption>Plot both protocols.</figcaption></figure>
+<!--/fig:cn-aloha-->
+
+
+    <h3>Three categories</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Random access</h4><p>No station has priority; any station sends depending on whether the medium is idle or busy. <em>ALOHA, CSMA, CSMA/CD, CSMA/CA.</em></p></div>
+      <div class="card"><h4>Controlled access</h4><p>Stations take turns, so there are no collisions. See <a href="#taking-turns">Taking-turns protocols</a>.</p></div>
+      <div class="card"><h4>Channelization</h4><p>The channel is divided by frequency, time or code among stations <span class="tag">Beyond the deck</span> (FDMA / TDMA / CDMA).</p></div>
+    </div>
+
+    <h3>1. Random access protocol</h3>
+    <p>All stations have the <strong>same superiority</strong> — no station has more priority than another. Any station can send data depending on the medium's state (idle or busy). It has two features:</p>
+    <ul>
+      <li>There is <strong>no fixed time</strong> for sending data.</li>
+      <li>There is <strong>no fixed sequence</strong> of stations sending data.</li>
+    </ul>
+
+    <h3>ALOHA</h3>
+    <p>ALOHA was designed for wireless LANs but is applicable to any shared medium. Multiple stations can transmit at the same time, which can lead to <strong>collisions</strong> and garbled data.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Pure ALOHA</h4>
+        <p>A station sends whenever it has data and then waits for an <strong>acknowledgement</strong>.</p>
+        <p>If the ACK does not arrive within the allotted time, the station waits a random <strong>back-off time (Tb)</strong> and resends. Because different stations wait different amounts of time, the probability of a further collision decreases.</p></div>
+      <div class="card"><h4>Slotted ALOHA</h4>
+        <p>Similar to pure ALOHA, except that <strong>time is divided into slots</strong> and sending is allowed only at the <strong>beginning of a slot</strong>.</p>
+        <p>A station that misses its slot must wait for the next one. This <strong>reduces the probability of collision</strong>.</p></div>
+    </div>
+    <h3>Efficiency of ALOHA <span class="tag">Beyond the deck</span></h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Pure ALOHA</th><th>Slotted ALOHA</th></tr></thead>
+      <tbody>
+        <tr><td>Vulnerable time</td><td>2 × Tfr</td><td>Tfr</td></tr>
+        <tr><td>Throughput S (G = frames per frame time)</td><td>S = G·e<sup>−2G</sup></td><td>S = G·e<sup>−G</sup></td></tr>
+        <tr><td>Maximum S</td><td>1/(2e) ≈ 0.184 (18.4%) at G = 0.5</td><td>1/e ≈ 0.368 (36.8%) at G = 1</td></tr>
+      </tbody>
+    </table></div>
+    <p>Slotted ALOHA doubles the best-case throughput. Worked values are on the <a href="numericals.html#aloha">Numericals page</a>.</p>
+
+    <h3>CSMA — Carrier Sense Multiple Access</h3>
+    <p>CSMA ensures <strong>fewer collisions</strong> because a station must first <strong>sense the medium</strong> (idle or busy) before transmitting. If idle it sends; otherwise it waits until the channel becomes idle. However, a collision is still possible because of <strong>propagation delay</strong>: station A senses the channel idle and starts sending, but before A's first bit reaches B, station B also senses the channel idle and sends — the two frames collide.</p>
+    <h3>CSMA persistence modes <span class="tag">Beyond the deck</span></h3>
+    <ul>
+      <li><strong>1-persistent</strong> — keep sensing; as soon as the channel is idle, send immediately (probability 1).</li>
+      <li><strong>Non-persistent</strong> — if busy, wait a random time and sense again.</li>
+      <li><strong>p-persistent</strong> — when idle, send with probability p, otherwise defer to the next slot.</li>
+    </ul>
+  </section>
+
+  <!-- 07 CSMA/CD -->
+  <section id="csma-cd">
+    <p class="eyebrow">07 · Listen while talking (wired)</p>
+    <h2>CSMA/CD — with Collision Detection</h2>
+    <p>Carrier sense multiple access with collision detection: stations can <strong>terminate transmission</strong> as soon as a collision is detected, instead of wasting time sending the rest of a corrupted frame.</p>
+    <h3>How CSMA/CD works <span class="tag">Beyond the deck</span></h3>
+    <ol class="steps">
+      <li><strong>Sense</strong> the channel; if it is idle, start transmitting (if busy, wait until idle).</li>
+      <li><strong>Keep listening while transmitting.</strong> If no other signal is heard for the whole frame, the frame is done.</li>
+      <li>If another transmission is detected (a <strong>collision</strong>), stop at once and send a short <strong>jam signal</strong> so every station knows a collision occurred.</li>
+      <li>Run <strong>binary exponential backoff</strong>: after the n-th collision pick K uniformly from {0, 1, …, 2<sup>m</sup> − 1} with m = min(n, 10), wait K × 512 bit times (51.2 µs on 10 Mbps Ethernet), then try again. After 16 failed attempts, give up and report an error.</li>
+    </ol>
+    <div class="callout"><p><strong>Minimum frame size:</strong> a frame must last at least as long as the round-trip propagation time (<code>Tt ≥ 2·Tp</code>), otherwise a sender could finish transmitting before the collision signal returns. For 10 Mbps Ethernet, 2·Tp = 51.2 µs → 512 bits = 64 bytes. <span class="tag">Beyond the deck</span></p></div>
+    <p>CSMA/CD suits <strong>wired, half-duplex shared media</strong> (classic Ethernet), where a node can transmit and receive at the same time. Fully switched, full-duplex Ethernet no longer needs it.</p>
+    <p>Numerical work (minimum frame size, backoff ranges and collision probabilities) is on the <a href="numericals.html#csma-cd">Numericals page</a>.</p>
+  </section>
+
+  <!-- 08 CSMA/CA -->
+  <section id="csma-ca">
+    <p class="eyebrow">08 · Avoid rather than detect (wireless)</p>
+    <h2>CSMA/CA — with Collision Avoidance</h2>
+    <p><strong>What the deck says:</strong> carrier sense multiple access with collision avoidance. The process of collision <em>detection</em> involves the sender receiving acknowledgement signals: if there is just one signal (its own) the data was sent successfully, but if there are two signals (its own and the one it collided with) a collision has occurred. To distinguish these cases, a collision must have a large impact on the received signal.</p>
+    <div class="callout"><p><strong>Exam-safe version <span class="tag">Beyond the deck</span>:</strong> in a wireless LAN a node <em>cannot</em> reliably listen while it transmits (its own signal drowns out everything else, and hidden terminals cannot hear each other), so collisions cannot be detected — they must be <strong>avoided</strong>, and success is confirmed by a link-layer <strong>ACK</strong>.</p></div>
+    <h3>IEEE 802.11 CSMA/CA procedure <span class="tag">Beyond the deck</span></h3>
+    <ol class="steps">
+      <li>If the channel is sensed <strong>idle for DIFS</strong>, transmit the whole frame (no collision detection).</li>
+      <li>If the channel is <strong>busy</strong>, choose a random backoff counter and count it down only while the channel is idle (freeze it when busy). When it reaches 0, transmit.</li>
+      <li>The receiver, after a short <strong>SIFS</strong>, returns an <strong>ACK</strong>.</li>
+      <li>If no ACK arrives, assume a collision/loss, <strong>double the backoff window</strong> and retry.</li>
+      <li>Optional <strong>RTS/CTS</strong>: the sender sends a short Request-To-Send, the receiver answers Clear-To-Send, and everyone who hears either one stays silent. This solves the <strong>hidden-terminal</strong> problem and means any collision only wastes a short RTS frame.</li>
+    </ol>
+
+    <h3>CSMA/CD vs. CSMA/CA <span class="tag">Beyond the deck</span></h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Aspect</th><th>CSMA/CD</th><th>CSMA/CA</th></tr></thead>
+      <tbody>
+        <tr><td>Full form</td><td>Collision Detection</td><td>Collision Avoidance</td></tr>
+        <tr><td>Medium</td><td>Wired (classic Ethernet, IEEE 802.3)</td><td>Wireless (Wi-Fi, IEEE 802.11)</td></tr>
+        <tr><td>Collision handling</td><td>Detect while sending, abort, jam, back off</td><td>Avoid in advance with backoff, IFS and optional RTS/CTS</td></tr>
+        <tr><td>Can the sender detect collisions?</td><td>Yes (listens while sending)</td><td>No (radio cannot send and listen together)</td></tr>
+        <tr><td>Acknowledgement</td><td>Not needed at link level</td><td>Required (ACK after every frame)</td></tr>
+        <tr><td>Hidden terminal</td><td>Not an issue on a shared wire</td><td>A real problem; RTS/CTS helps</td></tr>
+        <tr><td>Backoff</td><td>Only after a collision</td><td>Before transmitting on a busy channel, and after a missing ACK</td></tr>
+        <tr><td>Overhead</td><td>Low</td><td>Higher (IFS, ACKs, RTS/CTS)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- 09 TAKING TURNS -->
+  <section id="taking-turns">
+    <p class="eyebrow">09 · No collisions, by design</p>
+    <h2>Taking-Turns Protocols <span class="tag">Beyond the deck</span></h2>
+    <p>The deck lists <strong>controlled access protocols</strong> as a category but does not detail them. Taking-turns protocols avoid collisions by letting only one node transmit at a time, trying to combine the good points of channelization (no collisions) and random access (full channel for a lone sender).</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Polling protocol</h4>
+        <p>One node is the <strong>master</strong> (controller). It polls each other node in round-robin fashion: "you may send up to N frames". When a node has finished, the master polls the next one.</p>
+        <p><strong>Pros:</strong> no collisions and no empty slots. <strong>Cons:</strong> <em>polling overhead and delay</em> (even when nobody has data), and the master is a <em>single point of failure</em>. Example: Bluetooth master/slave.</p></div>
+      <div class="card"><h4>Token-passing protocol</h4>
+        <p>No master. A small special frame, the <strong>token</strong>, circulates in a fixed order. A node may transmit only while it holds the token (for a limited time), then passes the token on.</p>
+        <p><strong>Pros:</strong> decentralised and efficient. <strong>Cons:</strong> token overhead and latency, and the failure of one node (or a lost token) can bring the whole channel down until recovery. Examples: Token Ring, FDDI.</p></div>
+    </div>
+    <p>A third controlled-access method is <strong>reservation</strong>: time is divided into intervals and each interval starts with a short reservation period in which stations announce that they want to send.</p>
+  </section>
+
+  <!-- 10 DOCSIS -->
+  <section id="docsis">
+    <p class="eyebrow">10 · Internet over the cable-TV network</p>
+    <h2>DOCSIS</h2>
+    <p><strong>Data Over Cable Service Interface Specifications (DOCSIS)</strong> is the technology used to communicate and transfer data across RF or coaxial cable at high speeds. It began with DOCSIS 1.0 in 1997 by CableLabs and was originally built on the <strong>pre-existing cable-TV infrastructure</strong>, which made roll-out possible. The standard is now in its third generation, with prospects for the future remaining bright.</p>
+
+    <h3>Evolution of DOCSIS</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Version</th><th>Year</th><th>What the deck says</th></tr></thead>
+      <tbody>
+        <tr><td>DOCSIS 1.0</td><td>1997</td><td>Up to <strong>40 Mbps downstream</strong> and <strong>10 Mbps upstream</strong>; sufficient for the usage requirements of the time.</td></tr>
+        <tr><td>DOCSIS 1.1</td><td>about two years later</td><td>Same bit rates (40 Mbps DS / 10 Mbps US) but allowed <strong>VoIP</strong> services for cable-TV subscribers.</td></tr>
+        <tr><td>DOCSIS 2.0</td><td>2002</td><td>A wider band in the upstream channel and more effective modulation schemes → <strong>40 Mbps download and 30 Mbps upload</strong>.</td></tr>
+        <tr><td>DOCSIS 3.0</td><td>2006</td><td><strong>Channel bonding</strong> — combining upstream and downstream channels; bonding 6 or 8 MHz channels gives higher speeds. Also enabled <strong>IP multicast, IPv6 and AES encryption</strong>.</td></tr>
+        <tr><td>DOCSIS 4.0</td><td>published 2020</td><td>Latest major version from CableLabs for very high-speed broadband over existing <strong>hybrid fibre-coaxial (HFC)</strong> networks; builds on 3.0/3.1 with much higher upstream capacity, better spectrum usage and near-symmetric multi-gigabit services.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout violet"><p><strong>Careful with the figures:</strong> the deck quotes DOCSIS 3.0 as "up to 340 Mb/s (440 Mb/s for EuroDOCSIS downstream and 120 Mbps upstream)". The wording is garbled in the slide, so quote it as "per the lecture deck" in exams; the key idea is that <em>channel bonding</em> multiplies the rate by combining several channels.</p></div>
+
+    <h3>Architecture: how a cable access network works <span class="tag">Beyond the deck</span></h3>
+    <p>Homes connect through <strong>cable modems (CM)</strong> to the coax part of an HFC network; fibre carries the signal to a <strong>cable modem termination system (CMTS)</strong> at the cable headend, which acts like the ISP's access router.</p>
+    <ul>
+      <li><strong>FDM (frequency division multiplexing)</strong> divides the spectrum into several downstream and several upstream channels. In the textbook description each downstream channel is about 6 MHz wide (≈ 40 Mbps) and each upstream channel about 6.4 MHz (≈ 30 Mbps).</li>
+      <li><strong>Downstream</strong> is a broadcast channel: the CMTS transmits to all modems on it, so there are no collisions; each modem picks out its own frames.</li>
+      <li><strong>Upstream</strong> is shared by many modems, so it also needs a <strong>multiple-access protocol</strong>. Each upstream channel is divided into <strong>time slots (mini-slots)</strong>.</li>
+      <li>The CMTS periodically sends a <strong>MAP message</strong> on the downstream channel saying which modem may transmit in which mini-slots. Because the CMTS decides, data transmission itself is collision-free.</li>
+      <li>To ask for upstream capacity, modems send <strong>request frames</strong> in dedicated contention mini-slots using random access with <strong>binary exponential backoff</strong>; requests can collide, but data cannot.</li>
+    </ul>
+    <p>So DOCSIS is a hybrid: random access for reservation requests, then centrally scheduled (taking-turns / reservation style) transmission of the data.</p>
+  </section>
+
+  <!-- 11 LINK VIRTUALIZATION -->
+  <section id="link-virt">
+    <p class="eyebrow">11 · A network pretending to be a link</p>
+    <h2>Link Virtualization <span class="tag">Beyond the deck</span></h2>
+    <p>The deck does not cover this topic; the following is the standard textbook idea. <strong>Virtualization</strong> means an abstract resource is created on top of a physical one. <em>Link virtualization</em> is the case where a whole <strong>network</strong> (made of switches, with its own protocols) is used by the layer above as if it were just a single <strong>link</strong>.</p>
+    <ul>
+      <li>The network layer (IP) sends a datagram to the next hop over what it believes is a point-to-point link. In reality that "link" is a complete underlying network — historically ATM or frame relay, today MPLS/VPN services or a provider's Ethernet network.</li>
+      <li>Because IP only sees the virtual link, it treats the underlying network as a link-layer technology, and the provider can change the real network without changing IP.</li>
+    </ul>
+    <h3>Virtual LANs (VLANs) and overlays</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>VLAN (IEEE 802.1Q)</h4><p>A switch is partitioned so ports belong to different <strong>logical LANs</strong> that share the same physical switches. Traffic between VLANs must pass a router (or Layer-3 switch). Frames on <strong>trunk</strong> links carry a 4-byte tag with a 12-bit VLAN ID (4094 usable VLANs).</p></div>
+      <div class="card"><h4>Overlay (VXLAN, tunnels, VPNs)</h4><p>Layer-2 frames of a tenant's logical network are <strong>encapsulated</strong> inside IP/UDP packets and carried over the shared physical network. VXLAN's 24-bit network identifier supports about 16 million logical networks — useful in data centres.</p></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Advantage</th><th>Why it helps</th></tr></thead>
+      <tbody>
+        <tr><td>Isolation / security</td><td>Different clients or departments cannot see each other's broadcast traffic.</td></tr>
+        <tr><td>Resource sharing</td><td>Many logical networks run over the same physical switches and cables, lowering cost.</td></tr>
+        <tr><td>Flexibility</td><td>Move a user or VM to another logical network by configuration, not by re-cabling.</td></tr>
+        <tr><td>Smaller broadcast domains</td><td>Less broadcast traffic and better performance.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- 12 MPLS -->
+  <section id="mpls">
+    <p class="eyebrow">12 · Forward by label, not by IP lookup</p>
+    <h2>Multiprotocol Label Switching (MPLS) <span class="tag">Beyond the deck</span></h2>
+    <p>The deck does not cover MPLS; this is the standard textbook treatment. MPLS is a forwarding technique that uses a short fixed-length <strong>label</strong>, instead of the destination IP address, to forward packets. It was designed to speed up forwarding and, more importantly today, to enable <strong>traffic engineering</strong> and VPNs.</p>
+    <h3>MPLS header (32 bits)</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Field</th><th>Size</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Label</td><td>20 bits</td><td>Identifies the forwarding path (FEC); used as the table index</td></tr>
+        <tr><td>TC (traffic class, formerly EXP)</td><td>3 bits</td><td>Quality-of-service marking</td></tr>
+        <tr><td>S (bottom of stack)</td><td>1 bit</td><td>1 on the last label of the stack (labels can be stacked)</td></tr>
+        <tr><td>TTL</td><td>8 bits</td><td>Time to live, like IP's</td></tr>
+      </tbody>
+    </table></div>
+    <p>The MPLS header sits <strong>between the link-layer header and the IP header</strong> (so it is often called "layer 2.5").</p>
+    <h3>How forwarding works</h3>
+    <ol class="steps">
+      <li>The <strong>ingress label-edge router (LER)</strong> examines the IP packet, classifies it into a forwarding class (FEC) and <strong>pushes</strong> a label.</li>
+      <li>Each <strong>label-switching router (LSR)</strong> on the path looks up only the incoming label in its table, <strong>swaps</strong> it for an outgoing label and sends the packet out the matching interface — no IP lookup.</li>
+      <li>The <strong>egress LER</strong> <strong>pops</strong> the label and forwards the plain IP packet onward.</li>
+    </ol>
+    <p>The path of labels is a <strong>label-switched path (LSP)</strong>. Labels are distributed with a signalling protocol such as <strong>LDP</strong> or <strong>RSVP-TE</strong>; MPLS routers also use link-state routing (OSPF/IS-IS) with extensions.</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>Traffic engineering</h4><p>Paths can be chosen by load, not just shortest path — traffic is steered around congested links.</p></div>
+      <div class="card"><h4>Fast reroute</h4><p>Pre-computed backup LSPs restore service within milliseconds after a link failure.</p></div>
+      <div class="card"><h4>VPNs / QoS</h4><p>Labels separate customers' traffic over a shared backbone and carry class-of-service information.</p></div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <p class="eyebrow">13 · Revise</p>
+    <h2>Unit 5 — Summary</h2>
+    <ul>
+      <li>The link layer moves <strong>frames</strong> across one link; it has an LLC sub-layer (flow/error control) and a MAC sub-layer (media access).</li>
+      <li>Error detection adds redundant bits: <strong>parity</strong> (cheap; misses even-numbered errors), <strong>2D parity</strong> (corrects single-bit errors), <strong>checksum</strong> (1's-complement sum, complemented) and <strong>CRC</strong> (modulo-2 division, strongest).</li>
+      <li>Random access: <strong>pure ALOHA</strong> (max 18.4%), <strong>slotted ALOHA</strong> (max 36.8%), <strong>CSMA</strong>, <strong>CSMA/CD</strong> (wired, detect and back off), <strong>CSMA/CA</strong> (wireless, avoid with backoff, ACK and RTS/CTS).</li>
+      <li>Taking-turns protocols (polling, token passing) avoid collisions entirely.</li>
+      <li><strong>DOCSIS</strong> carries data over the cable-TV network using FDM channels, CMTS-scheduled mini-slots and channel bonding.</li>
+      <li><strong>Link virtualization</strong> (VLANs, overlays) and <strong>MPLS</strong> (label switching) let one physical network behave as many logical ones.</li>
+    </ul>
+    <div class="grid cols-2">
+      <div class="card"><h4>🧮 Numericals</h4><p>Parity, 2D parity, Internet checksum, CRC long division, ALOHA throughput and CSMA/CD backoff.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 5 Numericals →</a></p></div>
+      <div class="card"><h4>📚 Question Bank</h4><p>Concise answers to every Unit 5 question-bank item.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 5 Question Bank →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 5 — The Link Layer · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Network Layer</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:#fff3d6;color:#8a5a00;border:1px solid var(--amber);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+  ul ul{margin:6px 0 0;}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · UNIT 4</span>
+  <h1>🌐 The Network Layer</h1>
+  <p>Virtual-circuit and datagram networks, the Internet Protocol, IPv4 addressing and subnetting,
+     IPv6, ICMP, routing algorithms (Link-State and Distance-Vector) and routing in the Internet:
+     RIP, OSPF and BGP.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#vc-datagram">VC &amp; Datagram</a>
+    <a href="#router">IP &amp; Router</a>
+    <a href="#ipv4">IPv4</a>
+    <a href="#subnetting">Subnetting</a>
+    <a href="#ipv6">IPv6</a>
+    <a href="#icmp">ICMP</a>
+    <a href="#routing-intro">Routing</a>
+    <a href="#link-state">Link-State</a>
+    <a href="#distance-vector">Distance-Vector</a>
+    <a href="#rip">RIP</a>
+    <a href="#ospf">OSPF</a>
+    <a href="#bgp">BGP</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%201/">Unit 1</a>
+    <a href="../Unit%202/">Unit 2</a>
+    <a href="../Unit%203/">Unit 3</a>
+    <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- VC & DATAGRAM -->
+  <section id="vc-datagram">
+    <p class="eyebrow">01 · Two ways to move packets</p>
+    <h2>Virtual-Circuit &amp; Datagram Networks</h2>
+    <p>The <strong>Network Layer</strong> is the 3rd OSI layer. Its job is to move packets from the source host to the destination host across many networks and routers. A packet-switched network can offer this service in two ways: as a <strong>virtual-circuit network</strong> (connection-oriented) or as a <strong>datagram network</strong> (connectionless).</p>
+
+    <h3>Virtual-circuit (VC) network</h3>
+    <p>A VC network is a category of packet-switching network in which a <strong>virtual path</strong> is established between the source and destination before data flows. The path <em>appears</em> dedicated to the user, but it is really a logical circuit allocated from a managed pool of circuit resources according to traffic needs. The resources on the path can still be shared with other communications, which the user does not see.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Features</h4>
+        <ul>
+          <li>Switching is done at the network layer.</li>
+          <li>The path taken by the <strong>first packet</strong> is allocated; all later packets use the same path.</li>
+          <li>Buffers and bandwidth are <strong>reserved before transmission</strong>, and all packets consume the same resources.</li>
+          <li>All packets follow one path, so they share a common header and routing information.</li>
+          <li>Greater reliability and less complexity, owing to fixed paths and fixed resources.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>Congestion control in a VC network (closed-loop)</h4>
+        <ul>
+          <li><strong>No new connection:</strong> once congestion is detected, no new connections are set up (as a telephone exchange refuses new calls when overloaded).</li>
+          <li><strong>Avoid the congested router:</strong> allow new connections, but route them so the congested router is not on the path.</li>
+          <li><strong>Negotiation:</strong> at set-up time the host specifies the shape and volume of traffic, quality of service and other parameters.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Phases of VC transmission</h3>
+    <ol class="steps">
+      <li><strong>Set-up phase:</strong> a virtual circuit (route) is established from source to destination through a number of switches. Source and destination use <strong>global addresses</strong>, from which the switches make routing-table entries.</li>
+      <li><strong>Data-transfer phase:</strong> once the circuit exists, all packets follow the route set up earlier, according to the routing tables.</li>
+      <li><strong>Teardown phase:</strong> when data transfer is complete, the source sends a <em>teardown request</em>; the destination answers with a <em>teardown confirmation</em>; the switches flush their table entries, releasing the circuit.</li>
+    </ol>
+    <p><span class="tag">Beyond the deck</span> Each switch holds a <strong>VC table</strong>: (incoming interface, incoming VC number) &rarr; (outgoing interface, outgoing VC number). After set-up, packets carry only a short VC number (not the full destination address), and the number may change hop by hop.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Advantages of virtual circuit</h4>
+        <ul>
+          <li>Packets reach the receiver in the same order as sent.</li>
+          <li>A reliable network circuit.</li>
+          <li>No per-packet overhead for routing; a single global set-up overhead is used.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>Disadvantages of virtual circuit</h4>
+        <ul>
+          <li>Costly to implement.</li>
+          <li>Provides only connection-oriented service.</li>
+          <li>A new connection set-up is always required before transmission.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Datagram network</h3>
+    <p>In a connectionless system, a <strong>datagram</strong> is the smallest unit of data transmitted. Datagrams carry enough header information to be <strong>individually routed</strong> by every intermediate switching device. These networks exist within packet switching. (The deck adds that datagram communication is generally associated with UDP; in the Internet the datagram service of the network layer is provided by IP itself.)</p>
+    <div class="card"><h4>Features of datagram networks</h4>
+      <ul>
+        <li>Switching is done at the network layer.</li>
+        <li>Each datagram is routed <strong>independently</strong>, even if it belongs to the same message; the network treats each as if it exists alone.</li>
+        <li>No dedicated path is fixed. Each datagram is routed using <strong>dynamically changing routing tables</strong>, so two successive packets from the source may follow completely different routes.</li>
+        <li>No prior resource allocation: buffers, processors and bandwidth are not reserved.</li>
+        <li>Resources are allocated on demand, <strong>first-come first-served (FCFS)</strong>. A packet waits if other packets are being processed, whatever their source or destination.</li>
+      </ul>
+    </div>
+    <h3>Routing principle &amp; example</h3>
+    <p>Host H1 sends a message to host H2 through an ISP with <strong>five routers</strong> (numbered 1 to 5). H1 is attached to router 1 and H2 to router 5. The message is large enough to be broken into <strong>four packets A, B, C and D</strong>. Each router keeps a table with two columns: <code>DEST</code> (destination node) and <code>NEXT</code> (next node on the way). To reach DEST, the packet is forwarded to NEXT. These tables are dynamic and are refreshed from time to time depending on network conditions.</p>
+    <p>Because A, B, C and D are routed separately, they can take different routes and <strong>arrive out of order</strong>; it is the responsibility of H2 to reorder the packets and retrieve the original message.</p>
+
+    <h3>Datagram vs. virtual circuit</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Basis</th><th>Datagram approach</th><th>Virtual circuit</th></tr></thead>
+      <tbody>
+        <tr><td>Dedicated path</td><td>No dedicated transmission path</td><td>No physically dedicated path either (the path is logical)</td></tr>
+        <tr><td>Network is responsible for</td><td>Individual packets</td><td>Packet sequences</td></tr>
+        <tr><td>Route established</td><td>For each packet</td><td>For the entire conversation</td></tr>
+        <tr><td>Suitable for</td><td>A few packets</td><td>Longer data transmission</td></tr>
+        <tr><td>Connection</td><td>No connection is established</td><td>Connection is established</td></tr>
+        <tr><td>Reliability / order</td><td>Not dependable: packets may arrive in an order different from that sent</td><td>Dependable: packets arrive correctly, in the original order</td></tr>
+        <tr><td>Used in</td><td>IP network (the Internet)</td><td>ATM networks</td></tr>
+        <tr><td>Arrival order</td><td>Packets may arrive in a different order</td><td>Packets always arrive in the same order as sent</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- IP & ROUTER -->
+  <section id="router">
+    <p class="eyebrow">02 · The glue of the Internet</p>
+    <h2>Internet Protocol (IP), IP Packet &amp; the Router</h2>
+    <p>The <strong>Internet Protocol (IP)</strong> is a set of rules that allows computers and other devices to communicate over the Internet. It makes sure that information sent from one device reaches the correct destination by using a unique set of numbers called <strong>IP addresses</strong>. Whether browsing, e-mailing or streaming video, IP manages how the information travels.</p>
+    <h3>Why IP is important</h3>
+    <ul>
+      <li>It is responsible for delivering packets from the <strong>source host to the destination host</strong> based on their IP addresses.</li>
+      <li>Every device is assigned an IP address, a "home address" which lets other devices locate it and send messages to it. IP provides the addressing and routing mechanisms the devices need.</li>
+      <li>IP works with <strong>ICMP</strong> to send error messages and operational information (e.g. destination unreachable, echo requests) so that senders learn about delivery problems.</li>
+    </ul>
+    <h3>Key terms</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>IP address</h4><p>A "number sticker" given to every device that uses IP. It serves two purposes: host / network-interface identification and location addressing.</p></div>
+      <div class="card"><h4>Packet</h4><p>A parcel of data switched between origin and destination in a packet-switched network. It has a <strong>header</strong> and a <strong>payload</strong>.</p></div>
+      <div class="card"><h4>Router</h4><p>A network device that acts as a forwarding point for data packets between computer networks. Routers perform the traffic-routing functions of the Internet.</p></div>
+      <div class="card"><h4>IPv4</h4><p>Provides connectivity between hosts online; the version behind most Internet communication today.</p></div>
+      <div class="card"><h4>IPv6</h4><p>The latest iteration of IP, used to identify, locate and route computers so traffic can be transferred properly.</p></div>
+    </div>
+    <h3>What is an IP packet?</h3>
+    <p>The basic unit of data transmission in an IP network, consisting of:</p>
+    <ul>
+      <li><strong>Header:</strong> essential control information such as the source and destination IP addresses, which helps routers decide where to send the packet.</li>
+      <li><strong>Payload:</strong> the actual data. On arrival, the payload is delivered to the appropriate application or protocol.</li>
+    </ul>
+    <h3>How IP routing works</h3>
+    <p>IP routing moves information from the source to the recipient and on to its final destination. Data is broken into pieces, and each piece typically passes through several routers before reaching the destination. The path is determined by the <strong>routing algorithm</strong>, whose design considers factors such as packet size and header length to find the most suitable route. When a datagram arrives at a router, its source and destination address fields are used with the <strong>routing table</strong> to decide the address of the next hop.</p>
+
+    <h3>MAC vs. IP vs. port address</h3>
+    <p>When you open a website, three kinds of address are in play:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Address</th><th>Layer</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Physical (MAC)</strong></td><td>Data link</td><td>Identifies a network interface on the <em>local</em> network, for frame delivery.</td></tr>
+        <tr><td><strong>Logical (IP)</strong></td><td>Network</td><td>Identifies the source and destination at the network layer, enabling routing <em>between</em> networks.</td></tr>
+        <tr><td><strong>Port</strong></td><td>Transport</td><td>Identifies the application or service endpoint on a device, e.g. HTTPS on port 443.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The router's two jobs <span class="tag">Beyond the deck</span></h3>
+    <ul>
+      <li><strong>Forwarding</strong> (data plane, per packet, nanoseconds): look up the destination address in the forwarding table and push the packet to the right output link.</li>
+      <li><strong>Routing</strong> (control plane, slow time-scale): run routing algorithms / protocols to compute the paths and fill the forwarding table.</li>
+      <li>In the table the router uses <strong>longest-prefix matching</strong>: when several entries match the destination, the one with the longest prefix (most specific) wins. A worked example is on the Numericals page.</li>
+    </ul>
+  </section>
+
+  <!-- IPv4 -->
+  <section id="ipv4">
+    <p class="eyebrow">03 · 32-bit addresses</p>
+    <h2>IPv4 &amp; IPv4 Addressing</h2>
+    <p><strong>IPv4</strong> (Internet Protocol version 4) is the most widely used system for identifying devices on a network. It uses a set of four numbers separated by periods (like <code>192.168.0.1</code>) to give each device a unique address, which helps data find its way from one device to another.</p>
+<!--fig:cn-frag-->
+<figure class="fig" data-caps='["The datagram is 4000 bytes: a 20-byte header + 3980 bytes of data. The link MTU is 1500 bytes.","Each fragment carries at most 1500 − 20 = 1480 bytes of data (a multiple of 8). So data is split 1480 + 1480 + 1020.","Fragment 1: length 1500, offset 0, MF = 1 (more fragments follow).","Fragment 2: length 1500, offset 1480 / 8 = 185, MF = 1.","Fragment 3: length 20 + 1020 = 1040, offset 2960 / 8 = 370, MF = 0 (last). The destination reassembles using offset and the same identification."]' data-intro="Cut the datagram." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="IPv4 fragmentation: 4000-byte datagram, MTU 1500" style="min-width:620px"><defs><marker id="fa11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-fill" x="40" y="40" width="80" height="40" rx="0"/></g><g data-s="1"><text class="tm" x="80" y="66" text-anchor="middle">hdr 20</text></g><g data-s="1"><rect class="s-mark" x="120" y="40" width="600" height="40" rx="0"/></g><g data-s="1"><text class="tb" x="420" y="66" text-anchor="middle">data 3980 bytes</text></g><g data-s="3"><rect class="s-fill" x="40" y="130" width="80" height="40" rx="0"/></g><g data-s="3"><text class="tm" x="80" y="156" text-anchor="middle">hdr 20</text></g><g data-s="3"><rect class="s-acc" x="120" y="130" width="223.11557788944722" height="40" rx="0"/></g><g data-s="3"><text class="tb" x="231.5577889447236" y="156" text-anchor="middle">1480 B data</text></g><g data-s="3"><text class="tm" x="365.1155778894472" y="156" text-anchor="start">len 1500  offset 0  MF 1</text></g><g data-s="4"><rect class="s-fill" x="40" y="206" width="80" height="40" rx="0"/></g><g data-s="4"><text class="tm" x="80" y="232" text-anchor="middle">hdr 20</text></g><g data-s="4"><rect class="s-acc" x="120" y="206" width="223.11557788944722" height="40" rx="0"/></g><g data-s="4"><text class="tb" x="231.5577889447236" y="232" text-anchor="middle">1480 B data</text></g><g data-s="4"><text class="tm" x="365.1155778894472" y="232" text-anchor="start">len 1500  offset 185  MF 1</text></g><g data-s="5"><rect class="s-fill" x="40" y="282" width="80" height="40" rx="0"/></g><g data-s="5"><text class="tm" x="80" y="308" text-anchor="middle">hdr 20</text></g><g data-s="5"><rect class="s-acc" x="120" y="282" width="153.76884422110552" height="40" rx="0"/></g><g data-s="5"><text class="tb" x="196.88442211055275" y="308" text-anchor="middle">1020 B data</text></g><g data-s="5"><text class="tm" x="295.7688442211055" y="308" text-anchor="start">len 1040  offset 370  MF 0</text></g><g data-s="2"><line class="c4" x1="343.1155778894472" y1="30" x2="343.1155778894472" y2="90"/><line class="c4" x1="566.2311557788944" y1="30" x2="566.2311557788944" y2="90"/></g></svg></div><figcaption>Cut the datagram.</figcaption></figure>
+<!--/fig:cn-frag-->
+
+
+    <h3>Address format</h3>
+    <ul>
+      <li>An IPv4 address is <strong>32 bits</strong>, grouped into four sections called <strong>octets (bytes)</strong> of 8 bits each, written in decimal and separated by dots: <em>dotted-decimal notation</em>.</li>
+      <li>An octet can represent 256 values, from <strong>0 to 255</strong>. Example: <code>185.107.80.231</code> has four octets.</li>
+    </ul>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Site</th><th>Dot-decimal</th><th>Binary</th></tr></thead>
+      <tbody>
+        <tr><td>Twitter.com</td><td>104.244.42.129</td><td>01101000.11110100.00101010.10000001</td></tr>
+        <tr><td>Reddit.com</td><td>151.101.65.140</td><td>10010111.01100101.01000001.10001100</td></tr>
+        <tr><td>Linkedin.com</td><td>108.174.10.10</td><td>01101100.10101110.00001010.00001010</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Binary to dotted-decimal (deck Example 19.1):</strong> replace each group of 8 bits with its decimal equivalent and add dots for separation.</p>
+
+    <h3>Parts of an IPv4 address</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Network part</h4><p>Identifies the network assigned, and also identifies the class of the network. Same for every host on that network.</p></div>
+      <div class="card"><h4>Host part</h4><p>Uniquely identifies the machine on the network. It must be different for each host.</p></div>
+      <div class="card"><h4>Subnet number</h4><p>The optional part. Local networks with large numbers of hosts are divided into subnets and given subnet numbers.</p></div>
+    </div>
+
+    <h3>Classful addressing</h3>
+    <p>In classful addressing the address space is divided into <strong>five classes: A, B, C, D and E</strong>. The class can be read from the leading bits (binary form) or from the first byte (dotted-decimal form).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Class</th><th>Leading bits</th><th>First byte</th><th>Default mask <span class="tag">Beyond the deck</span></th><th>Use <span class="tag">Beyond the deck</span></th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>0</td><td>0 – 127</td><td>255.0.0.0 (/8)</td><td>Very large networks</td></tr>
+        <tr><td>B</td><td>10</td><td>128 – 191</td><td>255.255.0.0 (/16)</td><td>Medium networks</td></tr>
+        <tr><td>C</td><td>110</td><td>192 – 223</td><td>255.255.255.0 (/24)</td><td>Small networks</td></tr>
+        <tr><td>D</td><td>1110</td><td>224 – 239</td><td>n/a</td><td>Multicast</td></tr>
+        <tr><td>E</td><td>1111</td><td>240 – 255</td><td>n/a</td><td>Reserved</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout violet"><p><strong>Deck Example 19.4 (find the class).</strong>
+      a) <code>00000001 00001011 00001011 11101111</code>: first bit is 0, so <strong>class A</strong>.
+      b) <code>11000001 10000011 00011011 11111111</code>: first two bits are 1 and the third is 0, so <strong>class C</strong>.
+      c) <code>14.23.120.8</code>: first byte is 14, so <strong>class A</strong>.
+      d) <code>252.5.15.111</code>: first byte is 252, so <strong>class E</strong>.</p></div>
+
+    <h3>IPv4 datagram header</h3>
+    <p>These fields together ensure proper delivery, routing, fragmentation and reassembly of IP packets across the network.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Field</th><th>Size</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Version</td><td>4 bits</td><td>Version of IP; 4 for IPv4.</td></tr>
+        <tr><td>HLEN</td><td>4 bits</td><td>Header length, in 32-bit words. Minimum 5, maximum 15 (i.e. 20 to 60 bytes).</td></tr>
+        <tr><td>Type of service</td><td>8 bits</td><td>Low delay, high throughput, reliability.</td></tr>
+        <tr><td>Total length</td><td>16 bits</td><td>Header + data. Minimum 20 bytes, maximum 65,535 bytes.</td></tr>
+        <tr><td>Identification</td><td>16 bits</td><td>Unique packet ID that identifies the group of fragments of a single IP datagram.</td></tr>
+        <tr><td>Flags</td><td>3 bits (1 each)</td><td>Reserved bit (must be zero), Do-Not-Fragment (DF), More-Fragments (MF), in that order.</td></tr>
+        <tr><td>Fragment offset</td><td>13 bits <span class="tag">Beyond the deck</span></td><td>Number of data bytes ahead of this fragment in the datagram, specified in units of 8 bytes; maximum value 65,528 bytes.</td></tr>
+        <tr><td>Time to live (TTL)</td><td>8 bits</td><td>Datagram lifetime. Prevents looping by limiting the number of hops a packet may take before being delivered.</td></tr>
+        <tr><td>Protocol</td><td>8 bits</td><td>Name of the protocol to which the data is to be passed.</td></tr>
+        <tr><td>Header checksum</td><td>16 bits</td><td>Error check for the datagram header.</td></tr>
+        <tr><td>Source IP address</td><td>32 bits</td><td>Address of the sender.</td></tr>
+        <tr><td>Destination IP address</td><td>32 bits</td><td>Address of the receiver.</td></tr>
+        <tr><td>Options</td><td>variable</td><td>Optional information such as source route and record route; used by network administrators to check whether a path is working.</td></tr>
+      </tbody>
+    </table></div>
+    <p><span class="tag">Beyond the deck</span> <strong>Fragmentation</strong>: if a datagram is larger than the link MTU, a router splits it into fragments. All fragments carry the same Identification; the Fragment Offset gives each fragment's position (in 8-byte units); MF = 1 on every fragment except the last. The destination reassembles. Worked numbers are on the Numericals page. Also, a datagram with DF = 1 that is too big is dropped and an ICMP "fragmentation needed" message is returned.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Advantages of IPv4 (from the deck)</h4>
+        <ul>
+          <li>IPv4 security permits encryption to keep privacy and security.</li>
+          <li>Easy to attach multiple devices across a large network (even without NAT, per the deck).</li>
+          <li>A model of communication that provides quality service and economical data transfer.</li>
+          <li>Routing is scalable and economical because addressing is aggregated more effectively.</li>
+          <li>Data communication becomes more specific in multicast organisations.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>Limitations of IPv4</h4>
+        <ul>
+          <li>The world's supply of unique IPv4 addresses is dwindling and could run out.</li>
+          <li>If there are many hosts, the next class of addresses is needed.</li>
+          <li>Complex host and routing configuration, non-hierarchical addressing, difficult re-numbering, large routing tables.</li>
+          <li>Non-trivial to provide security, QoS, mobility, multi-homing, multicasting and so on. This is why <strong>IPv6</strong> came into the picture.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBNETTING -->
+  <section id="subnetting">
+    <p class="eyebrow">04 · Network address &amp; host ID</p>
+    <h2>Subnet Masks, Network Address &amp; Host ID</h2>
+    <p>A subnet mask tells you which bits of an address are the <strong>network portion</strong> and which are the <strong>host portion</strong>: every <strong>1 bit</strong> in the mask is a network bit and every <strong>0 bit</strong> is a host bit. Writing <code>/n</code> (CIDR notation) means the first n bits are the network portion.</p>
+<!--fig:cn-subnet-->
+<figure class="fig" data-caps='["Start with 192.168.10.0/24: 24 network bits, 8 host bits (256 addresses).","We need 4 subnets, so borrow 2 host bits (2² = 4). The new prefix is /26 and the mask is 255.255.255.192.","Each subnet has 2⁶ = 64 addresses, so 64 − 2 = 62 usable hosts (network and broadcast addresses are reserved).","The four subnets, in blocks of 64: .0 to .63, .64 to .127, .128 to .191, .192 to .255."]' data-intro="Borrow two bits." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Splitting 192.168.10.0/24 into four /26 subnets" style="min-width:620px"><defs><marker id="fa10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-acc" x="30" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="52" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="74" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="96" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="118" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="140" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="162" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="184" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="206" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="228" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="250" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="272" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="294" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="316" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="338" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="360" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="382" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="404" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="426" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="448" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="470" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="492" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="514" y="40" width="20" height="34" rx="3"/><rect class="s-acc" x="536" y="40" width="20" height="34" rx="3"/><g data-s="2"><rect class="s-mark" x="558" y="40" width="20" height="34" rx="3"/></g><g data-s="2"><rect class="s-mark" x="580" y="40" width="20" height="34" rx="3"/></g><g data-s="1"><rect class="s-fill" x="602" y="40" width="20" height="34" rx="3"/></g><g data-s="1"><rect class="s-fill" x="624" y="40" width="20" height="34" rx="3"/></g><g data-s="1"><rect class="s-fill" x="646" y="40" width="20" height="34" rx="3"/></g><g data-s="1"><rect class="s-fill" x="668" y="40" width="20" height="34" rx="3"/></g><g data-s="1"><rect class="s-fill" x="690" y="40" width="20" height="34" rx="3"/></g><g data-s="1"><rect class="s-fill" x="712" y="40" width="20" height="34" rx="3"/></g><text class="tb" x="294" y="100" text-anchor="middle">24 network bits</text><g data-s="1"><text class="tb" x="656" y="100" text-anchor="middle">host bits</text></g><g data-s="2"><text class="acc-t" x="580" y="124" text-anchor="middle">2 borrowed bits</text></g><g data-s="2"><text class="tb" x="380" y="160" text-anchor="middle">mask /26 = 255.255.255.192</text></g><g data-s="3"><text class="tb" x="380" y="188" text-anchor="middle">64 addresses per subnet → 62 usable hosts</text></g><g data-s="4"><rect class="s-mark" x="30" y="210" width="700" height="28" rx="0"/></g><g data-s="4"><text class="tb" x="150" y="230" text-anchor="middle">subnet</text></g><g data-s="4"><text class="tb" x="330" y="230" text-anchor="middle">network</text></g><g data-s="4"><text class="tb" x="500" y="230" text-anchor="middle">usable hosts</text></g><g data-s="4"><text class="tb" x="660" y="230" text-anchor="middle">broadcast</text></g><g data-s="4"><rect class="s-fill" x="30" y="240" width="700" height="34" rx="0"/></g><g data-s="4"><text class="tm" x="150" y="263" text-anchor="middle">192.168.10.0/26</text></g><g data-s="4"><text class="tm" x="330" y="263" text-anchor="middle">.0</text></g><g data-s="4"><text class="tm" x="500" y="263" text-anchor="middle">.1 – .62</text></g><g data-s="4"><text class="tm" x="660" y="263" text-anchor="middle">.63</text></g><g data-s="4"><rect class="s-fill" x="30" y="276" width="700" height="34" rx="0"/></g><g data-s="4"><text class="tm" x="150" y="299" text-anchor="middle">192.168.10.64/26</text></g><g data-s="4"><text class="tm" x="330" y="299" text-anchor="middle">.64</text></g><g data-s="4"><text class="tm" x="500" y="299" text-anchor="middle">.65 – .126</text></g><g data-s="4"><text class="tm" x="660" y="299" text-anchor="middle">.127</text></g><g data-s="4"><rect class="s-fill" x="30" y="312" width="700" height="34" rx="0"/></g><g data-s="4"><text class="tm" x="150" y="335" text-anchor="middle">192.168.10.128/26</text></g><g data-s="4"><text class="tm" x="330" y="335" text-anchor="middle">.128</text></g><g data-s="4"><text class="tm" x="500" y="335" text-anchor="middle">.129 – .190</text></g><g data-s="4"><text class="tm" x="660" y="335" text-anchor="middle">.191</text></g><g data-s="4"><rect class="s-fill" x="30" y="348" width="700" height="34" rx="0"/></g><g data-s="4"><text class="tm" x="150" y="371" text-anchor="middle">192.168.10.192/26</text></g><g data-s="4"><text class="tm" x="330" y="371" text-anchor="middle">.192</text></g><g data-s="4"><text class="tm" x="500" y="371" text-anchor="middle">.193 – .254</text></g><g data-s="4"><text class="tm" x="660" y="371" text-anchor="middle">.255</text></g></svg></div><figcaption>Borrow two bits.</figcaption></figure>
+<!--/fig:cn-subnet-->
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Q1: 172.16.5.120, mask 255.255.0.0 (/16)</h4>
+        <p>First 16 bits = network, remaining 16 = host.</p>
+        <p>Network address = <code>172.16.0.0</code></p>
+        <p>Host ID = <code>5.120</code> (binary 00000101.01111000)</p>
+      </div>
+      <div class="card"><h4>Q2: 10.20.30.45, mask 255.0.0.0 (/8)</h4>
+        <p>First 8 bits = network, remaining 24 = host.</p>
+        <p>Network address = <code>10.0.0.0</code></p>
+        <p>Host ID = <code>20.30.45</code> (binary 00010100.00011110.00101101)</p>
+      </div>
+    </div>
+    <h3>Formulas <span class="tag">Beyond the deck</span></h3>
+    <ul>
+      <li><strong>Network address</strong> = IP address AND subnet mask (bitwise).</li>
+      <li><strong>Broadcast address</strong> = network address with all host bits set to 1.</li>
+      <li><strong>Host ID</strong> = IP address AND (NOT mask).</li>
+      <li><strong>Addresses in a block</strong> = 2<sup>(32 &minus; n)</sup>; <strong>usable hosts</strong> = 2<sup>(32 &minus; n)</sup> &minus; 2 (network and broadcast addresses are not assignable).</li>
+      <li><strong>Subnetting</strong> into N equal subnets: borrow <code>b = &lceil;log<sub>2</sub> N&rceil;</code> bits from the host part, so the new prefix is <code>/(n + b)</code>. The block size in the changed octet is 256 &minus; (mask value).</li>
+      <li><strong>CIDR</strong> (classless inter-domain routing) drops the fixed A/B/C boundaries and allows any prefix length; <strong>VLSM</strong> lets different subnets of one network use different prefix lengths (allocate the largest subnet first).</li>
+    </ul>
+    <div class="callout"><p>Full worked examples (broadcast, usable hosts, equal subnets, VLSM, longest-prefix match, fragmentation) are on the Numericals page.</p></div>
+  </section>
+
+  <!-- IPv6 -->
+  <section id="ipv6">
+    <p class="eyebrow">05 · 128-bit addresses</p>
+    <h2>IPv6</h2>
+    <p>The <strong>Internet Protocol version 6 (IPv6)</strong> is the latest version of IP, the system used for identifying and locating computers on the Internet. It was developed by the <strong>IETF</strong>. An IPv6 address is <strong>128 bits</strong> long, giving an address space of 2<sup>128</sup>, far larger than IPv4's. It is written in <strong>hexadecimal separated by colons (:)</strong>.</p>
+    <h3>Address format</h3>
+    <ul>
+      <li>There are <strong>8 groups</strong>, each representing 2 bytes (16 bits).</li>
+      <li>Each hex digit is 4 bits (one nibble); each group has 4 hex digits.</li>
+      <li>The delimiter is the colon.</li>
+    </ul>
+    <p>Example: <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code> <span class="tag">Beyond the deck</span></p>
+    <p><span class="tag">Beyond the deck</span> <strong>Shortening rules:</strong> (1) leading zeros in a group may be dropped; (2) one run of consecutive all-zero groups may be replaced by <code>::</code> (only once per address). So <code>2001:0db8:0000:0000:0000:ff00:0042:8329</code> becomes <code>2001:db8::ff00:42:8329</code>.</p>
+
+    <h3>Need for IPv6 (features)</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Large address space</h4><p>128 bits versus 32 bits: an increase of 2<sup>96</sup> times in the address space.</p></div>
+      <div class="card"><h4>Better header format</h4><p>New header format; options are separated from the base header and inserted, when needed, between the base header and the upper-layer data. This simplifies and speeds up routing, since routers need not check most options.</p></div>
+      <div class="card"><h4>New options</h4><p>New options allow additional functionality.</p></div>
+      <div class="card"><h4>Allowance for extension</h4><p>Designed so the protocol can be extended for new technologies or applications.</p></div>
+      <div class="card"><h4>Support for resource allocation</h4><p>The type-of-service field is removed; two new fields, <strong>traffic class</strong> and <strong>flow label</strong>, let the source request special handling of a packet, e.g. real-time audio and video.</p></div>
+      <div class="card"><h4>More security</h4><p>Encryption and authentication options provide confidentiality and integrity of the packet.</p></div>
+    </div>
+
+    <h3>Addressing methods</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Unicast</h4><p>Identifies a single network interface. A packet sent to a unicast address is delivered to that interface.</p></div>
+      <div class="card"><h4>Multicast</h4><p>Used by a group of hosts (not necessarily together geographically) that share a multicast destination address. One packet is delivered to all interfaces of the group.</p></div>
+      <div class="card"><h4>Anycast</h4><p>Assigned to a group of interfaces. A packet sent to an anycast address is delivered to only <strong>one</strong> member, mostly the nearest.</p></div>
+    </div>
+
+    <h3>IPv4 vs. IPv6 <span class="tag">Beyond the deck</span></h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+      <tbody>
+        <tr><td>Address length</td><td>32 bits</td><td>128 bits</td></tr>
+        <tr><td>Address space</td><td>2<sup>32</sup> (about 4.3 billion)</td><td>2<sup>128</sup></td></tr>
+        <tr><td>Notation</td><td>Dotted decimal (192.168.0.1)</td><td>Hex, colon separated (2001:db8::1)</td></tr>
+        <tr><td>Header</td><td>Variable, 20 to 60 bytes</td><td>Fixed 40 bytes; options moved to extension headers</td></tr>
+        <tr><td>Header checksum</td><td>Present</td><td>Removed (left to link and transport layers)</td></tr>
+        <tr><td>Fragmentation</td><td>By source and routers</td><td>Only by the source (routers do not fragment)</td></tr>
+        <tr><td>Address types</td><td>Unicast, multicast, broadcast</td><td>Unicast, multicast, anycast (no broadcast)</td></tr>
+        <tr><td>QoS</td><td>Type of service field</td><td>Traffic class and flow label</td></tr>
+        <tr><td>Security</td><td>IPsec optional</td><td>IPsec support built in</td></tr>
+        <tr><td>Configuration</td><td>Manual or DHCP</td><td>Auto-configuration (SLAAC) or DHCPv6</td></tr>
+        <tr><td>ARP</td><td>Uses ARP</td><td>Uses Neighbour Discovery (ICMPv6)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Migrating from IPv4 to IPv6 <span class="tag">Beyond the deck</span></h3>
+    <p>An IPv6 packet cannot be understood by an IPv4-only router, so the Internet moves gradually using three techniques: <strong>dual stack</strong> (hosts and routers run both IPv4 and IPv6), <strong>tunnelling</strong> (an IPv6 packet is carried as the payload inside an IPv4 packet across an IPv4-only region) and <strong>translation</strong> (NAT64 / header translation between the two).</p>
+  </section>
+
+  <!-- ICMP -->
+  <section id="icmp">
+    <p class="eyebrow">06 · Error and control messages</p>
+    <h2>Internet Control Message Protocol (ICMP)</h2>
+    <p>ICMP is a <strong>network-layer</strong> protocol, used mostly on network equipment such as routers, for <strong>error handling</strong> at the network layer. IP has no built-in mechanism for sending error and control messages, so it depends on ICMP. It is a supporting protocol that routers and other devices use to send error messages and operational information, e.g. the requested service is not available, or a host or router could not be reached.</p>
+
+    <h3>Uses of ICMP</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Error reporting</h4><p>If an error occurs between two devices, the router sends an ICMP error message to the source. E.g. if a message is too large for the receiver, it is dropped and an ICMP message is returned to the source.</p></div>
+      <div class="card"><h4>Traceroute</h4><p>Shows the route between two devices, hop by hop from one router to the next. Used to check network issues before data transfer.</p></div>
+      <div class="card"><h4>Ping</h4><p>A simple kind of traceroute that sends an <em>echo-request</em> message to measure the time for data to reach the destination and return; the replies are <em>echo-reply</em> messages.</p></div>
+    </div>
+    <p><span class="tag">Beyond the deck</span> Traceroute works by sending probes with TTL = 1, 2, 3, &hellip;; each router that drops a packet because its TTL reached 0 returns an ICMP <em>Time Exceeded</em> (type 11), revealing that hop; the final host replies with a destination/port-unreachable or echo reply.</p>
+
+    <h3>Working of ICMP</h3>
+    <ul>
+      <li>ICMP is <strong>connectionless</strong>, in contrast to TCP, which is connection-oriented and needs a handshake before sending.</li>
+      <li>ICMP packets are sent as datagrams containing an <strong>IP header with ICMP data</strong>; the ICMP header comes after the IPv4 or IPv6 packet header.</li>
+    </ul>
+
+    <h3>ICMP packet format</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Part</th><th>Size</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Type</td><td>8 bits</td><td>Message type, telling the receiver what kind of message it is and how to respond.</td></tr>
+        <tr><td>Code</td><td>8 bits</td><td>Additional information about the error message and type.</td></tr>
+        <tr><td>Checksum</td><td>16 bits</td><td>Checks the complete message so the ICMP tool can ensure the whole data is delivered.</td></tr>
+        <tr><td>Extended header</td><td>32 bits</td><td>Points out the problem in the IP message: a byte pointer to the location that caused the problem.</td></tr>
+        <tr><td>Data / payload</td><td>variable</td><td>The bytes included are 576 bytes in IPv4 and 1280 bytes in IPv6.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Types of ICMP messages</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Type</th><th>Code</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>0 &ndash; Echo reply</td><td>0</td><td>Echo reply</td></tr>
+        <tr><td rowspan="6">3 &ndash; Destination unreachable</td><td>0</td><td>Destination network unreachable</td></tr>
+        <tr><td>1</td><td>Destination host unreachable</td></tr>
+        <tr><td>2</td><td>Destination protocol unreachable</td></tr>
+        <tr><td>3</td><td>Destination port unreachable</td></tr>
+        <tr><td>4</td><td>Fragmentation is needed and the DF flag is set</td></tr>
+        <tr><td>5</td><td>Source route failed</td></tr>
+        <tr><td rowspan="4">5 &ndash; Redirect message</td><td>0</td><td>Redirect the datagram for the network</td></tr>
+        <tr><td>1</td><td>Redirect datagram for the host</td></tr>
+        <tr><td>2</td><td>Redirect the datagram for the type of service and network</td></tr>
+        <tr><td>3</td><td>Redirect datagram for the service and host</td></tr>
+        <tr><td>8 &ndash; Echo request</td><td>0</td><td>Echo request</td></tr>
+        <tr><td>9 &ndash; Router advertisement</td><td>0</td><td>Used to discover the addresses of operational routers</td></tr>
+        <tr><td>10 &ndash; Router solicitation</td><td>0</td><td>Request for router advertisements</td></tr>
+        <tr><td rowspan="2">11 &ndash; Time exceeded</td><td>0</td><td>Time to live exceeded in transit</td></tr>
+        <tr><td>1</td><td>Fragment reassembly time exceeded</td></tr>
+        <tr><td rowspan="3">12 &ndash; Parameter problem</td><td>0</td><td>The pointer indicates an error</td></tr>
+        <tr><td>1</td><td>Missing required option</td></tr>
+        <tr><td>2</td><td>Bad length</td></tr>
+        <tr><td>13 &ndash; Timestamp</td><td>0</td><td>Used for time synchronisation</td></tr>
+        <tr><td>14 &ndash; Timestamp reply</td><td>0</td><td>Reply to a timestamp message</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>ICMP in DDoS attacks</h3>
+    <p>ICMP lacks authentication and can be abused for DoS and DDoS attacks, where attackers overwhelm a target with unwanted traffic so it cannot serve its users. Ways ICMP is used:</p>
+    <ol class="steps">
+      <li><strong>Ping of death:</strong> the attacker sends an IP packet larger than the maximum IP allows. It is fragmented on the way; when the recipient reassembles it, the size exceeds the limit, causing a buffer overflow and a freeze or crash.</li>
+      <li><strong>ICMP flood (ping flood):</strong> the target is overwhelmed with echo-request packets, each of which must be processed and answered with an echo reply, exhausting its resources.</li>
+      <li><strong>Smurf attack:</strong> the attacker sends an ICMP packet with a <em>spoofed source IP</em>; network equipment replies to it, sending the spoofed address a flood of packets.</li>
+      <li><strong>ICMP tunnelling:</strong> a command-and-control technique that hides malicious traffic inside benign-looking ICMP headers, bypassing firewalls and security measures.</li>
+      <li><strong>ICMP router-advertisement spoofing:</strong> false router advertisements mislead devices into using the attacker's machine as their default gateway, enabling man-in-the-middle attacks.</li>
+    </ol>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Advantages of ICMP</h4>
+        <ul>
+          <li>Devices use it to send error messages; administrators use ping and tracert to debug the network.</li>
+          <li>Alerts help identify connectivity issues, e.g. when a destination host or network becomes unavailable or a packet is lost.</li>
+          <li>Monitoring tools use ICMP to detect problems the network team must resolve.</li>
+          <li>A quick, simple method (queries and answers) to test connections and find the source of a fault.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>Disadvantages of ICMP</h4>
+        <ul>
+          <li>If a router drops a packet because of an error, IP's design gives the sender no guaranteed way to be told.</li>
+          <li>If a packet's TTL reaches zero it is destroyed.</li>
+          <li>IP has no standard method for devices to check each other's "vital signs" (e.g. whether a destination is still operational) before sending data.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROUTING INTRO -->
+  <section id="routing-intro">
+    <p class="eyebrow">07 · Finding the best path</p>
+    <h2>Routing &amp; Routing Algorithms</h2>
+    <p>A <strong>routing algorithm</strong> is a procedure that lays down the route or path used to transfer data packets from source to destination. It helps direct Internet traffic efficiently: after a packet leaves its source it can choose among many paths, and the routing algorithm mathematically computes the best path, i.e. the <strong>least-cost path</strong>.</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>1. Adaptive (dynamic)</h4><p>Change routing decisions whenever the network topology or traffic load changes. They use dynamic information such as current topology, load and delay to select routes.</p></div>
+      <div class="card"><h4>2. Non-adaptive (static)</h4><p>Do not change decisions once selected. The route is computed in advance and downloaded to routers when they boot.</p></div>
+      <div class="card"><h4>3. Hybrid</h4><p>A combination of the two: the network is divided into regions and each region uses a different algorithm. The deck lists <em>link-state</em> and <em>distance-vector</em> under this heading.</p></div>
+    </div>
+    <h3>Routing in the Internet <span class="tag">Beyond the deck</span></h3>
+    <p>The Internet is far too large for one flat routing algorithm, so it is split into <strong>autonomous systems (AS)</strong>, each under one administrative control. Routing is therefore <strong>hierarchical</strong>:</p>
+    <ul>
+      <li><strong>Intra-AS routing</strong> (Interior Gateway Protocols, IGP): inside one AS, using <strong>RIP</strong> (distance vector) or <strong>OSPF</strong> (link state).</li>
+      <li><strong>Inter-AS routing</strong> (Exterior Gateway Protocol): between ASes, using <strong>BGP</strong>, where policy matters as much as shortest path.</li>
+    </ul>
+  </section>
+
+  <!-- LINK STATE -->
+  <section id="link-state">
+    <p class="eyebrow">08 · Everyone knows the whole map</p>
+    <h2>Link-State Routing Algorithm</h2>
+    <p>A link-state algorithm determines the shortest path from one node to another. Each router <strong>shares its knowledge of its neighbourhood with every other router</strong> in the internetwork. Every router therefore learns the full network topology and builds its own routing table from it: it constructs a complete topological map (every node and link) and uses the map to compute shortest paths.</p>
+<!--fig:cn-dijkstra-->
+<figure class="fig" data-caps='["The network: link costs are written on the edges. Find the least-cost path from u to every node. D(n) = best known cost, starting at 0 for u.","Settle the closest unsettled node: u (cost 0). Update its neighbours: D(v)=2, D(x)=1, D(w)=5.","Next closest is x (cost 1). Via x: D(v) stays 2, D(w) improves to 4, D(y) = 2.","Settle y or v (cost 2). Via y: D(w) improves to 3, D(z) = 4.","Settle w (cost 3) and z (cost 4). All nodes are settled.","The shortest-path tree from u (the thick edges) is what u uses to build its forwarding table."]' data-intro="Run Dijkstra's algorithm." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Dijkstra's link-state algorithm from node u" style="min-width:620px"><defs><marker id="fa8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="axis" x1="90" y1="190" x2="250" y2="80"/><rect class="s-fill" x="158" y="123" width="24" height="22" rx="4"/><text class="tm" x="170" y="140" text-anchor="middle">2</text><line class="axis" x1="90" y1="190" x2="400" y2="190"/><rect class="s-fill" x="233" y="178" width="24" height="22" rx="4"/><text class="tm" x="245" y="195" text-anchor="middle">1</text><line class="axis" x1="90" y1="190" x2="250" y2="300"/><rect class="s-fill" x="158" y="233" width="24" height="22" rx="4"/><text class="tm" x="170" y="250" text-anchor="middle">5</text><line class="axis" x1="250" y1="80" x2="400" y2="190"/><rect class="s-fill" x="313" y="123" width="24" height="22" rx="4"/><text class="tm" x="325" y="140" text-anchor="middle">2</text><line class="axis" x1="250" y1="80" x2="250" y2="300"/><rect class="s-fill" x="238" y="178" width="24" height="22" rx="4"/><text class="tm" x="250" y="195" text-anchor="middle">3</text><line class="axis" x1="250" y1="300" x2="400" y2="190"/><rect class="s-fill" x="313" y="233" width="24" height="22" rx="4"/><text class="tm" x="325" y="250" text-anchor="middle">3</text><line class="axis" x1="250" y1="300" x2="550" y2="300"/><rect class="s-fill" x="388" y="288" width="24" height="22" rx="4"/><text class="tm" x="400" y="305" text-anchor="middle">1</text><line class="axis" x1="400" y1="190" x2="550" y2="300"/><rect class="s-fill" x="463" y="233" width="24" height="22" rx="4"/><text class="tm" x="475" y="250" text-anchor="middle">1</text><line class="axis" x1="250" y1="300" x2="610" y2="80"/><rect class="s-fill" x="418" y="178" width="24" height="22" rx="4"/><text class="tm" x="430" y="195" text-anchor="middle">5</text><line class="axis" x1="550" y1="300" x2="610" y2="80"/><rect class="s-fill" x="568" y="178" width="24" height="22" rx="4"/><text class="tm" x="580" y="195" text-anchor="middle">2</text><circle class="s-fill" cx="90" cy="190" r="22"/><text class="tb" x="90" y="196" text-anchor="middle">u</text><circle class="s-fill" cx="250" cy="80" r="22"/><text class="tb" x="250" y="86" text-anchor="middle">v</text><circle class="s-fill" cx="250" cy="300" r="22"/><text class="tb" x="250" y="306" text-anchor="middle">w</text><circle class="s-fill" cx="400" cy="190" r="22"/><text class="tb" x="400" y="196" text-anchor="middle">x</text><circle class="s-fill" cx="550" cy="300" r="22"/><text class="tb" x="550" y="306" text-anchor="middle">y</text><circle class="s-fill" cx="610" cy="80" r="22"/><text class="tb" x="610" y="86" text-anchor="middle">z</text><g data-s="2"><circle class="s-mark" cx="90" cy="190" r="22"/></g><g data-s="2"><text class="tb" x="90" y="196" text-anchor="middle">u</text></g><g data-s="2"><text class="acc-t" x="90" y="234" text-anchor="middle">D=0</text></g><g data-s="4"><circle class="s-mark" cx="250" cy="80" r="22"/></g><g data-s="4"><text class="tb" x="250" y="86" text-anchor="middle">v</text></g><g data-s="4"><text class="acc-t" x="250" y="124" text-anchor="middle">D=2</text></g><g data-s="5"><circle class="s-mark" cx="250" cy="300" r="22"/></g><g data-s="5"><text class="tb" x="250" y="306" text-anchor="middle">w</text></g><g data-s="5"><text class="acc-t" x="250" y="344" text-anchor="middle">D=3</text></g><g data-s="3"><circle class="s-mark" cx="400" cy="190" r="22"/></g><g data-s="3"><text class="tb" x="400" y="196" text-anchor="middle">x</text></g><g data-s="3"><text class="acc-t" x="400" y="234" text-anchor="middle">D=1</text></g><g data-s="4"><circle class="s-mark" cx="550" cy="300" r="22"/></g><g data-s="4"><text class="tb" x="550" y="306" text-anchor="middle">y</text></g><g data-s="4"><text class="acc-t" x="550" y="344" text-anchor="middle">D=2</text></g><g data-s="5"><circle class="s-mark" cx="610" cy="80" r="22"/></g><g data-s="5"><text class="tb" x="610" y="86" text-anchor="middle">z</text></g><g data-s="5"><text class="acc-t" x="610" y="124" text-anchor="middle">D=4</text></g><g data-s="6"><line class="c1" x1="250" y1="80" x2="90" y2="190"/></g><g data-s="6"><line class="c1" x1="400" y1="190" x2="90" y2="190"/></g><g data-s="6"><line class="c1" x1="250" y1="300" x2="550" y2="300"/></g><g data-s="6"><line class="c1" x1="550" y1="300" x2="400" y2="190"/></g><g data-s="6"><line class="c1" x1="610" y1="80" x2="550" y2="300"/></g></svg></div><figcaption>Run Dijkstra's algorithm.</figcaption></figure>
+<!--/fig:cn-dijkstra-->
+
+    <h3>Important points</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Complete topological map</h4><p>A map of all nodes and links.</p></div>
+      <div class="card"><h4>Dijkstra's algorithm</h4><p>Often used to calculate shortest paths between nodes.</p></div>
+      <div class="card"><h4>Link State Packets (LSPs)</h4><p>Each router sends periodic LSPs, describing its local links, to all other routers.</p></div>
+      <div class="card"><h4>Topology database</h4><p>Routers keep information from received LSPs, which lets them build the network map.</p></div>
+      <div class="card"><h4>Shortest-path calculation</h4><p>After building the map, each router runs Dijkstra to every other node.</p></div>
+      <div class="card"><h4>Link-state updates</h4><p>When the topology changes, routers generate new LSPs so everyone stays up to date.</p></div>
+    </div>
+    <p>A link-state protocol maps the entire network (routers and links). The map is the <strong>link-state database (LSDB)</strong> or topology table: the data structure that stores the topology as known by a router. Routers exchange <strong>LSAs (Link State Advertisements)</strong>, which describe the state of the links connected to each router and are used to build and maintain an up-to-date network map.</p>
+
+    <h3>Two phases</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>1. Flooding phase</h4><p>Each router floods its own LSA, containing the state of its own links and neighbours, to all other routers. Routers use the LSAs to build and update their LSDB.</p></div>
+      <div class="card"><h4>2. Calculation phase</h4><p>Once a router has the LSAs and has built its LSDB, it performs a <strong>shortest-path-first (SPF)</strong> calculation, considering link costs and router state. The result builds the <strong>forwarding table</strong> of best paths used to forward packets.</p></div>
+    </div>
+    <p>The two phases are continuous and simultaneous: routers keep flooding LSAs and updating the LSDB, and recompute SPF on the latest topology.</p>
+
+    <h3>The algorithm, step by step</h3>
+    <ol class="steps">
+      <li><strong>Discovery:</strong> each router sends <em>Hello</em> packets to discover neighbours and establish adjacency; then routers exchange LSAs to learn the state of the network.</li>
+      <li><strong>LSA flooding:</strong> each router floods its own LSA (its links and neighbours) to all other routers, which build or update their LSDB.</li>
+      <li><strong>SPF calculation:</strong> with the LSDB complete, each router computes the best path to every destination (using link costs and router states) and builds the forwarding table.</li>
+      <li><strong>Updating LSAs:</strong> on a change (link failure, new router), the affected router floods a new LSA; this triggers a new SPF calculation and the forwarding table is updated.</li>
+      <li><strong>Aging LSAs:</strong> each LSA gets a time-to-live; when it expires the router removes it from the LSDB. The steps repeat continuously.</li>
+    </ol>
+
+    <h3>Dijkstra's shortest-path algorithm <span class="tag">Beyond the deck</span></h3>
+    <p>Let <code>c(u,v)</code> be the link cost, <code>D(v)</code> the current least cost from the source to v, and N' the set of nodes whose least cost is final.</p>
+    <ol class="steps">
+      <li><strong>Initialise:</strong> N' = {source}. For each node v: D(v) = c(source, v) if v is a neighbour, else &infin;.</li>
+      <li><strong>Loop:</strong> pick the node w not in N' with the smallest D(w) and add it to N'.</li>
+      <li><strong>Relax:</strong> for each neighbour v of w not in N': D(v) = min( D(v), D(w) + c(w,v) ), recording the predecessor.</li>
+      <li>Repeat until every node is in N'. A worked iteration table is on the Numericals page.</li>
+    </ol>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Advantages of link-state routing</h4>
+        <ul>
+          <li>Each router has a complete map, so convergence is much <strong>faster</strong> than distance vector, which relies on periodic updates.</li>
+          <li>Updates are sent <strong>only when the topology changes</strong>, using less bandwidth than distance vector.</li>
+          <li>Better suited to <strong>large networks</strong>; handles many routers and links without routing loops.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>Disadvantages of link-state routing</h4>
+        <ul>
+          <li>Needs more computational power and memory (for the LSDB and SPF), which can limit scalability.</li>
+          <li>More complex, so harder to configure and manage.</li>
+          <li>Generates more network traffic from frequent updates about topology changes (per the deck).</li>
+          <li>Vulnerable to routing attacks such as spoofed LSAs, which can make routers choose wrong routes.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISTANCE VECTOR -->
+  <section id="distance-vector">
+    <p class="eyebrow">09 · Routing by rumour</p>
+    <h2>Distance-Vector Routing Algorithm</h2>
+    <p><strong>Distance Vector Routing (DVR)</strong> is a dynamic routing algorithm that routers use to find the best path from a source network to a destination network. Each router maintains a routing table with:</p>
+<!--fig:cn-dv-->
+<figure class="fig" data-caps='["Three nodes. Link costs: x–y = 2, y–z = 1, x–z = 7. Each node starts knowing only its direct neighbours.","x&#39;s initial distance vector: to y = 2, to z = 7 (direct link).","y tells x its own vector: \"I can reach z at cost 1\".","Bellman-Ford: D_x(z) = min( c(x,z) + 0 = 7, c(x,y) + D_y(z) = 2 + 1 = 3 ) = 3. The route to z now goes via y.","x&#39;s updated vector: to y = 2, to z = 3 (next hop y). x sends this to its neighbours, who may improve in turn, until nothing changes."]' data-intro="Update one distance vector." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 360" role="img" aria-label="Distance-vector update at node x" style="min-width:620px"><defs><marker id="fa9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="axis" x1="120" y1="200" x2="380" y2="80"/><rect class="s-fill" x="236" y="126" width="28" height="24" rx="4"/><text class="tb" x="250" y="145" text-anchor="middle">2</text><line class="axis" x1="380" y1="80" x2="640" y2="200"/><rect class="s-fill" x="496" y="126" width="28" height="24" rx="4"/><text class="tb" x="510" y="145" text-anchor="middle">1</text><line class="axis" x1="120" y1="200" x2="640" y2="200"/><rect class="s-fill" x="366" y="186" width="28" height="24" rx="4"/><text class="tb" x="380" y="205" text-anchor="middle">7</text><circle class="s-acc" cx="120" cy="200" r="24"/><text class="tb" x="120" y="206" text-anchor="middle">x</text><circle class="s-acc" cx="380" cy="80" r="24"/><text class="tb" x="380" y="86" text-anchor="middle">y</text><circle class="s-acc" cx="640" cy="200" r="24"/><text class="tb" x="640" y="206" text-anchor="middle">z</text><g data-s="2"><rect class="s-fill" x="30" y="250" width="200" height="80" rx="8"/></g><g data-s="2"><text class="tb" x="130" y="276" text-anchor="middle">x table (before)</text></g><g data-s="2"><text class="tm" x="130" y="300" text-anchor="middle">to y: 2    to z: 7</text></g><g data-s="2"><text class="tm" x="130" y="320" text-anchor="middle">(direct links only)</text></g><g data-s="3"><line class="arr-acc" x1="380" y1="106" x2="150" y2="180" marker-end="url(#fb9)"/></g><g data-s="3"><text class="acc-t" x="290" y="118" text-anchor="end">y → x: "D_y(z) = 1"</text></g><g data-s="4"><text class="tb" x="380" y="160" text-anchor="middle">min(7, 2 + 1) = 3</text></g><g data-s="5"><rect class="s-mark" x="260" y="250" width="240" height="90" rx="8"/></g><g data-s="5"><text class="tb" x="380" y="276" text-anchor="middle">x table (after)</text></g><g data-s="5"><text class="tm" x="380" y="300" text-anchor="middle">to y: 2 via y   to z: 3 via y</text></g><g data-s="5"><text class="tm" x="380" y="322" text-anchor="middle">z improved from 7 to 3</text></g></svg></div><figcaption>Update one distance vector.</figcaption></figure>
+<!--/fig:cn-dv-->
+
+    <ul>
+      <li><strong>Destination:</strong> the destination network or router.</li>
+      <li><strong>Distance (cost):</strong> the cost of reaching it.</li>
+      <li><strong>Next hop:</strong> the neighbour through which packets should be forwarded.</li>
+    </ul>
+    <p>Each router shares its routing information with its <strong>immediate neighbours</strong> only. Using what it hears, it updates its table until the network <strong>converges</strong> (the routes stabilise). The algorithm is based on the <strong>Bellman&ndash;Ford equation</strong>:</p>
+    <div class="callout violet"><p><code>d<sub>x</sub>(y) = min<sub>v</sub> { c(x,v) + d<sub>v</sub>(y) }</code> &nbsp; where the minimum is over all neighbours v of x; c(x,v) is the cost of the link x&ndash;v and d<sub>v</sub>(y) is v's advertised distance to y. <span class="tag">Beyond the deck</span> (the deck shows the equation as a picture)</p></div>
+
+    <h3>Working of the algorithm</h3>
+    <ol class="steps">
+      <li>Initially each router knows the cost of reaching itself (0) and its directly connected neighbours.</li>
+      <li>Each router shares its distance vector with its immediate neighbours periodically, or when a change occurs.</li>
+      <li>Routers calculate the cost of reaching each destination through each neighbour.</li>
+      <li>The router selects the minimum-cost route and updates its table.</li>
+      <li>This continues until no routing table changes.</li>
+    </ol>
+
+    <h3>Example (from the deck)</h3>
+    <p>Links: A&ndash;B = 1, B&ndash;C = 1, A&ndash;D = 4, D&ndash;C = 1. Router A wants the shortest path to router C.</p>
+    <ul>
+      <li>Directly through B: cost = A&ndash;B + B&ndash;C = 1 + 1 = <strong>2</strong>.</li>
+      <li>Through D: cost = A&ndash;D + D&ndash;C = 4 + 1 = 5.</li>
+      <li>So A chooses A &rarr; B &rarr; C with minimum cost 2.</li>
+    </ul>
+    <p>After exchanging distance vectors the tables converge to:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Router</th><th>Destination</th><th>Minimum cost</th><th>Next hop</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>C</td><td>2</td><td>B</td></tr>
+        <tr><td>B</td><td>C</td><td>1</td><td>C</td></tr>
+        <tr><td>C</td><td>A</td><td>2</td><td>B</td></tr>
+        <tr><td>D</td><td>A</td><td>3</td><td>C</td></tr>
+      </tbody>
+    </table></div>
+    <p>The same network is solved round by round on the Numericals page.</p>
+
+    <h3>The count-to-infinity problem</h3>
+    <p>Routers keep <strong>increasing</strong> their estimated distance to an unreachable destination because each wrongly believes another router still has a valid path to it. This causes routing loops and slow convergence.</p>
+    <p><strong>Example:</strong> three routers A, B, C in a line; network X is attached to A. Initial distances to X: A = 0 (directly connected), B = 1 (through A), C = 2 (through B). Now the A&ndash;X link fails.</p>
+    <ol class="steps">
+      <li><strong>Link failure:</strong> A marks X unreachable (distance &infin;).</li>
+      <li><strong>Incorrect information at B:</strong> before learning about the failure, B still advertises distance 1 to X. A hears this stale information and thinks B has a path to X.</li>
+      <li><strong>Distance increases:</strong> A computes 1 + 1 = 2 via B. B then hears A's new advertisement and computes 1 + 2 = 3.</li>
+      <li><strong>Repeated updates:</strong> A and B keep raising their distances, each believing the other has a route. Packets may loop between them.</li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Update</th><th>A's distance to X</th><th>B's distance to X</th></tr></thead>
+      <tbody>
+        <tr><td>Before failure</td><td>0</td><td>1</td></tr>
+        <tr><td>After failure, stale information remains</td><td>&infin;</td><td>1</td></tr>
+        <tr><td>Update 1</td><td>2</td><td>1</td></tr>
+        <tr><td>Update 2</td><td>2</td><td>3</td></tr>
+        <tr><td>Update 3</td><td>4</td><td>3</td></tr>
+        <tr><td>Update 4</td><td>4</td><td>5</td></tr>
+        <tr><td>Subsequent updates</td><td>6, 8, &hellip;</td><td>7, 9, &hellip;</td></tr>
+      </tbody>
+    </table></div>
+    <p>The values grow until the protocol's defined infinity is reached (the exact sequence depends on update timing and implementation). In RIP, <strong>16 hops represents infinity</strong>, so the count is bounded. It is called "count-to-infinity" because routers repeatedly count upward instead of recognising at once that no valid path exists.</p>
+
+    <h3>Solutions to count-to-infinity</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>1. Split horizon</h4><p>A router does not advertise a route back to the neighbour from which it learned it.</p></div>
+      <div class="card"><h4>2. Route poisoning</h4><p>A failed route is advertised with an infinite metric.</p></div>
+      <div class="card"><h4>3. Poison reverse</h4><p>A router explicitly advertises a route back to the neighbour it learned it from, but with an infinite metric.</p></div>
+      <div class="card"><h4>4. Triggered updates</h4><p>Routers send an update immediately after a significant change instead of waiting for the next periodic update.</p></div>
+      <div class="card"><h4>5. Hold-down timers</h4><p>After detecting a failure, routers temporarily suppress potentially incorrect routing information.</p></div>
+    </div>
+    <p><span class="tag">Beyond the deck</span> Split horizon / poison reverse cure the two-node loop above but not every larger loop; that is why timers and a small "infinity" (16 in RIP) are also used. Link-state routing avoids the problem because every router has the full map.</p>
+  </section>
+
+  <!-- RIP -->
+  <section id="rip">
+    <p class="eyebrow">10 · The simplest Internet routing protocol</p>
+    <h2>Routing Information Protocol (RIP)</h2>
+    <p>RIP is a <strong>distance-vector</strong> protocol that uses <strong>hop count</strong> as its primary metric. It defines how routers should share information when moving traffic among an interconnected group of LANs. It was originally designed for the Xerox PARC Universal Packet protocol suite (known as Gateway Information Protocol in Xerox Network Systems in 1981). RIP, defined in <strong>RFC 1058 (1988)</strong>, is easy to configure and use in small networks.</p>
+    <h3>How RIP works</h3>
+    <ul>
+      <li>Each RIP router keeps a routing table of all destinations it knows and <strong>sends it to its closest neighbours every 30 seconds</strong>. Neighbours are routers directly connected on the same network segments.</li>
+      <li>Neighbours pass the information on to their neighbours, and so on, until all RIP routers have the same knowledge of paths: this shared knowledge is <strong>convergence</strong>.</li>
+      <li>If an update gives a <strong>shorter</strong> path, the router updates the entry with the new length and next hop.</li>
+      <li>If the new path is <strong>longer</strong>, the router waits through a <em>hold-down</em> period to see whether later updates repeat the higher value; it changes the entry only if the longer path is stable.</li>
+      <li>If a router crashes or a link is cut, updates stop. A route not refreshed for <strong>six successive update cycles (180 s)</strong> is dropped, and the rest of the network is told through the router's own periodic updates.</li>
+    </ul>
+    <h3>Hop count</h3>
+    <ul>
+      <li>RIP supports at most <strong>15 hops</strong> in a path. A destination network owned by a directly connected neighbour is one hop (a cost of one). If a packet cannot reach the destination in 15 hops, it is <strong>unreachable</strong> (16 = infinity).</li>
+      <li>RIP uses a <em>modified</em> hop count: engineers can assign a path a higher cost, as if it had extra hops, to discourage its use. E.g. a satellite backup link may be given a cost of 10 hops so traffic prefers other routes.</li>
+    </ul>
+    <p>RIP has an <strong>Administrative Distance (AD) of 120</strong> and uses <strong>port 520</strong> (<span class="tag">Beyond the deck</span> over UDP, which is why UDP was listed among routing-update protocols in Unit 3).</p>
+
+    <h3>RIP message fields</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Command</td><td>8-bit field for request and response: 1 = request, 2 = response.</td></tr>
+        <tr><td>Version</td><td>The RIP version in use (e.g. 1 for version 1).</td></tr>
+        <tr><td>Reserved</td><td>Reserved field, set to 0.</td></tr>
+        <tr><td>Family</td><td>16-bit field; with TCP/IP the value is 2.</td></tr>
+        <tr><td>Network address</td><td>Per the deck a 14-byte field; IPv4 fills 4 bytes and the remaining 10 bytes stay zero.</td></tr>
+        <tr><td>Distance</td><td>The hop count: the number of routers required to reach the destination network.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>RIP timers</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Timer</th><th>Value</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Update</td><td>30 s</td><td>Frequency of routing updates: a complete copy of the routing table is sent (subject to split horizon). IPX RIP uses 60 s.</td></tr>
+        <tr><td>Invalid</td><td>180 s</td><td>If no refreshed update arrives, the route is marked invalid and immediately placed in hold-down.</td></tr>
+        <tr><td>Hold-down</td><td>180 s</td><td>Assists stability (Cisco environment); regular updates must not inappropriately cause a routing loop, so the router does not act on non-superior new information for this time.</td></tr>
+        <tr><td>Flush</td><td>240 s</td><td>An additional wait after hold-down before the route is removed from the table.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Triggered updates and hold-downs work with the count-to-infinity remedies from the previous section.</p>
+
+    <h3>Versions of RIP</h3>
+    <ul>
+      <li><strong>RIPv1</strong> (1988): classful; does not send subnet masks in updates; routes on IP destination and hop count; table is broadcast to every station on the attached network.</li>
+      <li><strong>RIPv2</strong> (1998): classless; sends subnet masks and gateways; sends the table to a <strong>multicast</strong> address to reduce traffic; supports authentication.</li>
+      <li><strong>RIPng</strong>: extension of RIPv2 for <strong>IPv6</strong> (earlier versions ran only on IPv4).</li>
+    </ul>
+    <div class="table-wrap"><table>
+      <thead><tr><th>RIP v1</th><th>RIP v2</th></tr></thead>
+      <tbody>
+        <tr><td>Classful routing</td><td>Classless; supports VLSM, CIDR and route summarisation</td></tr>
+        <tr><td>Updates are broadcast</td><td>Updates are multicast</td></tr>
+        <tr><td>No authentication</td><td>Supports authentication</td></tr>
+        <tr><td>Does not carry the mask in updates</td><td>Carries the mask in updates, hence supports VLSM</td></tr>
+        <tr><td>Older, no longer much used</td><td>Useful in small flat networks or at the edge of larger networks because it is simple to configure and use</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- OSPF -->
+  <section id="ospf">
+    <p class="eyebrow">11 · Link-state inside an AS</p>
+    <h2>Open Shortest Path First (OSPF)</h2>
+    <p>OSPF is a <strong>link-state</strong> routing protocol used to find the best path between routers within an <strong>Autonomous System (AS)</strong>. OSPF routers establish <em>neighbour relationships</em> to exchange routing information, which leads to <em>OSPF adjacencies</em>. <strong>Hello packets</strong> are used for neighbour discovery and to set up communication. The neighbour states are key to forming adjacencies.</p>
+    <h3>OSPF terms</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Router ID</h4><p>As the deck puts it, the highest active IP address on the router. The process first considers the highest <strong>loopback</strong> address; if none is configured, the highest active interface IP address is used.</p></div>
+      <div class="card"><h4>Router priority</h4><p>An 8-bit value used in the election of the DR and BDR on a broadcast network.</p></div>
+      <div class="card"><h4>Designated Router (DR)</h4><p>Elected to <strong>minimise the number of adjacencies</strong>. It distributes LSAs to the other routers and, on a broadcast network, handles Link State Requests and responds with updates.</p></div>
+      <div class="card"><h4>Backup DR (BDR)</h4><p>Backs up the DR; if the DR fails the BDR takes over its role.</p></div>
+    </div>
+    <h3>DR and BDR election</h3>
+    <p>Held on broadcast / multi-access networks, by these criteria:</p>
+    <ol class="steps">
+      <li>The router with the <strong>highest priority</strong> becomes the DR.</li>
+      <li>On a tie, the router with the <strong>highest Router ID</strong> wins (highest loopback address, else highest active interface IP address).</li>
+    </ol>
+    <h3>OSPF neighbour states</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>State</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>Down</td><td>No Hello packets received on the interface. The initial state; adjacency process not started.</td></tr>
+        <tr><td>Init</td><td>A Hello is received from another router, but the receiver is not yet listed in that neighbour's Hello. No bidirectional communication yet.</td></tr>
+        <tr><td>Two-Way</td><td>Bidirectional communication is confirmed: each router sees itself in the other's Hello. On broadcast / multi-access networks the <strong>DR and BDR election</strong> happens here.</td></tr>
+        <tr><td>ExStart</td><td>Master / Slave relationship is set up for the Database Description (DBD) exchange; initial DBD packets with sequence numbers are exchanged. The router with the higher Router ID becomes master.</td></tr>
+        <tr><td>Exchange</td><td>Full DBD packets (carrying the headers of LSAs) are exchanged; routers build Link-State Request (LSR) lists for LSAs missing from their own LSDB.</td></tr>
+        <tr><td>Loading</td><td>LSR packets request the missing LSAs; the neighbour answers with Link-State Update (LSU) packets containing them.</td></tr>
+        <tr><td>Full</td><td>Adjacency is fully established; LSDBs are synchronised (identical). Routers can now compute shortest paths with SPF and make routing decisions.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>How OSPF works: five steps</h3>
+    <ol class="steps">
+      <li><strong>Enable the local OSPF process and choose the RID:</strong> on start-up the process allocates a unique Router ID so it can send OSPF messages.</li>
+      <li><strong>Establish neighbour adjacencies:</strong> Hello messages are sent on all OSPF-enabled links; if other OSPF devices are on the same segment, the router tries to form adjacency with them.</li>
+      <li><strong>Exchange LSAs and build the topology table (LSDB):</strong> LSAs carry each directly connected link's cost and IP settings. Every router floods all LSAs until every device in the OSPF domain has them (<em>LSA flooding</em>). Since all LSAs reach every router in the area, all routers in an area hold the same LSDB.</li>
+      <li><strong>Execute the SPF algorithm:</strong> the LSDB is the input; the algorithm computes best paths from advertised link costs and creates the SPF tree from the local router's point of view.</li>
+      <li><strong>Update the routing table</strong> with the best paths from the SPF tree; forwarding decisions use the routing table.</li>
+    </ol>
+    <p><span class="tag">Beyond the deck</span> OSPF's default cost is derived from interface bandwidth (reference bandwidth &divide; interface bandwidth), and large networks are split into <strong>areas</strong> (a backbone Area 0 plus others) to keep the LSDB and SPF work manageable. OSPF runs directly over IP (protocol number 89).</p>
+  </section>
+
+  <!-- BGP -->
+  <section id="bgp">
+    <p class="eyebrow">12 · Routing between autonomous systems</p>
+    <h2>Border Gateway Protocol (BGP)</h2>
+    <p><strong>BGP</strong> is the set of rules that determine the best network routes for data on the Internet. The Internet consists of thousands of private, public, corporate and government networks linked by standard protocols, so data crosses many networks before reaching its destination. BGP looks at all available paths and selects the best route.</p>
+    <h3>Why BGP matters</h3>
+    <p>The Internet is made of hundreds of thousands of <strong>autonomous systems (AS)</strong>: smaller networks under the control of a single administrative entity, each uniquely identified by an <strong>AS number</strong> assigned by <strong>IANA</strong>. Data travels between ASes from source to destination. BGP lets each AS:</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>1. Find the best route</h4><p>Each AS along the way decides where the packet goes next, based on factors such as geographical location, network congestion and data-transfer cost, so data takes the shortest route.</p></div>
+      <div class="card"><h4>2. Discover network changes</h4><p>The Internet is dynamic: ASes are constantly added and removed. BGP keeps each AS updated on new and obsolete routes.</p></div>
+      <div class="card"><h4>3. Administer network policies</h4><p>Administrators can set their own routing policies, e.g. distinguish routes internal and external to the AS, and decide whether data is routed internally or externally.</p></div>
+      <div class="card"><h4>4. Add a layer of security</h4><p>BGP can authenticate messages between routers using preconfigured passwords, verify messages from legitimate ASes and filter out unauthorised traffic.</p></div>
+    </div>
+    <h3>How BGP works: peering</h3>
+    <p>Administrators designate certain routers as <strong>BGP peers (BGP speakers)</strong>. Peers perform three main functions:</p>
+    <ol class="steps">
+      <li><strong>Route discovery:</strong> peers exchange routing information with neighbouring peers through <strong>NLRI</strong> (network-layer reachability information) and <strong>path attributes</strong>. NLRI carries connectivity information about neighbours; path attributes include latency, hop count and cost of transmission. Each peer can then build a graph of the connections around it.</li>
+      <li><strong>Route storage:</strong> every BGP router stores the route advertisements it collects in routing tables, used for path selection and updated frequently. E.g. keep-alive messages arrive from neighbours every 30 seconds (as per the deck) and the stored routes are updated accordingly.</li>
+      <li><strong>Path selection:</strong> routers use the stored information to route traffic optimally. The primary factor is the shortest path from the stored route graphs; when several paths exist, BGP picks the best by evaluating other path attributes in sequence.</li>
+    </ol>
+    <h3>Types of BGP</h3>
+    <ul>
+      <li><strong>External BGP (EBGP):</strong> the session is between two neighbours in <em>different</em> autonomous systems.</li>
+      <li><strong>Internal BGP (IBGP):</strong> the session is between two neighbours in the <em>same</em> AS.</li>
+    </ul>
+    <h3>BGP vs. OSPF</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>BGP</th><th>OSPF</th></tr></thead>
+      <tbody>
+        <tr><td>Path Vector routing algorithm</td><td>Link State routing algorithm</td></tr>
+        <tr><td>Convergence is very slow</td><td>Convergence is fast</td></tr>
+        <tr><td>Inter-domain routing protocol</td><td>Intra-domain routing protocol</td></tr>
+        <tr><td>Routing is performed between two ASes</td><td>Routing is performed inside an AS</td></tr>
+        <tr><td>Uses TCP (port 179 <span class="tag">Beyond the deck</span>)</td><td>Uses IP directly</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Unit 4 &mdash; Summary</h3>
+    <ul>
+      <li>Network layer = host-to-host delivery across networks via logical addressing and routing. Datagram networks route every packet independently (no set-up, may reorder); virtual circuits set up a path and reserve resources first.</li>
+      <li>IPv4: 32-bit dotted-decimal addresses with network / host parts, classes A-E and subnetting; IPv6: 128-bit hex addresses, simpler header, flow label, no broadcast.</li>
+      <li>ICMP carries IP's error and diagnostic messages (ping = echo, traceroute = time exceeded).</li>
+      <li>Link-State: flood LSAs, build full map, run Dijkstra. Distance-Vector: Bellman-Ford with neighbours only, prone to count-to-infinity (split horizon, poison reverse, triggered updates, hold-down).</li>
+      <li>Internet routing: RIP (distance vector, hop count, max 15), OSPF (link state, inside an AS), BGP (path vector, between ASes, over TCP).</li>
+    </ul>
+    <div class="grid cols-2">
+      <div class="card"><h4>🧮 Numericals</h4><p>Network address / broadcast / hosts, equal-size and VLSM subnetting, longest-prefix match, Dijkstra, Bellman-Ford rounds, and IP fragmentation.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 4 Numericals →</a></p></div>
+      <div class="card"><h4>📚 Question Bank</h4><p>Answers to all 20 Unit 4 question-bank items.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 4 Question Bank →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 4 — Network Layer · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>
