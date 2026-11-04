@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CC question bank</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 4px;color:var(--navy);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 14px;}
+  p{color:#33415f;margin:0 0 10px;}
+  ul,ol{margin:0 0 10px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:4px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa .q{font-weight:700;color:var(--navy);margin:0 0 6px;display:flex;gap:9px;font-size:15px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--sky);font-family:Consolas,monospace;flex-shrink:0;min-width:2.4em;}
+  .qa .q .marks{margin-left:auto;font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;white-space:nowrap;}
+  .qa .a{font-size:14px;margin:0 0 0 2.9em;max-width:760px;color:#33415f;}
+  table{width:100%;border-collapse:collapse;margin:10px 0 12px;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:8px 11px;font-weight:600;}
+  tbody td{padding:7px 11px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:6px;margin:12px 0;}
+  .flow .node{background:#fff;border:2px solid var(--sky);border-radius:10px;padding:8px 10px;min-width:110px;max-width:170px;text-align:center;font-size:12.5px;color:var(--navy);}
+  .flow .node b{display:block;font-size:13px;margin-bottom:2px;}
+  .flow .node.alt{border-color:var(--amber);background:#fff9ee;}
+  .flow .node.ok{border-color:#1a7a3c;background:#eefaf2;}
+  .flow .arr{align-self:center;font-size:18px;color:var(--sky);font-weight:700;}
+  .stack{display:flex;flex-direction:column;gap:5px;margin:12px 0;max-width:560px;}
+  .layer{border-radius:8px;padding:8px 14px;color:#fff;font-size:13px;}
+  .layer b{display:block;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;}
+  .dtitle{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);text-align:center;margin:8px 0 0;}
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:8px;padding:8px 14px;margin:8px 0;}
+  .callout p{margin:0;}
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q .marks{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · UNIT 4 QUESTION BANK</span>
+  <h1>Unit 4 question bank</h1>
+  <p>15 exam-style questions with model answers: Cloud Security, CSPM &amp; SSO. Answers follow the unit notes page.</p>
+  <a class="back" href="index.html">← Back to Unit 4 notes</a>
+</header>
+
+<main>
+  <section id="u4">
+    <p class="eyebrow">Unit 4 · <a href="index.html">Notes</a></p>
+    <h2 id="unit-4">Cloud Security, CSPM &amp; SSO</h2>
+    <p class="range">Q46–Q60 · security fundamentals, shared responsibility, CSPM family, SSO protocols and risks</p>
+
+    <div class="qa"><p class="q"><span class="num">Q46</span>What is cloud security? Why is it a different discipline from traditional security?<span class="marks">4 marks</span></p>
+      <div class="a"><p>Cloud security protects cloud-hosted data, applications and infrastructure from threats and unauthorised access. Traditional security assumed a fixed perimeter ("inside" is trusted); the cloud <strong>dissolves the perimeter</strong>, with three shifts:</p>
+      <ul><li><strong>Shared control</strong>: the provider owns some layers, you own others, and the split changes across IaaS/PaaS/SaaS.</li>
+      <li><strong>Speed and scale</strong>: Infrastructure as Code creates thousands of resources in seconds, so a mistake spreads fast.</li>
+      <li><strong>API-driven everything</strong>: a leaked key or over-permissioned identity does as much damage as a stolen server key. Identity becomes the new perimeter.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q47</span>Explain the CIA triad in the context of cloud security.<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Pillar</th><th>Meaning</th><th>Cloud-specific concern</th></tr></thead><tbody>
+        <tr><td>Confidentiality</td><td>Only authorised people see data</td><td>Public buckets, over-shared links, cross-tenant leakage</td></tr>
+        <tr><td>Integrity</td><td>Data is not tampered with</td><td>Unauthorised IaC changes, unsigned API calls, tampered container images</td></tr>
+        <tr><td>Availability</td><td>Systems stay up</td><td>DDoS, accidental deletion by automation, regional outages</td></tr>
+      </tbody></table>
+      <p>Safeguards: encryption and access control; hashing, signatures, versioning, audit logs; redundancy, backups, load balancing, DDoS protection.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q48</span>List and explain the six categories of cloud security threats.<span class="marks">6 marks</span></p>
+      <div class="a"><ol>
+        <li><strong>Misconfiguration</strong>: default or overly permissive settings (public bucket, database open to the internet, no MFA). Needs no hacking skill, hence the leading cause of breaches.</li>
+        <li><strong>Weak identity</strong>: over-permissioned identities and weak access control.</li>
+        <li><strong>Insecure APIs</strong>: everything is managed by API, so a leaked key lets an attacker act on the account.</li>
+        <li><strong>Data exposure</strong>: public buckets and over-shared links.</li>
+        <li><strong>Account hijacking</strong>: increasingly via session tokens, which can bypass login and MFA.</li>
+        <li><strong>Availability attacks</strong>: DDoS, accidental deletion by automation, regional outages.</li>
+      </ol></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q49</span>Explain the Shared Responsibility Model for IaaS, PaaS and SaaS. Cite the Capital One breach.<span class="marks">7 marks</span></p>
+      <div class="a"><p>The provider secures the cloud itself (<strong>security <em>of</em> the cloud</strong>: data centres, host hardware, virtualisation layer, underlying network); the customer secures what they put in it (<strong>security <em>in</em> the cloud</strong>: identity and access, data, application and network configuration).</p>
+      <table><thead><tr><th>Layer</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead><tbody>
+        <tr><td>Physical DC, hardware, hypervisor</td><td>Provider</td><td>Provider</td><td>Provider</td></tr>
+        <tr><td>Guest OS</td><td>Customer</td><td>Provider</td><td>Provider</td></tr>
+        <tr><td>Runtime / middleware</td><td>Customer</td><td>Provider</td><td>Provider</td></tr>
+        <tr><td>Application code</td><td>Customer</td><td>Customer</td><td>Provider</td></tr>
+        <tr><td>Network configuration (security groups)</td><td>Customer</td><td>Shared</td><td>Provider</td></tr>
+        <tr><td>Data</td><td>Customer</td><td>Customer</td><td>Customer</td></tr>
+        <tr><td>Identity &amp; access (users, roles, MFA)</td><td>Customer</td><td>Customer</td><td>Customer</td></tr>
+      </tbody></table>
+      <p>Moving IaaS &rarr; SaaS the provider takes more, but <strong>data and identity always stay with the customer</strong>. On EC2 you patch the OS; on Lambda AWS does, but you still own what the code does with data.</p>
+      <p><strong>Capital One (2019)</strong>: over 100 million records exposed. A misconfigured, over-permissioned WAF set up by the customer was tricked into fetching temporary credentials from the instance metadata service, which were used to read S3 buckets. It was a customer-side misconfiguration, not an AWS infrastructure flaw.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q50</span>Name the five pillars of a cloud security programme.<span class="marks">5 marks</span></p>
+      <div class="a"><ol><li><strong>IAM</strong>: who can do what, by least privilege (RBAC, MFA).</li>
+      <li><strong>Data protection</strong>: encryption at rest and in transit, tokenization, data classification (KMS for keys).</li>
+      <li><strong>Network security</strong>: VPCs, security groups / firewall rules, segmentation, WAF.</li>
+      <li><strong>Compliance &amp; governance</strong>: ISO 27001, PCI-DSS, RBI IT framework, DPDP Act.</li>
+      <li><strong>Monitoring, detection &amp; response</strong>: logging, alerting, continuous posture checking.</li></ol></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q51</span>What is CSPM? Explain its working and the five-stage cycle with a diagram.<span class="marks">7 marks</span></p>
+      <div class="a"><p><strong>Cloud Security Posture Management</strong> continuously and automatically <strong>discovers</strong> cloud resources, <strong>evaluates their configuration</strong> against best practices and compliance frameworks, and <strong>surfaces or fixes</strong> misconfigurations across every cloud account. It is <strong>agentless</strong>: it connects with read-only API credentials, builds a live inventory, checks it against a policy library and pushes prioritised findings to teams.</p>
+      <p class="dtitle">CSPM cycle (repeats continuously)</p>
+      <div class="flow"><div class="node"><b>1. Discover</b>live inventory incl. shadow resources</div><div class="arr">&rarr;</div><div class="node"><b>2. Assess</b>CIS, PCI-DSS, ISO 27001, custom rules</div><div class="arr">&rarr;</div><div class="node alt"><b>3. Prioritise</b>exploitability and business impact</div><div class="arr">&rarr;</div><div class="node"><b>4. Remediate</b>auto-fix, ticket, IaC pull request</div><div class="arr">&rarr;</div><div class="node ok"><b>5. Monitor</b>new resources and drift, then repeat</div></div>
+      <p><strong>Limitations</strong>: focuses on configuration, not live runtime threats; false positives without tuning; auto-remediation can disrupt services; needs broad read access that must itself be secured.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q52</span>Why is CSPM needed? (volume, velocity, drift)<span class="marks">3 marks</span></p>
+      <div class="a"><p>Misconfiguration is the largest root cause of cloud breaches, and manual review cannot keep up:</p>
+      <ul><li><strong>Volume</strong>: tens of thousands of resources across accounts, regions and providers.</li>
+      <li><strong>Velocity</strong>: IaC and CI/CD change resources continuously.</li>
+      <li><strong>Drift</strong>: a correct configuration is quietly changed later (a Friday "quick fix") and nobody re-reviews it.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q53</span>Compare CSPM, CWPP and CASB.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>CSPM</th><th>CWPP</th><th>CASB</th></tr></thead><tbody>
+        <tr><td>Full form</td><td>Cloud Security Posture Management</td><td>Cloud Workload Protection Platform</td><td>Cloud Access Security Broker</td></tr>
+        <tr><td>Protects</td><td>Cloud <em>configuration</em></td><td>The <em>workloads</em> (VMs, containers, serverless)</td><td>Users' use of cloud / SaaS services</td></tr>
+        <tr><td>Main question</td><td>"Is my cloud set up securely?"</td><td>"Is what is running safe?"</td><td>"Who uses which cloud app and how?"</td></tr>
+        <tr><td>Functions</td><td>Misconfiguration detection, compliance, drift</td><td>Vulnerability scanning, runtime and malware protection</td><td>Shadow-IT visibility, DLP, access control</td></tr>
+        <tr><td>Deployment</td><td>Agentless, via APIs</td><td>Runs inside the workload</td><td>Between users and cloud services</td></tr>
+      </tbody></table>
+      <p>They are complementary; platforms that bundle them are called CNAPP. (CASB is textbook content beyond the deck.)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q54</span>Define CIEM, KSPM and CNAPP and place them in the CSPM family.<span class="marks">4 marks</span></p>
+      <div class="a"><ul><li><strong>CIEM</strong> (Cloud Infrastructure Entitlement Management): "does this identity have more access than it needs?"; finds and reduces over-privileged identities.</li>
+      <li><strong>KSPM</strong> (Kubernetes Security Posture Management): the CSPM question for clusters, pods and RBAC (API server not public, no over-privileged pods).</li>
+      <li><strong>CNAPP</strong> (Cloud-Native Application Protection Platform): umbrella product bundling CSPM, CWPP, CIEM and more.</li>
+      <li>CSPM = configuration; CWPP = running workloads.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q55</span>What is Single Sign-On? Explain its actors, benefits and risks.<span class="marks">6 marks</span></p>
+      <div class="a"><p>SSO lets a user log in <strong>once</strong> with one set of credentials and access multiple independent applications without logging in again. It cures <em>password fatigue</em> (reuse, constant resets).</p>
+      <div class="flow"><div class="node"><b>User</b>browser</div><div class="arr">&harr;</div><div class="node alt"><b>Identity Provider</b>verifies user, MFA, issues signed assertion/token (Okta, Entra ID, Google)</div><div class="arr">&harr;</div><div class="node ok"><b>Service Provider</b>trusts the IdP, never sees the password</div></div>
+      <ul><li><strong>Flow</strong>: user opens app &rarr; SP redirects to IdP &rarr; user authenticates (+MFA) &rarr; IdP issues signed token &rarr; browser presents it &rarr; SP verifies the signature and grants access; later apps reuse the IdP session.</li>
+      <li><strong>Benefits</strong>: better UX, fewer weak/reused passwords, lower help-desk cost, central policy and quick de-provisioning, easy MFA.</li>
+      <li><strong>Risks</strong>: IdP is a single point of failure and of compromise; legacy apps may not support SSO; misconfigured trust.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q56</span>Differentiate authentication and authorization.<span class="marks">2 marks</span></p>
+      <div class="a"><table><thead><tr><th>Authentication (AuthN)</th><th>Authorization (AuthZ)</th></tr></thead><tbody>
+        <tr><td>Who are you? (showing your ID at the front desk)</td><td>What may you do? (visitor badge opening only some floors)</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q57</span>Compare SAML 2.0, OAuth 2.0 and OpenID Connect.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>SAML 2.0</th><th>OAuth 2.0</th><th>OpenID Connect</th></tr></thead><tbody>
+        <tr><td>Purpose</td><td>Authentication (with attributes), enterprise SSO</td><td><strong>Authorization</strong>: delegated access without sharing password</td><td><strong>Authentication</strong> layer on OAuth 2.0</td></tr>
+        <tr><td>Format</td><td>XML (2005), signed <em>Assertion</em></td><td>Access token (+ refresh token)</td><td>Signed ID Token as a JWT</td></tr>
+        <tr><td>Typical use</td><td>Workforce web SSO into business software</td><td>API access, "allow app to read your photos"</td><td>Modern "Sign in with Google" login</td></tr>
+        <tr><td>Question answered</td><td>Who is the user?</td><td>What may the app access?</td><td>Who is the user?</td></tr>
+      </tbody></table>
+      <p>Trap: OAuth 2.0 alone is not for login; OIDC adds the identity.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q58</span>Explain the OAuth 2.0 Authorization Code flow. Why is the back-channel step important? What is PKCE?<span class="marks">7 marks</span></p>
+      <div class="a"><ol>
+        <li>User taps "Continue with Google" in the app (client).</li>
+        <li>App redirects the browser to Google's authorization endpoint (<code>/authorize</code>).</li>
+        <li>User authenticates and approves the requested permissions (scopes).</li>
+        <li>Google redirects back with a short-lived single-use <strong>authorization code</strong>.</li>
+        <li><strong>Back channel</strong>: the app exchanges the code for an access token server-to-server, including its client secret.</li>
+        <li>Google returns the <strong>access token</strong> (often with a refresh token).</li>
+        <li>App calls Google's API; Google returns the data and the app creates the user's session.</li></ol>
+      <p>The back-channel exchange keeps the client secret out of the browser and stops the code being intercepted and reused. Mobile and single-page apps cannot store a secret, so they use <strong>PKCE</strong> (Proof Key for Code Exchange) for the same protection.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q59</span>List the common SSO security risks with their mitigations.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Risk</th><th>What it is</th><th>Mitigation</th></tr></thead><tbody>
+        <tr><td>Token theft / replay</td><td>Stolen valid token reused to impersonate</td><td>Short lifetimes, token binding, secure HttpOnly storage</td></tr>
+        <tr><td>SAML signature wrapping</td><td>Altering signed XML structure so the signature still validates</td><td>Standards-compliant libraries, strict schema validation</td></tr>
+        <tr><td>Open redirect</td><td>Weak redirect parameter sends user/code to attacker site</td><td>Allow-list of registered redirect URIs</td></tr>
+        <tr><td>Consent-screen phishing</td><td>Malicious app tricks user into approving broad scopes</td><td>App vetting, minimal scopes, user review</td></tr>
+        <tr><td>Session fixation</td><td>Attacker forces a known session ID, hijacks after login</td><td>New session ID after authentication</td></tr>
+      </tbody></table>
+      <p>Also enforce MFA at the IdP and make it highly available with break-glass admin access.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q60</span>Write short notes on JWT, MFA with SSO and step-up authentication.<span class="marks">4 marks</span></p>
+      <div class="a"><ul><li><strong>JWT</strong>: three Base64Url parts <code>header.payload.signature</code> (algorithm; claims such as <code>sub</code>, email, expiry; signature proving the IdP issued it). The app verifies it locally using the IdP's public key. OIDC ID tokens are JWTs.</li>
+      <li><strong>SSO + MFA</strong>: SSO reduces the number of passwords; MFA makes each login harder to defeat (something you have / are). Enforcing MFA at the IdP protects every connected app; adaptive authentication asks for a second factor only on unusual logins.</li>
+      <li><strong>Step-up authentication</strong>: SSO proves identity once, but sensitive actions (UPI payment) demand extra proof such as OTP, UPI PIN or biometric.</li></ul></div></div>
+  </section>
+</main>
+
+<footer>Cloud Computing Question Bank · Sem 5 revision notes · marks are an estimate of typical weight</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

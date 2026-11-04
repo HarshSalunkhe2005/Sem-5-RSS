@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CC question bank</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 4px;color:var(--navy);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 14px;}
+  p{color:#33415f;margin:0 0 10px;}
+  ul,ol{margin:0 0 10px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:4px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa .q{font-weight:700;color:var(--navy);margin:0 0 6px;display:flex;gap:9px;font-size:15px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--sky);font-family:Consolas,monospace;flex-shrink:0;min-width:2.4em;}
+  .qa .q .marks{margin-left:auto;font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;white-space:nowrap;}
+  .qa .a{font-size:14px;margin:0 0 0 2.9em;max-width:760px;color:#33415f;}
+  table{width:100%;border-collapse:collapse;margin:10px 0 12px;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:8px 11px;font-weight:600;}
+  tbody td{padding:7px 11px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:6px;margin:12px 0;}
+  .flow .node{background:#fff;border:2px solid var(--sky);border-radius:10px;padding:8px 10px;min-width:110px;max-width:170px;text-align:center;font-size:12.5px;color:var(--navy);}
+  .flow .node b{display:block;font-size:13px;margin-bottom:2px;}
+  .flow .node.alt{border-color:var(--amber);background:#fff9ee;}
+  .flow .node.ok{border-color:#1a7a3c;background:#eefaf2;}
+  .flow .arr{align-self:center;font-size:18px;color:var(--sky);font-weight:700;}
+  .stack{display:flex;flex-direction:column;gap:5px;margin:12px 0;max-width:560px;}
+  .layer{border-radius:8px;padding:8px 14px;color:#fff;font-size:13px;}
+  .layer b{display:block;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;}
+  .dtitle{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);text-align:center;margin:8px 0 0;}
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:8px;padding:8px 14px;margin:8px 0;}
+  .callout p{margin:0;}
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q .marks{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · UNIT 2 QUESTION BANK</span>
+  <h1>Unit 2 question bank</h1>
+  <p>15 exam-style questions with model answers: Virtualization. Answers follow the unit notes page.</p>
+  <a class="back" href="index.html">← Back to Unit 2 notes</a>
+</header>
+
+<main>
+  <section id="u2">
+    <p class="eyebrow">Unit 2 · <a href="index.html">Notes</a></p>
+    <h2 id="unit-2">Virtualization</h2>
+    <p class="range">Q16–Q30 · hypervisors, implementation levels, Xen, full vs para-virtualization, binary translation, open-source cloud</p>
+
+    <div class="qa"><p class="q"><span class="num">Q16</span>Define virtualization. What are its benefits?<span class="marks">4 marks</span></p>
+      <div class="a"><p>Virtualization is the creation of a <strong>virtual (rather than actual) version</strong> of a server, desktop, storage device, OS or network resource. A single physical resource is shared among multiple customers by giving it a logical name and a pointer to the physical resource on demand. A VM runs logically separated from the hardware: the machine hosting it is the <strong>host</strong>, the VM is the <strong>guest</strong>.</p>
+      <ul><li><strong>Efficient resource use</strong>: a virtual server pool on shared hardware means fewer physical servers, less space, power and cooling.</li>
+      <li><strong>Automated IT management</strong>: virtual machines are managed and duplicated with software tools, avoiding manual configuration errors.</li>
+      <li><strong>Faster disaster recovery</strong>: restoring a VM takes minutes instead of the hours/days to replace a physical server.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q17</span>Differentiate virtualization and cloud computing.<span class="marks">3 marks</span></p>
+      <div class="a"><table><thead><tr><th>Cloud computing</th><th>Virtualization</th></tr></thead><tbody>
+        <tr><td>On-demand delivery of computing resources over the internet, pay-as-you-go</td><td>The technology that makes cloud computing possible</td></tr>
+        <tr><td>You consume compute, storage, DB as a managed service via APIs</td><td>Providers use it to create virtual environments on top of their data-centre hardware</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q18</span>What is a hypervisor? Compare Type-1 and Type-2 hypervisors.<span class="marks">6 marks</span></p>
+      <div class="a"><p>A hypervisor is firmware/low-level software acting as the <strong>Virtual Machine Manager</strong>: a layer between the VMs and the hardware/host OS. When a VM needs compute power the request goes to the hypervisor first, which passes it to the hardware, so all VMs get their share of physical resources.</p>
+      <table><thead><tr><th>Aspect</th><th>Type 1 (bare-metal)</th><th>Type 2 (hosted)</th></tr></thead><tbody>
+        <tr><td>Position</td><td>Runs directly on hardware; no host OS</td><td>Runs as an application on top of an existing host OS</td></tr>
+        <tr><td>Efficiency</td><td>Highly efficient, direct access to resources</td><td>Lower, requests pass through the host OS</td></tr>
+        <tr><td>Own OS capabilities</td><td>Has some OS capabilities of its own</td><td>Relies on host OS</td></tr>
+        <tr><td>Use</td><td>Servers, data centres, clouds</td><td>Running multiple OSes on a single (desktop) machine</td></tr>
+        <tr><td>Examples</td><td>Xen, Oracle VM, Sun xVM Server, VMware ESX</td><td>VMware Workstation / Fusion, Windows Virtual PC</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q19</span>Explain the five implementation levels of virtualization.<span class="marks">7 marks</span></p>
+      <div class="a"><p>Running a different OS on the same hardware is not trivial; the hypervisor bridges hardware and virtual OS. Five commonly used levels (bottom to top):</p>
+      <ol>
+        <li><strong>ISA level</strong>: emulates an instruction set to run legacy code built for different hardware; an interpreter converts the code into a form the hardware can read; makes the VM hardware-agnostic.</li>
+        <li><strong>Hardware Abstraction Level (HAL)</strong>: a hypervisor virtualizes I/O devices, memory and processor; mostly used in cloud infrastructure.</li>
+        <li><strong>Operating-system level</strong>: an abstract layer between OS and applications gives each user an isolated container with no hardware-sharing conflicts.</li>
+        <li><strong>Library level</strong>: applications use documented user-level library APIs; API hooks control the link between application and system.</li>
+        <li><strong>Application level</strong>: virtualizes only one application, not the whole environment; the app sits above the virtualization layer so high-level-language programs run seamlessly.</li>
+      </ol></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q20</span>List the eight types of virtualization and describe any four.<span class="marks">5 marks</span></p>
+      <div class="a"><p>Types: hardware, operating system, server, storage, desktop, network, data, application.</p>
+      <ul><li><strong>Server</strong>: divides one physical server into several virtual servers to use its capacity fully (web hosting, dev/test, private cloud simulation).</li>
+      <li><strong>Storage</strong>: pools all storage devices, even across vendors, into one virtual storage unit masking the SAN; eases replication and disaster recovery.</li>
+      <li><strong>Network</strong>: combines switches, routers, firewalls to control them virtually; SDN controls traffic routing, NFV virtualizes firewalls and load balancers.</li>
+      <li><strong>Data</strong>: a software layer between scattered data sources and applications that returns results in a suitable format.</li>
+      <li><strong>Application</strong>: runs an application on an OS it was not designed for (Windows app on Linux), via streaming or server-based access.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q21</span>Explain hardware virtualization and its three types.<span class="marks">6 marks</span></p>
+      <div class="a"><p>When the VMM/hypervisor is installed directly on the hardware it is hardware virtualization; its main job is to control and monitor the processor, memory and other hardware. Mostly done on server platforms.</p>
+      <ul><li><strong>Full virtualization</strong>: hardware is completely simulated; guest software runs unmodified; uses binary translation + direct execution; the guest is fully isolated. Introduced by IBM in 1966. Examples: VMware ESXi, Hyper-V, VirtualBox, Parallels. Hardware assist via Intel VT-x / AMD-V.</li>
+      <li><strong>Emulation virtualization</strong>: the VM simulates the hardware and so becomes independent of it; guest OS needs no modification.</li>
+      <li><strong>Para-virtualization</strong>: hardware is not simulated; guest runs in its own isolated domain; hardware-related instructions replaced by hypercalls; guest only partially isolated. Examples: Xen, VMware.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q22</span>Differentiate full virtualization and para-virtualization.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>Full virtualization</th><th>Para-virtualization</th></tr></thead><tbody>
+        <tr><td>Guest OS</td><td>Unmodified</td><td>Kernel modified; privileged instructions replaced by hypercalls</td></tr>
+        <tr><td>Privileged instructions</td><td>Trapped and emulated at <em>runtime</em> (binary translation)</td><td>Handled at <em>compile time</em> via hypercalls</td></tr>
+        <tr><td>Guest awareness</td><td>Unaware it is virtualized</td><td>Aware of the hypervisor, uses its APIs</td></tr>
+        <tr><td>Isolation</td><td>Complete, best isolation and security</td><td>Partial</td></tr>
+        <tr><td>Performance</td><td>Overhead from binary translation (about 80&ndash;97% of native on x86)</td><td>Close to native; avoids emulating full hardware</td></tr>
+        <tr><td>Drawbacks</td><td>Time-consuming, code cache uses memory</td><td>High maintenance (deep kernel changes), portability doubts</td></tr>
+        <tr><td>Examples</td><td>VMware ESXi, Hyper-V, VirtualBox</td><td>Xen</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q23</span>Explain binary translation with full virtualization. Why are only critical instructions trapped?<span class="marks">7 marks</span></p>
+      <div class="a"><p>Full virtualization needs no host-OS modification; it relies on <strong>binary translation</strong> to trap and virtualize sensitive, non-virtualizable instructions. <strong>Full virtualization = binary translation + direct execution.</strong></p>
+      <p class="dtitle">Ring layout (lower ring = higher privilege)</p>
+      <div class="flow"><div class="node"><b>Applications</b>Ring 3, direct execution</div><div class="arr">&rarr;</div><div class="node alt"><b>Guest OS</b>Ring 1</div><div class="arr">&rarr;</div><div class="node ok"><b>VMM</b>Ring 0, scans and translates</div><div class="arr">&rarr;</div><div class="node"><b>Hardware</b></div></div>
+      <ol><li>Noncritical instructions run directly on the hardware.</li>
+      <li>The VMM scans the instruction stream, identifies privileged, control- and behaviour-sensitive instructions, traps them into the VMM and emulates their behaviour; this emulation is binary translation.</li>
+      <li>The guest OS is decoupled from the hardware and unaware of virtualization.</li></ol>
+      <p><strong>Only critical instructions are trapped</strong> because binary translation is time-consuming; running noncritical instructions natively promotes efficiency and security.</p>
+      <p><strong>Performance</strong>: a code cache stores translated hot instructions (costs memory); about 80&ndash;97% of native on x86; I/O-intensive workloads suffer most. <strong>Advantages</strong>: best isolation, multiple guests run truly isolated, no hardware/OS assist needed. <strong>Disadvantages</strong>: runtime overhead, large performance cost, code-cache memory.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q24</span>What is host-based virtualization? State its pros and cons.<span class="marks">4 marks</span></p>
+      <div class="a"><p>An alternative VM architecture: a virtualization layer is installed on top of the <strong>host OS</strong>, which still manages the hardware; guest OSes run on this layer.</p>
+      <ul><li><strong>Pros</strong>: install without modifying the host OS; the host supplies device drivers and low-level services, simplifying design and deployment; suits many host configurations.</li>
+      <li><strong>Cons</strong>: hardware access passes through 4 layers of mapping, so performance is lower than the hypervisor architecture; if the guest ISA differs from the hardware ISA, binary translation is still needed and performance may be too low to be practical.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q25</span>Explain para-virtualization with compiler support. State its advantages and disadvantages.<span class="marks">6 marks</span></p>
+      <div class="a"><p>Unlike full virtualization (privileged instructions intercepted and emulated at runtime), para-virtualization handles them at <strong>compile time</strong>: the guest OS kernel is modified to replace privileged/sensitive instructions with <strong>hypercalls</strong> to the hypervisor/VMM. Xen uses this: the guest OS runs at <strong>Ring 1</strong> instead of Ring 0, so it cannot execute some privileged instructions directly and uses hypercalls instead. The virtualization layer sits between hardware and OS at Ring 0.</p>
+      <ul><li><strong>Advantages</strong>: relatively easy and practical; avoids the low performance of binary translation, which is hard to speed up; used by Xen, KVM and VMware ESX.</li>
+      <li><strong>Disadvantages</strong>: compatibility/portability doubts (must still support unmodified OSes for some uses); high maintenance cost for deep kernel changes; performance gain varies greatly with workload.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q26</span>Explain Xen hypervisor architecture with a diagram.<span class="marks">7 marks</span></p>
+      <div class="a"><p>Xen is an open-source <strong>microkernel</strong> hypervisor from Cambridge University that separates policy from mechanism. It runs directly on hardware (Type 1, para-virtualization), turning it into a pool of logical resources allocated to guest OSes.</p>
+      <p class="dtitle">Xen architecture</p>
+      <div class="stack">
+        <div class="layer l3"><b>Dom0</b>privileged domain, device drivers, backend drivers &nbsp;|&nbsp; <b>DomU 1 &hellip; DomU n</b> guest VMs, frontend drivers, user applications</div>
+        <div class="layer l2"><b>Xen hypervisor</b>checks page tables, schedules domains, allocates resources, boots machine to start Dom0</div>
+        <div class="layer l1"><b>Hardware</b>CPU, memory, disks, network</div>
+      </div>
+      <ul><li><strong>Dom0</strong>: first domain started at boot; can start new domains and access hardware directly; runs all device drivers; its <em>backend driver</em> multiplexes requests from each DomU's <em>frontend driver</em>. Only Linux has the tools/patches to run as Dom0.</li>
+      <li><strong>DomU</strong>: unprivileged guest VM, no direct hardware access; must run a frontend driver; started by <code>xend</code> in Dom0 and accessed with the <code>xm</code> tool.</li>
+      <li>The hypervisor presents each domain a virtual machine similar but not identical to native hardware. Hypervisor + Dom0 + DomUs form the virtual machine environment running several OSes at once.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q27</span>Write short notes on KVM and VMware ESX Server.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>KVM (Kernel-based Virtual Machine)</strong></p>
+      <ul><li>Full native virtualization for Linux on x86 hardware with Intel VT / AMD-V; limited para-virtualization (paravirtual network driver).</li>
+      <li>Loadable kernel module; part of kernel 2.6.20; memory management and scheduling are done by the Linux kernel.</li>
+      <li>Each VM (each vCPU) is a regular Linux process scheduled by the standard Linux scheduler. Supports unmodified Linux, Windows, Solaris, BSD guests.</li></ul>
+      <p><strong>VMware ESX Server</strong></p>
+      <ul><li>Bare-metal hypervisor for x86 SMP servers with direct I/O access and full resource control.</li>
+      <li>Components: <em>virtualization layer</em> (VMM virtualizing CPU, memory, network, disk), <em>resource manager</em> (allocates CPU, memory, disk, network bandwidth), <em>hardware interface</em> (drivers) and <em>service console</em> (boots the system, starts VMM and resource manager, then hands over, aids administration).</li>
+      <li>Uses a para-virtualization architecture: the VM kernel talks directly to hardware, bypassing the host OS.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q28</span>Compare OS-level virtualization (containers) with hardware virtualization (VMs).<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>OS-level (containers)</th><th>Hardware virtualization (VMs)</th></tr></thead><tbody>
+        <tr><td>Where installed</td><td>On the host OS; shares the OS kernel</td><td>Directly on hardware (hypervisor), each VM has its own OS</td></tr>
+        <tr><td>Isolation</td><td>Isolated instances (containers) with dedicated resources, own libraries within the shared kernel</td><td>Strong, whole guest OS isolated</td></tr>
+        <tr><td>Speed</td><td>Quicker than server virtualization</td><td>Heavier, boots a full OS</td></tr>
+        <tr><td>Migration</td><td>Very easy to migrate a container</td><td>VM migration supported but heavier</td></tr>
+        <tr><td>Different OS per instance</td><td>No (shared kernel)</td><td>Yes</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q29</span>Write a note on cloud programming tools and open-source cloud implementation platforms.<span class="marks">5 marks</span></p>
+      <div class="a"><ul>
+        <li><strong>OpenStack</strong>: open-source IaaS for private/public clouds; modules Nova (compute), Swift/Cinder (storage), Neutron (networking), Keystone (identity).</li>
+        <li><strong>Eucalyptus / OpenNebula</strong>: open-source private-cloud platforms; Eucalyptus is AWS-API-compatible so organizations run AWS-like infrastructure on their own hardware.</li>
+        <li><strong>Hypervisors</strong> underneath: Xen, KVM, VMware. <strong>Containers</strong>: Docker (portable images), Kubernetes (orchestration, auto-scaling, self-healing).</li>
+        <li><strong>Programming / lab tools</strong>: CloudSim (simulation), AWS EC2 and CLI, Google Colab, Postman (API testing), GitHub Actions (CI/CD), Terraform and Ansible (infrastructure as code / configuration).</li></ul>
+      <p>See the tools section of the Unit 3 notes.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q30</span>Differentiate Dom0 and DomU in Xen.<span class="marks">3 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>Dom0</th><th>DomU</th></tr></thead><tbody>
+        <tr><td>Privilege</td><td>Privileged domain</td><td>Unprivileged guest</td></tr>
+        <tr><td>Hardware access</td><td>Direct; runs all device drivers</td><td>None by default; uses a frontend driver</td></tr>
+        <tr><td>Role</td><td>Starts new domains; runs backend driver that multiplexes DomU requests</td><td>Runs user applications; started by <code>xend</code>, managed with <code>xm</code></td></tr>
+        <tr><td>OS</td><td>Only Linux has tools/patches</td><td>Any OS can theoretically be ported</td></tr>
+      </tbody></table></div></div>
+  </section>
+</main>
+
+<footer>Cloud Computing Question Bank · Sem 5 revision notes · marks are an estimate of typical weight</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

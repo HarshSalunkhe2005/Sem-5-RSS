@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CC question bank</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 4px;color:var(--navy);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 14px;}
+  p{color:#33415f;margin:0 0 10px;}
+  ul,ol{margin:0 0 10px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:4px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa .q{font-weight:700;color:var(--navy);margin:0 0 6px;display:flex;gap:9px;font-size:15px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--sky);font-family:Consolas,monospace;flex-shrink:0;min-width:2.4em;}
+  .qa .q .marks{margin-left:auto;font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;white-space:nowrap;}
+  .qa .a{font-size:14px;margin:0 0 0 2.9em;max-width:760px;color:#33415f;}
+  table{width:100%;border-collapse:collapse;margin:10px 0 12px;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:8px 11px;font-weight:600;}
+  tbody td{padding:7px 11px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:6px;margin:12px 0;}
+  .flow .node{background:#fff;border:2px solid var(--sky);border-radius:10px;padding:8px 10px;min-width:110px;max-width:170px;text-align:center;font-size:12.5px;color:var(--navy);}
+  .flow .node b{display:block;font-size:13px;margin-bottom:2px;}
+  .flow .node.alt{border-color:var(--amber);background:#fff9ee;}
+  .flow .node.ok{border-color:#1a7a3c;background:#eefaf2;}
+  .flow .arr{align-self:center;font-size:18px;color:var(--sky);font-weight:700;}
+  .stack{display:flex;flex-direction:column;gap:5px;margin:12px 0;max-width:560px;}
+  .layer{border-radius:8px;padding:8px 14px;color:#fff;font-size:13px;}
+  .layer b{display:block;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;}
+  .dtitle{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);text-align:center;margin:8px 0 0;}
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:8px;padding:8px 14px;margin:8px 0;}
+  .callout p{margin:0;}
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q .marks{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · UNIT 5 QUESTION BANK</span>
+  <h1>Unit 5 question bank</h1>
+  <p>16 exam-style questions with model answers: HPC on Cloud, Load Balancing &amp; Resource Utilization. Answers follow the unit notes page.</p>
+  <a class="back" href="index.html">← Back to Unit 5 notes</a>
+</header>
+
+<main>
+  <section id="u5">
+    <p class="eyebrow">Unit 5 · <a href="index.html">Notes</a></p>
+    <h2 id="unit-5">HPC on Cloud, Load Balancing &amp; Resource Utilization</h2>
+    <p class="range">Q61–Q76 · HPC, load balancing, health checks, utilization metrics, auto-scaling, live migration, mini project (numericals in Q65, Q69, Q70, Q72, Q73, Q74)</p>
+
+    <div class="qa"><p class="q"><span class="num">Q61</span>Define HPC. Explain the node roles and the three main components of an HPC cluster.<span class="marks">5 marks</span></p>
+      <div class="a"><p>HPC is the practice of aggregating computing resources to gain performance greater than a single workstation or server, as a custom supercomputer or a <strong>cluster</strong> of computers (each one a <strong>node</strong>), on-premises, in the cloud or hybrid.</p>
+      <div class="flow"><div class="node"><b>Users</b>GUI / CLI</div><div class="arr">&rarr;</div><div class="node"><b>Login node</b>interactive host</div><div class="arr">&rarr;</div><div class="node alt"><b>Controller node</b>services and coordination</div><div class="arr">&rarr;</div><div class="node ok"><b>Compute nodes 1..N</b>run parallel computations</div><div class="arr">&harr;</div><div class="node"><b>Storage</b>captures output</div></div>
+      <ul><li><strong>Components</strong>: (1) <em>compute</em> nodes running algorithms in parallel; (2) <em>network</em> with low latency and high bandwidth; (3) <em>storage</em> with fast disks and high-speed memory.</li>
+      <li>Used in research, simulation, design, business intelligence (fraud checks on millions of transactions, crash testing, weather forecasts).</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q62</span>Differentiate cluster and distributed computing, and homogeneous and heterogeneous clusters.<span class="marks">4 marks</span></p>
+      <div class="a"><table><thead><tr><th>Cluster computing</th><th>Distributed computing</th></tr></thead><tbody>
+        <tr><td>Servers placed close together physically and in network topology to minimise latency</td><td>Computers in a single location or spread across locations, possibly mixing on-premises and cloud</td></tr></tbody></table>
+      <table><thead><tr><th>Homogeneous</th><th>Heterogeneous</th></tr></thead><tbody>
+        <tr><td>Similar performance and configuration; nodes interchangeable</td><td>Different hardware (high-core CPU, GPU); best when tasks suit each node's strength</td></tr></tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q63</span>Compare loosely coupled and tightly coupled HPC workloads. What is MPI?<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>Loosely coupled</th><th>Tightly coupled</th></tr></thead><tbody>
+        <tr><td>Nature</td><td>Independent tasks run at the same time; not context-dependent (parallel / high-throughput)</td><td>Many small processes, each on a different node, dependent on each other</td></tr>
+        <tr><td>Communication</td><td>None needed between tasks</td><td>Interprocess communication via MPI</td></tr>
+        <tr><td>Needs</td><td>Little inter-node communication</td><td>Low-latency network, fast shared memory and storage</td></tr>
+        <tr><td>Example</td><td>Rendering CGI film frames</td><td>Weather forecasting simulation</td></tr>
+      </tbody></table>
+      <p><strong>MPI</strong> (Message Passing Interface): the standard for message passing between processes; implementations include OpenMPI and Intel MPI.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q64</span>Discuss the benefits and considerations of running HPC on the cloud.<span class="marks">6 marks</span></p>
+      <div class="a"><ul><li><strong>Speed</strong>: weeks/months on a regular system become hours.</li>
+      <li><strong>Flexibility and efficiency</strong>: scale up/down on demand, pay only for what is used.</li>
+      <li><strong>Cost savings</strong>: no large upfront equipment cost, less maintenance; <strong>fault tolerance</strong>: one node failing does not crash the system.</li>
+      <li><strong>Accelerated R&amp;D</strong> (pharma modelling, simulation instead of physical testing) and <strong>security</strong> (VPC networks, firewalls, confidential computing).</li></ul>
+      <p><strong>Considerations</strong>: latency and bandwidth (robust, low-latency networking); performance (choose providers that keep hardware current); sustainability (high electricity use; prefer renewable-energy clouds); scalable storage (managed services such as Filestore, Managed Lustre).</p>
+      <p>Google Cloud mapping: Compute Engine (VMs), Cloud Storage (datasets), Networking (low latency), Batch (job scheduling), GKE (containerised workloads).</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q65</span>Numerical: a film studio must render 1000 frames, each taking 6 minutes on one node. Find the ideal time on a single node and on 50 identical cloud nodes, and the speedup.<span class="marks">4 marks</span></p>
+      <div class="a"><p>Rendering is a <strong>loosely coupled</strong> workload: frames are independent, so no inter-node communication is needed.</p>
+      <ul><li>Single node: <code>1000 &times; 6 = 6000 min = 100 h</code>.</li>
+      <li>50 nodes: <code>1000 / 50 = 20 frames per node</code>, so <code>20 &times; 6 = 120 min = 2 h</code>.</li>
+      <li>Speedup <code>= 100 / 2 = 50&times;</code> (ideal; real jobs lose a little to scheduling and storage I/O).</li></ul>
+      <p>A tightly coupled job (weather simulation) would fall short of this ideal because of MPI communication between nodes. (Worked illustration, not in the deck.)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q66</span>Why is load balancing needed? Explain how it works with a diagram.<span class="marks">6 marks</span></p>
+      <div class="a"><ul><li><strong>Performance</strong>: spreads requests so no server is a bottleneck. <strong>Availability</strong>: reroutes around failed nodes. <strong>Scalability</strong>: adds/removes capacity with demand. <strong>Cost efficiency</strong>: higher utilization, fewer idle resources.</li></ul>
+      <p class="dtitle">Load-balancer topology</p>
+      <div class="flow"><div class="node"><b>Clients</b></div><div class="arr">&rarr;</div><div class="node alt"><b>Load balancer</b>health checks, persistence, routing policy</div><div class="arr">&rarr;</div><div class="node ok"><b>Server / VM 1</b></div><div class="node ok"><b>Server / VM 2</b></div><div class="node ok"><b>Server / VM 3</b></div></div>
+      <p>Health checks, session persistence and the routing algorithm decide where each request goes. Services: AWS Elastic Load Balancing, Azure Load Balancer and Application Gateway (Front Door for global), Google Cloud Load Balancing (single anycast IP). Best practices: redundant balancers across zones, health checks with graceful draining, stateless services, SSL termination at the balancer.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q67</span>Compare Layer 4 and Layer 7 load balancing.<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Aspect</th><th>Layer 4 (Transport)</th><th>Layer 7 (Application)</th></tr></thead><tbody>
+        <tr><td>Routes on</td><td>IP address and port</td><td>HTTP content: path, host, headers</td></tr>
+        <tr><td>Speed / cost</td><td>Very fast, low overhead</td><td>Higher CPU cost, richer control</td></tr>
+        <tr><td>Protocols</td><td>Protocol-agnostic (TCP/UDP)</td><td>HTTP-aware</td></tr>
+        <tr><td>Request visibility</td><td>No view into content</td><td>Sees content; SSL termination, caching</td></tr>
+        <tr><td>Session affinity</td><td>Source-IP based</td><td>Cookie-based</td></tr>
+        <tr><td>Best for</td><td>Raw throughput</td><td>Content-based routing</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q68</span>Explain the load-balancing algorithms. Worked example: weighted round robin and least connections.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Type</th><th>Algorithm</th><th>Best for</th></tr></thead><tbody>
+        <tr><td>Static</td><td>Round robin</td><td>Uniform servers, similar requests</td></tr>
+        <tr><td>Static</td><td>Weighted round robin: share = <code>w<sub>i</sub> / &Sigma;w</code></td><td>Unequal capacity</td></tr>
+        <tr><td>Dynamic</td><td>Least connections: <code>argmin(active<sub>i</sub> / w<sub>i</sub>)</code></td><td>Long-lived uneven sessions</td></tr>
+        <tr><td>Dynamic</td><td>Least response time</td><td>Latency-sensitive services</td></tr>
+        <tr><td>Hash-based</td><td>IP hash</td><td>Affinity without shared state</td></tr>
+        <tr><td>Adaptive</td><td>Predictive / ML-based; power of two choices (sample 2, pick lighter); peak EWMA <code>ewma_rtt &times; (inflight+1)</code></td><td>Bursty, forecastable load</td></tr>
+      </tbody></table>
+      <p><strong>WRR</strong>: weights 2, 1, 1 (a 4-core server = 2, 2-core = 1) give shares 2/4, 1/4, 1/4 = 50%, 25%, 25%, i.e. 500, 250, 250 of 1000 requests.</p>
+      <p><strong>Least connections</strong>: active connections 10, 6, 4 with weights 2, 1, 1 give 10/2 = 5, 6/1 = 6, 4/1 = 4; the minimum is 4, so the next request goes to server 3.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q69</span>Why use consistent hashing instead of <code>hash(key) mod N</code>? Compute the keys remapped when a 4-server pool grows to 5 (1000 keys).<span class="marks">5 marks</span></p>
+      <div class="a"><ul><li><strong>mod N</strong>: adding one server changes N, so most keys remap, destroying cache/session locality.</li>
+      <li><strong>Consistent hashing</strong>: servers and keys are hashed onto a ring; each key goes to the next server clockwise. Adding/removing a node moves only about <code>1/N</code> of keys; virtual nodes even out uneven arcs; Maglev-style tables trade a little balance for fast stable mapping.</li></ul>
+      <p><strong>Numerical</strong> (1000 keys, 4 &rarr; 5 servers): with mod, a key stays only if <code>k mod 4 = k mod 5</code>, true for 4 of every 20 consecutive keys (20%), so about <code>80% = 800</code> keys move. With consistent hashing about <code>1/5 = 20% = 200</code> move. (Worked illustration, not in the deck.)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q70</span>Explain health checks and failure detection. Numerical: probe interval 10 s, timeout 5 s, unhealthy threshold 3, healthy threshold 2. Find worst-case detection time.<span class="marks">4 marks</span></p>
+      <div class="a"><p><strong>Active probes</strong>: TCP connect or HTTP <code>GET /healthz</code> expecting 200. <strong>Passive checks</strong>: eject nodes after consecutive 5xx/timeouts (outlier detection). <strong>Connection draining</strong> lets in-flight requests finish before removal. Keep health endpoints cheap; deep dependency checks can cause cascading ejections.</p>
+      <p>Worst-case detection <code>&asymp; interval &times; unhealthy threshold = 10 s &times; 3 = 30 s</code>. By the same logic, a recovered node needs 2 consecutive successes, about <code>2 &times; 10 = 20 s</code> to be marked healthy again.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q71</span>Explain forwarding modes and session-persistence methods of load balancers.<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Forwarding mode</th><th>How it works</th><th>Trade-off</th></tr></thead><tbody>
+        <tr><td>Proxy (full NAT)</td><td>LB terminates client connection, opens a new one to backend</td><td>Full L7 control; all traffic crosses the LB</td></tr>
+        <tr><td>Direct Server Return</td><td>LB rewrites destination MAC; backend replies directly to client</td><td>High throughput; no L7 features</td></tr>
+        <tr><td>IP tunneling</td><td>IP-in-IP / GRE encapsulation to backends</td><td>Works across subnets; MTU overhead</td></tr>
+        <tr><td>ECMP + anycast</td><td>Routers spread flows over LB instances by 5-tuple hash</td><td>Scales LBs horizontally; flows can remap</td></tr>
+        <tr><td>DNS / GSLB</td><td>Name resolves to regional addresses</td><td>Global steering; failover limited by TTL</td></tr>
+      </tbody></table>
+      <table><thead><tr><th>Persistence</th><th>Drawback</th></tr></thead><tbody>
+        <tr><td>Source-IP affinity</td><td>Clients behind one NAT pile onto one server</td></tr>
+        <tr><td>LB-inserted cookie (L7)</td><td>Session lost if that backend is removed</td></tr>
+        <tr><td>Application session ID</td><td>LB must understand the app protocol</td></tr>
+        <tr><td>Stateless + shared store (Redis/DB)</td><td>Extra latency; store becomes a dependency</td></tr>
+      </tbody></table>
+      <p>Prefer stateless services: balancing, scaling and failover become simpler.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q72</span>Define the imbalance factor and Jain's fairness index. Interpret the deck's results and compute them for a 4-server example.<span class="marks">6 marks</span></p>
+      <div class="a"><ul><li><strong>Imbalance factor</strong> <code>= max(load) / mean(load)</code>; 1.0 means perfectly even.</li>
+      <li><strong>Jain's index</strong> <code>J = (&Sigma;x)&sup2; / (n &middot; &Sigma;x&sup2;)</code>; ranges from <code>1/n</code> (worst) to 1 (even).</li></ul>
+      <table><thead><tr><th>Metric (deck, illustrative CPU data)</th><th>Before balancing</th><th>After balancing</th></tr></thead><tbody>
+        <tr><td>Max / mean</td><td>1.71</td><td>1.05</td></tr>
+        <tr><td>Jain's index</td><td>0.79</td><td>1.00</td></tr>
+        <tr><td>Std dev (percentage points)</td><td>28.1</td><td>2.2</td></tr>
+      </tbody></table>
+      <p>Balancing moved max/mean towards 1.0, Jain's up to 1.00 and the spread down from 28.1 to 2.2 pp.</p>
+      <p><strong>Worked example</strong> (own values): CPU % on 4 servers before = 90, 60, 30, 20. Mean = 200/4 = 50; max/mean = 90/50 = <strong>1.8</strong>. &Sigma;x&sup2; = 8100 + 3600 + 900 + 400 = 13000; <code>J = 200&sup2; / (4 &times; 13000) = 40000/52000 = 0.77</code>. After = 55, 50, 52, 53: mean 52.5, max/mean = 55/52.5 = <strong>1.05</strong>; &Sigma;x&sup2; = 11038; <code>J = 210&sup2; / (4 &times; 11038) = 44100/44152 = 1.00</code>.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q73</span>Explain the queueing view of headroom, <code>W = (1/&mu;)/(1&minus;&rho;)</code>. Numerical: service rate &mu; = 100 requests/s; find W at &rho; = 0.5, 0.9, 0.95, and L at &lambda; = 80/s.<span class="marks">5 marks</span></p>
+      <div class="a"><p>&mu; = service rate, &rho; = utilization, 1/&mu; = service time, W = time in system. Delay grows without bound as &rho; &rarr; 1, so plan capacity for peaks, not averages. Little's Law: <code>L = &lambda; &middot; W</code>.</p>
+      <p>Service time <code>1/&mu; = 1/100 s = 10 ms</code>.</p>
+      <table><thead><tr><th>&rho;</th><th>W = 10 ms / (1 &minus; &rho;)</th><th>Multiple of service time</th></tr></thead><tbody>
+        <tr><td>0.5</td><td>20 ms</td><td>2&times;</td></tr>
+        <tr><td>0.9</td><td>100 ms</td><td>10&times;</td></tr>
+        <tr><td>0.95</td><td>200 ms</td><td>20&times;</td></tr>
+      </tbody></table>
+      <p>For &lambda; = 80/s: &rho; = 80/100 = 0.8, <code>W = 10 ms / 0.2 = 50 ms</code>, <code>L = 80 &times; 0.05 = 4</code> requests in the system.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q74</span>Explain the auto-scaling feedback loop. Numerical: 4 instances at 80% CPU with a 50% target; then 7 instances at 20% CPU.<span class="marks">6 marks</span></p>
+      <div class="a"><div class="flow"><div class="node"><b>1 Monitor</b>metrics</div><div class="arr">&rarr;</div><div class="node"><b>2 Evaluate</b>policy</div><div class="arr">&rarr;</div><div class="node alt"><b>3 Scale</b>out / in</div><div class="arr">&rarr;</div><div class="node ok"><b>4 Rebalance</b>traffic, repeat</div></div>
+      <p>Scale out when load crosses an upper threshold, scale in when it stays low. <strong>Cooldown</strong> waits after an action; <strong>stabilization</strong> uses recent recommendations to damp flapping (especially scale-in); <strong>warm-up</strong> excludes new instances from metrics until ready.</p>
+      <p>Target tracking: <code>desired = ceil(current &times; metric / target)</code>.</p>
+      <ul><li>Scale out: <code>ceil(4 &times; 80/50) = ceil(4 &times; 1.6) = ceil(6.4) = 7</code> instances.</li>
+      <li>Scale in (own example): <code>ceil(7 &times; 20/50) = ceil(2.8) = 3</code> instances.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q75</span>Explain VM placement as bin packing and describe pre-copy live migration.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>VM placement</strong>: pack VMs onto the fewest hosts under CPU, RAM and network limits. It is NP-hard, so use heuristics (First Fit, Best Fit, First Fit Decreasing) or metaheuristics (genetic algorithm, PSO, ant colony). Trade-off: consolidation saves energy but raises contention risk.</p>
+      <p class="dtitle">Pre-copy live migration</p>
+      <div class="flow"><div class="node"><b>Round 1</b>copy memory pages while VM runs</div><div class="arr">&rarr;</div><div class="node"><b>Rounds 2..n</b>re-copy pages dirtied meanwhile</div><div class="arr">&rarr;</div><div class="node alt"><b>Brief pause</b>last dirty pages + CPU state</div><div class="arr">&rarr;</div><div class="node ok"><b>Resume</b>VM runs on destination</div></div>
+      <p>Cost: network and CPU; a high dirty-page rate prolongs migration.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q76</span>Describe a mini project on implementing a scalable web application on the cloud: architecture, steps and what to present.<span class="marks">7 marks</span></p>
+      <div class="a"><p>Deploy a simple web app (e.g. notes or complaint portal) that is highly available and auto-scales. (Supplementary: the lecture decks do not cover this; adapt to faculty instructions.)</p>
+      <div class="flow"><div class="node"><b>Users</b></div><div class="arr">&rarr;</div><div class="node alt"><b>Load balancer</b>/healthz checks</div><div class="arr">&rarr;</div><div class="node"><b>Auto-scaling group</b>min 2, max 5 app VMs / containers</div><div class="arr">&rarr;</div><div class="node ok"><b>Database + object storage</b></div></div>
+      <p>Monitoring and alarms (CPU, requests, latency) drive auto-scaling.</p>
+      <ol><li>Define scope and pick one provider (AWS / Azure / GCP free tier).</li><li>Network: VPC with public and private subnets, only 80/443 public.</li><li>Package a stateless app image (VM or Docker), sessions in a shared store.</li><li>Managed database in a private subnet, object storage, backups.</li><li>Launch at least 2 instances across zones from a launch template.</li><li>Load balancer with target group, <code>/healthz</code> check, connection draining.</li><li>Auto-scaling: min/max, target tracking (CPU 50%), cooldown.</li><li>Monitoring dashboards, alarms and a billing alert.</li><li>Test: load test, kill an instance to show failover, watch scale-out/in.</li><li>Clean up resources to avoid charges.</li></ol>
+      <p><strong>Report</strong>: problem statement, architecture diagram and service-model mapping, configuration screenshots, test results and cost estimate, challenges and future scope. <strong>Demo</strong>: open via the LB URL, show load spreading, trigger scaling, stop an instance and show the app stays up.</p></div></div>
+  </section>
+</main>
+
+<footer>Cloud Computing Question Bank · Sem 5 revision notes · marks are an estimate of typical weight</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

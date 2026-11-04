@@ -75,6 +75,7 @@
   .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;}
   .tag.req{background:#e6f7ec;color:#1a7a3c;}
   .tag.extra{background:#fdeaea;color:#b23b3b;}
+  .tag:not(.req):not(.extra){background:#fff1dc;color:#8a5a00;border:1px solid #f0c987;}
 
   footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
   @media (max-width:640px){ .fig-row{grid-template-columns:1fr;} }
@@ -108,6 +109,9 @@
   .qa .a{margin:0;font-size:13.8px;max-width:none;}
 </style>
 <link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
 </head>
 <body>
 
@@ -116,12 +120,13 @@
   <h1>🔐 Cloud Security, CSPM &amp; SSO</h1>
   <p>Introduction to Cloud Security · Cloud Security Posture Management (CSPM) ·
      SSO – Single Sign-On authentication.</p>
-  <div class="srcnote">Written from standard course content to match the official syllabus (no Module 4 deck was posted on Moodle) — cross-check with your lecture notes.</div>
+  <div class="srcnote">Built from the Module 4 course material (Cloud_Security_CSPM_SSO); items marked Beyond the deck are standard content added for completeness.</div>
   <a class="back" href="../../">← Back to site home</a>
 </header>
 
 <nav class="toc">
   <div class="inner">
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
     <a href="#basics">Security Basics</a>
     <a href="#shared">Shared Responsibility</a>
     <a href="#controls">Core Controls</a>
@@ -141,12 +146,46 @@
   <section id="basics">
     <p class="eyebrow">01 · Why protecting the cloud is a different problem <span class="tag req">EXAM SCOPE</span></p>
     <h2>Introduction to Cloud Security</h2>
-    <p><strong>Cloud security</strong> is the set of policies, technologies, controls and procedures used to
-      protect cloud-hosted <strong>data, applications and infrastructure</strong> from threats, leaks and
-      unauthorised access. The goal is the same as traditional IT security, but the environment is not:
-      resources are shared, internet-facing, API-driven and spun up in minutes.</p>
+    <p>The deck is organised in three modules: <strong>Module 1</strong> Introduction to Cloud Security,
+      <strong>Module 2</strong> Cloud Security Posture Management (CSPM), <strong>Module 3</strong> Single
+      Sign-On (SSO). Its learning outcomes: assign a control to customer or provider for IaaS/PaaS/SaaS; explain why
+      misconfiguration is the leading cause of cloud breaches and how CSPM detects it; distinguish CSPM from CWPP,
+      CIEM, KSPM and CNAPP; trace how SAML, OAuth 2.0 and OpenID Connect move a user from "not logged in" to
+      "authenticated"; and identify SSO risks and mitigations.</p>
 
-    <h3>Why cloud security differs from traditional (on-premises) security</h3>
+    <h3>Recap: service and deployment models</h3>
+    <p><strong>Cloud computing</strong> is the on-demand delivery of computing resources &mdash; servers, storage,
+      databases, networking, software &mdash; over the internet, billed on a <strong>pay-as-you-go</strong> basis
+      instead of being bought and run in a private data centre.</p>
+    <div class="grid cols-3">
+      <div class="card num"><h4><span class="icon">🖥️</span>IaaS</h4><p>Provider gives raw virtual machines, storage and networking; you install and manage everything above that.
+        <em>Example:</em> Amazon EC2, Azure Virtual Machines.</p></div>
+      <div class="card num"><h4><span class="icon">🧱</span>PaaS</h4><p>Provider also manages the operating system and runtime; you deploy application code.
+        <em>Example:</em> AWS Elastic Beanstalk, Azure App Service, Google App Engine.</p></div>
+      <div class="card num"><h4><span class="icon">📦</span>SaaS</h4><p>Provider runs the entire application; you just use it via browser or app.
+        <em>Example:</em> Salesforce, Zoom, Microsoft 365, Workday.</p></div>
+    </div>
+    <div class="grid cols-3">
+      <div class="card"><h4>Public cloud</h4><p>Shared infrastructure, e.g. AWS, Azure, GCP.</p></div>
+      <div class="card"><h4>Private cloud</h4><p>Dedicated to one organisation; common in large banks handling regulated data.</p></div>
+      <div class="card"><h4>Hybrid cloud</h4><p>A mix of both &mdash; how most large Indian enterprises (including many banks and NBFCs) operate: sensitive core-banking data stays on-premises or in a private cloud, customer-facing apps and analytics run on public cloud.</p></div>
+    </div>
+    <div class="callout"><p><strong>Example:</strong> a food-delivery app such as Swiggy likely runs on IaaS/PaaS (virtual machines or managed container
+      services), stores order history in a managed database (PaaS) and uses SaaS tools internally for support ticketing or analytics
+      dashboards &mdash; one company routinely uses <strong>all three</strong> service models at once.</p></div>
+
+    <h3>Why cloud security is a different discipline</h3>
+    <p>Traditional security assumed a fixed perimeter: servers in your own data centre, behind your own firewall,
+      where "inside" meant "trusted". The cloud <strong>dissolves that perimeter</strong>: the database may sit in a data
+      centre you have never seen, traffic may cross the public internet between microservices, and one misclicked
+      checkbox in a web console can expose data to the whole internet in seconds. Three shifts:</p>
+    <div class="grid cols-3">
+      <div class="card num"><h4><span class="icon">🤝</span>Shared control</h4><p>You no longer control every layer of the stack &mdash; some is the provider's job, some yours, and the split changes across IaaS, PaaS and SaaS.</p></div>
+      <div class="card num"><h4><span class="icon">⚡</span>Speed and scale</h4><p>Infrastructure is created and destroyed through code (Infrastructure as Code) in seconds. One engineer can accidentally provision thousands of insecure resources before anyone notices &mdash; impossible in a hardware data centre.</p></div>
+      <div class="card num"><h4><span class="icon">🔌</span>API-driven everything</h4><p>Every resource is reachable and configurable through an API. Powerful, but a leaked API key or an over-permissioned identity can do as much damage as a stolen physical server key.</p></div>
+    </div>
+
+    <h3>Traditional vs cloud at a glance <span class="tag">Beyond the deck</span></h3>
     <table>
       <thead><tr><th>Aspect</th><th>Traditional / on-premises</th><th>Cloud</th></tr></thead>
       <tbody>
@@ -159,48 +198,75 @@
       </tbody>
     </table>
 
-    <h3>The CIA Triad — the three goals of security</h3>
-    <div class="grid cols-3">
-      <div class="card num"><h4><span class="icon">🤐</span>Confidentiality</h4><p>Only authorised parties can read the data.
-        <em>Achieved by:</em> encryption, access control, authentication.</p></div>
-      <div class="card num"><h4><span class="icon">✅</span>Integrity</h4><p>Data stays accurate and unaltered by unauthorised parties.
-        <em>Achieved by:</em> hashing, digital signatures, versioning, audit logs.</p></div>
-      <div class="card num"><h4><span class="icon">🟢</span>Availability</h4><p>Data and services are accessible when needed.
-        <em>Achieved by:</em> redundancy, backups, load balancing, DDoS protection.</p></div>
-    </div>
-    <div class="callout"><p>Related terms: <strong>Authentication</strong> (who are you?) &rarr;
-      <strong>Authorisation</strong> (what may you do?) &rarr; <strong>Accountability / Auditing</strong>
-      (what did you do?).</p></div>
-
-    <h3>Key cloud security threats</h3>
+    <h3>The CIA Triad in the cloud</h3>
+    <p>The classic <strong>Confidentiality, Integrity, Availability</strong> triad still anchors cloud security, but each pillar takes on a cloud-specific flavour:</p>
     <table>
-      <thead><tr><th>Threat</th><th>What it is</th><th>Typical cause / example</th></tr></thead>
+      <thead><tr><th>Pillar</th><th>Traditional meaning</th><th>Cloud-specific concern</th></tr></thead>
       <tbody>
-        <tr><td><strong>Data breach</strong></td><td>Unauthorised access to / disclosure of sensitive data</td><td>Stolen credentials, unencrypted data, exposed storage</td></tr>
-        <tr><td><strong>Misconfiguration</strong></td><td>Wrongly set cloud settings leaving resources exposed</td><td>Public storage bucket, open ports, over-permissive roles, default settings</td></tr>
-        <tr><td><strong>Insecure interfaces / APIs</strong></td><td>Weak or unprotected APIs used to manage/consume cloud services</td><td>No authentication/rate limit, leaked API keys</td></tr>
-        <tr><td><strong>Account hijacking</strong></td><td>Attacker takes over a user/admin account</td><td>Phishing, password reuse, no MFA, stolen keys</td></tr>
-        <tr><td><strong>Insider threat</strong></td><td>Malicious or careless employee/contractor misuses access</td><td>Excessive privileges, no monitoring, accidental deletion</td></tr>
-        <tr><td><strong>DDoS / DoS</strong></td><td>Flooding a service with traffic so legitimate users cannot reach it</td><td>Botnet traffic against a public endpoint (attacks availability)</td></tr>
-        <tr><td><strong>Data loss</strong></td><td>Permanent loss of data</td><td>Accidental deletion, ransomware, provider failure, no backups</td></tr>
-        <tr><td><strong>Shared-technology issues</strong></td><td>Weakness in multi-tenant shared components (hypervisor, shared hardware) affecting isolation</td><td>VM escape / side-channel between tenants</td></tr>
+        <tr><td><strong>Confidentiality</strong></td><td>Only authorised people see data</td><td>Public storage buckets, over-shared links, cross-tenant data leakage in multi-tenant SaaS</td></tr>
+        <tr><td><strong>Integrity</strong></td><td>Data isn't tampered with</td><td>Unauthorised changes to Infrastructure-as-Code, unsigned API calls, supply-chain tampering of container images</td></tr>
+        <tr><td><strong>Availability</strong></td><td>Systems stay up</td><td>DDoS against public endpoints, accidental resource deletion via automation, regional cloud outages</td></tr>
       </tbody>
     </table>
-    <div class="callout warn"><p><strong>Exam tip:</strong> most real-world cloud incidents trace back to
-      <strong>misconfiguration and weak identity management</strong>, not to the provider's infrastructure being
-      "hacked" &mdash; this motivates CSPM and SSO/IAM later in the unit.</p></div>
+    <p><span class="tag">Beyond the deck</span> Typical safeguards: confidentiality &mdash; encryption, access control, authentication; integrity &mdash; hashing, digital signatures, versioning, audit logs; availability &mdash; redundancy, backups, load balancing, DDoS protection. Related terms: <strong>Authentication</strong> (who are you?) &rarr; <strong>Authorisation</strong> (what may you do?) &rarr; <strong>Accountability / Auditing</strong> (what did you do?).</p>
+
+    <h3>The cloud security threat landscape (six categories)</h3>
+    <p>Six categories recur in almost every publicly documented cloud breach of the last decade:</p>
+    <table>
+      <thead><tr><th>Category</th><th>What it means / example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Misconfiguration</strong></td><td>A setting left in its default or overly permissive state &mdash; a storage bucket set to "public", a database reachable from the open internet, an admin console with no MFA. Not a sophisticated attack; needs no hacking skill, which is why it is so common and damaging.</td></tr>
+        <tr><td><strong>2. Weak identity</strong></td><td>Over-permissioned identities and weak access control &mdash; an over-permissioned identity can do as much damage as a stolen server key.</td></tr>
+        <tr><td><strong>3. Insecure APIs</strong></td><td>Every cloud resource is managed through APIs, so a leaked API key lets an attacker act on the account.</td></tr>
+        <tr><td><strong>4. Data exposure</strong></td><td>Public buckets and over-shared links leaving data readable by people who should not see it.</td></tr>
+        <tr><td><strong>5. Account hijacking</strong></td><td>Increasingly targets <em>session tokens</em> rather than passwords &mdash; relevant to SSO, since a stolen SSO session token can be as dangerous as a password, sometimes more, because it may bypass login and MFA entirely.</td></tr>
+        <tr><td><strong>6. Availability attacks</strong></td><td>DDoS against public endpoints, accidental deletion by automation, regional outages.</td></tr>
+      </tbody>
+    </table>
+    <p><span class="tag">Beyond the deck</span> Other threats often listed in textbooks:</p>
+    <table>
+      <thead><tr><th>Threat</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Insider threat</strong></td><td>Malicious or careless employee/contractor misuses access (excess privileges, accidental deletion).</td></tr>
+        <tr><td><strong>Data loss</strong></td><td>Permanent loss of data through deletion, ransomware, provider failure or no backups.</td></tr>
+        <tr><td><strong>Shared-technology issues</strong></td><td>Weakness in multi-tenant shared components (hypervisor, shared hardware) affecting tenant isolation.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><p><strong>Exam tip:</strong> misconfiguration, not sophisticated hacking, is the leading cause of cloud data
+      breaches &mdash; real incidents trace back to <strong>misconfiguration and weak identity management</strong>,
+      not the provider's infrastructure being "hacked". This motivates CSPM and SSO/IAM later in the unit.</p></div>
+
+    <h3>Case study: securing a food-delivery platform</h3>
+    <p>A simplified architecture mirroring how Swiggy, Zomato or Flipkart is built: a mobile/web front-end, a login layer, an API gateway,
+      backend microservices inside a private network, and a data layer.</p>
+    <p class="diagram-title">Where security controls apply (deck Figure 1.3)</p>
+    <div class="flow">
+      <div class="node"><b>Mobile / web front-end</b>customer's phone or browser</div><div class="arr">&rarr;</div>
+      <div class="node alt"><b>Login / SSO layer</b>who is allowed in (Module 3)</div><div class="arr">&rarr;</div>
+      <div class="node"><b>API gateway</b>single entry to backend</div><div class="arr">&rarr;</div>
+      <div class="node"><b>Microservices</b>inside a private network</div><div class="arr">&rarr;</div>
+      <div class="node ok"><b>Data layer</b>storage + database</div>
+    </div>
+    <p style="text-align:center;font-size:12.5px;color:var(--muted);max-width:none;">Underneath all of it: <strong>continuous CSPM scanning</strong> of the gateway, microservices, storage and database (Module 2).</p>
+    <div class="callout"><p><strong>Key point:</strong> this one diagram holds both halves of the course. The Login/SSO layer decides <em>who</em> is allowed in; CSPM
+      continuously checks that every other node stays correctly configured. Identity and posture are the two questions a mature
+      cloud security program must always answer: <strong>who is this, and is everything behind them still locked down?</strong></p></div>
   </section>
 
   <!-- 2. SHARED RESPONSIBILITY -->
   <section id="shared">
     <p class="eyebrow">02 · Who secures what <span class="tag req">EXAM SCOPE · high-yield</span></p>
     <h2>Shared Responsibility Model</h2>
-    <p>The <strong>Shared Responsibility Model</strong> divides security duties between the
-      <strong>cloud provider</strong> and the <strong>customer</strong>. Short form:
-      <strong>the provider secures the cloud itself ("security <em>of</em> the cloud"); the customer secures
-      what they put in it ("security <em>in</em> the cloud")</strong>. The more the provider manages (IaaS &rarr;
-      PaaS &rarr; SaaS), the less the customer is responsible for &mdash; but the customer is
-      <em>always</em> responsible for their data and who can access it.</p>
+    <p>The <strong>Shared Responsibility Model</strong> is the most important mental model in cloud security. Every major provider
+      (AWS, Microsoft Azure, Google Cloud) publishes a version, and most incidents trace back to someone misunderstanding where the line sits.
+      Short form: <strong>the provider secures the cloud itself ("security <em>of</em> the cloud"); the customer secures
+      what they put in it ("security <em>in</em> the cloud")</strong>.</p>
+    <ul>
+      <li><strong>Provider &mdash; security OF the cloud:</strong> physical data centres, host hardware, the virtualisation layer and (depending on the service) the underlying network.</li>
+      <li><strong>Customer &mdash; security IN the cloud:</strong> how they configure identity and access, how they classify and protect data, how they configure applications and networks.</li>
+      <li>As you move <strong>IaaS &rarr; PaaS &rarr; SaaS</strong> the provider takes on more of the stack, but the customer's responsibility for <strong>data and identity &amp; access management never goes away</strong>.</li>
+    </ul>
+    <div class="callout warn"><p><strong>Common misunderstanding:</strong> "we're on SaaS, so security is the vendor's problem" is a sentence that has caused real breaches.</p></div>
 
     <p class="diagram-title">Responsibility by service model (dark = provider, light = customer)</p>
     <div class="stack">
@@ -210,6 +276,7 @@
       <div class="layer l1"><div class="name">IaaS — provider manages physical infra, network, hypervisor</div><div class="sub">Customer: guest OS, patches, apps, network config, data, access.</div></div>
     </div>
 
+    <p><span class="tag">Beyond the deck</span> Layer-by-layer table (the deck shows this only as a figure):</p>
     <table>
       <thead><tr><th>Layer</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead>
       <tbody>
@@ -226,59 +293,84 @@
     <div class="callout"><p>Exact boundaries vary slightly by provider and service &mdash; learn the
       <strong>pattern</strong>: responsibility shifts towards the provider as you move IaaS &rarr; PaaS &rarr; SaaS,
       while <strong>data and identity stay with the customer</strong>.</p></div>
+
+    <h3>Example: same provider, different responsibility</h3>
+    <p>On AWS, if you run your application on an <strong>EC2</strong> virtual machine (IaaS), you patch the operating system. If you run the
+      same code on <strong>AWS Lambda</strong> (serverless / PaaS-like), AWS patches the underlying OS &mdash; but you are still 100% responsible for what
+      your code does with the data and for who is allowed to invoke the function.</p>
+
+    <h3>Case study: the Capital One breach (2019)</h3>
+    <p>Capital One, a major US bank running on AWS, suffered a breach affecting <strong>over 100 million customer records</strong> (credit scores,
+      balances, Social Security numbers).</p>
+    <ul>
+      <li><strong>Root cause was not a flaw in AWS infrastructure.</strong> A former employee of a third-party firm exploited a <strong>misconfigured Web Application Firewall (WAF)</strong> that Capital One's own team had set up.</li>
+      <li>The WAF had excessive permissions and could be tricked into requesting <strong>temporary security credentials from the instance metadata service</strong>, which were then used to list and read data from Capital One's own <strong>S3 buckets</strong>.</li>
+      <li>AWS secured "the cloud" as promised; the <strong>customer-side misconfiguration</strong> on the customer's side of the shared-responsibility line caused the breach.</li>
+    </ul>
+    <div class="callout"><p>The canonical teaching example for shared responsibility, and exactly the class of problem CSPM (Module 2) catches automatically and
+      continuously, before an attacker finds it. Keep it as your standard "one real breach" example for interviews/exams.</p></div>
   </section>
 
   <!-- 3. CORE CONTROLS -->
   <section id="controls">
     <p class="eyebrow">03 · The defensive toolkit <span class="tag req">EXAM SCOPE</span></p>
     <h2>Core Cloud Security Controls</h2>
-    <p>A layered ("defence in depth") approach: identity, data, network, visibility, resilience and
-      governance each add an independent line of defence.</p>
+    <p>A cloud security program rests on <strong>five interlocking pillars</strong>. The course goes deep on identity (via SSO) and posture
+      (via CSPM), but you should be fluent in all five.</p>
 
     <div class="grid cols-2">
-      <div class="card"><h4><span class="icon">🪪</span>Identity &amp; Access Management (IAM)</h4>
-        <p>Controls <em>who</em> can do <em>what</em> on <em>which</em> resource.</p>
+      <div class="card num"><h4><span class="icon">1</span>Identity &amp; Access Management (IAM)</h4>
+        <p>Who can do what, enforced through the <strong>principle of least privilege</strong> &mdash; grant only the permissions actually required, nothing more.</p>
+        <p><em>Example:</em> Amazon's IAM lets a retail platform allow its "order processing" microservice to read the orders table &mdash; and explicitly deny it access to the payments table.</p></div>
+      <div class="card num"><h4><span class="icon">2</span>Data Protection</h4>
+        <p><strong>Encryption at rest</strong> (data in storage) and <strong>in transit</strong> (data moving across the network), <strong>tokenization</strong> of sensitive fields such as card numbers, and <strong>data classification</strong> so teams know what is sensitive.</p></div>
+      <div class="card num"><h4><span class="icon">3</span>Network Security</h4>
+        <p><strong>Virtual Private Clouds (VPCs)</strong>, <strong>security groups and firewall rules</strong>, and <strong>segmentation</strong> so a compromised front-end service cannot directly reach a payments database.</p></div>
+      <div class="card num"><h4><span class="icon">4</span>Compliance &amp; Governance</h4>
+        <p>Mapping technical controls to frameworks and regulations: <strong>ISO 27001</strong>, <strong>PCI-DSS</strong> (payment card data) and, in India, the <strong>RBI IT framework</strong> for banks and the <strong>Digital Personal Data Protection (DPDP) Act</strong>.</p></div>
+      <div class="card num"><h4><span class="icon">5</span>Monitoring, Detection &amp; Response</h4>
+        <p>Logging, alerting and the continuous posture-checking that Module 2 (CSPM) covers in depth.</p></div>
+    </div>
+
+    <h3>Control details <span class="tag">Beyond the deck</span></h3>
+    <p>The cards below expand the pillars with standard textbook detail that the deck does not spell out.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4><span class="icon">🪪</span>IAM in more detail</h4>
         <ul style="margin-bottom:0;">
-          <li><strong>Least privilege</strong> &mdash; grant only the minimum permissions needed, nothing more.</li>
-          <li><strong>RBAC</strong> (Role-Based Access Control) &mdash; permissions attach to roles (e.g. Admin, Developer, Auditor); users get roles.</li>
+          <li><strong>RBAC</strong> (Role-Based Access Control) &mdash; permissions attach to roles (Admin, Developer, Auditor); users get roles.</li>
           <li><strong>MFA</strong> &mdash; a second factor (app code, hardware key, biometric) on top of the password.</li>
-          <li>Also: rotate/avoid long-lived keys, separate admin accounts, regular access reviews.</li>
+          <li>Rotate/avoid long-lived keys, separate admin accounts, regular access reviews.</li>
         </ul></div>
-      <div class="card"><h4><span class="icon">🔒</span>Encryption &amp; Key Management</h4>
+      <div class="card"><h4><span class="icon">🔒</span>Encryption &amp; key management</h4>
         <ul style="margin-bottom:0;">
-          <li><strong>At rest</strong> &mdash; data stored on disks/DBs/object storage is encrypted (e.g. AES-256).</li>
-          <li><strong>In transit</strong> &mdash; data moving over networks is encrypted with TLS/HTTPS or VPN.</li>
-          <li><strong>Keys</strong> &mdash; managed by a <strong>KMS</strong> (Key Management Service): create, store, rotate, audit and revoke keys; keep keys separate from data.</li>
+          <li>At rest e.g. AES-256; in transit with TLS/HTTPS or VPN.</li>
+          <li><strong>KMS</strong> (Key Management Service) creates, stores, rotates, audits and revokes keys; keep keys separate from data.</li>
           <li>Option: customer-managed keys for more control.</li>
         </ul></div>
-      <div class="card"><h4><span class="icon">🌐</span>Network Security</h4>
+      <div class="card"><h4><span class="icon">🌐</span>Network extras</h4>
         <ul style="margin-bottom:0;">
-          <li><strong>VPC</strong> (Virtual Private Cloud) &mdash; logically isolated private network; use public/private subnets.</li>
-          <li><strong>Security groups / NACLs</strong> &mdash; virtual firewalls allowing only needed ports/IPs.</li>
-          <li><strong>Firewalls</strong> &mdash; filter traffic at network level.</li>
-          <li><strong>WAF</strong> (Web Application Firewall) &mdash; protects web apps from SQL injection, XSS and similar HTTP-level attacks.</li>
-          <li>Also: DDoS protection, VPN / private connectivity, network segmentation.</li>
+          <li><strong>NACLs</strong> as subnet-level firewalls; public/private subnets.</li>
+          <li><strong>WAF</strong> protects web apps from SQL injection, XSS and similar HTTP-level attacks.</li>
+          <li>DDoS protection, VPN / private connectivity.</li>
         </ul></div>
-      <div class="card"><h4><span class="icon">📡</span>Monitoring &amp; Logging</h4>
+      <div class="card"><h4><span class="icon">📡</span>Monitoring extras</h4>
         <ul style="margin-bottom:0;">
-          <li>Record API calls, logins and configuration changes (audit trail).</li>
-          <li>Collect logs centrally; keep them tamper-resistant.</li>
-          <li>Alert on anomalies (odd logins, privilege changes, traffic spikes); feed a SIEM / security monitoring tool.</li>
-          <li>Enables detection, investigation (forensics) and compliance evidence.</li>
+          <li>Record API calls, logins and configuration changes (audit trail); keep logs tamper-resistant.</li>
+          <li>Feed a SIEM / security monitoring tool; enables forensics and compliance evidence.</li>
         </ul></div>
-      <div class="card"><h4><span class="icon">💾</span>Backup &amp; Disaster Recovery</h4>
+      <div class="card"><h4><span class="icon">💾</span>Backup &amp; disaster recovery</h4>
         <ul style="margin-bottom:0;">
           <li>Regular, tested backups; keep copies in another region/zone.</li>
-          <li>Define <strong>RPO</strong> (how much data loss is tolerable) and <strong>RTO</strong> (how fast service must be restored).</li>
+          <li><strong>RPO</strong> (tolerable data loss) and <strong>RTO</strong> (time to restore service).</li>
           <li>Protects availability against deletion, ransomware and outages.</li>
         </ul></div>
-      <div class="card"><h4><span class="icon">📜</span>Compliance &amp; Governance</h4>
-        <p>Meeting legal/industry standards and proving it with audits and reports. Examples (names only):</p>
-        <div class="pillbar"><span>ISO/IEC 27001</span><span>GDPR</span><span>SOC 2</span><span>HIPAA</span><span>PCI DSS</span></div>
+      <div class="card"><h4><span class="icon">📜</span>Other compliance frameworks</h4>
+        <p>You may also meet these names:</p>
+        <div class="pillbar"><span>GDPR</span><span>SOC 2</span><span>HIPAA</span></div>
         <p style="margin-bottom:0;">Provider certifications help, but the customer remains responsible for compliant <em>use</em>.</p></div>
     </div>
 
-    <p class="diagram-title">Defence in depth — layers around the data</p>
+    <p class="diagram-title">Defence in depth — layers around the data <span class="tag">Beyond the deck</span></p>
     <div class="flow">
       <div class="node alt"><b>Identity</b>IAM · MFA · least privilege</div><div class="arr">&rarr;</div>
       <div class="node"><b>Network</b>VPC · SG · WAF</div><div class="arr">&rarr;</div>
@@ -294,66 +386,90 @@
     <p class="eyebrow">04 · Continuously checking that the cloud is configured safely <span class="tag req">EXAM SCOPE · syllabus topic</span></p>
     <h2>Cloud Security Posture Management (CSPM)</h2>
 
-    <h3>What is CSPM?</h3>
-    <p><strong>CSPM</strong> is a category of security tooling that <strong>continuously discovers cloud
-      resources, checks their configuration against security best practices and compliance standards,
-      detects misconfigurations and risks, and helps fix them</strong> &mdash; across one or many cloud
-      accounts. "Posture" = the overall security state/configuration health of your cloud environment.</p>
+    <h3>Why CSPM exists: the misconfiguration problem</h3>
+    <p>Industry breach reports year after year identify misconfigured cloud resources &mdash; open storage, overly permissive firewall rules,
+      disabled logging, unencrypted databases exposed to the internet &mdash; as the single largest root cause. Three forces make this worse at scale
+      and mean manual review can never keep up:</p>
+<!--fig:cc-cspm-->
+<figure class="fig" data-caps='["CSPM keeps checking your cloud configuration. It is a continuous loop, not a one-time scan.","Discover: build an inventory of accounts and resources.","Assess: compare configuration with benchmarks and policies (for example CIS).","Detect: find misconfigurations and drift from the secure baseline.","Prioritise: rank findings by severity and exposure.","Alert or remediate: notify, or fix automatically (for example re-block a public bucket).","Report: compliance dashboards and audit evidence. Then the loop repeats."]' data-intro="Go round the loop." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="The CSPM cycle" style="min-width:620px"><defs><marker id="fa10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-acc" x="305" y="38" width="150" height="44" rx="22"/></g><g data-s="1"><text class="tm" x="380" y="66" text-anchor="middle">Discover</text></g><g data-s="2"><rect class="s-acc" x="485.13328398716317" y="103" width="150" height="44" rx="22"/></g><g data-s="2"><text class="tm" x="560.1332839871632" y="131" text-anchor="middle">Assess</text></g><g data-s="2"><line class="arr-acc" x1="434.03998519614896" y1="79.5" x2="506.0932987910142" y2="105.5" marker-end="url(#fb10)"/></g><g data-s="3"><rect class="s-acc" x="485.1332839871633" y="232.99999999999997" width="150" height="44" rx="22"/></g><g data-s="3"><text class="tm" x="560.1332839871633" y="261" text-anchor="middle">Detect drift and risk</text></g><g data-s="3"><line class="arr-acc" x1="560.1332839871632" y1="164" x2="560.1332839871633" y2="215.99999999999997" marker-end="url(#fb10)"/></g><g data-s="4"><rect class="s-acc" x="305" y="298" width="150" height="44" rx="22"/></g><g data-s="4"><text class="tm" x="380" y="326" text-anchor="middle">Prioritise</text></g><g data-s="4"><line class="arr-acc" x1="506.0932987910143" y1="274.5" x2="434.039985196149" y2="300.5" marker-end="url(#fb10)"/></g><g data-s="5"><rect class="s-mark" x="124.8667160128368" y="233.00000000000006" width="150" height="44" rx="22"/></g><g data-s="5"><text class="tm" x="199.8667160128368" y="261.00000000000006" text-anchor="middle">Alert / remediate</text></g><g data-s="5"><line class="arr-acc" x1="325.96001480385104" y1="300.5" x2="253.90670120898577" y2="274.50000000000006" marker-end="url(#fb10)"/></g><g data-s="6"><rect class="s-acc" x="124.86671601283678" y="102.99999999999999" width="150" height="44" rx="22"/></g><g data-s="6"><text class="tm" x="199.86671601283678" y="131" text-anchor="middle">Report</text></g><g data-s="6"><line class="arr-acc" x1="199.8667160128368" y1="216.00000000000006" x2="199.86671601283678" y2="164.00000000000003" marker-end="url(#fb10)"/></g><g data-s="7"><text class="acc-t" x="380" y="196" text-anchor="middle">repeat</text></g></svg></div><figcaption>Go round the loop.</figcaption></figure>
+<!--/fig:cc-cspm-->
 
-    <h3>Why is it needed?</h3>
-    <ul>
-      <li><strong>Misconfiguration is among the top causes of cloud breaches</strong> (public storage, open ports, over-permissive roles, disabled logging/encryption).</li>
-      <li>Cloud is <strong>dynamic</strong> &mdash; resources change constantly; manual review cannot keep up.</li>
-      <li><strong>Multi-cloud / multi-account sprawl</strong> &mdash; no single place to see risk.</li>
-      <li>Need for <strong>continuous compliance</strong> evidence instead of one-off audits.</li>
-      <li>Under the shared responsibility model, configuration is the <em>customer's</em> job.</li>
-    </ul>
+    <div class="grid cols-3">
+      <div class="card num"><h4>📊 Volume</h4><p>A mid-size company can easily run tens of thousands of cloud resources across multiple accounts, regions and providers.</p></div>
+      <div class="card num"><h4>⚡ Velocity</h4><p>Infrastructure as Code and CI/CD pipelines create and change resources continuously, all day, by many engineers.</p></div>
+      <div class="card num"><h4>🌊 Drift</h4><p>A resource configured correctly on Monday can be manually "fixed" by an engineer under pressure on Friday in a way that quietly reopens a gap &mdash; with nobody re-reviewing it.</p></div>
+    </div>
 
-    <h3>How CSPM works</h3>
-    <p class="diagram-title">CSPM workflow</p>
+    <h3>What is CSPM? (formal definition)</h3>
+    <div class="callout"><p><strong>Cloud Security Posture Management (CSPM)</strong> is a category of security tooling that <strong>continuously and automatically
+      discovers</strong> cloud resources, <strong>evaluates their configuration</strong> against security best practices and compliance frameworks, and
+      <strong>surfaces &mdash; or automatically fixes &mdash;</strong> any misconfiguration or policy violation it finds, across <strong>every cloud account</strong> an
+      organisation owns. "Posture" = the overall security state/configuration health of the cloud environment.</p></div>
+    <p>Three words matter most: <strong>continuously</strong> (not a one-time audit), <strong>automatically</strong> (not a human clicking through consoles)
+      and <strong>every account</strong> (most organisations are multi-cloud or multi-account, and a visibility gap is itself a security gap).</p>
+
+    <h3>How a CSPM platform works</h3>
+    <p>Every CSPM platform, cloud-native or third-party, follows the same architecture: it connects to your cloud accounts using
+      <strong>read-only API credentials</strong>, builds a <strong>live inventory</strong> of every resource, evaluates it against a
+      <strong>policy library</strong>, and pushes <strong>prioritised findings</strong> to the teams and tools that act on them.</p>
+    <p class="diagram-title">CSPM data flow (deck Figure 2.1)</p>
     <div class="flow">
-      <div class="node"><b>1. Discover</b>inventory accounts, assets, services</div><div class="arr">&rarr;</div>
-      <div class="node"><b>2. Assess</b>compare config to benchmarks / policies (e.g. CIS)</div><div class="arr">&rarr;</div>
-      <div class="node alt"><b>3. Detect</b>misconfigurations, drift &amp; risks</div><div class="arr">&rarr;</div>
-      <div class="node alt"><b>4. Prioritise</b>rank by severity &amp; exposure</div><div class="arr">&rarr;</div>
-      <div class="node bad"><b>5. Alert / Remediate</b>notify or auto-fix</div><div class="arr">&rarr;</div>
-      <div class="node ok"><b>6. Report</b>compliance dashboards &amp; audit evidence</div>
+      <div class="node"><b>Cloud accounts</b>AWS · Azure · GCP</div><div class="arr">&rarr;</div>
+      <div class="node alt"><b>CSPM platform</b>inventory + policy library</div><div class="arr">&rarr;</div>
+      <div class="node ok"><b>Outcomes</b>dashboards · alerts · remediation · audit reports</div>
+    </div>
+    <div class="callout"><p><strong>CSPM is agentless:</strong> it installs nothing inside your VMs or containers; it reads configuration through the provider's management
+      APIs &mdash; the same APIs a console user or an Infrastructure-as-Code tool would use. This is the key distinction from <strong>CWPP</strong>, which
+      does run inside the workload.</p></div>
+
+    <h3>The continuous cloud security cycle (5 stages)</h3>
+    <p>CSPM is not a report generated once a quarter for an audit &mdash; it is a closed loop that runs continuously.</p>
+    <p class="diagram-title">CSPM cycle (deck Figure 2.2)</p>
+    <div class="flow">
+      <div class="node"><b>1. Discover</b>live inventory of accounts, services, assets</div><div class="arr">&rarr;</div>
+      <div class="node"><b>2. Assess</b>check config against benchmarks / rules</div><div class="arr">&rarr;</div>
+      <div class="node alt"><b>3. Prioritise</b>rank by exploitability &amp; business impact</div><div class="arr">&rarr;</div>
+      <div class="node bad"><b>4. Remediate</b>auto-fix or route a ticket</div><div class="arr">&rarr;</div>
+      <div class="node ok"><b>5. Monitor</b>watch for new resources &amp; drift, repeat</div>
     </div>
     <p style="text-align:center;font-size:12.5px;color:var(--muted);max-width:none;">&#8635; Repeats continuously &mdash; CSPM is ongoing monitoring, not a one-time scan.</p>
 
     <ol class="steps">
-      <li><strong>Discover</strong> &mdash; connect to cloud accounts (via read-only API access) and build an inventory of assets.</li>
-      <li><strong>Assess</strong> &mdash; evaluate settings against policies and benchmarks such as <strong>CIS Benchmarks</strong> and regulatory frameworks.</li>
-      <li><strong>Detect drift &amp; risks</strong> &mdash; spot misconfigurations and <em>configuration drift</em> (a resource changing away from its approved secure baseline).</li>
-      <li><strong>Prioritise</strong> &mdash; rank findings by severity, exposure and business context so teams fix what matters first.</li>
-      <li><strong>Alert / auto-remediate</strong> &mdash; raise tickets/alerts or automatically correct safe issues (e.g. re-block a public bucket).</li>
-      <li><strong>Compliance reporting</strong> &mdash; produce dashboards and reports showing posture against standards.</li>
+      <li><strong>Discover</strong> &mdash; build and maintain a live inventory of every account, service and asset, including <strong>"shadow" resources</strong> an engineer spun up without telling anyone.</li>
+      <li><strong>Assess</strong> &mdash; check each resource's configuration against rules derived from the <strong>CIS Benchmarks, PCI-DSS and ISO 27001</strong>, plus custom organisational rules.</li>
+      <li><strong>Prioritise</strong> &mdash; not every finding is equally urgent: a public bucket holding customer PII is a five-alarm fire; an unused test resource with a minor issue is not. Good tools rank by <strong>exploitability and business impact</strong>, not raw count.</li>
+      <li><strong>Remediate</strong> &mdash; fix automatically (well-understood, low-risk fixes) or route a clear, actionable ticket to the owning team, ideally with a <strong>one-click fix</strong> or a ready-made <strong>Infrastructure-as-Code pull request</strong>.</li>
+      <li><strong>Monitor</strong> &mdash; watch continuously for new resources and new configuration drift, and start the loop again.</li>
     </ol>
 
-    <h3>Key features</h3>
-    <div class="grid cols-3">
-      <div class="card"><h4>🔍 Asset discovery &amp; inventory</h4><p>Continuous visibility across accounts/clouds.</p></div>
-      <div class="card"><h4>📏 Policy &amp; benchmark checks</h4><p>CIS and custom rules for misconfiguration detection.</p></div>
-      <div class="card"><h4>🔄 Drift detection</h4><p>Alerts when resources deviate from baseline.</p></div>
-      <div class="card"><h4>⚠️ Risk prioritisation</h4><p>Severity scoring, attack-path/exposure context.</p></div>
-      <div class="card"><h4>🛠️ Remediation</h4><p>Guided fix steps or automated corrective actions.</p></div>
-      <div class="card"><h4>📑 Compliance reporting</h4><p>Mapped to ISO 27001, GDPR, SOC 2 style frameworks.</p></div>
-    </div>
+    <h3>Compliance frameworks CSPM maps to</h3>
+    <p>A major reason to adopt CSPM is demonstrable, continuous compliance. Platforms ship pre-built rule packs mapped to the frameworks auditors check:</p>
+    <table>
+      <thead><tr><th>Framework</th><th>Relevance</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CIS Benchmarks</strong></td><td>Vendor-neutral, detailed hardening guidelines for AWS, Azure, GCP &mdash; the most common baseline CSPM tools ship out of the box.</td></tr>
+        <tr><td><strong>PCI-DSS</strong></td><td>Mandatory for any platform that stores, processes or transmits payment card data &mdash; relevant to e-commerce and food-delivery apps.</td></tr>
+        <tr><td><strong>ISO/IEC 27001</strong></td><td>International standard for information security management systems; widely required in enterprise vendor contracts.</td></tr>
+        <tr><td><strong>RBI IT Framework / Cyber Security Framework</strong></td><td>Reserve Bank of India requirements for banks and NBFCs, including strict controls on data localisation, encryption and access governance &mdash; central to the banking case study in SSO.</td></tr>
+        <tr><td><strong>DPDP Act, 2023</strong></td><td>India's Digital Personal Data Protection Act; raises the bar on how personal data of Indian users must be protected and governed by any platform, cloud-hosted or not.</td></tr>
+      </tbody>
+    </table>
 
-    <div class="grid cols-2">
-      <div class="card"><h4>✅ Benefits</h4><ul style="margin-bottom:0;">
-        <li>Fewer misconfiguration-driven breaches</li><li>Single view across multi-cloud</li>
-        <li>Faster detection and fixing</li><li>Continuous (audit-ready) compliance</li>
-        <li>Less manual effort; supports DevSecOps</li></ul></div>
-      <div class="card"><h4>⚠️ Limitations</h4><ul style="margin-bottom:0;">
-        <li>Focuses on <strong>configuration</strong>, not live runtime threats or workload contents</li>
-        <li>Can generate many alerts / false positives without tuning</li>
-        <li>Auto-remediation can disrupt services if misapplied</li>
-        <li>Needs broad read access to accounts &mdash; must itself be secured</li>
-        <li>Only as good as its policies; a tool, not a replacement for process and skills</li></ul></div>
-    </div>
+    <h3>The cloud-native security family: CSPM, CWPP, CIEM, KSPM, CNAPP</h3>
+    <p>CSPM is one member of a family of closely related, frequently confused acronyms &mdash; a common interview and exam question.</p>
+    <table>
+      <thead><tr><th>Acronym</th><th>Full form</th><th>The question it asks</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CSPM</strong></td><td>Cloud Security Posture Management</td><td>"Is this cloud resource configured securely?"</td></tr>
+        <tr><td><strong>CWPP</strong></td><td>Cloud Workload Protection Platform</td><td>"Is this running workload (VM, container, function) behaving securely right now?" Runtime security.</td></tr>
+        <tr><td><strong>CIEM</strong></td><td>Cloud Infrastructure Entitlement Management</td><td>"Does this identity have more access than it actually needs?" Finds and reduces over-privileged identities.</td></tr>
+        <tr><td><strong>KSPM</strong></td><td>Kubernetes Security Posture Management</td><td>The CSPM question for Kubernetes clusters, pods and role-based access control (RBAC).</td></tr>
+        <tr><td><strong>CNAPP</strong></td><td>Cloud-Native Application Protection Platform</td><td>The umbrella term for platforms bundling all of the above in one product &mdash; the direction the CSPM market has been moving for several years.</td></tr>
+      </tbody>
+    </table>
 
-    <h3>CSPM vs CWPP vs CASB</h3>
+    <h3>CSPM vs CWPP vs CASB <span class="tag">Beyond the deck</span></h3>
+    <p>The deck does not cover CASB; this comparison is standard textbook content (the CSPM and CWPP columns agree with the deck).</p>
     <table>
       <thead><tr><th>Aspect</th><th>CSPM</th><th>CWPP</th><th>CASB</th></tr></thead>
       <tbody>
@@ -367,11 +483,59 @@
     <div class="callout"><p>They are <strong>complementary</strong>: CSPM = secure the setup, CWPP = secure what runs,
       CASB = secure how users consume cloud services. Many vendors bundle them (e.g. CNAPP).</p></div>
 
-    <h3>Example tools (generic)</h3>
-    <div class="pillbar">
-      <span>Provider-native: AWS Security Hub / Config, Microsoft Defender for Cloud, Google Security Command Center</span>
-      <span>Commercial CSPM/CNAPP platforms (e.g. Wiz, Prisma Cloud, Orca)</span>
-      <span>Open-source scanners (e.g. Prowler, ScoutSuite)</span>
+    <h3>Popular CSPM tools</h3>
+    <table>
+      <thead><tr><th>Category</th><th>Tools</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cloud-native</strong></td><td>AWS Security Hub &amp; AWS Config, Microsoft Defender for Cloud, Google Security Command Center</td><td>Built into the provider; strongest within that one provider's ecosystem, weaker across multi-cloud.</td></tr>
+        <tr><td><strong>Third-party / independent</strong></td><td>Wiz, Palo Alto Prisma Cloud, Orca Security, Microsoft Defender CSPM (multi-cloud), CrowdStrike Falcon Cloud Security</td><td>Multi-cloud from day one; often add CWPP, CIEM and vulnerability scanning in one platform (i.e. a CNAPP).</td></tr>
+      </tbody>
+    </table>
+    <p><span class="tag">Beyond the deck</span> Open-source scanners such as Prowler and ScoutSuite are also commonly used.</p>
+    <div class="callout"><p><strong>Example &mdash; multi-cloud reality:</strong> a fast-growing company like Lenskart or Flipkart, with many engineering teams, often runs
+      workloads across more than one provider plus many SaaS tools. A third-party CSPM tool with one unified view is frequently more valuable than any single
+      provider's native tool, because it removes the blind spots between providers.</p></div>
+
+    <h3>Case study: anatomy of an exposed storage bucket (composite scenario)</h3>
+    <ol class="steps">
+      <li>A large e-commerce marketing team must share product images with an external agency. An engineer creates a storage bucket and, to avoid access-request back-and-forth, sets it to <strong>"public read"</strong>. It is never revisited.</li>
+      <li>Eighteen months later another internal team reuses the same bucket to stage a nightly analytics export &mdash; a CSV with partial customer order data &mdash; "just for a few hours". The public-read policy is still set.</li>
+      <li>Internet scanners that continuously sweep the public cloud IP space find the file within hours.</li>
+    </ol>
+    <div class="callout"><p>The pattern &mdash; opened for a narrow legitimate reason, never re-locked, then reused for something more sensitive &mdash; mirrors a large share of publicly
+      reported cloud storage exposures. A CSPM tool would have flagged "public read" the moment it was set, and again every day it stayed public, regardless of what was
+      later placed inside.</p></div>
+
+    <h3>Case study: multi-cloud posture at hyper-growth scale</h3>
+    <p>In a hyper-growth consumer platform (Lenskart or a food-delivery unicorn), engineering teams multiply fast, each with autonomy to ship, and backend services move to
+      containers orchestrated with Kubernetes across multiple regions and sometimes multiple providers. CSPM's job extends naturally into <strong>KSPM</strong>:</p>
+    <ul>
+      <li>Kubernetes cluster API servers must not be exposed to the public internet.</li>
+      <li>Pod security policies must prevent containers running with excessive privileges.</li>
+      <li>RBAC inside the cluster must follow least privilege.</li>
+    </ul>
+    <p>Same philosophy as classic CSPM, applied one layer deeper in the stack.</p>
+
+    <h3>Key features, benefits and limitations <span class="tag">Beyond the deck</span></h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>🔍 Asset discovery &amp; inventory</h4><p>Continuous visibility across accounts/clouds.</p></div>
+      <div class="card"><h4>📏 Policy &amp; benchmark checks</h4><p>CIS and custom rules for misconfiguration detection.</p></div>
+      <div class="card"><h4>🔄 Drift detection</h4><p>Alerts when resources deviate from baseline.</p></div>
+      <div class="card"><h4>⚠️ Risk prioritisation</h4><p>Severity scoring, attack-path/exposure context.</p></div>
+      <div class="card"><h4>🛠️ Remediation</h4><p>Guided fix steps or automated corrective actions.</p></div>
+      <div class="card"><h4>📑 Compliance reporting</h4><p>Rule packs mapped to CIS, PCI-DSS, ISO 27001, RBI and DPDP.</p></div>
+    </div>
+    <div class="grid cols-2">
+      <div class="card"><h4>✅ Benefits</h4><ul style="margin-bottom:0;">
+        <li>Fewer misconfiguration-driven breaches</li><li>Single view across multi-cloud</li>
+        <li>Faster detection and fixing</li><li>Continuous (audit-ready) compliance</li>
+        <li>Less manual effort; supports DevSecOps</li></ul></div>
+      <div class="card"><h4>⚠️ Limitations</h4><ul style="margin-bottom:0;">
+        <li>Focuses on <strong>configuration</strong>, not live runtime threats or workload contents</li>
+        <li>Can generate many alerts / false positives without tuning</li>
+        <li>Auto-remediation can disrupt services if misapplied</li>
+        <li>Needs broad read access to accounts &mdash; must itself be secured</li>
+        <li>Only as good as its policies; a tool, not a replacement for process and skills</li></ul></div>
     </div>
   </section>
 
@@ -380,27 +544,51 @@
     <p class="eyebrow">05 · One login, many applications <span class="tag req">EXAM SCOPE · syllabus topic</span></p>
     <h2>SSO — Single Sign-On Authentication</h2>
 
+    <h3>The problem: password fatigue</h3>
+    <p>A typical smartphone user in India uses Swiggy or Zomato, Flipkart or Amazon, Lenskart, a net-banking app, a UPI app, a workplace email account and more in a single week.
+      If each needed its own unique strong password, people either <strong>reuse the same password everywhere</strong> (one leak compromises many accounts) or lean on the
+      <strong>"forgot password"</strong> flow so often it becomes a support burden. Security teams call this <strong>password fatigue</strong> &mdash; the human problem SSO exists to solve.</p>
+<!--fig:cc-sso-->
+<figure class="fig" data-caps='["Three parties: the user (browser), the service provider (the application) and the identity provider (IdP).","1: the user tries to open the application.","2: no session yet, so the application redirects the user to the identity provider.","3: the user logs in at the IdP (password plus MFA).","4: the IdP issues a signed token (assertion) and sends the user back to the application.","5: the application checks the token signature and lets the user in.","Later, a second application redirects to the same IdP, which already has a session: no new login (single sign-on)."]' data-intro="Follow the login." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 440" role="img" aria-label="Single sign-on flow" style="min-width:620px"><defs><marker id="fa9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-acc" x="40" y="24" width="160" height="40" rx="8"/><text class="tb" x="120" y="50" text-anchor="middle">User</text><line class="grid-l" x1="120" y1="66" x2="120" y2="410"/><rect class="s-acc" x="300" y="24" width="160" height="40" rx="8"/><text class="tb" x="380" y="50" text-anchor="middle">Application (SP)</text><line class="grid-l" x1="380" y1="66" x2="380" y2="410"/><rect class="s-acc" x="560" y="24" width="160" height="40" rx="8"/><text class="tb" x="640" y="50" text-anchor="middle">Identity provider</text><line class="grid-l" x1="640" y1="66" x2="640" y2="410"/><g data-s="2"><line class="arr" x1="124" y1="100" x2="376" y2="100" marker-end="url(#fa9)"/></g><g data-s="2"><text class="tm" x="250" y="92" text-anchor="middle">1 open application</text></g><g data-s="3"><line class="arr-acc" x1="376" y1="150" x2="124" y2="150" marker-end="url(#fb9)"/></g><g data-s="3"><text class="tm" x="250" y="142" text-anchor="middle">2 redirect to IdP</text></g><g data-s="4"><line class="arr" x1="124" y1="200" x2="636" y2="200" marker-end="url(#fa9)"/></g><g data-s="4"><text class="tm" x="380" y="192" text-anchor="middle">3 log in (password + MFA)</text></g><g data-s="5"><line class="arr-acc" x1="636" y1="250" x2="124" y2="250" marker-end="url(#fb9)"/></g><g data-s="5"><text class="tm" x="380" y="242" text-anchor="middle">4 signed token</text></g><g data-s="5"><line class="arr" x1="124" y1="300" x2="376" y2="300" marker-end="url(#fa9)"/></g><g data-s="5"><text class="tm" x="250" y="292" text-anchor="middle">4 token to the application</text></g><g data-s="6"><line class="arr-acc" x1="376" y1="350" x2="124" y2="350" marker-end="url(#fb9)"/></g><g data-s="6"><text class="tm" x="250" y="342" text-anchor="middle">5 token valid: access granted</text></g><g data-s="7"><rect class="s-mark" x="40" y="372" width="680" height="34" rx="8"/></g><g data-s="7"><text class="tm" x="380" y="394" text-anchor="middle">second app: IdP session exists, no new login</text></g></svg></div><figcaption>Follow the login.</figcaption></figure>
+<!--/fig:cc-sso-->
+
+
     <h3>Definition</h3>
     <p><strong>Single Sign-On (SSO)</strong> is an authentication scheme that lets a user <strong>log in once
       with one set of credentials and then access multiple independent applications/services</strong>
       without logging in again for each one.</p>
-
-    <h3>Problem it solves</h3>
-    <ul>
-      <li><strong>Password sprawl / fatigue</strong> &mdash; users juggling many passwords reuse weak ones or write them down.</li>
-      <li>Frequent <strong>help-desk resets</strong> and productivity loss from repeated logins.</li>
-      <li>Scattered, inconsistent identity management &mdash; hard to <strong>on-board / off-board</strong> users everywhere.</li>
-    </ul>
-
-    <h3>Actors</h3>
-    <div class="grid cols-3">
-      <div class="card num"><h4><span class="icon">🙋</span>User (Principal)</h4><p>The person trying to access an application via a browser or client.</p></div>
-      <div class="card num"><h4><span class="icon">🏛️</span>Identity Provider (IdP)</h4><p>Central trusted system that <strong>authenticates</strong> the user and issues proof (assertion/token). e.g. corporate directory login service.</p></div>
-      <div class="card num"><h4><span class="icon">🧩</span>Service Provider (SP)</h4><p>The application/service the user wants; it <strong>trusts the IdP</strong> instead of keeping its own password.</p></div>
+    <p class="diagram-title">Without SSO vs with SSO (deck Figure 3.1)</p>
+    <div class="flow">
+      <div class="node bad"><b>Without SSO</b>User &harr; App 1, App 2, App 3 &mdash; one password per app</div><div class="arr">vs</div>
+      <div class="node ok"><b>With SSO</b>User &rarr; one trusted Identity Provider, which vouches for the user to every app</div>
     </div>
+    <p>You already use SSO constantly: every "Continue with Google" or "Continue with Facebook" tap, or every time your office laptop logs you into email, chat and the HR portal without asking again.</p>
 
-    <h3>How SSO login works (step by step)</h3>
-    <p class="diagram-title">SSO flow — user, service provider, identity provider</p>
+    <h3>Core actors</h3>
+    <div class="grid cols-3">
+      <div class="card num"><h4><span class="icon">🙋</span>User</h4><p>The human trying to log in.</p></div>
+      <div class="card num"><h4><span class="icon">🏛️</span>Identity Provider (IdP)</h4><p>Trusted system that actually <strong>verifies who the user is</strong> (checks password, sends OTP, enforces MFA) and issues signed proof of identity. e.g. Google, Microsoft Entra ID (formerly Azure AD), Okta, a bank's own authentication server.</p></div>
+      <div class="card num"><h4><span class="icon">🧩</span>Service Provider (SP) / Relying Party</h4><p>The application the user wants; it <strong>trusts the IdP's word</strong> instead of checking the password itself. e.g. Workday, Salesforce, a food-delivery app accepting "Sign in with Google".</p></div>
+    </div>
+    <div class="callout"><p>The whole security value of SSO rests on one decision: <strong>the Service Provider never sees or handles the user's actual password</strong>. It only receives a signed statement from the IdP: "I have verified this user; here is proof."</p></div>
+
+    <h3>Authentication vs authorization</h3>
+    <table>
+      <thead><tr><th>Term</th><th>Question it answers</th><th>Everyday analogy</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Authentication (AuthN)</strong></td><td>Who are you?</td><td>Showing your ID card at a building's front desk.</td></tr>
+        <tr><td><strong>Authorization (AuthZ)</strong></td><td>What are you allowed to do?</td><td>The visitor badge that only opens certain floors.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><p><strong>Common mistake:</strong> OAuth 2.0 is fundamentally an <strong>authorization</strong> protocol, not authentication &mdash; even though it is widely used as the basis of
+      consumer login. Using raw OAuth 2.0 alone to log a user in (without OpenID Connect on top) is a well-known anti-pattern that has caused real vulnerabilities.</p></div>
+
+    <h3>SAML 2.0 — enterprise SSO</h3>
+    <p><strong>Security Assertion Markup Language (SAML) 2.0</strong> is an <strong>XML-based</strong> standard, published in <strong>2005</strong>, and still the dominant protocol for enterprise
+      SSO &mdash; the login a bank employee or college administrator uses when one corporate login unlocks email, HR and many internal tools. Its core artifact is the
+      <strong>Assertion</strong>: a signed XML document stating who the user is and what attributes (department, role, email) are true about them. In the deck's quiz, SAML is an
+      <em>authentication</em> protocol, not primarily authorization.</p>
+    <p class="diagram-title">SP-initiated SAML flow (deck Figure 3.2) — also the generic SSO flow</p>
     <div class="sso-seq">
       <div class="actor">User<small>browser</small></div>
       <div class="actor">Service Provider (SP)<small>application</small></div>
@@ -408,54 +596,131 @@
       <div class="msg l2m"><span>1 &rarr; Request access to the application</span></div>
       <div class="msg m2l"><span>2 &larr; No session: redirect user to the IdP</span></div>
       <div class="msg l2r"><span>3 &rarr; Browser reaches IdP; user logs in (password + MFA)</span></div>
-      <div class="msg r2l"><span>4 &larr; IdP authenticates; issues token / assertion</span></div>
-      <div class="msg l2m"><span>5 &rarr; Browser presents token to the SP</span></div>
-      <div class="msg m2l"><span>6 &larr; SP validates token (trust in IdP) and grants access</span></div>
-      <div class="msg l2m"><span>7 &rarr; Later: another app redirects to IdP; existing session reused &mdash; no new login</span></div>
+      <div class="msg r2l"><span>4 &larr; IdP authenticates; issues signed assertion / token</span></div>
+      <div class="msg l2m"><span>5 &rarr; Browser presents assertion to the SP</span></div>
+      <div class="msg m2l"><span>6 &larr; SP validates the signature (trust in IdP) and grants access</span></div>
+      <div class="msg l2m"><span>7 &rarr; Later: another app redirects to IdP; existing session reused &mdash; no new login <em>(Beyond the deck)</em></span></div>
     </div>
     <ol class="steps">
       <li>User tries to open an application (SP).</li>
       <li>SP finds no valid session and <strong>redirects</strong> the user to the IdP.</li>
       <li>User authenticates at the IdP (password, preferably + MFA).</li>
-      <li>IdP creates a session and issues a <strong>signed token/assertion</strong> proving identity.</li>
-      <li>User's browser sends the token to the SP.</li>
+      <li>IdP issues a <strong>signed token/assertion</strong> proving identity.</li>
+      <li>User's browser sends it to the SP.</li>
       <li>SP <strong>verifies the signature</strong> and grants access.</li>
-      <li>When the user opens a second app, the IdP sees the existing session and issues a token <strong>without asking for credentials again</strong>.</li>
+      <li>When the user opens a second app, the IdP sees the existing session and issues a token <strong>without asking for credentials again</strong>. <span class="tag">Beyond the deck</span></li>
     </ol>
+    <div class="callout"><p><strong>Example &mdash; enterprise SAML:</strong> a bank configures its corporate IdP (commonly Okta or Microsoft Entra ID) as the single source of truth for employee identity. Opening Salesforce
+      or Workday redirects the employee to the bank's own login page (its password policy and mandatory MFA); only after success do they land inside Salesforce, already signed in.
+      If the employee leaves, <strong>disabling the one IdP account instantly revokes access to every connected application</strong> &mdash; a critical control for compliance and offboarding.</p></div>
 
-    <h3>SSO protocols &amp; standards</h3>
+    <h3>OAuth 2.0 — delegated authorization</h3>
+    <p>OAuth 2.0 solves a different problem: how can a user grant one application <strong>limited access to their data on another service, without handing over their password</strong>?
+      Classic example: letting a photo-printing website access only your Google Photos library, without giving it your Google password (which would also let it read your Gmail).</p>
+    <p class="diagram-title">OAuth 2.0 Authorization Code flow (deck Figure 3.3) — "Login with Google"</p>
+    <ol class="steps">
+      <li>User taps "Continue with Google" inside the <strong>app (client)</strong>.</li>
+      <li>App redirects the browser to Google's <strong>authorization endpoint</strong> (<code>/authorize</code>).</li>
+      <li>User authenticates with Google and approves the specific permissions (<strong>scopes</strong>) requested.</li>
+      <li>Google redirects back to the app with a short-lived, single-use <strong>authorization code</strong>.</li>
+      <li><strong>Back-channel step:</strong> the app exchanges the code for an access token over a secure server-to-server request that also includes the app's own <strong>client secret</strong>.</li>
+      <li>Google returns the <strong>access token</strong>, often with a longer-lived <strong>refresh token</strong>.</li>
+      <li>App uses the access token to call Google's API.</li>
+      <li>Google returns the requested data, which the app uses to create the user's session.</li>
+    </ol>
+    <div class="callout"><p><strong>Why the back-channel step matters:</strong> step 5 happens server-to-server, not through the user's browser, which keeps the client secret confidential and stops the
+      authorization code being intercepted and reused. Mobile and single-page apps cannot safely store a secret, so they use <strong>PKCE (Proof Key for Code Exchange)</strong> for the same protection without a stored secret.</p></div>
+
+    <h3>OpenID Connect &amp; the JSON Web Token (JWT)</h3>
+    <p>If OAuth 2.0 is about authorization, how does "Login with Google" work as a login? Through <strong>OpenID Connect (OIDC)</strong> &mdash; a thin, standardised
+      <strong>identity layer built directly on top of OAuth 2.0</strong>. OIDC adds one new artifact to the flow above: a signed <strong>ID Token</strong>, formatted as a
+      <strong>JWT</strong>, which makes a verifiable statement about <em>who the user is</em>, not just what data the app may access.</p>
+    <div class="flow">
+      <div class="node"><b>Header</b>signing algorithm</div><div class="arr">.</div>
+      <div class="node"><b>Payload (claims)</b>user ID (<code>sub</code>), email, token expiry time</div><div class="arr">.</div>
+      <div class="node ok"><b>Signature</b>proves the IdP issued it and it was not tampered with</div>
+    </div>
+    <p>A JWT has <strong>three parts separated by dots</strong>, each Base64Url-encoded (<code>header.payload.signature</code>). Because the signature can be verified using only the IdP's
+      <strong>public key</strong>, the receiving app never needs to call the IdP back &mdash; it verifies <strong>locally</strong>, one reason JWT-based OIDC is popular for high-scale consumer apps.</p>
+
+    <h3>SAML vs OAuth vs OIDC — choosing the protocol</h3>
+    <p>One of the most exam- and interview-relevant comparisons in the unit (deck Figure 3.5):</p>
     <table>
       <thead><tr><th>Protocol</th><th>One-line explanation</th><th>Typical use</th></tr></thead>
       <tbody>
-        <tr><td><strong>SAML 2.0</strong></td><td>XML-based standard exchanging signed authentication/authorisation <em>assertions</em> between IdP and SP.</td><td>Enterprise / workforce web SSO</td></tr>
-        <tr><td><strong>OAuth 2.0</strong></td><td>An <strong>authorisation</strong> framework: lets an app get limited access to resources on a user's behalf via access tokens, without sharing the password.</td><td>API access, "allow this app to read your calendar"</td></tr>
-        <tr><td><strong>OpenID Connect (OIDC)</strong></td><td>An <strong>authentication</strong> layer built on top of OAuth 2.0; adds an <em>ID token</em> (JWT) that says who the user is.</td><td>Modern web/mobile "Sign in with &hellip;" SSO</td></tr>
-        <tr><td><strong>Kerberos</strong></td><td>Ticket-based network authentication using a trusted key distribution centre; user gets tickets instead of sending passwords.</td><td>Enterprise/intranet (e.g. Windows domains)</td></tr>
+        <tr><td><strong>SAML 2.0</strong></td><td>XML-based standard exchanging signed <em>assertions</em> between IdP and SP; authentication (with attributes) for enterprise SSO.</td><td>Enterprise / workforce web SSO</td></tr>
+        <tr><td><strong>OAuth 2.0</strong></td><td>An <strong>authorization</strong> framework: lets an app get limited access to resources on a user's behalf via access tokens, without sharing the password.</td><td>API access, "allow this app to read your photos/calendar"</td></tr>
+        <tr><td><strong>OpenID Connect (OIDC)</strong></td><td>An <strong>authentication</strong> layer on top of OAuth 2.0; adds a signed <em>ID token</em> (JWT) saying who the user is.</td><td>Modern web/mobile "Sign in with &hellip;" login</td></tr>
       </tbody>
     </table>
-    <div class="callout warn"><p><strong>Classic exam trap:</strong> <strong>OAuth 2.0 = authorisation</strong> (what an app may access).
-      <strong>OpenID Connect = authentication</strong> (who the user is), built on OAuth 2.0. SAML does both in the
-      XML/enterprise world.</p></div>
+    <div class="callout"><p><strong>Rule of thumb:</strong> enterprise workforce SSO into business software &rarr; <strong>SAML</strong> (or OIDC, which is increasingly replacing SAML even in enterprises).
+      Only need to call another service's API on a user's behalf &rarr; <strong>OAuth 2.0</strong>. Need to know <em>who the user is</em> (a "Sign in with..." button) &rarr; <strong>OpenID Connect</strong>.</p></div>
+    <p><span class="tag">Beyond the deck</span> <strong>Kerberos</strong> &mdash; ticket-based network authentication using a trusted key distribution centre; the user gets tickets instead of sending passwords. Typical use: enterprise/intranet (e.g. Windows domains).</p>
+    <div class="callout warn"><p><strong>Classic exam trap:</strong> <strong>OAuth 2.0 = authorization</strong> (what an app may access).
+      <strong>OpenID Connect = authentication</strong> (who the user is), built on OAuth 2.0. SAML is an authentication protocol for enterprise SSO.</p></div>
 
-    <h3>Federation (federated identity)</h3>
-    <p><strong>Federation</strong> extends SSO <em>across organisational or domain boundaries</em>: separate
-      organisations establish <strong>trust</strong> so a user authenticated by their home IdP can access a
-      partner's or a cloud provider's services without a separate account. Example: logging in to a cloud
-      service or partner portal with your organisation's credentials. SAML and OIDC are the usual federation
-      protocols.</p>
+    <h3>Case study: SSO in banking and net-banking</h3>
+    <p>An Indian bank's digital ecosystem has a net-banking portal, a mobile app and UPI integration, plus (for staff) a separate internal SSO layer for email, HR and internal tools. For
+      customer-facing SSO, banks work under tighter constraints than a shopping app:</p>
+    <ul>
+      <li>RBI guidelines mandate <strong>strong multi-factor authentication</strong> for financial transactions.</li>
+      <li>Session tokens are typically <strong>extremely short-lived</strong> compared to a shopping app.</li>
+      <li>Identity is frequently anchored to the <strong>registered mobile number</strong> and a <strong>device-level trust signal</strong>.</li>
+      <li><strong>UPI PIN or biometric</strong> verification adds a transaction-level step on top of the initial SSO-style login.</li>
+    </ul>
+    <p>Lesson: SSO establishes who you are once, while sensitive actions can still demand extra targeted re-verification &mdash; <strong>step-up authentication</strong>.</p>
 
-    <h3>SSO + MFA</h3>
-    <p>Because one login unlocks many applications, the IdP login must be <strong>strong</strong>. Combining SSO
-      with <strong>MFA</strong> (password + one-time code/hardware key/biometric) protects every connected app
-      at once. Adaptive/risk-based policies can demand extra verification only for unusual logins.</p>
+    <h3>Case study: Lenskart — social login and OTP-based SSO</h3>
+    <p>Consumer platforms like Lenskart offer two low-friction entry points: <strong>"Continue with Google"</strong> (an OIDC flow, as above) and <strong>phone number + OTP</strong>, where the platform's own
+      backend acts as the Identity Provider and texts a one-time code to verify the user controls that number. Both are conceptually SSO: the user skips creating a Lenskart-specific password by trusting an
+      already-established identity signal (a Google account, or control of a phone number). The OTP flow needs careful engineering:</p>
+    <ul>
+      <li><strong>Rate-limit OTP requests</strong> (prevents SMS-bombing abuse).</li>
+      <li><strong>Short OTP expiry windows.</strong></li>
+      <li><strong>Bind OTP verification to the device/session</strong> that requested it, so a leaked OTP alone cannot be replayed from an attacker's device.</li>
+    </ul>
 
-    <h3>Benefits vs risks</h3>
+    <h3>SSO security risks and mitigations</h3>
+    <p>Centralising authentication concentrates risk: if the single Identity Provider is compromised, every connected application is potentially compromised too.</p>
+    <table>
+      <thead><tr><th>Risk</th><th>What it is</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Token theft / replay</strong></td><td>Attacker steals a valid session or access token (malware, compromised network, XSS) and reuses it to impersonate the user.</td><td>Short token lifetimes; token binding to device/IP where feasible; secure (HttpOnly, encrypted) token storage.</td></tr>
+        <tr><td><strong>SAML XML signature wrapping</strong></td><td>Manipulates the structure of a signed SAML XML message so a signature valid for one part appears to validate a maliciously altered part.</td><td>Well-maintained, standards-compliant SAML libraries rather than custom XML parsing; strict schema validation.</td></tr>
+        <tr><td><strong>Open redirect</strong></td><td>A poorly validated redirect parameter sends the user's browser (sometimes their auth code) to an attacker-controlled site after login.</td><td>Strict allow-lists of valid redirect URIs registered in advance with the IdP.</td></tr>
+        <tr><td><strong>Phishing via consent screens</strong></td><td>A malicious app registers with an IdP and tricks users into approving broad OAuth scopes.</td><td>IdP-side app vetting/verification; users reviewing requested scopes; minimal scope requests by legitimate apps.</td></tr>
+        <tr><td><strong>Session fixation</strong></td><td>Attacker forces a victim to use a session identifier the attacker already knows, then hijacks the session after the victim authenticates.</td><td>Always issue a brand-new session identifier immediately after successful authentication.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>SSO + MFA: stronger together</h3>
+    <p>SSO and <strong>Multi-Factor Authentication (MFA)</strong> solve different problems. SSO reduces how many passwords exist to attack; MFA makes each authentication event harder to defeat even if the first
+      factor is compromised, by requiring a second independent proof &mdash; something the user <strong>has</strong> (phone, hardware key) or something the user <strong>is</strong> (fingerprint, face).
+      They are complementary, not redundant.</p>
+    <div class="callout"><p><strong>Key point:</strong> SSO centralises authentication into one IdP, making it the single highest-value target in the system. Enforcing <strong>MFA at the IdP</strong> is therefore one of the
+      highest-leverage controls &mdash; it protects every connected application at once. Many modern IdPs also support <strong>adaptive / risk-based authentication</strong>, prompting for a second factor only when a login looks unusual (new device, new country, impossible travel time).</p></div>
+
+    <h3>Enterprise SSO tools landscape</h3>
+    <table>
+      <thead><tr><th>Provider</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Okta</strong></td><td>Independent, widely used enterprise identity platform; strong SAML and OIDC support.</td></tr>
+        <tr><td><strong>Microsoft Entra ID</strong> (formerly Azure AD)</td><td>Deeply integrated with Microsoft 365 and Windows environments; very common in large enterprises.</td></tr>
+        <tr><td><strong>Ping Identity, OneLogin</strong></td><td>Independent enterprise identity platforms, similar positioning to Okta.</td></tr>
+        <tr><td><strong>AWS IAM Identity Center</strong></td><td>AWS-native SSO for federating access across many AWS accounts.</td></tr>
+        <tr><td><strong>Google Workspace / Google Identity</strong></td><td>Both an enterprise IdP (Workspace) and one of the most common consumer OIDC providers ("Sign in with Google").</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Federation, benefits, risks and best practices <span class="tag">Beyond the deck</span></h3>
+    <p><strong>Federation</strong> extends SSO across organisational or domain boundaries: separate organisations establish trust so a user authenticated by their home IdP can access a partner's or
+      cloud provider's services without a separate account. SAML and OIDC are the usual federation protocols.</p>
     <div class="grid cols-2">
       <div class="card"><h4>✅ Benefits</h4><ul style="margin-bottom:0;">
         <li>Better user experience; fewer passwords to remember</li>
         <li>Fewer weak/reused passwords and phishing surfaces</li>
         <li>Lower help-desk/password-reset cost</li>
-        <li>Centralised policy, auditing and quick user de-provisioning</li>
+        <li>Centralised policy, auditing and quick de-provisioning</li>
         <li>Easy enforcement of MFA</li></ul></div>
       <div class="card"><h4>⚠️ Risks</h4><ul style="margin-bottom:0;">
         <li><strong>Single point of failure</strong> &mdash; if the IdP is down, users can't reach any app</li>
@@ -463,14 +728,10 @@
         <li>Integration effort; legacy apps may not support SSO</li>
         <li>Misconfigured trust/tokens can be exploited</li></ul></div>
     </div>
-
-    <h3>Best practices</h3>
     <ul>
-      <li>Enforce <strong>MFA</strong> on the IdP (especially for admins).</li>
-      <li>Make the IdP <strong>highly available</strong> (redundancy) and have an emergency "break-glass" admin access.</li>
-      <li>Use <strong>short token lifetimes</strong>, secure session handling and signed/validated tokens.</li>
-      <li>Apply <strong>least privilege</strong> / RBAC on top of SSO; review access regularly.</li>
-      <li>Log and monitor authentication events; alert on anomalies.</li>
+      <li>Enforce MFA on the IdP (especially for admins); make the IdP highly available with an emergency "break-glass" admin access.</li>
+      <li>Use short token lifetimes, secure session handling and signed/validated tokens.</li>
+      <li>Apply least privilege / RBAC on top of SSO; review access regularly; log and monitor authentication events.</li>
       <li>Use modern protocols (OIDC/SAML) rather than custom schemes; automate de-provisioning on exit.</li>
     </ul>
   </section>
@@ -483,78 +744,140 @@
     <table>
       <thead><tr><th>Topic</th><th>Remember</th></tr></thead>
       <tbody>
-        <tr><td><strong>Cloud security</strong></td><td>Protect data/apps/infra; perimeter is blurred; goals = CIA.</td></tr>
-        <tr><td><strong>Top threats</strong></td><td>Data breach, misconfiguration, insecure APIs, account hijacking, insider, DDoS, data loss, shared-tech.</td></tr>
-        <tr><td><strong>Shared responsibility</strong></td><td>Provider = security <em>of</em> cloud; customer = security <em>in</em> cloud; data &amp; identity always customer.</td></tr>
-        <tr><td><strong>Core controls</strong></td><td>IAM (least privilege, RBAC, MFA), encryption (rest/transit, KMS), VPC/SG/firewall/WAF, logging, backup/DR, compliance.</td></tr>
-        <tr><td><strong>CSPM</strong></td><td>Continuous config checking: discover &rarr; assess &rarr; detect drift &rarr; prioritise &rarr; alert/remediate &rarr; report.</td></tr>
-        <tr><td><strong>CSPM vs CWPP vs CASB</strong></td><td>Configuration vs workloads vs user/SaaS access.</td></tr>
-        <tr><td><strong>SSO</strong></td><td>One login, many apps; User + IdP + SP; token-based; pair with MFA.</td></tr>
-        <tr><td><strong>Protocols</strong></td><td>SAML (XML assertions), OAuth 2.0 (authorisation), OIDC (authentication on OAuth), Kerberos (tickets).</td></tr>
-        <tr><td><strong>SSO risk</strong></td><td>Single point of failure / compromise &rarr; MFA + HA IdP.</td></tr>
+        <tr><td><strong>Cloud security</strong></td><td>Perimeter dissolves; shared control, speed/scale, API-driven everything; goals = CIA.</td></tr>
+        <tr><td><strong>Five pillars</strong></td><td>IAM, data protection, network security, compliance &amp; governance, monitoring/detection/response.</td></tr>
+        <tr><td><strong>Six threat categories</strong></td><td>Misconfiguration, weak identity, insecure APIs, data exposure, account hijacking, availability attacks.</td></tr>
+        <tr><td><strong>Shared responsibility</strong></td><td>Provider = security <em>of</em> cloud; customer = security <em>in</em> cloud; data &amp; identity always customer. Capital One = customer-side WAF misconfiguration.</td></tr>
+        <tr><td><strong>CSPM</strong></td><td>Continuous, automatic, agentless: discover &rarr; assess &rarr; prioritise &rarr; remediate &rarr; monitor (loop). Volume, velocity, drift.</td></tr>
+        <tr><td><strong>CSPM family</strong></td><td>CSPM = configuration; CWPP = running workloads; CIEM = over-privileged identities; KSPM = Kubernetes; CNAPP = bundle of all.</td></tr>
+        <tr><td><strong>Frameworks</strong></td><td>CIS Benchmarks, PCI-DSS, ISO 27001, RBI framework, DPDP Act 2023.</td></tr>
+        <tr><td><strong>SSO</strong></td><td>One login, many apps; User + IdP + SP; SP never sees the password; pair with MFA at the IdP.</td></tr>
+        <tr><td><strong>Protocols</strong></td><td>SAML (XML assertions, enterprise), OAuth 2.0 (authorization), OIDC (authentication on OAuth, ID token as JWT); PKCE for apps with no secret.</td></tr>
+        <tr><td><strong>SSO risks</strong></td><td>Token theft/replay, SAML signature wrapping, open redirect, consent-screen phishing, session fixation; IdP compromise concentrates risk.</td></tr>
+        <tr><td><strong>Step-up</strong></td><td>SSO proves identity once; sensitive actions demand extra verification (OTP, UPI PIN, biometric).</td></tr>
       </tbody>
     </table>
 
     <h3>Likely exam questions with model answers</h3>
 
-    <div class="qa"><p class="q">Q1. What is cloud security? Explain the CIA triad.</p>
-      <p class="a">Cloud security is the set of policies, technologies and controls that protect cloud-hosted data,
-      applications and infrastructure from threats and unauthorised access. CIA: <strong>Confidentiality</strong>
-      (only authorised access, via encryption/access control), <strong>Integrity</strong> (data not altered
-      without authorisation, via hashing/signatures/logs), <strong>Availability</strong> (data and services
-      accessible when needed, via redundancy/backups/DDoS protection).</p></div>
+    <div class="qa"><p class="q">Q1. What is cloud security? Explain the CIA triad in the cloud.</p>
+      <p class="a">Cloud security protects cloud-hosted data, applications and infrastructure from threats and unauthorised access; the perimeter dissolves, control is shared, resources are created by code in seconds and everything is API-driven.
+      <strong>Confidentiality</strong>: only authorised people see data (cloud risks: public buckets, over-shared links, cross-tenant leakage). <strong>Integrity</strong>: data isn't tampered with (unauthorised IaC changes, unsigned API calls,
+      container-image supply-chain tampering). <strong>Availability</strong>: systems stay up (DDoS, accidental deletion by automation, regional outages).</p></div>
 
-    <div class="qa"><p class="q">Q2. List and explain major cloud security threats.</p>
-      <p class="a">Data breaches (unauthorised data exposure); misconfiguration (e.g. public storage, open ports);
-      insecure APIs; account hijacking (phishing, stolen keys); insider threats; DDoS (denial of availability);
-      data loss (deletion, ransomware); shared-technology vulnerabilities (weak tenant isolation).
-      Misconfiguration and weak identity management are the most common practical causes.</p></div>
+    <div class="qa"><p class="q">Q2. List and explain the six categories of cloud security threat.</p>
+      <p class="a">Misconfiguration (default/overly permissive settings such as a public bucket &mdash; needs no hacking skill); weak identity (over-permissioned identities); insecure APIs (leaked keys act on the account); data exposure
+      (public buckets, over-shared links); account hijacking (increasingly via session tokens, which can bypass login and MFA); availability attacks (DDoS, accidental deletion, outages). Misconfiguration and weak identity management
+      are the most common practical causes.</p></div>
 
-    <div class="qa"><p class="q">Q3. Explain the Shared Responsibility Model across IaaS, PaaS and SaaS.</p>
-      <p class="a">The provider secures the underlying cloud (facilities, hardware, network, hypervisor); the
-      customer secures what they deploy and configure. In IaaS the customer also manages OS, middleware, apps,
-      network config, data and access; in PaaS the provider also manages OS/runtime, customer handles code,
-      data, access; in SaaS the provider manages almost everything and the customer handles data, user access
-      and app settings. Data and identity are always the customer's responsibility.</p></div>
+    <div class="qa"><p class="q">Q3. Explain the Shared Responsibility Model across IaaS, PaaS and SaaS. Use the Capital One breach as an example.</p>
+      <p class="a">Provider = security <em>of</em> the cloud (data centres, host hardware, virtualisation layer, sometimes the network); customer = security <em>in</em> the cloud (identity and access, data classification and protection,
+      application and network configuration). Moving IaaS &rarr; SaaS the provider takes more of the stack, but data and IAM stay with the customer. E.g. on EC2 you patch the OS; on Lambda AWS does, but you still own what the code does with
+      data. In the 2019 Capital One breach (100M+ records) a misconfigured WAF with excess permissions was tricked into fetching temporary credentials from the instance metadata service, used to read S3 buckets &mdash; a customer-side
+      failure, not an AWS flaw.</p></div>
 
-    <div class="qa"><p class="q">Q4. Describe the core security controls used in the cloud.</p>
-      <p class="a">IAM with least privilege, RBAC and MFA; encryption at rest and in transit with keys managed in
-      a KMS; network security via VPC, security groups, firewalls and WAF; monitoring and logging for
-      detection and audit; backup and disaster recovery for availability; and compliance with standards such
-      as ISO 27001, GDPR and SOC 2.</p></div>
+    <div class="qa"><p class="q">Q4. Name the five pillars of a cloud security program.</p>
+      <p class="a">(1) IAM &mdash; who can do what, via least privilege; (2) Data protection &mdash; encryption at rest and in transit, tokenization, data classification; (3) Network security &mdash; VPCs, security groups/firewall rules, segmentation;
+      (4) Compliance &amp; governance &mdash; ISO 27001, PCI-DSS, RBI IT framework, DPDP Act; (5) Monitoring, detection &amp; response &mdash; logging, alerting, continuous posture checking.</p></div>
 
     <div class="qa"><p class="q">Q5. What is CSPM? Why is it needed and how does it work?</p>
-      <p class="a">CSPM continuously discovers cloud assets, checks configurations against benchmarks (e.g. CIS)
-      and policies, detects misconfigurations and drift, prioritises risks, alerts or auto-remediates, and
-      reports compliance. It is needed because misconfigurations are a leading cause of cloud breaches and
-      manual checking can't keep pace with dynamic, multi-cloud environments.</p></div>
+      <p class="a">CSPM continuously and automatically discovers cloud resources, evaluates their configuration against best practices and compliance frameworks, and surfaces or fixes misconfigurations across every account.
+      Needed because misconfiguration is the leading breach cause and manual review fails under volume, velocity and drift. It connects with read-only API credentials (agentless), builds a live inventory, checks it against a policy
+      library and runs a 5-stage loop: Discover &rarr; Assess (CIS, PCI-DSS, ISO 27001, custom rules) &rarr; Prioritise (exploitability and business impact) &rarr; Remediate (auto-fix, ticket, IaC pull request) &rarr; Monitor.</p></div>
 
-    <div class="qa"><p class="q">Q6. Differentiate CSPM, CWPP and CASB.</p>
-      <p class="a">CSPM secures cloud <em>configuration</em> (posture, compliance, drift). CWPP protects
-      <em>workloads</em> such as VMs, containers and serverless (vulnerabilities, runtime protection). CASB
-      sits between users and cloud/SaaS services to give visibility, DLP and access control over cloud
-      <em>usage</em>. They are complementary.</p></div>
+    <div class="qa"><p class="q">Q6. Differentiate CSPM, CWPP, CIEM, KSPM and CNAPP.</p>
+      <p class="a">CSPM: "is this resource configured securely?" (agentless, via APIs). CWPP: "is this running workload (VM, container, function) behaving securely now?" (runs inside the workload). CIEM: "does this identity have more access
+      than it needs?" KSPM: the CSPM question for Kubernetes clusters, pods and RBAC. CNAPP: the umbrella platform bundling all of them. <span class="tag">Beyond the deck</span> CASB additionally governs how users consume cloud/SaaS services.</p></div>
 
     <div class="qa"><p class="q">Q7. What is SSO? Explain its working with the roles involved.</p>
-      <p class="a">SSO lets a user authenticate once and access multiple applications without re-entering
-      credentials. Roles: user, Identity Provider (authenticates and issues a token) and Service Provider
-      (trusts the IdP). Flow: user requests app &rarr; SP redirects to IdP &rarr; user logs in (+MFA) &rarr; IdP
-      issues signed token &rarr; user presents it to SP &rarr; SP validates and grants access; later apps reuse
-      the IdP session.</p></div>
+      <p class="a">SSO lets a user authenticate once with one set of credentials and access multiple independent applications. Roles: user, Identity Provider (verifies the user, enforces MFA, issues signed proof) and Service Provider /
+      relying party (trusts the IdP and never sees the password). Flow: user opens app &rarr; SP redirects to IdP &rarr; user authenticates (+MFA) &rarr; IdP returns a signed assertion/token &rarr; SP verifies the signature and grants access.
+      It solves password fatigue (reuse, constant resets).</p></div>
 
-    <div class="qa"><p class="q">Q8. Compare SAML, OAuth 2.0 and OpenID Connect. What are SSO's advantages and risks?</p>
-      <p class="a">SAML: XML assertions for enterprise web SSO. OAuth 2.0: authorisation framework (delegated
-      access via access tokens, not authentication). OIDC: authentication layer on OAuth 2.0 providing an ID
-      token about the user. Advantages: fewer passwords, better UX, centralised control, easy MFA and
-      de-provisioning. Risks: the IdP is a single point of failure and compromise &mdash; mitigate with MFA,
-      high availability, short-lived tokens and monitoring.</p></div>
+    <div class="qa"><p class="q">Q8. Compare SAML, OAuth 2.0 and OpenID Connect. Which would you use when?</p>
+      <p class="a">SAML 2.0: XML-based (2005), signed Assertions, dominant in enterprise SSO. OAuth 2.0: delegated authorization &mdash; limited access to a user's data via access tokens without sharing the password; NOT authentication.
+      OIDC: identity layer on OAuth 2.0 adding a signed JWT ID Token (header.payload.signature, verified locally with the IdP's public key). Use SAML (or OIDC) for enterprise workforce SSO, OAuth 2.0 to call another service's API on a
+      user's behalf, OIDC for "Sign in with..." login.</p></div>
+
+    <div class="qa"><p class="q">Q9. Explain the OAuth 2.0 Authorization Code flow. Why is the back-channel step important and what is PKCE?</p>
+      <p class="a">User taps "Continue with Google" &rarr; app redirects to Google's authorization endpoint &rarr; user authenticates and approves scopes &rarr; Google redirects back with a short-lived single-use authorization code &rarr;
+      app exchanges the code (server-to-server, with its client secret) for an access token &rarr; Google returns access token (often plus refresh token) &rarr; app calls the API &rarr; Google returns data and the app creates the session.
+      The back-channel exchange keeps the secret out of the browser and stops the code being intercepted and reused. Mobile/single-page apps cannot store a secret, so they use PKCE instead.</p></div>
+
+    <div class="qa"><p class="q">Q10. Why is OAuth 2.0 alone not an authentication protocol? List common SSO risks and mitigations.</p>
+      <p class="a">OAuth 2.0 only conveys what an app may access (authorization); it does not carry a verified statement of who the user is, so using it alone for login is an anti-pattern; OIDC adds the signed ID Token. Risks: token theft/replay
+      (short lifetimes, token binding, secure storage); SAML XML signature wrapping (standards-compliant libraries, schema validation); open redirect (allow-listed redirect URIs); consent-screen phishing (app vetting, minimal scopes);
+      session fixation (new session ID after authentication). Enforce MFA at the IdP; use step-up authentication for sensitive actions.</p></div>
+
+    <h3>Classroom exercises from the deck, with answers</h3>
+
+    <div class="qa"><p class="q">Exercise 1. Whose responsibility is it? (Provider / Customer / Shared)</p>
+      <p class="a">1. Patching physical-server firmware &rarr; <strong>Provider</strong>. 2. Setting a storage bucket to private &rarr; <strong>Customer</strong> (configuration choice). 3. Enforcing MFA for admin console logins &rarr; <strong>Customer</strong> (access-control
+      policy, though the MFA capability comes from the vendor). 4. Encrypting customer data before storing it in a managed database &rarr; <strong>Customer</strong> (data protection never fully delegated, even on SaaS). 5. Data-centre backup power and guards &rarr; <strong>Provider</strong>.
+      6. Configuring which microservices may talk to which inside a VPC &rarr; <strong>Customer</strong>. 7. Patching the hypervisor &rarr; <strong>Provider</strong> (virtualisation layer).</p></div>
+
+    <div class="qa"><p class="q">Exercise 2. Spot the misconfiguration: bucket <code>prod-customer-exports</code> has public access allowed (read + list), encryption at rest disabled, access logging disabled, versioning disabled, attached IAM role "AdministratorAccess". Which is most urgent? Which would have reduced impact? Which is a least-privilege violation?</p>
+      <p class="a">All the settings are problems, but <strong>public access</strong> on a bucket named "prod-customer-exports" is the most urgent &mdash; an active, ongoing data exposure. Enabling <strong>encryption at rest</strong> would not have prevented discovery but would have reduced the impact if the data
+      were still accessed. The <strong>AdministratorAccess role</strong> is a distinct least-privilege violation: even resources with no exposure issue should never get broader permissions than they need.</p></div>
+
+    <div class="qa"><p class="q">Exercise 3. Map the OAuth login flow (fill the blanks): (1) the user taps "Continue with Google" inside the ____; (2) the app redirects the browser to Google's ____ endpoint; (3) Google returns a short-lived, single-use ____; (4) the app exchanges it for an access token using a ____-channel request; (5) which artifact added by OIDC tells the app the user's identity?</p>
+      <p class="a">(1) Client app / Service Provider; (2) authorization (<code>/authorize</code>); (3) authorization code; (4) back; (5) the OpenID Connect ID Token (a JWT).</p></div>
+
+    <div class="qa"><p class="q">Exercise 4. Rapid-fire true/false.</p>
+      <p class="a">1. SAML is primarily an authorization protocol &mdash; <strong>False</strong> (authentication). 2. OAuth 2.0 alone is sufficient and safe for logging a user in &mdash; <strong>False</strong> (use OIDC). 3. A JWT's signature can be verified without calling the IdP back &mdash; <strong>True</strong>.
+      4. In SSO the Service Provider directly checks the user's password &mdash; <strong>False</strong> (the IdP does). 5. MFA and SSO solve the same problem and are redundant together &mdash; <strong>False</strong> (complementary). 6. PKCE exists because mobile/single-page apps cannot safely store a client secret &mdash; <strong>True</strong>.</p></div>
+
+    <h3>Interview &amp; exam pointers (from the deck)</h3>
+    <ul>
+      <li>Be ready to draw the shared responsibility model from memory and place at least five example controls on it.</li>
+      <li>Explain in one sentence each the difference between CSPM, CWPP and CIEM &mdash; a very common cloud-security interview question.</li>
+      <li>Whiteboard the OAuth 2.0 Authorization Code flow, labelling the back-channel step and why it matters.</li>
+      <li>Explain precisely why OAuth 2.0 alone is not an authentication protocol.</li>
+      <li>Have one real breach ready to discuss in depth &mdash; Capital One is the standard reference for shared-responsibility failures.</li>
+    </ul>
+
+    <h3>Glossary</h3>
+    <table>
+      <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Access Token</strong></td><td>A (often short-lived) credential granting the bearer permission to call a specific API on a user's behalf.</td></tr>
+        <tr><td><strong>Assertion (SAML)</strong></td><td>A signed XML statement issued by an IdP asserting facts about an authenticated user.</td></tr>
+        <tr><td><strong>CIEM</strong></td><td>Cloud Infrastructure Entitlement Management &mdash; finds and reduces over-privileged cloud identities.</td></tr>
+        <tr><td><strong>CNAPP</strong></td><td>Cloud-Native Application Protection Platform &mdash; unified platform bundling CSPM, CWPP, CIEM and related capabilities.</td></tr>
+        <tr><td><strong>CSPM</strong></td><td>Cloud Security Posture Management &mdash; continuous automated discovery and remediation of cloud misconfigurations.</td></tr>
+        <tr><td><strong>CWPP</strong></td><td>Cloud Workload Protection Platform &mdash; runtime security for VMs, containers and serverless functions.</td></tr>
+        <tr><td><strong>Identity Provider (IdP)</strong></td><td>System that authenticates a user and issues signed proof of identity to other applications.</td></tr>
+        <tr><td><strong>JWT</strong></td><td>JSON Web Token &mdash; compact, signed, three-part token (header.payload.signature) commonly carrying OIDC ID Tokens.</td></tr>
+        <tr><td><strong>KSPM</strong></td><td>Kubernetes Security Posture Management &mdash; CSPM principles applied to clusters, pods and RBAC.</td></tr>
+        <tr><td><strong>Least Privilege</strong></td><td>Granting an identity only the minimum access it needs, no more.</td></tr>
+        <tr><td><strong>MFA</strong></td><td>Multi-Factor Authentication &mdash; two or more independent proofs of identity before access.</td></tr>
+        <tr><td><strong>OAuth 2.0</strong></td><td>Delegated-authorization protocol giving an app limited access to a user's data on another service without seeing their password.</td></tr>
+        <tr><td><strong>OpenID Connect (OIDC)</strong></td><td>Identity layer on OAuth 2.0 adding a signed ID Token that proves who the user is.</td></tr>
+        <tr><td><strong>SAML 2.0</strong></td><td>XML-based standard for exchanging authentication and authorization data; dominant in enterprise SSO.</td></tr>
+        <tr><td><strong>Service Provider (SP) / Relying Party</strong></td><td>The application a user wants; it trusts an IdP's assertion instead of checking credentials itself.</td></tr>
+        <tr><td><strong>Shared Responsibility Model</strong></td><td>Framework defining which security controls the provider handles vs the customer, varying by IaaS/PaaS/SaaS.</td></tr>
+        <tr><td><strong>SSO</strong></td><td>Single Sign-On &mdash; log in once to access multiple independent applications.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>References listed in the deck</h3>
+    <ul>
+      <li>NIST SP 800-145, "The NIST Definition of Cloud Computing".</li>
+      <li>Cloud Security Alliance, "Security Guidance for Critical Areas of Focus in Cloud Computing".</li>
+      <li>OASIS, "Security Assertion Markup Language (SAML) V2.0" specification.</li>
+      <li>IETF RFC 6749, "The OAuth 2.0 Authorization Framework".</li>
+      <li>OpenID Foundation, "OpenID Connect Core 1.0".</li>
+      <li>CIS Benchmarks for AWS, Azure and GCP; RBI Cyber Security Framework for Banks / NBFCs.</li>
+      <li>Public post-incident analyses of the 2019 Capital One breach (U.S. Senate and regulatory filings).</li>
+    </ul>
   </section>
 
 </main>
 
 <footer>
-  Cloud Computing — Unit 4 · Cloud Security, CSPM &amp; SSO · Written from standard course content to match the official syllabus (no Module 4 deck was posted on Moodle) — cross-check with your lecture notes.
+  Cloud Computing — Unit 4 · Cloud Security, CSPM &amp; SSO · Built from the Module 4 course material (Cloud_Security_CSPM_SSO); items marked Beyond the deck are standard content added for completeness.
 </footer>
 <script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
 </body>
 </html>

@@ -37,7 +37,7 @@ Refuse:      gradient text, coloured side-border cards, identical icon-card grid
       21 step-through diagrams, flashcards (287 cards), cheat sheet with ranked likely questions, homepage progress. Moodle decks pulled 4 Nov 2026.
 - [x] NLP complete (official bank shows 5 units): Units 4 (RNN/LSTM/GRU) and 5 (MT, seq2seq, attention, transformers) written from standard content because Moodle has no NLP decks beyond 3 PDFs (tagged 'Beyond the deck'); 19 diagrams, 118 flashcards, cheat sheet with TF-IDF and bigram calculators.
 - [ ] CN: syllabus has 5 units. Unit 4 (network layer) and Unit 5 (link layer) and extra-topics.html written by subagents; still to do: diagrams, wiring, flashcards, cheatsheet.
-- [ ] CC: syllabus has 5 units (all on site). Unit 4 rewritten from the real Module 4 deck. Still to do: diagrams, wiring, flashcards, cheatsheet.
+- [x] CC: syllabus has 5 units (all on site). Unit 4 rewritten from the real Module 4 deck. 12 step-through diagrams, per-unit question banks (76 Qs), flashcards, cheat sheet (autoscaling, Jain index, weighted round robin calculators), homepage progress. No past papers on Moodle, so the likely-questions table is ranked from the syllabus and says so. Verified at 1440 and 375.
 - Per-subject checklist: wire pages (scratchpad wire.js) -> figures (figlib.js step-through) -> flashcards.html -> cheatsheet.html -> add subject to READY in ese.js
   and to ESE_MANIFEST on index.html -> verify 1440 + 375, light + dark -> commit + push.
 - NOTE: */source-materials (about 62 MB of raw Moodle decks) is already tracked in git history from earlier commits. .gitignore now blocks new additions;

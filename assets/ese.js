@@ -13,7 +13,7 @@
   if (SUBJ) root.setAttribute("data-subject", SUBJ);
 
   // subjects whose flashcards + cheat sheet pages exist (extend as each subject ships)
-  var READY = ["DL", "NLP", "CN"];
+  var READY = ["DL", "NLP", "CN", "CC"];
   var HAS_QB2 = { "DL/Unit 3": 1 };
 
   /* ---------- store ---------- */

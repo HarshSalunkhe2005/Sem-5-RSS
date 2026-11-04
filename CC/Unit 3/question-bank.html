@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CC question bank</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(20px,3vw,26px);margin:0 0 4px;color:var(--navy);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 14px;}
+  p{color:#33415f;margin:0 0 10px;}
+  ul,ol{margin:0 0 10px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:4px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa .q{font-weight:700;color:var(--navy);margin:0 0 6px;display:flex;gap:9px;font-size:15px;align-items:baseline;flex-wrap:wrap;}
+  .qa .q .num{color:var(--sky);font-family:Consolas,monospace;flex-shrink:0;min-width:2.4em;}
+  .qa .q .marks{margin-left:auto;font-size:11px;color:var(--muted);font-weight:600;font-family:Consolas,monospace;white-space:nowrap;}
+  .qa .a{font-size:14px;margin:0 0 0 2.9em;max-width:760px;color:#33415f;}
+  table{width:100%;border-collapse:collapse;margin:10px 0 12px;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:8px 11px;font-weight:600;}
+  tbody td{padding:7px 11px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:6px;margin:12px 0;}
+  .flow .node{background:#fff;border:2px solid var(--sky);border-radius:10px;padding:8px 10px;min-width:110px;max-width:170px;text-align:center;font-size:12.5px;color:var(--navy);}
+  .flow .node b{display:block;font-size:13px;margin-bottom:2px;}
+  .flow .node.alt{border-color:var(--amber);background:#fff9ee;}
+  .flow .node.ok{border-color:#1a7a3c;background:#eefaf2;}
+  .flow .arr{align-self:center;font-size:18px;color:var(--sky);font-weight:700;}
+  .stack{display:flex;flex-direction:column;gap:5px;margin:12px 0;max-width:560px;}
+  .layer{border-radius:8px;padding:8px 14px;color:#fff;font-size:13px;}
+  .layer b{display:block;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;}
+  .dtitle{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);text-align:center;margin:8px 0 0;}
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:8px;padding:8px 14px;margin:8px 0;}
+  .callout p{margin:0;}
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} .qa .q .marks{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · UNIT 3 QUESTION BANK</span>
+  <h1>Unit 3 question bank</h1>
+  <p>15 exam-style questions with model answers: Cloud Architecture Layers &amp; Models. Answers follow the unit notes page.</p>
+  <a class="back" href="index.html">← Back to Unit 3 notes</a>
+</header>
+
+<main>
+  <section id="u3">
+    <p class="eyebrow">Unit 3 · <a href="index.html">Notes</a></p>
+    <h2 id="unit-3">Cloud Architecture Layers &amp; Models</h2>
+    <p class="range">Q31–Q45 · service layers, design principles, application requirements, SOA, parallelization, multi-tier, tools and platforms</p>
+
+    <div class="qa"><p class="q"><span class="num">Q31</span>Explain the three-layer cloud service model (IaaS, PaaS, SaaS) with key features, advantages and disadvantages of each.<span class="marks">7 marks</span></p>
+      <div class="a"><div class="stack">
+        <div class="layer l1"><b>SaaS</b>the application itself; provider manages everything</div>
+        <div class="layer l2"><b>PaaS</b>dev / test / deploy environment; provider manages infrastructure and runtime</div>
+        <div class="layer l3"><b>IaaS</b>raw compute, storage, network; provider manages only hardware</div>
+      </div>
+      <table><thead><tr><th></th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead><tbody>
+        <tr><td>Key features</td><td>Scalable, enterprise-grade, consumption-based cost, multitenant, client has complete control</td><td>Develop/test/host in one environment, scales with business, shared development access, no full infra control</td><td>Subscription, no install/upgrade, any device, provider responsible for everything</td></tr>
+        <tr><td>Advantages</td><td>Flexible, pay-as-you-go, automated hardware deployment</td><td>Scalable, simpler development, less coding, easy hybrid migration</td><td>No hardware cost, automatic upgrades, anywhere access</td></tr>
+        <tr><td>Disadvantages</td><td>Multitenancy security, vendor outages, training</td><td>Data security, compatibility with existing infrastructure, vendor dependence</td><td>Loss of control, limited solutions, connectivity mandatory</td></tr>
+      </tbody></table>
+      <p>IaaS differs from ordinary hosting through scalability and virtualization (up to 90% use of compute resources). SaaS is just a layer of the cloud stack, so "cloud or SaaS?" is not a valid choice.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q32</span>What is a cloud service provider? State the benefits of using one.<span class="marks">3 marks</span></p>
+      <div class="a"><p>A third-party company offering a cloud-based platform, infrastructure, application or storage service; you pay only for what you use, like electricity or gas.</p>
+      <ul><li>Scalability and flexibility (no physical-server limits); reliability (multiple redundant data centres); customisation; responsive load balancing.</li>
+      <li>Trade-off: the business must still evaluate security, access controls and compliance configuration for data in someone else's cloud.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q33</span>Explain the six principles of cloud architecture design.<span class="marks">7 marks</span></p>
+      <div class="a"><ol>
+        <li><strong>Reasonable deployment</strong>: public cloud = VMs on high-performance hosts; private = packaged software for a select user base; hybrid = unified management across public and private platforms (VMware, OpenStack, physical servers).</li>
+        <li><strong>Business continuity</strong>: high availability (redundancy), continuous operations (fault-free uptime), disaster recovery (restore apps/data in a different environment).</li>
+        <li><strong>Elastic expansion</strong>: decouple components; stay stateless (state in Redis), load balancing, message queues / API gateway, global load balancing across hybrid/multi-cloud.</li>
+        <li><strong>Performance efficiency</strong>: compute (bigger hosts, clusters), storage/caching (Redis hot-data, in-memory), network (optimal data centre per region).</li>
+        <li><strong>Security compliance</strong>: separate master/sub-accounts and key pairs, least privilege, ACLs and security groups, VPC isolation, protect against DDoS/SQL injection/XSS, keep access and operation logs.</li>
+        <li><strong>Continuous operation</strong>: monitor resources, services and events; alert by phone/SMS/email; auto-handle through callback functions; auto-scale on CPU; track cost and set balance alarms.</li>
+      </ol></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q34</span>Write the step-by-step process of designing a cloud application architecture.<span class="marks">3 marks</span></p>
+      <div class="a"><div class="flow"><div class="node"><b>1</b>collect requirements</div><div class="arr">&rarr;</div><div class="node"><b>2</b>analyze</div><div class="arr">&rarr;</div><div class="node"><b>3</b>design architecture</div><div class="arr">&rarr;</div><div class="node"><b>4</b>evaluate / improve</div><div class="arr">&rarr;</div><div class="node"><b>5</b>deliver implementation</div><div class="arr">&rarr;</div><div class="node ok"><b>6</b>continuous operation</div></div>
+      <p>The application's own frontend, backend and data layers sit on the provider's IaaS/PaaS layers and are governed by the six design principles.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q35</span>List and explain the requirements of a cloud application.<span class="marks">7 marks</span></p>
+      <div class="a"><table><thead><tr><th>Requirement</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Requirement analysis</td><td>Business problem, user needs, workload patterns</td><td>Online-learning platform: streaming, authentication, assessment</td></tr>
+        <tr><td>Scalability</td><td>Support rising/falling workload, allocate resources dynamically</td><td>Online exams add servers under load</td></tr>
+        <tr><td>Availability</td><td>Minimal downtime via redundancy and failover</td><td>E-commerce during festive sales</td></tr>
+        <tr><td>Reliability</td><td>Consistent performance, data integrity, fault tolerance</td><td>Banking app completes every transaction</td></tr>
+        <tr><td>Performance</td><td>Fast response via load balancing and optimization</td><td>Search results in seconds</td></tr>
+        <tr><td>Security</td><td>Authentication, authorization, encryption, auditing</td><td>Healthcare patient records</td></tr>
+        <tr><td>Data management</td><td>Storage, retrieval, backup, recovery, distributed DBs</td><td>Social media storing billions of posts</td></tr>
+        <tr><td>Interoperability</td><td>Work across platforms through standard APIs</td><td>AWS app calling Azure services</td></tr>
+        <tr><td>Elasticity</td><td>Auto-provision and release resources, pay for use</td><td>Streaming service adds capacity for live event</td></tr>
+        <tr><td>Cost efficiency</td><td>Optimize utilization, choose right service model</td><td>Startups use SaaS</td></tr>
+        <tr><td>Compliance &amp; governance</td><td>Legal policy, audit trails, privacy</td><td>Financial institutions under RBI rules</td></tr>
+        <tr><td>Monitoring &amp; maintenance</td><td>Logging, alerting, automated maintenance</td><td>Failure detection notifies admins</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q36</span>Distinguish scalability, elasticity, availability and reliability for a cloud application.<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Term</th><th>Meaning (as in the notes)</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Scalability</td><td>Supports increasing or decreasing workload by allocating resources dynamically</td><td>Online exam servers added under load</td></tr>
+        <tr><td>Elasticity</td><td>Resources are provisioned and released automatically on demand; pay only for what is used</td><td>Live-event capacity for video streaming</td></tr>
+        <tr><td>Availability</td><td>Stays accessible with minimal downtime through redundancy and failover</td><td>E-commerce in festive sales</td></tr>
+        <tr><td>Reliability</td><td>Performs consistently without failure; data integrity and fault tolerance</td><td>Banking transactions accurate every time</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q37</span>Explain Service-Oriented Architecture (SOA) for cloud applications with a diagram.<span class="marks">7 marks</span></p>
+      <div class="a"><p>SOA structures an application as loosely coupled, independently deployable services, each implementing one business capability and communicating over a network.</p>
+      <p class="dtitle">SOA components</p>
+      <div class="flow"><div class="node"><b>Service consumer</b>web / mobile app or another service</div><div class="arr">&harr;</div><div class="node alt"><b>Enterprise Service Bus</b>routing, transformation, load balancing, security, protocol conversion</div><div class="arr">&harr;</div><div class="node ok"><b>Cloud services</b>Authentication, Inventory, Payment, Shipping, Notification</div></div>
+      <div class="flow"><div class="node alt"><b>Service registry</b>UDDI, Eureka, Consul: directory for discovery</div><div class="arr">&uarr;</div><div class="node"><b>Service provider</b>creates the service and publishes its details</div><div class="arr">&darr;</div><div class="node"><b>Cloud infrastructure</b>compute, storage, network, virtualization (EC2, Azure, GCP)</div></div>
+      <ul><li><strong>Consumer</strong> requests (customer placing an order); <strong>provider</strong> publishes (Payment Service); <strong>registry</strong> enables dynamic discovery; <strong>ESB</strong> is the communication middleware.</li>
+      <li>Each service scales independently and can be swapped or upgraded without touching the rest, which gives elasticity and interoperability.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q38</span>What is the role of the service registry and the Enterprise Service Bus in SOA?<span class="marks">4 marks</span></p>
+      <div class="a"><ul><li><strong>Service registry</strong>: a directory of available services so consumers discover them dynamically instead of hard-coding locations. Examples: UDDI, Eureka Server, Consul.</li>
+      <li><strong>ESB</strong>: middleware for inter-service communication: message routing, data transformation, load balancing, security enforcement and protocol conversion.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q39</span>Why is SOA a good fit for cloud applications?<span class="marks">3 marks</span></p>
+      <div class="a"><ul><li>Loose coupling: each service is deployed independently.</li><li>Each service scales independently (elasticity) and runs on the shared cloud infrastructure.</li><li>Standard network interfaces give interoperability; a service can be upgraded or replaced without touching the rest.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q40</span>What is parallelization within cloud applications? Why parallelize in the cloud?<span class="marks">4 marks</span></p>
+      <div class="a"><p>Dividing a large computational task into smaller tasks executed simultaneously across multiple processors, VMs, containers or cloud resources. The cloud's near-unlimited resources make parallel execution efficient and scalable.</p>
+      <ul><li>Reduces execution time, improves performance, handles large-scale data, enables real-time analytics.</li>
+      <li>Example: processing millions of customer transactions on an e-commerce platform at once instead of one by one.</li></ul></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q41</span>Explain the common parallelization patterns used in cloud applications.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Pattern</th><th>How it works</th><th>Cloud example</th></tr></thead><tbody>
+        <tr><td>Data parallelism</td><td>Split the dataset into chunks; run the same operation on each chunk concurrently; merge results</td><td>MapReduce / Spark over a large log file</td></tr>
+        <tr><td>Task parallelism</td><td>Split a workflow into different independent sub-tasks run concurrently</td><td>Video transcoding: audio extraction, thumbnails, compression together</td></tr>
+        <tr><td>Pipeline parallelism</td><td>Break a task into sequential stages; different items occupy different stages at once</td><td>ETL: one batch transforming while the next is extracted</td></tr>
+        <tr><td>Request-level parallelism</td><td>Independent user requests served concurrently by auto-scaled stateless instances</td><td>Load-balanced web tier handling thousands of HTTP requests</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q42</span>Explain multi-tier application architecture with a diagram. Why is it suited to the cloud?<span class="marks">7 marks</span></p>
+      <div class="a"><p>Multi-tier (N-tier) architecture physically separates presentation, processing and data logic into independent tiers, each developed, deployed, scaled and secured separately.</p>
+      <p class="dtitle">Three-tier web application (AWS mapping)</p>
+      <div class="flow"><div class="node"><b>Presentation tier</b>web/mobile UI (HTML/CSS/JS), CloudFront / CDN</div><div class="arr">&rarr;</div><div class="node alt"><b>Application tier</b>business logic, APIs, microservices: load balancer + EC2 app servers</div><div class="arr">&rarr;</div><div class="node ok"><b>Data tier</b>SQL/NoSQL, object storage, caches: RDS / DynamoDB</div></div>
+      <ul><li><strong>Independent scaling</strong>: scale only the busy tier.</li><li><strong>Better security</strong>: data tier sits in a private subnet, reachable only by the app tier.</li><li><strong>Independent maintenance</strong>: redeploy one tier without touching others.</li><li><strong>Reusability</strong>: one backend serves both web and mobile frontends.</li></ul>
+      <p>Each tier auto-scales and fails over independently, which fits elastic cloud infrastructure.</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q43</span>Compare 2-tier, 3-tier and N-tier architectures.<span class="marks">5 marks</span></p>
+      <div class="a"><table><thead><tr><th>Model</th><th>Structure</th><th>Trade-off</th></tr></thead><tbody>
+        <tr><td>2-tier</td><td>Client talks directly to the database (client-server)</td><td>Simple, but client tightly coupled to DB; hard to scale and secure</td></tr>
+        <tr><td>3-tier</td><td>Presentation &rarr; Application &rarr; Data, each on its own server/service</td><td>Standard cloud web pattern; good balance of scalability, security, maintainability</td></tr>
+        <tr><td>N-tier</td><td>3-tier split further (API gateway, microservices, caching, CDN tiers)</td><td>Maximum flexibility and scalability, more operational complexity</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q44</span>Name the major public cloud providers and their key services (cloud tools and platforms).<span class="marks">4 marks</span></p>
+      <div class="a"><table><thead><tr><th>Provider</th><th>Strength</th><th>Services</th></tr></thead><tbody>
+        <tr><td>AWS</td><td>Market leader</td><td>EC2 (compute), S3 (storage), RDS/DynamoDB (databases), Lambda (serverless)</td></tr>
+        <tr><td>Microsoft Azure</td><td>Enterprise / hybrid integration</td><td>Azure VMs, Blob Storage, Azure SQL, Azure Functions</td></tr>
+        <tr><td>Google Cloud (GCP)</td><td>Data and ML</td><td>Compute Engine, Cloud Storage, BigQuery, Cloud Functions</td></tr>
+      </tbody></table></div></div>
+
+    <div class="qa"><p class="q"><span class="num">Q45</span>Write short notes on OpenStack, Docker, Kubernetes, Terraform and Ansible.<span class="marks">6 marks</span></p>
+      <div class="a"><ul>
+        <li><strong>OpenStack</strong>: open-source IaaS for private/public clouds; Nova (compute), Swift/Cinder (storage), Neutron (networking), Keystone (identity).</li>
+        <li><strong>Docker</strong>: packages an app and dependencies into a lightweight portable container image.</li>
+        <li><strong>Kubernetes</strong>: orchestrates, auto-scales and self-heals containers across a cluster.</li>
+        <li><strong>Terraform</strong>: declarative, cloud-agnostic infrastructure provisioning; the same code applies on AWS/Azure/GCP.</li>
+        <li><strong>Ansible / Chef / Puppet</strong>: configuration management automating server setup, deployment and drift correction.</li>
+        <li>Hypervisors Xen/KVM/VMware create the VMs under every IaaS; Eucalyptus / OpenNebula are earlier open-source private-cloud platforms.</li></ul></div></div>
+  </section>
+</main>
+
+<footer>Cloud Computing Question Bank · Sem 5 revision notes · marks are an estimate of typical weight</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

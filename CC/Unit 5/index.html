@@ -95,6 +95,9 @@
   .section-nodeck{border-left:5px solid var(--amber);padding-left:18px;}
 </style>
 <link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
 </head>
 <body>
 
@@ -109,6 +112,7 @@
 
 <nav class="toc">
   <div class="inner">
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
     <a href="#hpc">HPC Fundamentals</a>
     <a href="#hpc-types">Design Types &amp; Workloads</a>
     <a href="#hpc-cloud">HPC on Cloud</a>
@@ -275,7 +279,11 @@
 
     <h3>Why load balancing matters</h3>
     <div class="grid cols-4">
-      <div class="card num"><h4>1 · Performance</h4><p>Spreads requests so no server becomes a bottleneck.</p></div>
+      <div class="card num"><h4>1 · Performance</h4><p>Spreads requests so no server becomes a bottleneck.</p>
+<!--fig:cc-lb-->
+<figure class="fig" data-caps='["Clients send requests to one address: the load balancer.","Round robin: requests go to server 1, 2, 3, 1, 2, 3 ... evenly.","The balancer probes each server (health check, for example HTTP GET /healthz every 10 s).","Server 2 fails 3 probes in a row (about 30 s worst-case detection). It is marked unhealthy.","Traffic is rerouted: only servers 1 and 3 receive requests. Availability is preserved. Connection draining lets in-flight requests on server 2 finish first."]' data-intro="Fail one server." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="Load balancer and health checks" style="min-width:620px"><defs><marker id="fa11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-fill" x="20" y="150" width="110" height="70" rx="10"/><text class="tb" x="75" y="190" text-anchor="middle">Clients</text><rect class="s-mark" x="220" y="150" width="130" height="70" rx="10"/><text class="tb" x="285" y="182" text-anchor="middle">Load</text><text class="tb" x="285" y="202" text-anchor="middle">balancer</text><line class="arr" x1="134" y1="185" x2="218" y2="185" marker-end="url(#fa11)"/><g data-s="1"><rect class="s-acc" x="520" y="60" width="160" height="60" rx="10"/></g><g data-s="1"><text class="tb" x="600" y="96" text-anchor="middle">Server 1</text></g><g data-s="2"><line class="arr" x1="354" y1="185" x2="518" y2="90" marker-end="url(#fa11)"/></g><g data-s="1"><rect class="s-acc" x="520" y="170" width="160" height="60" rx="10"/></g><g data-s="1"><text class="tb" x="600" y="206" text-anchor="middle">Server 2</text></g><g data-s="2"><line class="arr" x1="354" y1="185" x2="518" y2="200" marker-end="url(#fa11)"/></g><g data-s="1"><rect class="s-acc" x="520" y="280" width="160" height="60" rx="10"/></g><g data-s="1"><text class="tb" x="600" y="316" text-anchor="middle">Server 3</text></g><g data-s="2"><line class="arr" x1="354" y1="185" x2="518" y2="310" marker-end="url(#fa11)"/></g><g data-s="3"><path class="arr-acc" d="M520 90 C470 90 440 130 360 175" stroke-dasharray="5 4" marker-end="url(#fb11)"/></g><g data-s="3"><path class="arr-acc" d="M520 200 C470 200 440 130 360 175" stroke-dasharray="5 4" marker-end="url(#fb11)"/></g><g data-s="3"><path class="arr-acc" d="M520 310 C470 310 440 130 360 175" stroke-dasharray="5 4" marker-end="url(#fb11)"/></g><g data-s="4"><rect class="s-fill" x="520" y="170" width="160" height="60" rx="10"/></g><g data-s="4"><text class="tb" x="600" y="196" text-anchor="middle">Server 2</text></g><g data-s="4"><text class="acc-t" x="600" y="216" text-anchor="middle">UNHEALTHY</text></g><g data-s="4"><path class="c1" d="M520 170 L680 230 M680 170 L520 230"/></g><g data-s="5"><text class="tm" x="440" y="340" text-anchor="middle">only servers 1 and 3 get traffic</text></g></svg></div><figcaption>Fail one server.</figcaption></figure>
+<!--/fig:cc-lb-->
+</div>
       <div class="card num"><h4>2 · Availability</h4><p>Reroutes traffic away from failed or unhealthy nodes.</p></div>
       <div class="card num"><h4>3 · Scalability</h4><p>Adds or removes capacity as demand changes.</p></div>
       <div class="card num"><h4>4 · Cost efficiency</h4><p>Higher utilization means fewer idle resources to pay for.</p></div>
@@ -441,6 +449,10 @@
     <h3>The auto-scaling feedback loop</h3>
     <div class="diagram">
       <p class="cap">Diagram · Auto-scaling feedback loop</p>
+<!--fig:cc-autoscale-->
+<figure class="fig" data-caps='["4 instances are running at an average of 80 percent CPU. The policy target is 50 percent.","The metric is above the target, so scale out. desired = ceil( current × metric / target ) = ceil( 4 × 80 / 50 ) = ceil(6.4) = 7 instances.","After scaling to 7 instances the same load is spread thinner: 4 × 80 / 7 ≈ 45.7 percent per instance, just under the 50 percent target.","Cooldown and stabilisation stop the system from flapping: wait before acting again, and use recent history when scaling in."]' data-intro="Scale out from 4 to 7 instances." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="Auto-scaling by target tracking" style="min-width:620px"><defs><marker id="fa12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="axis" x1="80" y1="310" x2="700" y2="310"/><text class="tb" x="36" y="36" text-anchor="middle">CPU %</text><path class="axis" d="M80 310 L80 40"/><line class="c4" x1="80" y1="185" x2="700" y2="185"/><text class="pur-t" x="700" y="177" text-anchor="end">target 50%</text><g data-s="1"><rect class="s-acc" x="120" y="110" width="44" height="200" rx="0"/></g><g data-s="1"><rect class="s-acc" x="176" y="110" width="44" height="200" rx="0"/></g><g data-s="1"><rect class="s-acc" x="232" y="110" width="44" height="200" rx="0"/></g><g data-s="1"><rect class="s-acc" x="288" y="110" width="44" height="200" rx="0"/></g><g data-s="1"><text class="tb" x="230" y="100" text-anchor="middle">80%</text></g><g data-s="3"><rect class="s-mark" x="460" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><rect class="s-mark" x="494" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><rect class="s-mark" x="528" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><rect class="s-mark" x="562" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><rect class="s-mark" x="596" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><rect class="s-mark" x="630" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><rect class="s-mark" x="664" y="195.71428571428572" width="28" height="114.28571428571429" rx="0"/></g><g data-s="3"><text class="tb" x="570" y="185.71428571428572" text-anchor="middle">45.7%</text></g><g data-s="2"><rect class="s-mark" x="220" y="330" width="320" height="36" rx="8"/></g><g data-s="2"><text class="tb" x="380" y="354" text-anchor="middle">desired = ceil(4 × 80 / 50) = 7</text></g><text class="tm" x="230" y="330" text-anchor="middle"></text></svg></div><figcaption>Scale out from 4 to 7 instances.</figcaption></figure>
+<!--/fig:cc-autoscale-->
+
       <div class="drow"><div class="dbox navy">1 · Monitor metrics</div><span class="darrow">→</span>
         <div class="dbox navy">2 · Evaluate policy</div><span class="darrow">→</span>
         <div class="dbox navy">3 · Scale out / in</div><span class="darrow">→</span>
@@ -604,5 +616,6 @@
   Cloud Computing — Unit 5 · HPC on Cloud, Load Balancing &amp; Resource Utilization · Built from official course Module 5 decks; the Mini Project section is supplementary and not from the lecture deck.
 </footer>
 <script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
 </body>
 </html>

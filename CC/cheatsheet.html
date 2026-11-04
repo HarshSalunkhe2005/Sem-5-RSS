@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Computing cheat sheet and likely ESE questions</title>
+<style>
+  :root{
+    --navy:#0b1e3f; --navy-2:#12295c; --sky:#2f7de1; --sky-light:#eaf2fd;
+    --cyan:#17a2b8; --amber:#e0932a; --violet:#7c4dff; --ink:#16233f;
+    --muted:#5b6b8c; --line:#e1e8f5; --bg:#f6f8fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#1a3a7a 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(47,125,225,0.25) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#c9d7f5;max-width:700px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--sky-light);color:var(--sky);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--sky);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#33415f;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#33415f;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy);}
+  code{background:#eef1f8;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--sky-light);border-left:4px solid var(--sky);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:var(--navy-2);}
+  .callout.warn{background:#fff6e9;border-left-color:var(--amber);}
+  .callout.warn p{color:#8a5a00;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .grid.cols-6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  .card h4{margin:0 0 8px;font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .card .icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:var(--sky-light);flex:none;}
+  .card p{font-size:13.8px;margin:0 0 6px;}
+  .card.num{border-top:4px solid var(--sky);}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,32,72,0.05);}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#33415f;vertical-align:top;}
+  tbody tr:nth-child(even){background:#f8fafd;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f4f7fd;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#33415f;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--sky);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .stack{display:flex;flex-direction:column;gap:6px;margin:22px 0;}
+  .layer{border-radius:10px;padding:12px 18px;color:#fff;}
+  .layer .name{font-weight:700;font-size:14.5px;}
+  .layer .sub{font-size:12px;opacity:.9;}
+  .layer.l1{background:#1a3a7a;} .layer.l2{background:#2559a8;} .layer.l3{background:#2f7de1;} .layer.l4{background:#57a2ec;} .layer.l5{background:#8ec2f4;color:#0b1e3f;}
+
+  .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+  .tag.req{background:#e6f7ec;color:#1a7a3c;}
+  .tag.extra{background:#fdeaea;color:#b23b3b;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .fig-row{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · CLOUD COMPUTING · CHEAT SHEET</span>
+  <h1>Cheat sheet and likely ESE questions</h1>
+  <p>The rules to memorise, calculators for autoscaling, fairness and weighted round robin, and the topics in a sensible study order.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#formulas">Formulas</a>
+    <a href="#calc">Calculators</a>
+    <a href="#likely">Likely questions</a>
+    <a href="Unit%201/index.html">Unit 1</a>
+    <a href="Unit%202/index.html">Unit 2</a>
+    <a href="Unit%203/index.html">Unit 3</a>
+    <a href="Unit%204/index.html">Unit 4</a>
+    <a href="Unit%205/index.html">Unit 5</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="formulas">
+  <p class="eyebrow">Memorise these</p>
+  <h2>One-page sheet</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Topic</th><th>Rule</th><th>Remember</th></tr></thead>
+    <tbody>
+      <tr><td>NIST essential characteristics</td><td>On-demand self-service, broad network access, resource pooling, rapid elasticity, measured service</td><td>5 characteristics</td></tr>
+      <tr><td>Service models</td><td>IaaS (you manage OS and up), PaaS (you manage app and data), SaaS (you manage nothing)</td><td>Control falls, convenience rises</td></tr>
+      <tr><td>Deployment models</td><td>Public, private, hybrid, community</td><td>Hybrid = private + public, bursting</td></tr>
+      <tr><td>Hypervisor types</td><td>Type 1 on bare metal (Xen, ESXi, Hyper-V, KVM); Type 2 on a host OS (VirtualBox, Workstation)</td><td>Type 1 is faster and used in clouds</td></tr>
+      <tr><td>Virtualization techniques</td><td>Full (binary translation), para (hypercalls, modified guest), hardware-assisted (Intel VT-x, AMD-V)</td><td>Hardware-assisted removes the translation cost</td></tr>
+      <tr><td>Virtualization levels</td><td>ISA, hardware (HAL), OS, library, application</td><td>Hardware level = hypervisors</td></tr>
+      <tr><td>Xen</td><td>Dom0 privileged (drivers, tools), DomU guests with frontend drivers, hypercalls and event channels</td><td>Policy separated from mechanism</td></tr>
+      <tr><td>SOA roles</td><td>Provider, requester, registry: publish, find, bind</td><td>Loose coupling through a contract</td></tr>
+      <tr><td>Load balancing algorithms</td><td>Round robin, weighted round robin, least connections, least response time, IP hash</td><td>Weighted when servers differ in capacity</td></tr>
+      <tr><td>Layer 4 vs Layer 7 balancer</td><td>L4 uses IP and port (fast, blind to content); L7 reads HTTP (path, cookies, headers)</td><td>L7 can route by URL and terminate TLS</td></tr>
+      <tr><td>Target-tracking autoscaling</td><td><code>desired = ceil( current × metric / target )</code></td><td>Cooldown prevents flapping</td></tr>
+      <tr><td>Jain's fairness index</td><td><code>J = (Σxᵢ)² / ( n · Σxᵢ² )</code></td><td>1 = perfectly even, 1/n = one server takes all</td></tr>
+      <tr><td>Shared responsibility</td><td>Provider secures the cloud; customer secures what they put in it</td><td>Customer always owns data, identity and access</td></tr>
+      <tr><td>CSPM</td><td>Continuous: discover, assess, detect drift, prioritise, remediate, report</td><td>Finds misconfiguration, not malware</td></tr>
+      <tr><td>SSO</td><td>User logs in once at the identity provider, which issues a signed token to each application</td><td>Fewer passwords, one place to enforce MFA</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="calc">
+  <p class="eyebrow">Try it on exam-style numbers</p>
+  <h2>Autoscaling calculator</h2>
+  <p>Defaults are the worked example from Unit 5: 4 instances at 80 % CPU with a 50 % target gives 7.</p>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Current instances<br><input id="as-n" class="ese-btn" value="4" style="width:100px;"></label>
+    <label>Current metric (%)<br><input id="as-m" class="ese-btn" value="80" style="width:100px;"></label>
+    <label>Target (%)<br><input id="as-t" class="ese-btn" value="50" style="width:100px;"></label>
+    <button class="ese-btn primary" id="as-go" type="button">Compute</button>
+  </div>
+  <div id="as-out" class="callout"><p>Press Compute.</p></div>
+
+  <h2>Fairness (Jain's index) calculator</h2>
+  <p>Enter the load on each server, separated by commas.</p>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Loads<br><input id="jn-x" class="ese-btn" value="80, 20, 50, 50" style="width:260px;"></label>
+    <button class="ese-btn primary" id="jn-go" type="button">Compute</button>
+  </div>
+  <div id="jn-out" class="callout"><p>Press Compute.</p></div>
+
+  <h2>Weighted round robin</h2>
+  <p>Weights for each server, separated by commas. Shows the order of the next requests.</p>
+  <div class="ese-bar" style="align-items:flex-end;">
+    <label>Weights<br><input id="wr-w" class="ese-btn" value="3, 1, 2" style="width:200px;"></label>
+    <label>Requests<br><input id="wr-n" class="ese-btn" value="12" style="width:80px;"></label>
+    <button class="ese-btn primary" id="wr-go" type="button">Show order</button>
+  </div>
+  <div id="wr-out" class="callout"><p>Press Show order.</p></div>
+</section>
+
+<section id="likely">
+  <p class="eyebrow">Ranked from the syllabus and the question-bank themes</p>
+  <h2>Likely ESE questions</h2>
+  <div class="callout"><p><strong>Honest note:</strong> no past papers for Cloud Computing were found on Moodle, so this ranking is not from real papers. It comes from how much the official syllabus and the decks stress each topic, so treat it as a study order, not a prediction.</p></div>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Topic and typical question</th><th>Study</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Service and deployment models.</strong> Compare IaaS, PaaS, SaaS with examples; four deployment models; draw the responsibility stack.</td><td><a href="Unit%201/index.html#service-models">Unit 1 service models</a> (step-through)</td></tr>
+      <tr><td>2</td><td><strong>Virtualization.</strong> Types of hypervisor, full vs para virtualization, hardware-assisted, five levels of virtualization.</td><td><a href="Unit%202/index.html#hypervisor">Unit 2 hypervisor</a>, <a href="Unit%202/index.html#levels">levels</a></td></tr>
+      <tr><td>3</td><td><strong>Xen architecture.</strong> Draw it, explain Dom0 and DomU, frontend and backend drivers.</td><td><a href="Unit%202/index.html#xen">Unit 2 Xen</a> (step-through)</td></tr>
+      <tr><td>4</td><td><strong>Cloud application architecture.</strong> SOA, multi-tier, parallelization, requirements.</td><td><a href="Unit%203/index.html#soa">Unit 3 SOA</a>, <a href="Unit%203/index.html#multi-tier">multi-tier</a></td></tr>
+      <tr><td>5</td><td><strong>Cloud security.</strong> Shared responsibility, security controls, CSPM, SSO.</td><td><a href="Unit%204/index.html#cspm">Unit 4 CSPM</a>, <a href="Unit%204/index.html#sso">SSO</a></td></tr>
+      <tr><td>6</td><td><strong>Load balancing.</strong> Algorithms, Layer 4 vs Layer 7, health checks, a numerical on the algorithms.</td><td><a href="Unit%205/index.html#lb-intro">Unit 5 load balancing</a></td></tr>
+      <tr><td>7</td><td><strong>Autoscaling numerical.</strong> Apply the target-tracking formula; explain cooldown.</td><td><a href="Unit%205/index.html#autoscale">Unit 5 autoscaling</a>, calculator above</td></tr>
+      <tr><td>8</td><td><strong>HPC and cloud.</strong> HPC in the cloud, challenges, the mini project.</td><td><a href="Unit%205/index.html#hpc">Unit 5 HPC</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><strong>One night plan:</strong> the responsibility stack, hypervisor types, Xen, SOA, shared responsibility, load balancer algorithms and the autoscaling formula. Then the flashcards.</p></div>
+</section>
+
+</main>
+
+<footer>SEM 5 · CLOUD COMPUTING · CHEAT SHEET · Sem 5 revision notes</footer>
+<script>
+(function(){
+  function $(i){return document.getElementById(i);}
+  function nums(s){return s.split(',').map(function(x){return parseFloat(x);}).filter(function(x){return !isNaN(x);});}
+  $('as-go').addEventListener('click',function(){
+    var n=+$('as-n').value,m=+$('as-m').value,t=+$('as-t').value;
+    if(!(n>0&&m>=0&&t>0)){$('as-out').innerHTML='<p>Enter positive numbers.</p>';return;}
+    var d=Math.ceil(n*m/t),after=n*m/d;
+    $('as-out').innerHTML='<p>desired = ceil( '+n+' × '+m+' / '+t+' ) = ceil('+(n*m/t).toFixed(2)+') = <strong>'+d+' instances</strong>.</p><p>Per-instance load after scaling: '+n+' × '+m+' / '+d+' = <strong>'+after.toFixed(1)+' %</strong>'+(d>n?' (scale out by '+(d-n)+')':d<n?' (scale in by '+(n-d)+')':' (no change)')+'.</p>';
+  });
+  $('jn-go').addEventListener('click',function(){
+    var x=nums($('jn-x').value);
+    if(x.length<2){$('jn-out').innerHTML='<p>Enter at least two numbers.</p>';return;}
+    var s=0,q=0;x.forEach(function(v){s+=v;q+=v*v;});
+    if(q===0){$('jn-out').innerHTML='<p>All loads are zero.</p>';return;}
+    var j=s*s/(x.length*q);
+    $('jn-out').innerHTML='<p>Σx = '+s+', Σx² = '+q+', n = '+x.length+'</p><p>J = '+s+'² / ('+x.length+' × '+q+') = <strong>'+j.toFixed(4)+'</strong> (1 is perfectly fair, minimum '+(1/x.length).toFixed(3)+').</p>';
+  });
+  $('wr-go').addEventListener('click',function(){
+    var w=nums($('wr-w').value).map(Math.round).filter(function(v){return v>0;}),n=Math.min(60,+$('wr-n').value||0);
+    if(!w.length||!(n>0)){$('wr-out').innerHTML='<p>Enter positive integer weights and a request count.</p>';return;}
+    var seq=[];
+    while(seq.length<n){for(var s=0;s<w.length&&seq.length<n;s++){for(var k=0;k<w[s]&&seq.length<n;k++)seq.push('S'+(s+1));}}
+    $('wr-out').innerHTML='<p>Each cycle of '+w.reduce(function(a,b){return a+b;},0)+' requests: server i gets weight(i) requests in a row.</p><p><code>'+seq.join(' ')+'</code></p>';
+  });
+})();
+</script>
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>
