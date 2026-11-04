@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — Machine Translation &amp; Advanced NLP</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.4px;line-height:1.5;margin:12px 0;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 5</span>
+  <h1>🌐 Machine Translation &amp; Advanced NLP</h1>
+  <p>From rule-based and statistical MT to Seq2Seq, attention and the Transformer; BLEU evaluation,
+     multilingual translation, and recent models (BERT, GPT, ELECTRA, LLMs).</p>
+  <p style="margin-top:12px;font-size:14px;">No Moodle deck was posted for NLP Unit 5: written from standard content to match the official question bank; check against your lecture notes.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="../Unit 1/index.html">Unit 1</a>
+    <a href="../Unit 2/index.html">Unit 2</a>
+    <a href="../Unit 3/index.html">Unit 3</a>
+    <a href="../Unit 4/index.html">Unit 4</a>
+    <a href="#mt-intro">MT Intro</a>
+    <a href="#mt-traditional">Traditional MT</a>
+    <a href="#seq2seq">Seq2Seq</a>
+    <a href="#attention">Attention</a>
+    <a href="#transformer">Transformer</a>
+    <a href="#mt-eval">BLEU</a>
+    <a href="#multilingual">Multilingual</a>
+    <a href="#recent">Recent</a>
+    <a href="#design-choice">Design Choice</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">← Unit 4</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- MT INTRO -->
+  <section id="mt-intro">
+    <p class="eyebrow">01 · The task</p>
+    <h2>What Is Machine Translation?</h2>
+    <div class="callout"><p>No Moodle deck was posted for NLP Unit 5: written from standard content to match the official question bank; check against your lecture notes.</p></div>
+    <p><strong>Machine Translation (MT)</strong> automatically converts text from a <em>source language</em> (f, foreign) into a <em>target language</em> (e, English in the classic notation). It is the standard example of a <strong>sequence-to-sequence</strong> problem: a variable-length input sentence must become a variable-length output sentence, and the two lengths need not match.</p>
+    <h3>Why MT is hard</h3>
+    <ul>
+      <li><strong>Lexical ambiguity:</strong> "bank" (river / money) has different translations depending on context.</li>
+      <li><strong>Word-order divergence:</strong> English is SVO ("I eat rice"), Hindi/Marathi are SOV ("मैं चावल खाता हूँ"), so words must be reordered.</li>
+      <li><strong>Morphology and gender/agreement:</strong> one source word may map to several target words or vice versa (not one-to-one alignment).</li>
+      <li><strong>Idioms and culture:</strong> "it's raining cats and dogs" cannot be translated word by word.</li>
+      <li><strong>Evaluation:</strong> many valid translations exist for one sentence, so there is no single "correct" answer to compare against.</li>
+    </ul>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- TRADITIONAL -->
+  <section id="mt-traditional">
+    <p class="eyebrow">02 · Before neural networks</p>
+    <h2>Traditional Machine Translation</h2>
+    <div class="grid cols-3">
+      <div class="card"><h4>Rule-Based (RBMT)</h4><p>Hand-written dictionaries and grammar rules. Direct (word-by-word), <strong>transfer</strong> (parse → transform syntax → generate) or <strong>interlingua</strong> (source → language-neutral meaning → target). Precise and explainable, but needs linguists, and rules never cover all exceptions.</p></div>
+      <div class="card"><h4>Example-Based (EBMT)</h4><p>Stores a database of past translated sentence pairs; to translate, finds the most similar stored example and recombines its matching fragments. Works when the new sentence resembles old ones; weak otherwise.</p></div>
+      <div class="card"><h4>Statistical (SMT)</h4><p>Learns translation probabilities from a large <strong>parallel corpus</strong> (aligned sentence pairs). Dominant roughly 1990s to 2015. Phrase-based SMT translates chunks of words, not single words.</p></div>
+    </div>
+    <h3>The noisy-channel idea behind SMT</h3>
+    <p>Imagine the source sentence f is a "corrupted" version of an original English sentence e. We want the e that most probably produced f. By Bayes' rule:</p>
+    <pre>ê = argmax_e P(e | f) = argmax_e P(f | e) · P(e)  /  P(f)
+  = argmax_e P(f | e) · P(e)          (P(f) is constant for a given input)</pre>
+    <ul>
+      <li><strong>P(e) — language model</strong> (Unit 2 n-grams): is this fluent target-language text?</li>
+      <li><strong>P(f | e) — translation model</strong>: learned from the parallel corpus using word/phrase alignments (IBM Models 1-5, phrase tables): is f a plausible translation of e? (adequacy)</li>
+      <li><strong>Decoder:</strong> searches for the e maximising the product (beam search over phrase combinations).</li>
+    </ul>
+    <p>Phrase-based SMT adds a <strong>phrase table</strong> (e.g. "kick the bucket" ↔ its idiomatic equivalent as one unit) and a <strong>reordering model</strong>.</p>
+    <h3>Traditional vs neural at a glance</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Aspect</th><th>Rule-based / Statistical</th><th>Neural (NMT)</th></tr></thead>
+      <tbody>
+        <tr><td>Knowledge source</td><td>Hand-written rules / separate learned tables (LM + translation + reordering)</td><td>One network trained end to end on parallel text</td></tr>
+        <tr><td>Unit of translation</td><td>Words or phrases</td><td>Whole sentence, as continuous vectors</td></tr>
+        <tr><td>Context</td><td>Local (phrase / n-gram window)</td><td>Entire sentence (long-range with attention)</td></tr>
+        <tr><td>Fluency</td><td>Often choppy, ungrammatical joins</td><td>Much more fluent</td></tr>
+        <tr><td>Engineering effort</td><td>Heavy feature engineering, many components</td><td>Little feature engineering; needs big data and GPUs</td></tr>
+        <tr><td>Failure mode</td><td>Wrong word choice, bad reordering</td><td>Fluent but wrong (hallucination), rare words, low-resource data</td></tr>
+      </tbody>
+    </table></div>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- SEQ2SEQ -->
+  <section id="seq2seq">
+    <p class="eyebrow">03 · The first neural MT architecture</p>
+    <h2>Seq2Seq: Encoder-Decoder</h2>
+    <p>A <strong>sequence-to-sequence</strong> model (Sutskever et al., 2014; Cho et al., 2014) uses two RNNs (usually LSTM/GRU, Unit 4):</p>
+<!--fig:nlp-seq2seq-->
+<figure class="fig" data-caps='["English to French: \"I love cats\" becomes \"J&#39; aime les chats\". The model has an encoder and a decoder, both RNNs (LSTMs).","The encoder reads the source words one at a time, updating its hidden state at each step.","The final encoder state is the context vector: a fixed-size summary of the whole sentence (this is the bottleneck).","The decoder starts from the context vector and a <sos> token, and produces one word at a time. Each output word is fed back in as the next input.","It stops when it outputs <eos>. At training time the correct previous word is fed in (teacher forcing). At test time we use the model&#39;s own prediction (greedy or beam search)."]' data-intro="Translate one sentence." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Sequence-to-sequence: encoder and decoder" style="min-width:620px"><defs><marker id="fa10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><text class="acc-t" x="150" y="36" text-anchor="middle">ENCODER</text></g><g data-s="2"><rect class="s-acc" x="40" y="150" width="76" height="50" rx="8"/></g><g data-s="2"><text class="tm" x="78" y="180" text-anchor="middle">LSTM</text></g><g data-s="2"><line class="arr" x1="78" y1="100" x2="78" y2="148" marker-end="url(#fa10)"/></g><g data-s="2"><text class="tb" x="78" y="90" text-anchor="middle">I</text></g><g data-s="2"><rect class="s-acc" x="140" y="150" width="76" height="50" rx="8"/></g><g data-s="2"><text class="tm" x="178" y="180" text-anchor="middle">LSTM</text></g><g data-s="2"><line class="arr" x1="178" y1="100" x2="178" y2="148" marker-end="url(#fa10)"/></g><g data-s="2"><text class="tb" x="178" y="90" text-anchor="middle">love</text></g><g data-s="2"><line class="arr" x1="118" y1="175" x2="140" y2="175" marker-end="url(#fa10)"/></g><g data-s="2"><rect class="s-acc" x="240" y="150" width="76" height="50" rx="8"/></g><g data-s="2"><text class="tm" x="278" y="180" text-anchor="middle">LSTM</text></g><g data-s="2"><line class="arr" x1="278" y1="100" x2="278" y2="148" marker-end="url(#fa10)"/></g><g data-s="2"><text class="tb" x="278" y="90" text-anchor="middle">cats</text></g><g data-s="2"><line class="arr" x1="218" y1="175" x2="240" y2="175" marker-end="url(#fa10)"/></g><g data-s="3"><line class="arr" x1="316" y1="175" x2="372" y2="175" marker-end="url(#fa10)"/></g><g data-s="3"><rect class="s-mark" x="374" y="140" width="96" height="70" rx="8"/></g><g data-s="3"><text class="tb" x="422" y="170" text-anchor="middle">context</text></g><g data-s="3"><text class="tb" x="422" y="192" text-anchor="middle">vector</text></g><g data-s="4"><text class="acc-t" x="640" y="36" text-anchor="middle">DECODER</text></g><g data-s="4"><rect class="s-fill" x="480" y="250" width="60" height="50" rx="8"/></g><g data-s="4"><text class="tm" x="510" y="280" text-anchor="middle">LSTM</text></g><g data-s="4"><line class="arr" x1="510" y1="248" x2="510" y2="190" marker-end="url(#fa10)"/></g><g data-s="4"><text class="tb" x="510" y="180" text-anchor="middle">J'</text></g><g data-s="4"><rect class="s-fill" x="550" y="250" width="60" height="50" rx="8"/></g><g data-s="4"><text class="tm" x="580" y="280" text-anchor="middle">LSTM</text></g><g data-s="4"><line class="arr" x1="580" y1="248" x2="580" y2="190" marker-end="url(#fa10)"/></g><g data-s="4"><text class="tb" x="580" y="180" text-anchor="middle">aime</text></g><g data-s="4"><line class="arr" x1="540" y1="275" x2="550" y2="275" marker-end="url(#fa10)"/></g><g data-s="4"><rect class="s-fill" x="620" y="250" width="60" height="50" rx="8"/></g><g data-s="4"><text class="tm" x="650" y="280" text-anchor="middle">LSTM</text></g><g data-s="4"><line class="arr" x1="650" y1="248" x2="650" y2="190" marker-end="url(#fa10)"/></g><g data-s="4"><text class="tb" x="650" y="180" text-anchor="middle">les</text></g><g data-s="4"><line class="arr" x1="610" y1="275" x2="620" y2="275" marker-end="url(#fa10)"/></g><g data-s="4"><rect class="s-fill" x="690" y="250" width="60" height="50" rx="8"/></g><g data-s="4"><text class="tm" x="720" y="280" text-anchor="middle">LSTM</text></g><g data-s="4"><line class="arr" x1="720" y1="248" x2="720" y2="190" marker-end="url(#fa10)"/></g><g data-s="4"><text class="tb" x="720" y="180" text-anchor="middle">chats</text></g><g data-s="4"><line class="arr" x1="680" y1="275" x2="690" y2="275" marker-end="url(#fa10)"/></g><g data-s="4"><line class="arr" x1="422" y1="212" x2="480" y2="275" marker-end="url(#fa10)"/></g><g data-s="4"><text class="tm" x="500" y="340" text-anchor="start">&lt;sos&gt; → J'  → aime → les → chats</text></g><g data-s="5"><text class="tm" x="500" y="366" text-anchor="start">ends with &lt;eos&gt;; feeds each output back as input</text></g></svg></div><figcaption>Translate one sentence.</figcaption></figure>
+<!--/fig:nlp-seq2seq-->
+
+    <ol class="steps">
+      <li><strong>Encoder:</strong> reads the source tokens x₁…x_n one by one, updating a hidden state h_t = f(x_t, h_{t−1}). The final state <code>h_n</code> is the <strong>context vector c</strong>, a fixed-size summary of the entire sentence.</li>
+      <li><strong>Decoder:</strong> an RNN language model for the target, initialised with c. At each step it computes <code>s_t = f(s_{t−1}, y_{t−1}, c)</code> and a softmax <code>P(y_t | y_&lt;t, x) = softmax(W·s_t)</code> over the target vocabulary.</li>
+      <li>Generation starts from a <code>&lt;sos&gt;</code> token and stops when <code>&lt;eos&gt;</code> is produced.</li>
+    </ol>
+    <p>The model directly estimates <code>P(y | x) = ∏_t P(y_t | y_1…y_{t−1}, x)</code> and is trained end to end by minimising the cross-entropy (negative log-likelihood) of the reference translation.</p>
+    <h3>Worked trace (simple translation)</h3>
+    <p>Source "I love NLP" → encoder reads <code>I</code>, <code>love</code>, <code>NLP</code>, <code>&lt;eos&gt;</code> and produces c. Decoder: input <code>&lt;sos&gt;</code> → "मुझे", then "NLP" → "पसंद", then "है"… until <code>&lt;eos&gt;</code>. Each emitted word is fed back as the next input.</p>
+    <h3>Teacher forcing</h3>
+    <p>During <strong>training</strong>, the decoder is fed the <em>true</em> previous target word y_{t−1} rather than its own prediction, so the model learns quickly and errors do not compound. At <strong>inference</strong> no reference exists, so it must use its own previous output. The mismatch is called <strong>exposure bias</strong>.</p>
+    <h3>The context-vector bottleneck</h3>
+    <p>Squeezing a whole sentence (10 words or 60) into <em>one</em> fixed-length vector loses information, and BLEU falls sharply as sentences get longer. Also, gradients must travel through many time steps (vanishing gradient). This motivated <strong>attention</strong> (next section).</p>
+    <h3>Decoding: greedy vs beam search</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Greedy</th><th>Beam search (width k)</th></tr></thead>
+      <tbody>
+        <tr><td>Idea</td><td>Pick the single most probable word at every step</td><td>Keep the k best partial translations at every step</td></tr>
+        <tr><td>Cost</td><td>O(T · V)</td><td>≈ k times greedy</td></tr>
+        <tr><td>Quality</td><td>Can be locked into an early mistake</td><td>Closer to the true best sequence; k = 4-10 typical. Not guaranteed optimal.</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Tiny example.</strong> Step 1: P(A)=0.5, P(B)=0.4. Then P(X | A)=0.4 but P(Y | B)=0.9. Greedy picks A then X: 0.5 × 0.4 = <strong>0.20</strong>. Beam k=2 keeps both A and B, finds B Y with 0.4 × 0.9 = <strong>0.36</strong>, which is better. Scores are summed as log-probabilities (ln 0.20 = −1.609, ln 0.36 = −1.022) and usually length-normalised so long outputs are not unfairly penalised.</p>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- ATTENTION -->
+  <section id="attention">
+    <p class="eyebrow">04 · Looking back at the source</p>
+    <h2>Attention Mechanism</h2>
+    <p><strong>Idea (Bahdanau et al., 2014):</strong> instead of one fixed context vector, let the decoder look at <em>all</em> encoder states h₁…h_n and decide, at each output step, which source words matter most. When producing a word, it focuses on the aligned source word(s).</p>
+<!--fig:nlp-attnmap-->
+<figure class="fig" data-caps='["Columns = source words, rows = target words generated so far. Each row is a probability distribution (sums to 1).","Generating \"J&#39;\": almost all attention on \"I\".","Generating \"aime\": attention on \"love\".","Generating \"les\": attention shifts to \"cats\" (the article agrees with the noun).","Generating \"chats\": attention on \"cats\". The decoder no longer relies on a single context vector: it looks back at the source every step."]' data-intro="Fill in the alignment matrix." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="Attention: which source words does each output word look at?" style="min-width:620px"><defs><marker id="fa11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><text class="tb" x="275" y="66" text-anchor="middle">I</text><text class="tb" x="385" y="66" text-anchor="middle">love</text><text class="tb" x="495" y="66" text-anchor="middle">cats</text><text class="tb" x="204" y="112" text-anchor="end">J'</text><text class="tb" x="204" y="164" text-anchor="end">aime</text><text class="tb" x="204" y="216" text-anchor="end">les</text><text class="tb" x="204" y="268" text-anchor="end">chats</text><rect class="s-fill" x="220" y="80" width="110" height="52" rx="0"/><rect class="s-fill" x="330" y="80" width="110" height="52" rx="0"/><rect class="s-fill" x="440" y="80" width="110" height="52" rx="0"/><rect class="s-fill" x="220" y="132" width="110" height="52" rx="0"/><rect class="s-fill" x="330" y="132" width="110" height="52" rx="0"/><rect class="s-fill" x="440" y="132" width="110" height="52" rx="0"/><rect class="s-fill" x="220" y="184" width="110" height="52" rx="0"/><rect class="s-fill" x="330" y="184" width="110" height="52" rx="0"/><rect class="s-fill" x="440" y="184" width="110" height="52" rx="0"/><rect class="s-fill" x="220" y="236" width="110" height="52" rx="0"/><rect class="s-fill" x="330" y="236" width="110" height="52" rx="0"/><rect class="s-fill" x="440" y="236" width="110" height="52" rx="0"/><g data-s="2"><rect class="s-acc" x="220" y="80" width="110" height="52" style="fill-opacity:0.87;fill:var(--accent)"/><text class="tb" x="275" y="112" text-anchor="middle">0.85</text></g><g data-s="2"><rect class="s-acc" x="330" y="80" width="110" height="52" style="fill-opacity:0.23;fill:var(--accent)"/><text class="tb" x="385" y="112" text-anchor="middle">0.10</text></g><g data-s="2"><rect class="s-acc" x="440" y="80" width="110" height="52" style="fill-opacity:0.19;fill:var(--accent)"/><text class="tb" x="495" y="112" text-anchor="middle">0.05</text></g><g data-s="3"><rect class="s-acc" x="220" y="132" width="110" height="52" style="fill-opacity:0.23;fill:var(--accent)"/><text class="tb" x="275" y="164" text-anchor="middle">0.10</text></g><g data-s="3"><rect class="s-acc" x="330" y="132" width="110" height="52" style="fill-opacity:0.83;fill:var(--accent)"/><text class="tb" x="385" y="164" text-anchor="middle">0.80</text></g><g data-s="3"><rect class="s-acc" x="440" y="132" width="110" height="52" style="fill-opacity:0.23;fill:var(--accent)"/><text class="tb" x="495" y="164" text-anchor="middle">0.10</text></g><g data-s="4"><rect class="s-acc" x="220" y="184" width="110" height="52" style="fill-opacity:0.19;fill:var(--accent)"/><text class="tb" x="275" y="216" text-anchor="middle">0.05</text></g><g data-s="4"><rect class="s-acc" x="330" y="184" width="110" height="52" style="fill-opacity:0.28;fill:var(--accent)"/><text class="tb" x="385" y="216" text-anchor="middle">0.15</text></g><g data-s="4"><rect class="s-acc" x="440" y="184" width="110" height="52" style="fill-opacity:0.83;fill:var(--accent)"/><text class="tb" x="495" y="216" text-anchor="middle">0.80</text></g><g data-s="5"><rect class="s-acc" x="220" y="236" width="110" height="52" style="fill-opacity:0.18;fill:var(--accent)"/><text class="tb" x="275" y="268" text-anchor="middle">0.03</text></g><g data-s="5"><rect class="s-acc" x="330" y="236" width="110" height="52" style="fill-opacity:0.21;fill:var(--accent)"/><text class="tb" x="385" y="268" text-anchor="middle">0.07</text></g><g data-s="5"><rect class="s-acc" x="440" y="236" width="110" height="52" style="fill-opacity:0.92;fill:var(--accent)"/><text class="tb" x="495" y="268" text-anchor="middle">0.90</text></g></svg></div><figcaption>Fill in the alignment matrix.</figcaption></figure>
+<!--/fig:nlp-attnmap-->
+
+<!--fig:nlp-attnnum-->
+<figure class="fig" data-caps='["The decoder state (query) is compared with each source word (key). Suppose the dot-product scores are 2.0, 1.0 and 0.1.","Softmax turns scores into weights: e^2.0, e^1.0, e^0.1 divided by their sum (11.213): [0.659, 0.242, 0.099]. They sum to 1.","Context = weighted sum of the source vectors (values) [1,0], [0,1], [1,1]: 0.659·[1,0] + 0.242·[0,1] + 0.099·[1,1] = [0.758, 0.341]."]' data-intro="Score, softmax, weighted sum." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 360" role="img" aria-label="Attention step with real numbers" style="min-width:620px"><defs><marker id="fa12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-fill" x="60" y="40" width="100" height="46" rx="6"/><text class="tb" x="110" y="69" text-anchor="middle">I</text><g data-s="1"><text class="tm" x="110" y="112" text-anchor="middle">score 2.0</text></g><g data-s="2"><rect class="s-acc" x="60" y="151.14982916710483" width="100" height="98.85017083289519"/></g><g data-s="2"><text class="tb" x="110" y="141.14982916710483" text-anchor="middle">0.659</text></g><g data-s="3"><text class="tm" x="110" y="276" text-anchor="middle">[1,0]</text></g><rect class="s-fill" x="190" y="40" width="100" height="46" rx="6"/><text class="tb" x="240" y="69" text-anchor="middle">love</text><g data-s="1"><text class="tm" x="240" y="112" text-anchor="middle">score 1.0</text></g><g data-s="2"><rect class="s-acc" x="190" y="213.63505439429292" width="100" height="36.364945605707085"/></g><g data-s="2"><text class="tb" x="240" y="203.63505439429292" text-anchor="middle">0.242</text></g><g data-s="3"><text class="tm" x="240" y="276" text-anchor="middle">[0,1]</text></g><rect class="s-fill" x="320" y="40" width="100" height="46" rx="6"/><text class="tb" x="370" y="69" text-anchor="middle">cats</text><g data-s="1"><text class="tm" x="370" y="112" text-anchor="middle">score 0.1</text></g><g data-s="2"><rect class="s-acc" x="320" y="235.21511643860228" width="100" height="14.784883561397727"/></g><g data-s="2"><text class="tb" x="370" y="225.21511643860228" text-anchor="middle">0.099</text></g><g data-s="3"><text class="tm" x="370" y="276" text-anchor="middle">[1,1]</text></g><g data-s="2"><line class="axis" x1="40" y1="250" x2="440" y2="250"/></g><g data-s="2"><text class="tm" x="240" y="306" text-anchor="middle">attention weights (bars)</text></g><g data-s="3"><rect class="s-mark" x="470" y="130" width="250" height="70" rx="8"/></g><g data-s="3"><text class="tb" x="595" y="160" text-anchor="middle">context vector</text></g><g data-s="3"><text class="tm" x="595" y="186" text-anchor="middle">[0.758, 0.341]</text></g></svg></div><figcaption>Score, softmax, weighted sum.</figcaption></figure>
+<!--/fig:nlp-attnnum-->
+
+    <ol class="steps">
+      <li><strong>Score</strong> each encoder state against the current decoder state s: <code>e_i = score(s, h_i)</code>.</li>
+      <li><strong>Softmax</strong> the scores into attention weights: <code>α_i = exp(e_i) / Σ_j exp(e_j)</code> (weights are positive and sum to 1).</li>
+      <li><strong>Context vector</strong> for this step: <code>c_t = Σ_i α_i · h_i</code> (weighted average).</li>
+      <li>The decoder uses c_t together with s_t to predict the next word. A new c_t is computed at every step.</li>
+    </ol>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Variant</th><th>Score function</th></tr></thead>
+      <tbody>
+        <tr><td>Bahdanau (additive / concat)</td><td>score(s, h) = vᵀ · tanh(W₁s + W₂h)</td></tr>
+        <tr><td>Luong dot</td><td>score(s, h) = sᵀ h</td></tr>
+        <tr><td>Luong general</td><td>score(s, h) = sᵀ W h</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Numeric example (dot-product attention)</h3>
+    <p>Decoder state s = (1, 0). Encoder states h₁ = (1, 0), h₂ = (0, 1), h₃ = (1, 1).</p>
+    <pre>scores   e = (s·h₁, s·h₂, s·h₃) = (1, 0, 1)
+softmax  α = (e¹, e⁰, e¹) / (e¹ + e⁰ + e¹) = (2.718, 1, 2.718) / 6.437
+           = (0.4223, 0.1554, 0.4223)
+context  c = 0.4223·(1,0) + 0.1554·(0,1) + 0.4223·(1,1) = (0.8446, 0.5777)</pre>
+    <p>The decoder pays 42% attention each to h₁ and h₃ and only 16% to h₂. Plotting α for every (source, target) pair gives an <strong>alignment matrix</strong>, which makes NMT partly interpretable (e.g. it shows the word reordering in English-Hindi).</p>
+    <p><strong>Benefits:</strong> removes the bottleneck, better on long sentences, gives soft alignments, and shortens the gradient path. <strong>Cost:</strong> O(n·m) scores per sentence (n source, m target words).</p>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- TRANSFORMER -->
+  <section id="transformer">
+    <p class="eyebrow">05 · Attention is all you need</p>
+    <h2>The Transformer</h2>
+    <p>Vaswani et al. (2017) removed recurrence entirely: the model is built only from attention and feed-forward layers, so all positions are processed <strong>in parallel</strong>.</p>
+<!--fig:nlp-selfattn-->
+<figure class="fig" data-caps='["Every token is turned into three vectors by learned matrices: a query Q, a key K and a value V.","Scores: compare each query with every key: Q Kᵀ. A big score means \"these two tokens are relevant to each other\".","Scale by √d_k so the scores do not get huge as the dimension grows, which would make softmax saturate.","Softmax along each row gives attention weights that sum to 1.","Multiply the weights by V: each token&#39;s output is a weighted mix of all value vectors. Attention(Q,K,V) = softmax(Q Kᵀ / √d_k) V."]' data-intro="Walk through the formula." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 330" role="img" aria-label="Scaled dot-product self-attention" style="min-width:620px"><defs><marker id="fa13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-fill" x="30" y="120" width="120" height="76" rx="8"/></g><g data-s="1"><text class="tb" x="90" y="156" text-anchor="middle">Q, K, V</text></g><g data-s="1"><text class="tm" x="90" y="180" text-anchor="middle">from the input X</text></g><g data-s="2"><rect class="s-acc" x="175" y="120" width="120" height="76" rx="8"/></g><g data-s="2"><text class="tb" x="235" y="156" text-anchor="middle">Q Kᵀ</text></g><g data-s="2"><text class="tm" x="235" y="180" text-anchor="middle">similarity scores</text></g><g data-s="2"><line class="arr" x1="153" y1="158" x2="173" y2="158" marker-end="url(#fa13)"/></g><g data-s="3"><rect class="s-fill" x="320" y="120" width="120" height="76" rx="8"/></g><g data-s="3"><text class="tb" x="380" y="156" text-anchor="middle">÷ √d_k</text></g><g data-s="3"><text class="tm" x="380" y="180" text-anchor="middle">scale</text></g><g data-s="3"><line class="arr" x1="298" y1="158" x2="318" y2="158" marker-end="url(#fa13)"/></g><g data-s="4"><rect class="s-acc" x="465" y="120" width="120" height="76" rx="8"/></g><g data-s="4"><text class="tb" x="525" y="156" text-anchor="middle">softmax</text></g><g data-s="4"><text class="tm" x="525" y="180" text-anchor="middle">weights, rows sum to 1</text></g><g data-s="4"><line class="arr" x1="443" y1="158" x2="463" y2="158" marker-end="url(#fa13)"/></g><g data-s="5"><rect class="s-mark" x="610" y="120" width="120" height="76" rx="8"/></g><g data-s="5"><text class="tb" x="670" y="156" text-anchor="middle">× V</text></g><g data-s="5"><text class="tm" x="670" y="180" text-anchor="middle">weighted sum</text></g><g data-s="5"><line class="arr" x1="588" y1="158" x2="608" y2="158" marker-end="url(#fa13)"/></g><g data-s="5"><rect class="s-mark" x="120" y="250" width="520" height="40" rx="8"/></g><g data-s="5"><text class="tb" x="380" y="276" text-anchor="middle">Attention(Q, K, V) = softmax( Q Kᵀ / √d_k ) V</text></g></svg></div><figcaption>Walk through the formula.</figcaption></figure>
+<!--/fig:nlp-selfattn-->
+
+    <h3>Self-attention with Query, Key, Value</h3>
+    <p>Each token vector x is projected into a <strong>query</strong> q = xW_Q ("what am I looking for?"), a <strong>key</strong> k = xW_K ("what do I contain?") and a <strong>value</strong> v = xW_V ("what do I pass on?"). For the whole sentence stacked into matrices Q, K, V:</p>
+    <pre>Attention(Q, K, V) = softmax( Q Kᵀ / √d_k ) · V</pre>
+    <p>Dividing by √d_k stops the dot products growing large with dimension, which would push softmax into near-one-hot, tiny-gradient regions.</p>
+    <p><strong>Numeric example (d_k = 4, one query):</strong> q = (1, 0, 1, 0); keys k₁ = (1,0,1,0), k₂ = (0,1,0,1), k₃ = (1,1,1,1); values v₁ = (1,0), v₂ = (0,1), v₃ = (1,1).</p>
+    <pre>q·k = (2, 0, 2)       scale by √4 = 2  →  (1, 0, 1)
+softmax → (0.4223, 0.1554, 0.4223)       (without scaling it would be (0.468, 0.063, 0.468))
+output = 0.4223·v₁ + 0.1554·v₂ + 0.4223·v₃ = (0.8446, 0.5777)</pre>
+    <h3>Multi-head attention</h3>
+    <p>Run h attention "heads" in parallel (h = 8, each with d_k = d_model/h = 64 in the base model), each with its own W_Q, W_K, W_V; concatenate the outputs and project with W_O. Different heads learn different relations (syntax, coreference, nearby words).</p>
+    <h3>Positional encoding</h3>
+    <p>Self-attention has no sense of word order (it treats the sentence as a set), so a position signal is added to each input embedding. The original uses fixed sinusoids:</p>
+    <pre>PE(pos, 2i)   = sin( pos / 10000^(2i/d_model) )
+PE(pos, 2i+1) = cos( pos / 10000^(2i/d_model) )</pre>
+    <p>Example with d_model = 4: PE(1) = (sin 1, cos 1, sin 0.01, cos 0.01) = (0.8415, 0.5403, 0.0100, 1.0000); PE(2) = (0.9093, −0.4161, 0.0200, 0.9998). Low dimensions oscillate fast, high dimensions slowly, giving every position a unique pattern, and relative offsets are easy to learn. Many later models use learned position embeddings instead.</p>
+    <h3>Architecture</h3>
+    <ul>
+      <li><strong>Encoder stack</strong> (N = 6 layers): each layer = multi-head self-attention → add &amp; layer-norm → position-wise feed-forward network (512 → 2048 → 512) → add &amp; layer-norm. Residual connections around each sub-layer.</li>
+      <li><strong>Decoder stack</strong> (N = 6): <em>masked</em> self-attention (a token cannot see future tokens) → <strong>encoder-decoder (cross) attention</strong> (queries from decoder, keys/values from encoder output) → feed-forward.</li>
+      <li>Final linear layer + softmax over the target vocabulary; training uses teacher forcing with the mask, so all target positions are trained in parallel.</li>
+    </ul>
+    <h3>Transformer vs RNN</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Property</th><th>RNN / LSTM seq2seq</th><th>Transformer</th></tr></thead>
+      <tbody>
+        <tr><td>Parallelism over sequence</td><td>None: sequential, O(n) steps</td><td>Fully parallel: O(1) sequential operations</td></tr>
+        <tr><td>Path between two distant words</td><td>O(n)</td><td>O(1)</td></tr>
+        <tr><td>Cost per layer</td><td>O(n · d²)</td><td>O(n² · d)</td></tr>
+        <tr><td>Long-range dependencies</td><td>Weak (vanishing gradients)</td><td>Strong (direct links)</td></tr>
+        <tr><td>Word order</td><td>Built in through recurrence</td><td>Needs positional encoding</td></tr>
+        <tr><td>Training speed on GPUs</td><td>Slow</td><td>Much faster, scales to huge data</td></tr>
+        <tr><td>Weakness</td><td>Bottleneck, forgetting</td><td>Memory grows as n²; very long inputs are costly</td></tr>
+      </tbody>
+    </table></div>
+    <p>For n = 50 and d = 512: n²d = 1.28 million vs n d² = 13.1 million, so at ordinary sentence lengths self-attention is actually cheaper per layer; the n² term only dominates once n exceeds d. The base model has about 44 million parameters in its encoder + decoder layers (≈ 3.15M per encoder layer, ≈ 4.2M per decoder layer) plus roughly 19M for a shared 37,000 × 512 embedding table, in line with the ~65M reported for the paper's base model.</p>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- EVAL -->
+  <section id="mt-eval">
+    <p class="eyebrow">06 · How good is a translation?</p>
+    <h2>Evaluating MT: BLEU</h2>
+    <p><strong>BLEU</strong> (Bilingual Evaluation Understudy) compares a candidate translation with one or more human references using <strong>modified n-gram precision</strong> and a brevity penalty:</p>
+<!--fig:nlp-bleu-->
+<figure class="fig" data-caps='["Reference translation: \"the cat sat on the mat\" (6 words). Candidate (the machine output): \"the cat sat on mat\" (5 words).","Unigram precision: every candidate word appears in the reference (clipped counts), so p₁ = 5/5 = 1.00.","Bigram precision: the candidate bigrams are \"the cat\", \"cat sat\", \"sat on\", \"on mat\". Matching reference bigrams: 3 of 4, so p₂ = 3/4 = 0.75.","Brevity penalty: the candidate is shorter than the reference, so BP = e^(1 − r/c) = e^(1 − 6/5) = 0.819.","BLEU-2 = BP · exp(½ ln p₁ + ½ ln p₂) = 0.819 × √(1.00 × 0.75) = 0.709."]' data-intro="Score one translation." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="BLEU with a worked example" style="min-width:620px"><defs><marker id="fa15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-fill" x="40" y="50" width="95" height="40" rx="6"/><text class="tb" x="87" y="76" text-anchor="middle">the</text><rect class="s-fill" x="145" y="50" width="95" height="40" rx="6"/><text class="tb" x="192" y="76" text-anchor="middle">cat</text><rect class="s-fill" x="250" y="50" width="95" height="40" rx="6"/><text class="tb" x="297" y="76" text-anchor="middle">sat</text><rect class="s-fill" x="355" y="50" width="95" height="40" rx="6"/><text class="tb" x="402" y="76" text-anchor="middle">on</text><rect class="s-fill" x="460" y="50" width="95" height="40" rx="6"/><text class="tb" x="507" y="76" text-anchor="middle">the</text><rect class="s-fill" x="565" y="50" width="95" height="40" rx="6"/><text class="tb" x="612" y="76" text-anchor="middle">mat</text><text class="tm" x="40" y="40" text-anchor="start">reference</text><text class="tm" x="40" y="142" text-anchor="start">candidate</text><rect class="s-acc" x="40" y="152" width="95" height="40" rx="6"/><text class="tb" x="87" y="178" text-anchor="middle">the</text><rect class="s-acc" x="145" y="152" width="95" height="40" rx="6"/><text class="tb" x="192" y="178" text-anchor="middle">cat</text><rect class="s-acc" x="250" y="152" width="95" height="40" rx="6"/><text class="tb" x="297" y="178" text-anchor="middle">sat</text><rect class="s-acc" x="355" y="152" width="95" height="40" rx="6"/><text class="tb" x="402" y="178" text-anchor="middle">on</text><rect class="s-acc" x="460" y="152" width="95" height="40" rx="6"/><text class="tb" x="507" y="178" text-anchor="middle">mat</text><g data-s="2"><path class="c1" d="M87 150 L87 92" style="stroke-width:2"/></g><g data-s="2"><path class="c1" d="M192 150 L192 92" style="stroke-width:2"/></g><g data-s="2"><path class="c1" d="M297 150 L297 92" style="stroke-width:2"/></g><g data-s="2"><path class="c1" d="M402 150 L402 92" style="stroke-width:2"/></g><g data-s="2"><path class="c1" d="M507 150 L507 92" style="stroke-width:2"/></g><g data-s="2"><rect class="s-mark" x="40" y="230" width="220" height="36" rx="8"/></g><g data-s="2"><text class="tb" x="150" y="254" text-anchor="middle">p₁ = 5/5 = 1.00</text></g><g data-s="3"><rect class="s-mark" x="280" y="230" width="220" height="36" rx="8"/></g><g data-s="3"><text class="tb" x="390" y="254" text-anchor="middle">p₂ = 3/4 = 0.75</text></g><g data-s="4"><rect class="s-mark" x="520" y="230" width="200" height="36" rx="8"/></g><g data-s="4"><text class="tb" x="620" y="254" text-anchor="middle">BP = 0.819</text></g><g data-s="5"><rect class="s-mark" x="150" y="300" width="460" height="44" rx="8"/></g><g data-s="5"><text class="tb" x="380" y="329" text-anchor="middle">BLEU-2 = 0.709</text></g></svg></div><figcaption>Score one translation.</figcaption></figure>
+<!--/fig:nlp-bleu-->
+
+    <pre>BLEU = BP · exp( Σ_{n=1..N} w_n · ln p_n ),   usually N = 4, w_n = 1/N
+BP   = 1                    if c &gt; r
+     = exp(1 − r / c)       if c ≤ r        (c = candidate length, r = reference length)</pre>
+    <p><strong>Modified (clipped) precision:</strong> each candidate n-gram is credited at most as many times as it appears in the reference, so repeating a correct word cannot cheat. Candidate "the the the the the the the" vs reference "the cat is on the mat": "the" appears twice in the reference, so p₁ = 2/7, not 7/7.</p>
+    <h3>Worked example</h3>
+    <p>Reference: <em>the cat is on the mat</em> (r = 6). Candidate: <em>the cat sat on the mat</em> (c = 6).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>n</th><th>Candidate n-grams</th><th>Matched in reference</th><th>p_n</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>the, cat, sat, on, the, mat</td><td>the, cat, on, the, mat (5)</td><td>5/6 = 0.833</td></tr>
+        <tr><td>2</td><td>the cat, cat sat, sat on, on the, the mat</td><td>the cat, on the, the mat (3)</td><td>3/5 = 0.600</td></tr>
+        <tr><td>3</td><td>the cat sat, cat sat on, sat on the, on the mat</td><td>on the mat (1)</td><td>1/4 = 0.250</td></tr>
+        <tr><td>4</td><td>3 four-grams</td><td>none (0)</td><td>0/3 = 0</td></tr>
+      </tbody>
+    </table></div>
+    <p>c = r, so BP = 1. <strong>BLEU-2</strong> = 1 × exp(½ ln 0.833 + ½ ln 0.6) = √(0.833 × 0.6) = <strong>0.707</strong>. Standard BLEU-4 is <strong>0</strong> here because p₄ = 0 (short sentences give zero 4-gram matches), which is why BLEU is meant for whole test sets (corpus-level) or uses smoothing.</p>
+    <p><strong>Brevity penalty example:</strong> candidate <em>the cat on the mat</em> (c = 5, r = 6): p₁ = 5/5, p₂ = 3/4, BP = exp(1 − 6/5) = 0.819, BLEU-2 = 0.819 × √(1 × 0.75) = <strong>0.709</strong>. Without BP the short candidate would score 0.866.</p>
+    <p><strong>Limits of BLEU:</strong> ignores meaning and synonyms, ignores word importance, depends on the number and quality of references, and correlates only loosely with human judgement at sentence level. Other metrics, mentioned by name: <strong>METEOR</strong> (uses stems, synonyms and recall) and <strong>chrF</strong> (character n-gram F-score, good for morphologically rich languages). Human evaluation of adequacy and fluency remains the gold standard.</p>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- MULTILINGUAL -->
+  <section id="multilingual">
+    <p class="eyebrow">07 · One model, many languages</p>
+    <h2>Multilingual Machine Translation</h2>
+    <p>Instead of training one model per language pair (N languages → N(N−1) directed pairs), a single <strong>multilingual NMT</strong> model translates between many languages. Johnson et al. (2016) showed this needs no architecture change: just prepend a target-language tag to the source (e.g. <code>&lt;2hi&gt; I love NLP</code>).</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Shared vocabulary / subwords</h4><p>A joint <strong>BPE / SentencePiece</strong> vocabulary splits words into subword pieces so many languages share one token set and rare or unseen words are still representable. Vocabulary budget is split across languages and scripts.</p></div>
+      <div class="card"><h4>Cross-lingual transfer</h4><p>Related languages (Hindi-Marathi, Spanish-Portuguese) share structure, so training on a high-resource language helps a low-resource one.</p></div>
+      <div class="card"><h4>Zero-shot translation</h4><p>If trained on EN↔HI and EN↔MR, the model can often translate HI→MR without ever seeing HI-MR pairs, because it learns a shared representation. Quality is usually lower than for seen pairs and can drift into the wrong output language.</p></div>
+      <div class="card"><h4>Efficiency</h4><p>One model to deploy and maintain instead of hundreds of bilingual systems.</p></div>
+    </div>
+    <h3>Challenges</h3>
+    <ul>
+      <li><strong>Low-resource languages:</strong> little parallel data (many Indian and African languages), so translations are poor; back-translation, pivoting through English and transfer help.</li>
+      <li><strong>Language imbalance:</strong> English-heavy data lets high-resource languages dominate; fix by temperature-based sampling that up-weights small languages.</li>
+      <li><strong>Capacity / "curse of multilinguality":</strong> adding languages makes them compete for the same parameters, hurting high-resource pairs unless the model is made larger.</li>
+      <li><strong>Different scripts, morphology and word order</strong> (Devanagari, Arabic, Latin; agglutinative languages).</li>
+      <li><strong>Vocabulary issues:</strong> a shared subword vocabulary over-segments low-resource languages.</li>
+      <li><strong>Evaluation:</strong> few high-quality test sets; BLEU poorly suited to morphologically rich languages (chrF is often preferred).</li>
+      <li><strong>Zero-shot errors:</strong> off-target language output and poor fluency; also cultural bias and gender bias from skewed data.</li>
+    </ul>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- RECENT -->
+  <section id="recent">
+    <p class="eyebrow">08 · Pre-trained models and LLMs</p>
+    <h2>Recent Advancements in NLP</h2>
+    <p>Modern NLP follows a <strong>pre-train, then fine-tune</strong> recipe: train a big Transformer on huge unlabelled text with a self-supervised objective, then adapt it to a task with a small labelled set.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Model family</th><th>Architecture</th><th>Pre-training objective</th><th>Typical use</th></tr></thead>
+      <tbody>
+        <tr><td><strong>BERT</strong> (2018)</td><td>Transformer encoder, bidirectional</td><td>Masked Language Modelling (mask ~15% of tokens, predict them) + next sentence prediction</td><td>Classification, NER, QA, sentence embeddings</td></tr>
+        <tr><td><strong>GPT</strong> series</td><td>Transformer decoder, left-to-right</td><td>Next-token prediction</td><td>Text generation, chat, few-shot tasks</td></tr>
+        <tr><td><strong>T5 / BART / mT5</strong></td><td>Encoder-decoder</td><td>Span corruption / denoising</td><td>Translation, summarisation (text-to-text)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>ELECTRA: replaced token detection</h3>
+    <p>BERT's masked LM learns from only the ~15% of tokens that are masked, which wastes compute. <strong>ELECTRA</strong> (Clark et al., 2020) changes the objective:</p>
+    <ol class="steps">
+      <li>A small <strong>generator</strong> (a mini masked LM) fills in the masked positions with plausible words, so some tokens are <em>replaced</em>.</li>
+      <li>The main model, the <strong>discriminator</strong>, reads the corrupted sentence and labels <strong>every token</strong> as "original" or "replaced" (binary classification).</li>
+      <li>After pre-training the generator is discarded and the discriminator is fine-tuned for downstream tasks.</li>
+    </ol>
+    <p>Example: "the chef <strong>cooked</strong> the meal" → generator swaps in "ate": "the chef <strong>ate</strong> the meal"; the discriminator should flag "ate" as replaced and all others as original. Because the loss is defined over <em>all</em> tokens, ELECTRA is more <strong>sample- and compute-efficient</strong> than BERT of the same size. It is not a GAN, since the generator is trained with ordinary maximum likelihood, not adversarially.</p>
+    <h3>Large Language Models (LLMs) and prompting</h3>
+    <ul>
+      <li>LLMs are very large decoder-style Transformers (billions of parameters) trained on web-scale text; scale gives <strong>emergent abilities</strong> such as few-shot learning.</li>
+      <li><strong>Prompting:</strong> zero-shot (instruction only), few-shot (add examples in the prompt), and chain-of-thought (ask for step-by-step reasoning), with no weight updates.</li>
+      <li><strong>Instruction tuning and RLHF</strong> align the model with human preferences. <strong>Parameter-efficient fine-tuning</strong> (LoRA, adapters) adapts large models cheaply. <strong>Retrieval-augmented generation (RAG)</strong> grounds answers in documents to reduce hallucination.</li>
+      <li><strong>Limits:</strong> hallucination, bias, high compute cost, privacy concerns, and the need for careful evaluation.</li>
+    </ul>
+    <p><span class="tag">Beyond the deck</span></p>
+  </section>
+
+  <!-- DESIGN CHOICE -->
+  <section id="design-choice">
+    <p class="eyebrow">09 · Choosing a model</p>
+    <h2>Which Model for Which Scenario?</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Scenario</th><th>Choice</th><th>Justification</th></tr></thead>
+      <tbody>
+        <tr><td>Translate EN to Hindi for a news site, lots of parallel data</td><td>Transformer NMT (fine-tuned pre-trained, e.g. mT5 / MarianMT)</td><td>Best BLEU/fluency, parallel training, mature tooling</td></tr>
+        <tr><td>Marathi to English with very few sentence pairs</td><td>Multilingual pre-trained model + fine-tune, back-translation</td><td>Transfer from related high-resource languages (Hindi); data augmentation</td></tr>
+        <tr><td>Offline translation on a phone / tiny device</td><td>Small distilled Transformer or GRU seq2seq with attention</td><td>Low memory, no server; accept lower quality</td></tr>
+        <tr><td>Sentiment or spam classification</td><td>BERT / ELECTRA encoder fine-tuned</td><td>Bidirectional context; ELECTRA cheaper to pre-train</td></tr>
+        <tr><td>Chatbot or content generation, little task data</td><td>LLM with prompting (few-shot) or RAG</td><td>No training needed; RAG grounds facts</td></tr>
+        <tr><td>Legal or medical translation, errors costly</td><td>Domain fine-tuned NMT + human post-editing, glossary constraints</td><td>Accuracy and traceability matter more than speed</td></tr>
+        <tr><td>Very small corpus, strict budget, domain with fixed phrases</td><td>Rule-based or example-based / translation memory</td><td>Predictable output, no big data needed</td></tr>
+        <tr><td>Hundreds of language pairs, one deployment</td><td>Single multilingual NMT (e.g. M2M-style)</td><td>One model to maintain, zero-shot pairs</td></tr>
+      </tbody>
+    </table></div>
+    <h3>A design recipe for any translation problem</h3>
+    <ol class="steps">
+      <li><strong>Define</strong> languages, domain, latency and quality requirements.</li>
+      <li><strong>Collect and clean data:</strong> parallel corpus, deduplicate, normalise, handle scripts.</li>
+      <li><strong>Tokenise</strong> with a subword model (BPE / SentencePiece).</li>
+      <li><strong>Choose model:</strong> pre-trained Transformer where possible; multilingual if low-resource.</li>
+      <li><strong>Train / fine-tune</strong> with teacher forcing, label smoothing; decode with beam search (k = 4-5) and length normalisation.</li>
+      <li><strong>Evaluate</strong> with BLEU/chrF on a held-out test set plus human review; iterate (back-translation, domain data).</li>
+    </ol>
+    <p><span class="tag">Beyond the deck</span></p>
+
+    <div class="grid cols-2">
+      <div class="card"><h4>📚 Question Bank</h4><p>The 8 official CO5 items plus 14 exam-style practice questions, including BLEU, attention and complexity numericals.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 5 Question Bank →</a></p></div>
+      <div class="card"><h4>↩ Previous unit</h4><p>Unit 4 covers the RNN / LSTM models that the encoder-decoder is built on.</p><p><a href="../Unit 4/index.html" style="color:var(--coral);font-weight:700;">Open Unit 4 →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 5 — Machine Translation &amp; Advanced NLP · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

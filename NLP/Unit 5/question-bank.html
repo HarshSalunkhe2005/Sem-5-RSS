@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 Question Bank — Machine Translation &amp; Advanced NLP</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 5</span>
+  <h1>📚 Unit 5 — Question Bank Answers</h1>
+  <p>The 8 official CO5 question-bank items, plus 14 exam-style practice questions: BLEU, attention scores, positional encoding, beam search and complexity.</p>
+  <p style="margin-top:12px;font-size:14px;">No Moodle deck was posted for NLP Unit 5: written from standard content to match the official question bank; check against your lecture notes.</p>
+  <a class="back" href="index.html">← Back to Unit 5 notes</a>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="../Unit 1/index.html">Unit 1</a>
+    <a href="../Unit 2/index.html">Unit 2</a>
+    <a href="../Unit 3/index.html">Unit 3</a>
+    <a href="../Unit 4/index.html">Unit 4</a>
+    <a href="#g1">Official CO5 Questions</a>
+    <a href="#g2">MT Basics &amp; Seq2Seq</a>
+    <a href="#g3">Attention &amp; Transformer</a>
+    <a href="#g4">BLEU &amp; Recent Models</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 5 notes</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Official Question Bank</p>
+    <h2>Unit 5: Machine Translation &amp; Advanced NLP (CO5)</h2>
+    <p class="range">Symbiosis Institute of Technology — Course Code TEE7101</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Apply Seq2Seq model for a simple translation task and interpret results.<span class="marks">6 marks</span></p><div class="a"><p><strong>Setup:</strong> parallel pairs such as "I love NLP" → "मुझे NLP पसंद है". Tokenise, add <code>&lt;sos&gt;</code>/<code>&lt;eos&gt;</code>, build source and target vocabularies, embed. <strong>Encoder</strong> LSTM reads the source and its final state is the context vector c; <strong>decoder</strong> LSTM starts from c and <code>&lt;sos&gt;</code> and emits one word per step through a softmax. Train with teacher forcing and cross-entropy loss; at test time decode with greedy or beam search until <code>&lt;eos&gt;</code>.</p><p><strong>Interpreting results:</strong> falling training/validation loss shows learning; compare outputs against references with BLEU. Typical findings: short sentences are translated well, long ones degrade (fixed context-vector bottleneck), rare words become <code>&lt;unk&gt;</code>, and outputs can be fluent but wrong. Adding attention and viewing the alignment matrix shows which source word each output word relied on and usually raises BLEU on long sentences.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Analyze the working of encoder-decoder architecture in machine translation.<span class="marks">6 marks</span></p><div class="a"><p>The <strong>encoder</strong> processes source tokens x₁…x_n sequentially, h_t = f(x_t, h_{t−1}), compressing the sentence into a context vector c (the final state). The <strong>decoder</strong> is a conditional language model: s_t = f(s_{t−1}, y_{t−1}, c) and P(y_t | y_&lt;t, x) = softmax(W s_t). The whole translation probability is P(y|x) = ∏ P(y_t | y_&lt;t, x), trained end to end by maximising log-likelihood (teacher forcing).</p><p><strong>Analysis:</strong> strength is that variable-length input maps to variable-length output with no hand-made features. Weakness is the single fixed-size c, which is a bottleneck for long sentences and makes training depend on long gradient paths. Attention fixes this by giving the decoder a fresh weighted combination of all encoder states at each step.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Compare traditional machine translation techniques with neural approaches.<span class="marks">6 marks</span></p><div class="a"><div class="table-wrap"><table><thead><tr><th>Aspect</th><th>Rule-based / Example-based / SMT</th><th>Neural MT</th></tr></thead><tbody>
+      <tr><td>Knowledge</td><td>Hand-written rules; or phrase tables + language model (noisy channel: argmax P(f|e)P(e))</td><td>Learned end to end in one network</td></tr>
+      <tr><td>Unit / context</td><td>Words, phrases; local context</td><td>Whole sentence; long-range with attention</td></tr>
+      <tr><td>Fluency</td><td>Choppy</td><td>Much more fluent</td></tr>
+      <tr><td>Data / effort</td><td>Linguists or feature engineering; works with less data (RBMT, EBMT)</td><td>Large parallel corpus and GPUs</td></tr>
+      <tr><td>Weakness</td><td>Rule coverage, reordering errors</td><td>Hallucination, rare words, low-resource languages, less interpretable</td></tr></tbody></table></div></div></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Evaluate the performance of transformer-based models over RNNs.<span class="marks">6 marks</span></p><div class="a"><p><strong>Transformer advantages:</strong> (1) fully parallel over positions, O(1) sequential operations vs O(n) for RNN, so far faster training on GPUs; (2) path length between any two words is O(1) (O(n) in an RNN), so long-range dependencies are captured better and gradients do not vanish; (3) multi-head attention models several relations at once; (4) scales to huge data and pre-training (BERT, GPT); (5) higher BLEU in the original paper (28.4 on WMT14 EN-DE) at a fraction of training cost.</p><p><strong>Drawbacks:</strong> self-attention costs O(n²·d) memory/time so very long inputs are expensive; needs positional encoding as it has no built-in order; data-hungry. <strong>Verdict:</strong> Transformers outperform RNNs for MT and almost all NLP tasks; RNNs remain only for tiny/streaming settings.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Given a translation problem, design an appropriate NLP solution.<span class="marks">6 marks</span></p><div class="a"><p>Example: English to Marathi for a government notice service. <strong>1 Define:</strong> domain (formal), quality/latency needs. <strong>2 Data:</strong> collect parallel corpus (+ monolingual Marathi), clean, deduplicate, normalise Devanagari. <strong>3 Tokenise:</strong> SentencePiece/BPE joint vocabulary. <strong>4 Model:</strong> fine-tune a pre-trained multilingual Transformer (low-resource target); augment with back-translation. <strong>5 Train:</strong> teacher forcing, label smoothing. <strong>6 Decode:</strong> beam search k = 4-5 with length normalisation. <strong>7 Evaluate:</strong> BLEU and chrF on held-out set plus human review; add glossary for official terms. <strong>8 Deploy and monitor:</strong> post-editing loop, collect corrections to retrain.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Analyze challenges in multilingual machine translation.<span class="marks">6 marks</span></p><div class="a"><ul><li><strong>Low-resource languages:</strong> very little parallel data, so poor quality.</li><li><strong>Language imbalance:</strong> high-resource languages dominate training; mitigated by temperature sampling.</li><li><strong>Limited capacity:</strong> more languages compete for the same parameters ("curse of multilinguality"); larger models needed.</li><li><strong>Shared vocabulary:</strong> subwords over-segment low-resource languages and different scripts share few tokens.</li><li><strong>Linguistic diversity:</strong> word order, morphology, scripts.</li><li><strong>Zero-shot errors:</strong> off-target language output, lower quality than supervised pairs.</li><li><strong>Evaluation and bias:</strong> few good test sets, BLEU unsuitable for rich morphology (use chrF), cultural/gender bias.</li></ul></div></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Evaluate recent advancements in NLP models for language tasks.<span class="marks">6 marks</span></p><div class="a"><p>The shift is to <strong>pre-train then fine-tune</strong> Transformers. <strong>BERT</strong> (bidirectional encoder, masked LM) lifted understanding tasks. <strong>GPT</strong> (decoder, next-token prediction) enabled fluent generation and, at scale, few-shot prompting. <strong>ELECTRA</strong> replaced masked-token prediction with replaced-token detection, learning from every token and so training more efficiently. <strong>T5/mT5/BART</strong> unify tasks as text-to-text. <strong>Multilingual models</strong> (mBERT, mT5, M2M/NLLB-style) extend to many languages. <strong>LLMs</strong> add instruction tuning, RLHF, chain-of-thought prompting, parameter-efficient fine-tuning (LoRA) and retrieval-augmented generation.</p><p><strong>Evaluation:</strong> large accuracy gains and less task-specific engineering; but heavy compute and energy cost, hallucination, bias, opacity and privacy concerns, so careful evaluation and human oversight are needed.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Given a real-world scenario, justify the choice of NLP model and approach.<span class="marks">6 marks</span></p><div class="a"><p>Method: state requirements (data volume, languages, latency, accuracy, budget), then match. Examples: <strong>(a)</strong> E-commerce review sentiment, 5,000 labelled reviews → fine-tune BERT/ELECTRA (bidirectional context, small labelled data enough). <strong>(b)</strong> Real-time EN-HI subtitles with lots of parallel data → Transformer NMT with beam search (quality and parallel speed). <strong>(c)</strong> Marathi-English with few pairs → multilingual pre-trained model + back-translation (transfer from Hindi). <strong>(d)</strong> Customer-support chatbot, no training set → LLM with few-shot prompt or RAG over company documents. <strong>(e)</strong> Legal/medical translation → domain fine-tuned NMT with human post-editing, since errors are costly. Always justify by data, risk and cost, not by model popularity.</p></div></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Practice · Machine Translation Basics &amp; Seq2Seq</p>
+    <h2>Traditional MT, Encoder-Decoder, Decoding</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q9</span>Define machine translation and parallel corpus. Name the three traditional MT approaches.<span class="marks">3 marks</span></p><div class="a"><p><strong>Machine translation</strong> is the automatic conversion of text from a source language to a target language. A <strong>parallel corpus</strong> is a collection of sentence pairs, each with the same meaning in two languages, used to train statistical and neural models. Traditional approaches: <strong>rule-based</strong> (dictionaries + grammar rules; direct, transfer, interlingua), <strong>example-based</strong> (reuse stored translated examples) and <strong>statistical / phrase-based</strong> (probabilities learned from the corpus).</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>Explain the noisy-channel model of statistical MT and the roles of its two factors.<span class="marks">4 marks</span></p><div class="a"><p>Treat the foreign sentence f as a noisy version of an English sentence e. By Bayes' rule <code>ê = argmax_e P(e|f) = argmax_e P(f|e)·P(e)</code>, dropping P(f) as constant. <strong>P(e)</strong> is the <em>language model</em>, which favours fluent English; <strong>P(f|e)</strong> is the <em>translation model</em> learned from alignments, which favours faithful translations. A <strong>decoder</strong> searches for the e maximising the product. Fluency and adequacy are thus modelled separately.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>What is teacher forcing? Why can it be a problem at inference time?<span class="marks">3 marks</span></p><div class="a"><p>In teacher forcing the decoder input at step t during training is the <strong>ground-truth</strong> previous word y_{t−1}, not the model's own prediction. It speeds up and stabilises training and allows parallel computation of all steps in a Transformer. At inference the true words are unavailable, so the model feeds on its own (possibly wrong) outputs; this train/test mismatch is <strong>exposure bias</strong>, and one early mistake can propagate. Remedies: scheduled sampling, beam search, sequence-level training.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Greedy vs beam search: step 1 gives P(A) = 0.5, P(B) = 0.4. Then P(X|A) = 0.4 (best after A) and P(Y|B) = 0.9 (best after B). Find the sequence chosen by greedy and by beam width 2.<span class="marks">4 marks</span></p><div class="a"><p><strong>Greedy:</strong> picks A (0.5) then X: 0.5 × 0.4 = <strong>0.20</strong> (ln = −1.609). <strong>Beam k = 2:</strong> keeps both A (0.5) and B (0.4) after step 1; after step 2 candidates are A X = 0.20 and B Y = 0.4 × 0.9 = <strong>0.36</strong> (ln = −1.022). Best is <strong>B Y</strong>, which greedy missed because it committed to the locally best first word. Beam search costs about k times more and still does not guarantee the global optimum. Scores are summed as log-probabilities and length-normalised.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>Explain the context-vector bottleneck of the basic seq2seq model and how it is addressed.<span class="marks">4 marks</span></p><div class="a"><p>The encoder must squeeze an entire sentence, whether 5 or 50 words, into one fixed-size vector. Information (especially from early words) is lost, so translation quality falls as sentence length grows, and gradients must flow back through many steps. <strong>Solutions:</strong> (1) <strong>attention</strong>, letting the decoder re-read all encoder states with a weighted sum at each step; (2) bidirectional encoder; (3) reversing the source sentence (an early trick); (4) Transformers, which connect all positions directly.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>True or False: in encoder-decoder NMT without attention, the decoder has access to every encoder hidden state at every step.<span class="marks">1 mark</span></p><div class="a"><p><strong>False.</strong> Without attention the decoder only receives the final encoder state (the context vector). Access to all encoder states at each step is exactly what attention adds.</p></div></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Practice · Attention &amp; Transformer</p>
+    <h2>Attention Scores, Self-Attention, Positional Encoding, Complexity</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q15</span>Decoder state s = (1, 0); encoder states h₁ = (1, 0), h₂ = (0, 1), h₃ = (1, 1). Using dot-product scores, compute the attention weights and the context vector.<span class="marks">5 marks</span></p><div class="a"><p><strong>Scores:</strong> e = (s·h₁, s·h₂, s·h₃) = (1, 0, 1). <strong>Softmax:</strong> exp = (2.718, 1, 2.718), sum = 6.437, so α = (<strong>0.4223, 0.1554, 0.4223</strong>) (sum = 1). <strong>Context:</strong> c = 0.4223·(1,0) + 0.1554·(0,1) + 0.4223·(1,1) = (0.4223 + 0.4223, 0.1554 + 0.4223) = <strong>(0.8446, 0.5777)</strong>. Interpretation: the decoder attends equally to h₁ and h₃ and little to h₂.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Scaled dot-product attention with d_k = 4: q = (1,0,1,0); k₁ = (1,0,1,0), k₂ = (0,1,0,1), k₃ = (1,1,1,1); v₁ = (1,0), v₂ = (0,1), v₃ = (1,1). Compute the output and say why we divide by √d_k.<span class="marks">5 marks</span></p><div class="a"><p><strong>Dot products:</strong> q·k = (2, 0, 2). <strong>Scale</strong> by √4 = 2 → (1, 0, 1). <strong>Softmax:</strong> (0.4223, 0.1554, 0.4223). <strong>Output</strong> = 0.4223·v₁ + 0.1554·v₂ + 0.4223·v₃ = <strong>(0.8446, 0.5777)</strong>. Without scaling the softmax of (2,0,2) is (0.468, 0.063, 0.468), sharper. Reason: for large d_k the dot products have large variance (≈ d_k), pushing softmax into saturated regions with tiny gradients; dividing by √d_k keeps the variance near 1.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>Why do Transformers need positional encoding? Compute the sinusoidal encoding of positions 1 and 2 for d_model = 4.<span class="marks">5 marks</span></p><div class="a"><p>Self-attention is permutation-invariant: "dog bites man" and "man bites dog" would give the same set of vectors. A position vector is <strong>added</strong> to each word embedding to inject order. Formula: PE(pos,2i) = sin(pos/10000^(2i/d)), PE(pos,2i+1) = cos(pos/10000^(2i/d)). For d = 4, the divisors are 10000⁰ = 1 (i = 0) and 10000^(2/4) = 100 (i = 1).</p><p><strong>pos 1:</strong> (sin 1, cos 1, sin 0.01, cos 0.01) = (0.8415, 0.5403, 0.0100, 1.0000). <strong>pos 2:</strong> (sin 2, cos 2, sin 0.02, cos 0.02) = (0.9093, −0.4161, 0.0200, 0.9998). Low-index dimensions change quickly with position, high-index dimensions slowly, making each position unique. Learned position embeddings are an alternative.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>Compare per-layer complexity of self-attention and recurrence for n = 50, d = 512, and estimate the parameters of one Transformer-base encoder layer.<span class="marks">5 marks</span></p><div class="a"><p><strong>Complexity per layer:</strong> self-attention O(n²·d) = 50² × 512 = <strong>1.28 million</strong> operations, sequential ops O(1), max path length O(1). Recurrent layer O(n·d²) = 50 × 512² = <strong>13.1 million</strong>, sequential ops O(n), path length O(n). So for n &lt; d self-attention is cheaper and parallel; for very long sequences (n &gt; d) the n² term dominates and attention becomes costlier.</p><p><strong>Encoder layer parameters</strong> (d = 512, d_ff = 2048): attention W_Q, W_K, W_V, W_O = 4 × 512 × 512 = 1,048,576 weights (+2,048 biases) = 1,050,624; feed-forward 512×2048 + 2048×512 = 2,097,152 weights (+2,560 biases) = 2,099,712; two layer-norms 2,048. Total ≈ <strong>3.15 million</strong> per encoder layer (a decoder layer has an extra attention block, ≈ 4.2M), so 6 + 6 layers ≈ 44M parameters plus embeddings.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>What are multi-head attention and masked self-attention, and where is each used?<span class="marks">4 marks</span></p><div class="a"><p><strong>Multi-head attention</strong> runs h attention functions in parallel on lower-dimensional projections (8 heads of 64 dims in the base model), concatenates their outputs and projects again; different heads capture different relations (syntax, co-reference, position). It is used in encoder self-attention, decoder self-attention and encoder-decoder (cross) attention. <strong>Masked self-attention</strong> sets scores for future positions to −∞ before the softmax so token t cannot see tokens after t; it is used only in the <strong>decoder</strong>, to preserve the left-to-right generation property during parallel training.</p></div></div>
+  </section>
+
+  <section id="g4">
+    <p class="eyebrow">Practice · Evaluation, Multilingual &amp; Recent Models</p>
+    <h2>BLEU, Zero-shot, ELECTRA</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q20</span>Reference: "the cat is on the mat". Candidate: "the cat sat on the mat". Compute unigram, bigram and trigram precision, and BLEU-2.<span class="marks">6 marks</span></p><div class="a"><p><strong>Unigrams:</strong> candidate the, cat, sat, on, the, mat; matches (clipped) the, cat, on, the, mat = 5 of 6 → p₁ = 0.833. <strong>Bigrams:</strong> the cat, cat sat, sat on, on the, the mat; matches: the cat, on the, the mat = 3 of 5 → p₂ = 0.600. <strong>Trigrams:</strong> the cat sat, cat sat on, sat on the, on the mat; match: on the mat = 1 of 4 → p₃ = 0.250. 4-grams: 0 of 3 → p₄ = 0 (so BLEU-4 = 0 without smoothing).</p><p>Lengths equal (c = r = 6) so BP = 1. <strong>BLEU-2</strong> = 1 × exp(½ ln 0.833 + ½ ln 0.6) = √(0.833 × 0.6) = √0.5 = <strong>0.707</strong>.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>Explain clipping and the brevity penalty in BLEU with numbers. Candidate "the cat on the mat" against the reference "the cat is on the mat": find BLEU-2.<span class="marks">5 marks</span></p><div class="a"><p><strong>Clipping:</strong> a candidate n-gram is counted at most as often as it appears in the reference. Candidate "the the the the the the the" vs reference with "the" twice → p₁ = 2/7 instead of 7/7, so repetition cannot inflate the score. <strong>Brevity penalty:</strong> precision alone rewards very short outputs, so BP = 1 if c &gt; r, else exp(1 − r/c).</p><p>Here c = 5, r = 6. Unigrams: all 5 match → p₁ = 5/5 = 1. Bigrams: the cat, cat on, on the, the mat; matches: the cat, on the, the mat = 3 of 4 → p₂ = 0.75. BP = exp(1 − 6/5) = exp(−0.2) = <strong>0.819</strong>. BLEU-2 = 0.819 × √(1 × 0.75) = 0.819 × 0.866 = <strong>0.709</strong> (versus 0.866 with no penalty). Limits of BLEU: ignores synonyms and meaning; METEOR and chrF are alternatives.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q22</span>Explain ELECTRA's replaced-token detection and how it differs from BERT's masked language modelling; also explain zero-shot translation in a multilingual model.<span class="marks">6 marks</span></p><div class="a"><p><strong>BERT (MLM):</strong> mask about 15% of tokens and predict only those, so only 15% of positions give a training signal. <strong>ELECTRA:</strong> a small generator (masked LM) replaces masked tokens with plausible words; the main model, the discriminator, classifies <em>every</em> token as original or replaced. The loss covers all positions, so ELECTRA learns more per example and reaches a given accuracy with less compute than BERT. After pre-training only the discriminator is kept and fine-tuned. It is not a GAN: the generator is trained by maximum likelihood.</p><p><strong>Zero-shot translation:</strong> a multilingual NMT model (language tag such as <code>&lt;2mr&gt;</code> on the source) trained on EN↔HI and EN↔MR can translate HI→MR even though it never saw HI-MR pairs, because it learns shared cross-lingual representations. Quality is lower than for supervised pairs and the model may output the wrong language.</p></div></div>
+  </section>
+
+</main>
+
+<footer>Unit 5 — Machine Translation &amp; Advanced NLP · Question Bank · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

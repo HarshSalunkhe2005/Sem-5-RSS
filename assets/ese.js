@@ -13,7 +13,8 @@
   if (SUBJ) root.setAttribute("data-subject", SUBJ);
 
   // subjects whose flashcards + cheat sheet pages exist (extend as each subject ships)
-  var READY = ["DL"];
+  var READY = ["DL", "NLP"];
+  var HAS_QB2 = { "DL/Unit 3": 1 };
 
   /* ---------- store ---------- */
   var KEY = "sem5-ese-v1", S;
@@ -25,6 +26,12 @@
   function el(tag, cls, html) { var n = d.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; }
   function btn(txt, cls, fn) { var b = el("button", "ese-btn " + (cls || "")); b.type = "button"; b.textContent = txt; if (fn) b.addEventListener("click", fn); return b; }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  /* ---------- tables scroll sideways on phones instead of widening the page ---------- */
+  [].slice.call(d.querySelectorAll("main table")).forEach(function (t) {
+    if (t.closest(".tw,.table-wrap")) return;
+    var w = el("div", "tw auto"); t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
 
   /* ---------- nav extras ---------- */
   var navInner = d.querySelector("nav.toc .inner");
@@ -57,6 +64,13 @@
       var n = 0; qas.forEach(function (q, i) { var on = !!S.qa[qid(i)]; q.classList.toggle("done", on); if (on) n++; q.style.display = (hideDone && on) ? "none" : ""; });
       meterFill.style.transform = "scaleX(" + (n / qas.length) + ")"; meterTxt.textContent = n + " / " + qas.length + " got it";
     }
+    qas.forEach(function (q) {
+      var qh = q.querySelector(".q"); if (!qh || qh.querySelector(".qtext")) return;
+      var kids = [].slice.call(qh.childNodes).filter(function (n) { return !(n.nodeType === 1 && (n.classList.contains("num") || n.classList.contains("marks"))); });
+      if (!kids.length) return;
+      var span = d.createElement("span"); span.className = "qtext";
+      qh.insertBefore(span, kids[0]); kids.forEach(function (n) { span.appendChild(n); });
+    });
     qas.forEach(function (q, i) {
       var a = q.querySelector(".a"); if (!a) return;
       q.classList.add("has-reveal");
@@ -106,7 +120,7 @@
   /* ---------- Test yourself (unit index pages) ---------- */
   if (SUBJ && /^(CC|NLP|CN|DL)\/Unit [0-9]+\/index\.html$/.test(rel)) {
     var qb = BASE + rel.replace(/index\.html$/, "question-bank.html");
-    Promise.all([qb, qb.replace("question-bank.html", "question-bank-2.html")].map(function (u) { return fetch(u).then(function (r) { return r.ok ? r.text() : ""; }).catch(function () { return ""; }); })).then(function (htmls) {
+    Promise.all([qb].concat(HAS_QB2[rel.replace(/\/index\.html$/, "")] ? [qb.replace("question-bank.html", "question-bank-2.html")] : []).map(function (u) { return fetch(u).then(function (r) { return r.ok ? r.text() : ""; }).catch(function () { return ""; }); })).then(function (htmls) {
       if (!htmls[0]) return Promise.reject();
       var doc = new DOMParser().parseFromString(htmls.join(" "), "text/html");
       var items = [].slice.call(doc.querySelectorAll(".qa")).map(function (q, i) {

@@ -35,7 +35,7 @@ Refuse:      gradient text, coloured side-border cards, identical icon-card grid
 - [x] Engine: assets/ese.css, assets/ese.js, self-hosted fonts (about 93 KB)
 - [x] DL complete (syllabus has 5 units): Units 1-5, Unit 3 part 2 question bank (Q159-234), Unit 4 (optimisation, batch norm, tuning), Unit 5 (CNN, RNN, LSTM, autoencoders),
       21 step-through diagrams, flashcards (287 cards), cheat sheet with ranked likely questions, homepage progress. Moodle decks pulled 4 Nov 2026.
-- [ ] NLP: pages wired + 10 diagrams placed; still to do: flashcards.html, cheatsheet.html, add NLP to READY in ese.js and ESE_MANIFEST. No syllabus or PYQs on Moodle (only 3 PDFs), so units beyond 3 are unknown: ask Harsh.
+- [x] NLP complete (official bank shows 5 units): Units 4 (RNN/LSTM/GRU) and 5 (MT, seq2seq, attention, transformers) written from standard content because Moodle has no NLP decks beyond 3 PDFs (tagged 'Beyond the deck'); 19 diagrams, 118 flashcards, cheat sheet with TF-IDF and bigram calculators.
 - [ ] CN: syllabus has 5 units. Unit 4 (network layer) and Unit 5 (link layer) and extra-topics.html written by subagents; still to do: diagrams, wiring, flashcards, cheatsheet.
 - [ ] CC: syllabus has 5 units (all on site). Unit 4 rewritten from the real Module 4 deck. Still to do: diagrams, wiring, flashcards, cheatsheet.
 - Per-subject checklist: wire pages (scratchpad wire.js) -> figures (figlib.js step-through) -> flashcards.html -> cheatsheet.html -> add subject to READY in ese.js

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Recurrent Neural Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.4px;line-height:1.5;margin:12px 0;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  main > section > .tag{display:inline-block;background:#f3eefe;color:#4a2f9e;border:1px solid #d9ccf7;border-radius:999px;padding:2px 11px;font-size:11.5px;font-weight:700;margin:0 0 10px;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 4</span>
+  <h1>🔁 Recurrent Neural Networks</h1>
+  <p>Modelling sequences with a hidden state: the RNN equations, unrolling and BPTT, the vanishing
+     gradient problem, LSTM and GRU gates, RNNs versus traditional language models, limits on long
+     sequences, and a recipe for designing a sequence model.</p>
+  <p style="margin-top:12px;font-size:14px;"><strong style="color:#ffb84d;">Note:</strong> No Moodle deck was posted for NLP Unit 4: written from standard content to match the official question bank; check against your lecture notes.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#rnn-basics">RNN Basics</a>
+    <a href="#bptt">BPTT</a>
+    <a href="#vanishing">Vanishing Gradient</a>
+    <a href="#lstm">LSTM</a>
+    <a href="#gru">GRU</a>
+    <a href="#rnn-vs-lm">RNN vs. LMs</a>
+    <a href="#rnn-limits">Limitations</a>
+    <a href="#design">Design Recipe</a>
+    <a href="../Unit 1/index.html">Unit 1</a>
+    <a href="../Unit 2/index.html">Unit 2</a>
+    <a href="../Unit 3/index.html">Unit 3</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- RNN BASICS -->
+  <section id="rnn-basics">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">01 · Memory for sequences</p>
+    <h2>Recurrent Neural Networks: the Basics</h2>
+    <p>Text, speech and time series are <strong>sequences</strong>: order matters and length varies.
+      A feed-forward network sees a fixed-size input with no memory. A <strong>recurrent neural
+      network (RNN)</strong> reads one element at a time and carries a <strong>hidden state</strong>
+      <code>h_t</code> forward, a running summary of everything seen so far. The <em>same</em> weights
+      are reused at every time step (parameter sharing).</p>
+<!--fig:nlp-rnn-->
+<figure class="fig" data-caps='["An RNN cell reads one input at a time and keeps a hidden state h: a running summary of what it has seen. The loop feeds h back in.","Unroll the loop over time. It is the same cell, with the same weights, at every step.","Each step: h_t = tanh(W_xh x_t + W_hh h_(t−1) + b),  y_t = W_hy h_t + c.","Training (backprop through time) sends the gradient backwards along the same arrows. It is multiplied by W_hh at every step, so it can shrink to nothing (vanishing) or blow up (exploding)."]' data-intro="Build the RNN." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="A recurrent neural network, unrolled in time" style="min-width:620px"><defs><marker id="fa4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-only="1"><rect class="s-acc" x="300" y="150" width="100" height="70" rx="10"/><text class="tb" x="350" y="192" text-anchor="middle">h</text><path class="arr" d="M400 170 C450 170 450 120 350 120 C250 120 250 150 300 165" marker-end="url(#fa4)"/><text class="tm" x="350" y="108" text-anchor="middle">feeds back</text></g><g data-only="1"><line class="arr" x1="350" y1="290" x2="350" y2="224" marker-end="url(#fa4)"/><text class="tm" x="350" y="316" text-anchor="middle">x (input)</text><line class="arr" x1="350" y1="148" x2="350" y2="70" marker-end="url(#fa4)"/><text class="tm" x="350" y="58" text-anchor="middle">y (output)</text></g><g data-s="2"><rect class="s-acc" x="100" y="160" width="100" height="70" rx="8"/></g><g data-s="2"><text class="tb" x="150" y="202" text-anchor="middle">h1</text></g><g data-s="2"><line class="arr" x1="150" y1="300" x2="150" y2="234" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="150" y="322" text-anchor="middle">x1</text></g><g data-s="2"><line class="arr" x1="150" y1="158" x2="150" y2="96" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="150" y="84" text-anchor="middle">y1</text></g><g data-s="2"><rect class="s-acc" x="290" y="160" width="100" height="70" rx="8"/></g><g data-s="2"><text class="tb" x="340" y="202" text-anchor="middle">h2</text></g><g data-s="2"><line class="arr" x1="340" y1="300" x2="340" y2="234" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="340" y="322" text-anchor="middle">x2</text></g><g data-s="2"><line class="arr" x1="340" y1="158" x2="340" y2="96" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="340" y="84" text-anchor="middle">y2</text></g><g data-s="2"><line class="arr" x1="202" y1="195" x2="288" y2="195" marker-end="url(#fa4)"/></g><g data-s="2"><rect class="s-acc" x="480" y="160" width="100" height="70" rx="8"/></g><g data-s="2"><text class="tb" x="530" y="202" text-anchor="middle">h3</text></g><g data-s="2"><line class="arr" x1="530" y1="300" x2="530" y2="234" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="530" y="322" text-anchor="middle">x3</text></g><g data-s="2"><line class="arr" x1="530" y1="158" x2="530" y2="96" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="530" y="84" text-anchor="middle">y3</text></g><g data-s="2"><line class="arr" x1="392" y1="195" x2="478" y2="195" marker-end="url(#fa4)"/></g><g data-s="2"><line class="arr" x1="30" y1="195" x2="98" y2="195" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="54" y="180" text-anchor="middle">h0</text></g><g data-s="2"><line class="arr" x1="582" y1="195" x2="650" y2="195" marker-end="url(#fa4)"/></g><g data-s="3"><text class="tm" x="380" y="360" text-anchor="middle">h_t = tanh(W_xh·x_t + W_hh·h_(t−1) + b)      y_t = W_hy·h_t + c</text></g><g data-s="4"><line class="arr-acc" x1="288" y1="255" x2="202" y2="255" marker-end="url(#fb4)"/></g><g data-s="4"><line class="arr-acc" x1="478" y1="255" x2="392" y2="255" marker-end="url(#fb4)"/></g><g data-s="4"><text class="acc-t" x="340" y="280" text-anchor="middle">gradient flows back, times W_hh each step</text></g></svg></div><figcaption>Build the RNN.</figcaption></figure>
+<!--/fig:nlp-rnn-->
+
+
+    <h3>The equations</h3>
+    <pre>h_t = tanh( W_xh x_t + W_hh h_(t-1) + b )      hidden state (new memory)
+y_t = softmax( W_hy h_t + c )                  output at step t
+h_0 = 0                                        usual initial state</pre>
+    <p>Sizes: <code>x_t</code> ∈ ℝ^nx, <code>h_t</code> ∈ ℝ^nh, <code>W_xh</code> is nh×nx,
+      <code>W_hh</code> is nh×nh, <code>W_hy</code> is V×nh for a V-way output. <strong>Unrolling</strong>
+      the loop over T steps gives a deep network with T layers whose weights are all tied.</p>
+
+    <h3>Input/output patterns</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Pattern</th><th>Use</th><th>Which outputs are used</th></tr></thead>
+      <tbody>
+        <tr><td>Many-to-one</td><td>Sentiment, text classification</td><td>Only the last <code>h_T</code></td></tr>
+        <tr><td>Many-to-many (aligned)</td><td>POS tagging, NER, language model</td><td>An output <code>y_t</code> at every step</td></tr>
+        <tr><td>One-to-many</td><td>Image captioning</td><td>Generated sequence, fed back in</td></tr>
+        <tr><td>Many-to-many (encoder–decoder)</td><td>Machine translation</td><td>Encoder state seeds the decoder</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Worked example: one forward step</h3>
+    <p>nx = 2, nh = 2. <code>W_xh = [[0.5, −0.3],[0.8, 0.2]]</code>, <code>W_hh = [[0.1, 0.4],[−0.2, 0.3]]</code>,
+      <code>b = [0.1, −0.1]</code>, input <code>x_t = [1, 2]</code>, previous state <code>h_(t−1) = [0.5, −0.5]</code>.</p>
+    <ol class="steps">
+      <li><code>W_xh x_t = [0.5·1 − 0.3·2, 0.8·1 + 0.2·2] = [−0.1, 1.2]</code></li>
+      <li><code>W_hh h_(t−1) = [0.1·0.5 + 0.4·(−0.5), −0.2·0.5 + 0.3·(−0.5)] = [−0.15, −0.25]</code></li>
+      <li>Pre-activation <code>z = [−0.1 − 0.15 + 0.1, 1.2 − 0.25 − 0.1] = [−0.15, 0.85]</code></li>
+      <li><code>h_t = tanh(z) = [−0.149, 0.691]</code></li>
+      <li>With <code>W_hy = [[1, −1],[0.5, 0.5]]</code> and <code>c = 0</code>: logits <code>[−0.840, 0.271]</code>, softmax <code>y_t = [0.248, 0.752]</code>. Class 2 is predicted with probability 0.75.</li>
+    </ol>
+
+    <h3>Bidirectional RNNs (briefly)</h3>
+    <p>A <strong>bidirectional RNN</strong> runs one RNN left-to-right and another right-to-left and
+      concatenates their states, so <code>h_t = [h_t→ ; h_t←]</code> sees both past and future context.
+      Good for tagging and classification where the whole sentence is available; not usable for
+      left-to-right generation.</p>
+  </section>
+
+  <!-- BPTT -->
+  <section id="bptt">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">02 · Training an RNN</p>
+    <h2>Backpropagation Through Time (BPTT)</h2>
+    <p>Total loss is the sum over steps: <code>L = Σ_t L_t</code> (cross-entropy between
+      <code>y_t</code> and the target). BPTT unrolls the network and applies ordinary backpropagation;
+      because weights are shared, the gradient for a weight matrix is the <strong>sum of its
+      contributions from every time step</strong>.</p>
+    <pre>∂L/∂W_hh = Σ_t Σ_(k≤t)  ∂L_t/∂y_t · ∂y_t/∂h_t · ( ∏_(i=k+1..t) ∂h_i/∂h_(i-1) ) · ∂h_k/∂W_hh
+
+∂h_i/∂h_(i-1) = diag( 1 − h_i² ) · W_hh          (tanh' = 1 − tanh²)</pre>
+    <p>The bracketed product is a chain of (t−k) Jacobians, each made of <code>W_hh</code> and a
+      tanh-derivative term. This product is the root of both the vanishing and exploding gradient
+      problems (next section).</p>
+
+    <h3>Practical fixes</h3>
+    <div class="grid cols-2">
+      <div class="card"><h4>Truncated BPTT</h4><p>Backpropagate only through the last K steps (e.g. 20–100) instead of the whole sequence. Cuts memory and compute; the hidden state is still carried forward, but gradients do not flow beyond the window.</p></div>
+      <div class="card"><h4>Gradient clipping</h4><p>If ‖g‖ exceeds a threshold τ, rescale <code>g ← g · τ/‖g‖</code>. Standard cure for <em>exploding</em> gradients. It does nothing for vanishing gradients.</p></div>
+    </div>
+  </section>
+
+  <!-- VANISHING -->
+  <section id="vanishing">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">03 · Why plain RNNs forget</p>
+    <h2>The Vanishing (and Exploding) Gradient Problem</h2>
+    <p>To learn that the word at step k affects the loss at step t, the gradient must travel back
+      t−k steps, and it is multiplied by <code>diag(1 − h_i²) · W_hh</code> at each one:</p>
+<!--fig:nlp-vanish-->
+<figure class="fig" data-caps='["Y-axis: gradient size on a log scale (1 = unchanged). X-axis: how many layers back from the output.","Sigmoid: its slope is at most 0.25, so each layer multiplies the gradient by ≤ 0.25. After 9 layers: 0.25⁹ ≈ 4·10⁻⁶. Early layers barely learn: vanishing gradient.","ReLU: slope 1 for positive inputs, so the gradient passes through unchanged (with sensible weights). That is why ReLU fixed deep training.","If weights make each layer multiply by 1.5 instead, the gradient grows: 1.5⁹ ≈ 38. Exploding gradient. Fix: gradient clipping, careful initialisation, normalisation."]' data-intro="Plot the gradient layer by layer." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 445" role="img" aria-label="Gradient size as it travels back through 10 layers" style="min-width:620px"><defs><marker id="fa7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="grid-l" x1="90" y1="313.3333333333333" x2="670" y2="313.3333333333333"/><text class="tm" x="80" y="318.3333333333333" text-anchor="end">1e-6</text><line class="grid-l" x1="90" y1="246.66666666666666" x2="670" y2="246.66666666666666"/><text class="tm" x="80" y="251.66666666666666" text-anchor="end">1e-4</text><line class="grid-l" x1="90" y1="180" x2="670" y2="180"/><text class="tm" x="80" y="185" text-anchor="end">1e-2</text><line class="grid-l" x1="90" y1="113.33333333333331" x2="670" y2="113.33333333333331"/><text class="tm" x="80" y="118.33333333333331" text-anchor="end">1e0</text><line class="grid-l" x1="90" y1="46.666666666666686" x2="670" y2="46.666666666666686"/><text class="tm" x="80" y="51.666666666666686" text-anchor="end">1e2</text><text class="tm" x="90" y="356" text-anchor="middle">0</text><text class="tm" x="154.44444444444446" y="356" text-anchor="middle">1</text><text class="tm" x="218.88888888888889" y="356" text-anchor="middle">2</text><text class="tm" x="283.3333333333333" y="356" text-anchor="middle">3</text><text class="tm" x="347.77777777777777" y="356" text-anchor="middle">4</text><text class="tm" x="412.22222222222223" y="356" text-anchor="middle">5</text><text class="tm" x="476.66666666666663" y="356" text-anchor="middle">6</text><text class="tm" x="541.1111111111111" y="356" text-anchor="middle">7</text><text class="tm" x="605.5555555555555" y="356" text-anchor="middle">8</text><text class="tm" x="670" y="356" text-anchor="middle">9</text><line class="axis" x1="90" y1="330" x2="670" y2="330"/><line class="axis" x1="90" y1="40" x2="90" y2="330"/><text class="tb" x="380" y="384" text-anchor="middle">layers back from the output</text><g data-s="2"><path class="c1" d="M90.0 113.3 L154.4 133.4 L218.9 153.5 L283.3 173.5 L347.8 193.6 L412.2 213.7 L476.7 233.7 L541.1 253.8 L605.6 273.9 L670.0 294.0"/></g><g data-s="2"><circle class="pt" cx="90" cy="113.33333333333331" r="5"/><circle class="pt" cx="154.44444444444446" cy="133.40199971093207" r="5"/><circle class="pt" cx="218.88888888888889" cy="153.4706660885308" r="5"/><circle class="pt" cx="283.3333333333333" cy="173.53933246612957" r="5"/><circle class="pt" cx="347.77777777777777" cy="193.60799884372832" r="5"/><circle class="pt" cx="412.22222222222223" cy="213.67666522132708" r="5"/><circle class="pt" cx="476.66666666666663" cy="233.74533159892582" r="5"/><circle class="pt" cx="541.1111111111111" cy="253.81399797652455" r="5"/><circle class="pt" cx="605.5555555555555" cy="273.8826643541233" r="5"/><circle class="pt" cx="670" cy="293.95133073172207" r="5"/></g><g data-s="2"><circle class="pt" cx="70" cy="424" r="6"/></g><g data-s="2"><text class="acc-t" x="84" y="429" text-anchor="start">sigmoid, ×0.25 per layer: vanishes</text></g><g data-s="3"><path class="c3" d="M90.0 113.3 L154.4 113.3 L218.9 113.3 L283.3 113.3 L347.8 113.3 L412.2 113.3 L476.7 113.3 L541.1 113.3 L605.6 113.3 L670.0 113.3"/></g><g data-s="3"><circle class="pt2" cx="385" cy="424" r="6"/></g><g data-s="3"><text class="blue-t" x="399" y="429" text-anchor="start">ReLU, ×1: stable</text></g><g data-s="4"><path class="c4" d="M90.0 113.3 L154.4 107.5 L218.9 101.6 L283.3 95.7 L347.8 89.9 L412.2 84.0 L476.7 78.1 L541.1 72.2 L605.6 66.4 L670.0 60.5"/></g><g data-s="4"><circle class="pt3" cx="560" cy="424" r="6"/></g><g data-s="4"><text class="pur-t" x="574" y="429" text-anchor="start">×1.5: explodes</text></g></svg></div><figcaption>Plot the gradient layer by layer.</figcaption></figure>
+<!--/fig:nlp-vanish-->
+
+    <pre>∂h_t/∂h_k = ∏_(i=k+1..t)  diag(1 − h_i²) · W_hh</pre>
+    <ul>
+      <li>tanh' ≤ 1, and is near 0 when a unit saturates. If the largest singular value of <code>W_hh</code> times the tanh' term is below 1, the norm shrinks <strong>exponentially</strong> in (t−k): <strong>vanishing</strong>.</li>
+      <li>If it is above 1, the norm grows exponentially: <strong>exploding</strong> (NaNs, unstable training).</li>
+    </ul>
+    <p>Numerically: a factor of 0.9 per step over 10 steps gives 0.9¹⁰ ≈ 0.35; over 50 steps ≈ 0.005. A
+      factor of 0.25 (the maximum of the sigmoid derivative) over 10 steps gives ≈ 10⁻⁶. A factor of 1.5
+      over 10 steps gives ≈ 58.</p>
+    <div class="callout"><p><strong>Consequence:</strong> early inputs get almost no gradient, so the RNN learns short-range
+      dependencies and effectively forgets long-range ones. Exploding gradients are fixed by clipping;
+      vanishing gradients need architectural fixes (LSTM, GRU, residual/skip paths), good initialisation
+      (orthogonal <code>W_hh</code>) or ReLU-style activations.</p></div>
+  </section>
+
+  <!-- LSTM -->
+  <section id="lstm">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">04 · Gated memory</p>
+    <h2>LSTM: Long Short-Term Memory</h2>
+    <p>An LSTM adds a separate <strong>cell state</strong> <code>c_t</code>, a memory "conveyor belt",
+      and three <strong>gates</strong> (sigmoid outputs in 0–1) that control what is erased, written and
+      exposed. Let <code>[h_(t−1), x_t]</code> be the concatenation and σ the sigmoid.</p>
+<!--fig:nlp-lstm-->
+<figure class="fig" data-caps='["The cell state c is a conveyor belt: long-term memory that can pass through time almost unchanged.","Forget gate: f = σ(W_f·[h_(t−1), x_t] + b_f). Values near 0 erase memory, near 1 keep it. Multiply c_(t−1) by f.","Input gate i = σ(…) decides how much to write, candidate g = tanh(…) is what to write. Multiply them: i ⊙ g.","Update the memory: c_t = f ⊙ c_(t−1) + i ⊙ g (forget some old, add some new).","Output gate o = σ(…) decides what to reveal: h_t = o ⊙ tanh(c_t). h_t is the output and the next hidden state."]' data-intro="Walk through one time step." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Inside an LSTM cell" style="min-width:620px"><defs><marker id="fa5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><line class="arr" x1="40" y1="70" x2="650" y2="70" marker-end="url(#fa5)"/></g><g data-s="1"><text class="tm" x="40" y="52" text-anchor="start">c(t−1)</text></g><g data-s="1"><text class="tm" x="650" y="52" text-anchor="end">c(t)</text></g><g data-s="1"><text class="acc-t" x="340" y="34" text-anchor="middle">cell state (long-term memory)</text></g><g data-s="2"><line class="s-ink" x1="60" y1="300" x2="540" y2="300"/></g><g data-s="2"><text class="tm" x="40" y="328" text-anchor="start">h(t−1) and x(t) concatenated</text></g><g data-s="2"><rect class="s-acc" x="88" y="190" width="84" height="44" rx="8"/></g><g data-s="2"><text class="tb" x="130" y="218" text-anchor="middle">σ</text></g><g data-s="2"><line class="arr" x1="130" y1="300" x2="130" y2="236" marker-end="url(#fa5)"/></g><g data-s="2"><text class="tm" x="130" y="256" text-anchor="middle">f</text></g><g data-s="2"><line class="arr" x1="130" y1="188" x2="130" y2="86" marker-end="url(#fa5)"/></g><g data-s="2"><circle class="s-mark" cx="130" cy="70" r="14"/></g><g data-s="2"><text class="tb" x="130" y="76" text-anchor="middle">×</text></g><g data-s="3"><rect class="s-acc" x="208" y="190" width="84" height="44" rx="8"/></g><g data-s="3"><text class="tb" x="250" y="218" text-anchor="middle">σ</text></g><g data-s="3"><line class="arr" x1="250" y1="300" x2="250" y2="236" marker-end="url(#fa5)"/></g><g data-s="3"><text class="tm" x="250" y="256" text-anchor="middle">i</text></g><g data-s="3"><rect class="s-acc" x="328" y="190" width="84" height="44" rx="8"/></g><g data-s="3"><text class="tb" x="370" y="218" text-anchor="middle">tanh</text></g><g data-s="3"><line class="arr" x1="370" y1="300" x2="370" y2="236" marker-end="url(#fa5)"/></g><g data-s="3"><text class="tm" x="370" y="256" text-anchor="middle">g</text></g><g data-s="3"><path class="arr" d="M250 188 L250 130 L296 130" marker-end="url(#fa5)"/><path class="arr" d="M370 188 L370 130 L324 130" marker-end="url(#fa5)"/></g><g data-s="3"><circle class="s-mark" cx="310" cy="130" r="14"/></g><g data-s="3"><text class="tb" x="310" y="136" text-anchor="middle">×</text></g><g data-s="4"><line class="arr" x1="310" y1="114" x2="310" y2="86" marker-end="url(#fa5)"/></g><g data-s="4"><circle class="s-mark" cx="310" cy="70" r="14"/></g><g data-s="4"><text class="tb" x="310" y="76" text-anchor="middle">+</text></g><g data-s="5"><rect class="s-acc" x="458" y="190" width="84" height="44" rx="8"/></g><g data-s="5"><text class="tb" x="500" y="218" text-anchor="middle">σ</text></g><g data-s="5"><line class="arr" x1="500" y1="300" x2="500" y2="236" marker-end="url(#fa5)"/></g><g data-s="5"><text class="tm" x="500" y="256" text-anchor="middle">o</text></g><g data-s="5"><path class="arr" d="M440 70 L440 106"/><rect class="s-fill" x="414" y="106" width="52" height="26" rx="6"/><text class="tm" x="440" y="124" text-anchor="middle">tanh</text><path class="arr" d="M440 132 L440 160 L486 160" marker-end="url(#fa5)"/></g><g data-s="5"><line class="arr" x1="500" y1="188" x2="500" y2="176" marker-end="url(#fa5)"/></g><g data-s="5"><circle class="s-mark" cx="500" cy="160" r="14"/></g><g data-s="5"><text class="tb" x="500" y="166" text-anchor="middle">×</text></g><g data-s="5"><line class="arr" x1="516" y1="160" x2="640" y2="160" marker-end="url(#fa5)"/></g><g data-s="5"><text class="tb" x="650" y="166" text-anchor="start">h(t)</text></g></svg></div><figcaption>Walk through one time step.</figcaption></figure>
+<!--/fig:nlp-lstm-->
+
+    <pre>f_t = σ( W_f [h_(t-1), x_t] + b_f )       forget gate:  how much old memory to keep
+i_t = σ( W_i [h_(t-1), x_t] + b_i )       input gate:   how much new content to write
+g_t = tanh( W_g [h_(t-1), x_t] + b_g )    candidate memory (often written c̃_t)
+c_t = f_t ⊙ c_(t-1) + i_t ⊙ g_t           cell state update  (⊙ = element-wise)
+o_t = σ( W_o [h_(t-1), x_t] + b_o )       output gate:  how much memory to reveal
+h_t = o_t ⊙ tanh( c_t )                   hidden state / output</pre>
+
+    <h3>Role of the memory cell, and why it fixes vanishing gradients</h3>
+    <p>The cell update is <strong>additive</strong>: <code>c_t = f_t ⊙ c_(t−1) + i_t ⊙ g_t</code>. The
+      gradient along the cell path is <code>∂c_t/∂c_(t−1) = f_t</code> (element-wise), with no repeated
+      multiplication by <code>W_hh</code> and no squashing derivative. When the network sets
+      <code>f_t ≈ 1</code> the gradient passes back almost unchanged, so information (and error signal)
+      can persist across hundreds of steps. The gates are learned, so the model decides what to
+      remember. A common trick is to initialise the forget-gate bias to 1.</p>
+
+    <h3>Worked example: one LSTM step (nx = 1, nh = 1)</h3>
+    <p>Input <code>x = 1</code>, <code>h_(t−1) = 0.5</code>, <code>c_(t−1) = 0.4</code>. Each gate is
+      written as (w_x, w_h, b): forget (0.5, 0.4, 0.1), input (0.6, −0.2, 0), candidate (0.9, 0.3, 0.1),
+      output (0.7, 0.1, 0.2).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Quantity</th><th>Pre-activation</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>f</td><td>0.5·1 + 0.4·0.5 + 0.1 = 0.8</td><td>σ(0.8) = 0.690</td></tr>
+        <tr><td>i</td><td>0.6·1 − 0.2·0.5 + 0 = 0.5</td><td>σ(0.5) = 0.622</td></tr>
+        <tr><td>g</td><td>0.9·1 + 0.3·0.5 + 0.1 = 1.15</td><td>tanh(1.15) = 0.818</td></tr>
+        <tr><td>o</td><td>0.7·1 + 0.1·0.5 + 0.2 = 0.95</td><td>σ(0.95) = 0.721</td></tr>
+        <tr><td>c_t</td><td>0.690·0.4 + 0.622·0.818</td><td>0.276 + 0.509 = <strong>0.785</strong></td></tr>
+        <tr><td>h_t</td><td>0.721 · tanh(0.785)</td><td>0.721 · 0.656 = <strong>0.473</strong></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- GRU -->
+  <section id="gru">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">05 · The lighter gated unit</p>
+    <h2>GRU: Gated Recurrent Unit</h2>
+    <p>A GRU merges the cell and hidden state into one vector and uses only two gates.</p>
+<!--fig:nlp-gru-->
+<figure class="fig" data-caps='["A GRU keeps just one state h (no separate cell state like an LSTM). Two gates control it.","Reset gate r = σ(W_r[h(t−1), x_t]): how much of the past to use when proposing new content.","Candidate h̃ = tanh(W[r ⊙ h(t−1), x_t]): the proposed new state.","Update gate z = σ(W_z[h(t−1), x_t]): how much to overwrite.","New state h_t = (1 − z) ⊙ h(t−1) + z ⊙ h̃: a blend of old and new. Fewer parameters than an LSTM (3 weight sets instead of 4)."]' data-intro="Build the GRU." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="The GRU: two gates and no separate cell state" style="min-width:620px"><defs><marker id="fa14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><line class="arr" x1="30" y1="70" x2="700" y2="70" marker-end="url(#fa14)"/></g><g data-s="1"><text class="tm" x="30" y="52" text-anchor="start">h(t−1)</text></g><g data-s="1"><text class="tm" x="700" y="52" text-anchor="end">h(t)</text></g><g data-s="1"><line class="s-ink" x1="60" y1="300" x2="560" y2="300"/></g><g data-s="1"><text class="tm" x="40" y="330" text-anchor="start">h(t−1) and x(t)</text></g><g data-s="2"><rect class="s-acc" x="98" y="190" width="84" height="44" rx="8"/></g><g data-s="2"><text class="tb" x="140" y="218" text-anchor="middle">σ</text></g><g data-s="2"><line class="arr" x1="140" y1="300" x2="140" y2="236" marker-end="url(#fa14)"/></g><g data-s="2"><text class="tm" x="140" y="256" text-anchor="middle">r</text></g><g data-s="3"><rect class="s-acc" x="258" y="190" width="84" height="44" rx="8"/></g><g data-s="3"><text class="tb" x="300" y="218" text-anchor="middle">tanh</text></g><g data-s="3"><line class="arr" x1="300" y1="300" x2="300" y2="236" marker-end="url(#fa14)"/></g><g data-s="3"><text class="tm" x="300" y="256" text-anchor="middle">ĥ</text></g><g data-s="4"><rect class="s-acc" x="418" y="190" width="84" height="44" rx="8"/></g><g data-s="4"><text class="tb" x="460" y="218" text-anchor="middle">σ</text></g><g data-s="4"><line class="arr" x1="460" y1="300" x2="460" y2="236" marker-end="url(#fa14)"/></g><g data-s="4"><text class="tm" x="460" y="256" text-anchor="middle">z</text></g><g data-s="3"><path class="arr" d="M140 188 L140 150 L286 150 L286 188" marker-end="url(#fa14)"/></g><g data-s="4"><path class="arr" d="M460 188 L460 100"/></g><g data-s="5"><circle class="s-mark" cx="460" cy="70" r="14"/></g><g data-s="5"><text class="tb" x="460" y="76" text-anchor="middle">×</text></g><g data-s="5"><path class="arr" d="M300 188 L300 120 L446 120 L446 82" marker-end="url(#fa14)"/></g><g data-s="5"><text class="tm" x="700" y="34" text-anchor="end">h_t = (1 − z)⊙h(t−1) + z⊙ĥ</text></g></svg></div><figcaption>Build the GRU.</figcaption></figure>
+<!--/fig:nlp-gru-->
+
+    <pre>z_t = σ( W_z [h_(t-1), x_t] + b_z )              update gate
+r_t = σ( W_r [h_(t-1), x_t] + b_r )              reset gate
+h̃_t = tanh( W_h [ r_t ⊙ h_(t-1), x_t ] + b_h )   candidate state
+h_t = (1 − z_t) ⊙ h_(t-1) + z_t ⊙ h̃_t           blend of old and new</pre>
+    <p>The <strong>update gate</strong> decides how much of the old state to keep (like forget + input
+      tied together); the <strong>reset gate</strong> decides how much of the old state is used when
+      forming the candidate. The convex combination keeps an additive path, so gradients also survive
+      long spans.</p>
+
+    <h3>Parameter counts</h3>
+    <p>For input size nx and hidden size nh, one weight block is <code>nh·(nh + nx) + nh</code> =
+      <code>nh(nh + nx + 1)</code>. An RNN has 1 block, a GRU 3 (z, r, candidate), an LSTM 4 (f, i, g, o).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Vanilla RNN</th><th>GRU</th><th>LSTM</th></tr></thead>
+      <tbody>
+        <tr><td>Gates</td><td>none</td><td>2 (update, reset)</td><td>3 (forget, input, output)</td></tr>
+        <tr><td>State</td><td>h</td><td>h</td><td>h and c</td></tr>
+        <tr><td>Parameters</td><td>nh(nx+nh+1)</td><td>3·nh(nx+nh+1)</td><td>4·nh(nx+nh+1)</td></tr>
+        <tr><td>nx=10, nh=20</td><td>620</td><td>1,860</td><td>2,480</td></tr>
+        <tr><td>nx=100, nh=128</td><td>29,312</td><td>87,936</td><td>117,248</td></tr>
+        <tr><td>Long-range memory</td><td>Poor</td><td>Good</td><td>Good (often best on very long/complex data)</td></tr>
+        <tr><td>Speed</td><td>Fastest</td><td>Faster than LSTM (25% fewer parameters)</td><td>Slowest of the three</td></tr>
+      </tbody>
+    </table></div>
+    <p>Note: some libraries (e.g. Keras GRU with <code>reset_after=True</code>) keep two bias vectors per
+      gate, which adds a few parameters; the table uses the textbook count.</p>
+
+    <h3>Choosing</h3>
+    <p>Empirically LSTM and GRU perform similarly on most tasks. Start with a <strong>GRU</strong> when
+      data or compute is limited or you want a quick baseline; choose an <strong>LSTM</strong> for very
+      long dependencies or larger datasets where the extra output gate and separate cell help; use a
+      plain <strong>RNN</strong> only for short sequences or as a teaching baseline.</p>
+  </section>
+
+  <!-- RNN vs LM -->
+  <section id="rnn-vs-lm">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">06 · Why RNNs beat n-grams</p>
+    <h2>RNNs vs. Traditional Language Models</h2>
+    <p>A language model assigns <code>P(w_1…w_T) = ∏ P(w_t | w_1…w_(t−1))</code>. A traditional
+      <strong>n-gram</strong> model approximates this by conditioning on only the last n−1 words using
+      counts. An RNN LM computes <code>P(w_t | h_(t−1))</code> with <code>h</code> summarising the
+      whole history.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Aspect</th><th>n-gram LM</th><th>RNN LM</th></tr></thead>
+      <tbody>
+        <tr><td>Context</td><td>Fixed window of n−1 words</td><td>Unbounded in principle (hidden state)</td></tr>
+        <tr><td>Parameters</td><td>Grow exponentially with n (V^n possible n-grams)</td><td>Fixed size, shared across all steps</td></tr>
+        <tr><td>Unseen contexts</td><td>Zero counts; needs smoothing/back-off</td><td>Generalises via dense embeddings (similar words behave similarly)</td></tr>
+        <tr><td>Storage</td><td>Huge count tables</td><td>Compact weight matrices</td></tr>
+        <tr><td>Training/inference</td><td>Counting; very fast</td><td>Sequential, slower; needs GPUs for big models</td></tr>
+        <tr><td>Interpretability</td><td>Transparent counts</td><td>Opaque hidden state</td></tr>
+        <tr><td>Quality (perplexity)</td><td>Higher (worse)</td><td>Lower (better) in practice</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout violet"><p>Embeddings are covered in <a href="../Unit 3/index.html" style="color:#4a2f9e;font-weight:700;">Unit 3</a>.
+      RNN LMs are effective because they combine those dense word vectors with a recurrent memory. But
+      they remain sequential and weak at very long range, which motivates attention and transformers in Unit 5.</p></div>
+  </section>
+
+  <!-- LIMITS -->
+  <section id="rnn-limits">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">07 · Where RNNs struggle</p>
+    <h2>Limitations of RNNs in Long Sequence Modelling</h2>
+    <ul>
+      <li><strong>Vanishing/exploding gradients:</strong> weak learning of long-range dependencies (plain RNNs fail after roughly 10–20 steps).</li>
+      <li><strong>Information bottleneck:</strong> the whole past is squeezed into one fixed-size vector; in encoder–decoder models, a long source sentence is compressed into a single context vector.</li>
+      <li><strong>Sequential computation:</strong> <code>h_t</code> needs <code>h_(t−1)</code>, so time steps cannot be parallelised across the sequence; training is slow on long inputs and GPUs are under-used.</li>
+      <li><strong>Memory cost of BPTT:</strong> activations for all T steps must be stored (hence truncated BPTT).</li>
+      <li><strong>Recency bias / forgetting:</strong> even LSTMs and GRUs slowly lose very distant information.</li>
+      <li><strong>Distance between related tokens:</strong> information must pass through every intermediate step, so the path length is O(T). Attention shortens it to O(1).</li>
+    </ul>
+    <p><strong>Remedies:</strong> gated cells (LSTM/GRU), gradient clipping, truncated BPTT, bidirectional encoders,
+      and above all <strong>attention/transformers</strong> (Unit 5).</p>
+  </section>
+
+  <!-- DESIGN -->
+  <section id="design">
+    <span class="tag">Beyond the deck</span>
+    <p class="eyebrow">08 · Putting it together</p>
+    <h2>Designing an RNN-Based Sequence Model</h2>
+    <ol class="steps">
+      <li><strong>Understand the data:</strong> sequence length, vocabulary, label type (one label per sequence, per token, or next token).</li>
+      <li><strong>Tokenise and build a vocabulary:</strong> words or sub-words, with special tokens <code>&lt;PAD&gt;</code>, <code>&lt;UNK&gt;</code>, <code>&lt;BOS&gt;</code>/<code>&lt;EOS&gt;</code>. Map each token to an integer id; pad or bucket to equal length and mask the padding.</li>
+      <li><strong>Embedding layer:</strong> V×d lookup table, learned from scratch or initialised from pre-trained Word2Vec/GloVe (see <a href="../Unit 3/index.html" style="color:var(--coral);">Unit 3</a>).</li>
+      <li><strong>Recurrent layer(s):</strong> RNN, LSTM or GRU; one or two layers; optionally bidirectional; add dropout between layers.</li>
+      <li><strong>Output layer:</strong> softmax over V for a language model; softmax/sigmoid over classes for sentiment (on the last state or a pooled state); softmax over tags at every step for tagging.</li>
+      <li><strong>Loss and optimiser:</strong> cross-entropy (ignore padded positions); Adam; gradient clipping (e.g. norm 1–5); truncated BPTT for long inputs.</li>
+      <li><strong>Evaluate:</strong> accuracy/F1 for classification and tagging, perplexity for language models; tune hidden size, layers, dropout, learning rate on a validation set.</li>
+    </ol>
+
+    <div class="grid cols-3">
+      <div class="card"><h4>Language model</h4><p>Input: tokens w_1…w_(t−1). Target: the same sequence shifted by one. Output: softmax over V at every step. Metric: perplexity.</p></div>
+      <div class="card"><h4>Sentiment analysis</h4><p>Many-to-one. Embedding → (Bi)LSTM/GRU → last state → dense → sigmoid or softmax. Metric: accuracy/F1.</p></div>
+      <div class="card"><h4>Sequence tagging (POS/NER)</h4><p>Many-to-many. Embedding → BiLSTM → a softmax over tags at every token. Metric: token accuracy, entity F1.</p></div>
+    </div>
+
+    <h3>Parameter budget example</h3>
+    <p>V = 10,000, d = 100, one LSTM with nh = 128, softmax over V: embedding 10,000·100 = 1,000,000;
+      LSTM 4·128·(100+128+1) = 117,248; output layer 128·10,000 + 10,000 = 1,290,000. Total ≈ 2.41 million.
+      The embedding and softmax layers dominate, not the recurrent cell.</p>
+  </section>
+
+</main>
+
+<footer>Unit 4 — Recurrent Neural Networks · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

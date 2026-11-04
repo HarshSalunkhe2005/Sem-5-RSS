@@ -105,6 +105,7 @@ footer{color:var(--muted);}
 /* question-bank reveal */
 .qa.has-reveal .a{display:none;margin-top:8px;}
 .qa.has-reveal.open .a{display:block;animation:ese-in .22s var(--ease);}
+.qa .q .qtext{flex:1;min-width:0;overflow-wrap:anywhere;}
 .qa .qtools{display:flex;gap:8px;margin:8px 0 0 3.5em;}
 .qa .qtools .ese-btn{font-size:13px;min-height:34px;padding:4px 10px;}
 .qa.done{opacity:.62;}
@@ -130,8 +131,10 @@ ol.steps.reveal-steps li:not(.shown){display:none;}
 
 .flash-wrap{max-width:720px;margin:0 auto;padding:0 20px 60px;}
 .flash{perspective:1200px;margin:16px 0;}
-.tw{overflow-x:auto;margin:14px 0;}
+.tw,.table-wrap{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}
+.tw{margin:14px 0;}
 .tw table{margin:0;min-width:520px;}
+.tw.auto table{min-width:0;}
 .flash-card{position:relative;min-height:320px;cursor:pointer;transition:transform .5s var(--ease);transform-style:preserve-3d;}
 .flash.flipped .flash-card{transform:rotateY(180deg);}
 .flash-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border:1px solid var(--ink-2);border-radius:14px;padding:22px;overflow:auto;box-shadow:6px 6px 0 var(--line);}
@@ -191,6 +194,6 @@ figure.fig .pur-t{font-family:var(--f-body);font-size:15px;font-weight:700;fill:
 html[data-theme="dark"] figure.fig svg,html[data-theme="dark"] .flash-face svg{filter:none;}
 html[data-theme="dark"] .hero-fig img,html[data-theme="dark"] figure img{filter:invert(1) hue-rotate(180deg);}
 
-@media (max-width:560px){body{font-size:16px;} .qa .qtools{margin-left:0;} header.hero{padding:34px 18px 26px;}}
+@media (max-width:560px){body{font-size:16px;} .qa .q{flex-wrap:wrap;overflow-wrap:anywhere;} .qa .q .marks{margin-left:0;} .qa .qtools{margin-left:0;} header.hero{padding:34px 18px 26px;}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;} .flash-card{transition:none;}}
 @media print{.ese-bar,.test-panel,.fig-ctl,.qtools,.step-ctl,.done-chip{display:none!important;} .qa.has-reveal .a,ol.steps.reveal-steps li:not(.shown){display:block!important;} .answer.hold{display:block!important;}}

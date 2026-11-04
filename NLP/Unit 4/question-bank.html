@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 Question Bank — Recurrent Neural Networks</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+  .qa .marks{margin-left:auto;flex-shrink:0;font-size:11.5px;font-weight:600;color:var(--muted);padding-left:8px;}
+  .qa .a p{margin:0 0 8px;} .qa .a ul,.qa .a ol{margin:0 0 8px;padding-left:20px;} .qa .a li{margin-bottom:4px;}
+  .qa .a table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;background:#fff;}
+  .qa .a thead th{background:var(--navy-2);color:#fff;text-align:left;padding:7px 10px;font-weight:600;}
+  .qa .a tbody td{padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .table-wrap{overflow-x:auto;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · UNIT 4</span>
+  <h1>📚 Unit 4 — Question Bank Answers</h1>
+  <p>The 8 official CO4 question-bank items, plus applied practice questions on RNN basics and BPTT,
+     LSTM/GRU, and RNNs versus traditional language models. No Moodle deck was posted for NLP Unit 4: answers are
+     written from standard content to match the official question bank; check against your lecture notes.</p>
+  <a class="back" href="index.html">← Back to Unit 4 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#g1">Official CO4 Questions</a>
+    <a href="#g2">RNN, BPTT &amp; Vanishing Gradients</a>
+    <a href="#g3">LSTM &amp; GRU</a>
+    <a href="#g4">RNN vs. Traditional LMs</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 4 notes</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Official Question Bank</p>
+    <h2>Unit 4: Recurrent Neural Networks (CO4)</h2>
+    <p class="range">Symbiosis Institute of Technology — Course TEE7101</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Apply RNN for sequence prediction and interpret the output. <span class="marks">[8M]</span></p><div class="a">
+      <p>Task: predict the next item (word, character or value) from the items so far. At each step the RNN does
+      <code>h_t = tanh(W_xh x_t + W_hh h_(t−1) + b)</code> and <code>y_t = softmax(W_hy h_t + c)</code>, where <code>y_t</code> is a probability distribution over the possible next items.</p>
+      <p><strong>Worked step:</strong> with <code>W_xh = [[0.5,−0.3],[0.8,0.2]]</code>, <code>W_hh = [[0.1,0.4],[−0.2,0.3]]</code>, <code>b = [0.1,−0.1]</code>,
+      <code>x_t = [1,2]</code>, <code>h_(t−1) = [0.5,−0.5]</code>: pre-activation <code>[−0.15, 0.85]</code>, so <code>h_t = [−0.149, 0.691]</code>. With <code>W_hy = [[1,−1],[0.5,0.5]]</code>, logits are <code>[−0.840, 0.271]</code> and
+      <code>y_t = [0.248, 0.752]</code>.</p>
+      <p><strong>Interpretation:</strong> the model assigns 75.2% to class/word 2 and 24.8% to class/word 1, so the prediction is the argmax (item 2), and the confidence is 0.752. The hidden state <code>h_t</code> is the memory passed to the next step. During training, loss = −log of the probability given to the true item (−log 0.752 ≈ 0.285 if item 2 was correct). For text, a good model gives the true next word high probability, so perplexity is low.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Analyze the vanishing gradient problem in RNNs. <span class="marks">[8M]</span></p><div class="a">
+      <p>Backpropagation through time sends the error from step t back to step k through
+      <code>∂h_t/∂h_k = ∏_(i=k+1..t) diag(1 − h_i²) · W_hh</code>, a product of t−k Jacobians. The tanh derivative is at most 1 (and near 0 for saturated units), so when the dominant singular value of <code>W_hh</code> times that derivative is below 1, the product shrinks <strong>exponentially</strong> with distance: 0.9¹⁰ ≈ 0.35, 0.9⁵⁰ ≈ 0.005.</p>
+      <p><strong>Effect:</strong> early time steps receive almost no gradient, so the network cannot learn long-range dependencies (e.g. subject–verb agreement across a long clause); it behaves as if it had a short memory. If the factor is above 1 the gradient <strong>explodes</strong> (1.5¹⁰ ≈ 58), fixed by gradient clipping.</p>
+      <p><strong>Remedies:</strong> LSTM/GRU (additive, gated state paths), orthogonal initialisation of <code>W_hh</code>, ReLU-type activations, skip connections, truncated BPTT, and ultimately attention.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Compare LSTM and GRU architectures with respect to performance and complexity. <span class="marks">[8M]</span></p><div class="a">
+      <div class="table-wrap"><table>
+        <thead><tr><th></th><th>LSTM</th><th>GRU</th></tr></thead>
+        <tbody>
+          <tr><td>Gates</td><td>3: forget, input, output</td><td>2: update, reset</td></tr>
+          <tr><td>State</td><td>Hidden <code>h</code> and separate cell <code>c</code></td><td>Single hidden <code>h</code></td></tr>
+          <tr><td>Parameters</td><td>4·nh(nx+nh+1)</td><td>3·nh(nx+nh+1), 25% fewer</td></tr>
+          <tr><td>Example nx=100, nh=128</td><td>117,248</td><td>87,936</td></tr>
+          <tr><td>Speed / memory</td><td>Slower, more memory</td><td>Faster to train, less memory</td></tr>
+          <tr><td>Performance</td><td>Slightly better on very long sequences and large data</td><td>Comparable on most tasks; often better on small data</td></tr>
+        </tbody>
+      </table></div>
+      <p>Both solve vanishing gradients through an additive state update. In practice accuracy differences are small and task dependent, so GRU is a good first choice for cost, LSTM when maximum capacity or the extra output gating is needed.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Given a sequence dataset, design an RNN-based model. <span class="marks">[10M]</span></p><div class="a">
+      <ol>
+        <li><strong>Analyse the data:</strong> sequence lengths, vocabulary size V, and the target (one label per sequence, per token, or next token).</li>
+        <li><strong>Preprocess:</strong> tokenise, build a vocabulary with <code>&lt;PAD&gt;</code>/<code>&lt;UNK&gt;</code>, convert to ids, pad/bucket and mask; split train/validation/test.</li>
+        <li><strong>Embedding layer</strong> (V×d, learned or pre-trained Word2Vec/GloVe from Unit 3).</li>
+        <li><strong>Recurrent layer:</strong> LSTM or GRU (one or two layers, optionally bidirectional, with dropout).</li>
+        <li><strong>Output layer:</strong> softmax over V (language model), softmax/sigmoid over classes taken from the last state (sentiment), or softmax over tags at each step (tagging).</li>
+        <li><strong>Training:</strong> cross-entropy loss ignoring padding, Adam, gradient clipping, truncated BPTT for long inputs, early stopping.</li>
+        <li><strong>Evaluation:</strong> accuracy/F1 or perplexity on held-out data; tune hidden size, layers, dropout.</li>
+      </ol>
+      <p>Example: movie-review sentiment, V = 20,000, d = 100, one BiGRU of 64 units, dense sigmoid output.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Analyze the role of memory cells in LSTM. <span class="marks">[8M]</span></p><div class="a">
+      <p>The cell state <code>c_t</code> is the LSTM's long-term memory, a vector that runs through time with only small, gated linear interactions: <code>c_t = f_t ⊙ c_(t−1) + i_t ⊙ g_t</code>.</p>
+      <ul>
+        <li><strong>Forget gate</strong> <code>f_t</code> erases parts of the old memory; <strong>input gate</strong> <code>i_t</code> decides how much of the candidate <code>g_t</code> to write; <strong>output gate</strong> <code>o_t</code> decides how much of <code>tanh(c_t)</code> to expose as <code>h_t = o_t ⊙ tanh(c_t)</code>.</li>
+        <li>The update is <strong>additive</strong>, so <code>∂c_t/∂c_(t−1) = f_t</code>: with <code>f_t ≈ 1</code> the gradient flows back almost unchanged, which counters vanishing gradients and lets the cell hold information (a quote opening, a subject's number) over many steps.</li>
+        <li>Because <code>c_t</code> is separate from <code>h_t</code>, the cell can store information without it being output at every step.</li>
+      </ul>
+      <p>Worked step (nx=nh=1): f=0.690, i=0.622, g=0.818, c_(t−1)=0.4 gives <code>c_t = 0.690·0.4 + 0.622·0.818 = 0.785</code>.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Evaluate the effectiveness of RNNs over traditional language models. <span class="marks">[8M]</span></p><div class="a">
+      <p><strong>Strengths of RNN LMs:</strong> (1) no fixed context window: the hidden state summarises the whole history, unlike n-grams that see only n−1 words; (2) parameters are shared across time and do not grow exponentially with context (n-grams need up to V^n entries); (3) dense embeddings let them generalise to unseen word combinations, avoiding the zero-count/smoothing problem; (4) typically lower perplexity; (5) compact model.</p>
+      <p><strong>Weaknesses:</strong> training and inference are sequential and slower than counting; need more data and compute; hidden state is hard to interpret; plain RNNs still struggle with very long dependencies (needs LSTM/GRU); fixed-size state is a bottleneck.</p>
+      <p><strong>Verdict:</strong> RNNs (especially LSTM/GRU) are clearly more effective in accuracy and generalisation; n-grams remain useful as fast, simple baselines. Transformers (Unit 5) have since overtaken RNNs for long contexts.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Given a problem, select between RNN, LSTM and GRU with justification. <span class="marks">[8M]</span></p><div class="a">
+      <ul>
+        <li><strong>Plain RNN:</strong> short sequences (about 10–20 steps), tiny data or hardware, a teaching baseline. E.g. predicting the next character in short fixed-format codes.</li>
+        <li><strong>GRU:</strong> moderate sequence length, limited data or compute, need fast training or deployment on small devices. E.g. sentiment of short tweets, real-time keyword spotting.</li>
+        <li><strong>LSTM:</strong> long dependencies, large datasets, tasks needing precise memory control. E.g. document-level classification, machine translation encoder, time series with long seasonal lags, language modelling.</li>
+      </ul>
+      <p>If unsure, try GRU first (cheaper), then LSTM; compare on a validation set. If the sequences are very long (hundreds to thousands of tokens) and parallel hardware is available, consider attention/transformers instead.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Analyze limitations of RNNs in long sequence modeling. <span class="marks">[8M]</span></p><div class="a">
+      <ul>
+        <li><strong>Vanishing/exploding gradients</strong> hinder learning of long-range dependencies (plain RNNs fail beyond roughly 10–20 steps).</li>
+        <li><strong>Fixed-size bottleneck:</strong> the whole past (or the whole source sentence in encoder–decoder models) is compressed into one vector.</li>
+        <li><strong>No parallelism over time:</strong> <code>h_t</code> depends on <code>h_(t−1)</code>, so training is slow on long sequences.</li>
+        <li><strong>BPTT memory cost</strong> grows with sequence length (hence truncated BPTT, which in turn cuts off long-range credit assignment).</li>
+        <li><strong>Gradual forgetting</strong> even in LSTM/GRU; information path length between distant tokens is O(T).</li>
+      </ul>
+      <p>Fixes: gating (LSTM/GRU), clipping, truncated BPTT, bidirectionality, and attention/transformers (Unit 5), which connect any two positions in one step.</p></div></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>RNN Basics, BPTT &amp; Vanishing Gradients</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q9</span>Define a recurrent neural network and write its forward equations. <span class="marks">[5M]</span></p><div class="a">
+      <p>An RNN is a neural network for sequential data that keeps a hidden state which is updated at every time step and fed back into the next step, using the same weights each time.</p>
+      <p><code>h_t = tanh(W_xh x_t + W_hh h_(t−1) + b)</code>, <code>y_t = softmax(W_hy h_t + c)</code>, with <code>h_0 = 0</code>.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q10</span>What does "unrolling" an RNN mean? How many parameters does a vanilla RNN layer with nx = 10 inputs and nh = 20 hidden units have? <span class="marks">[5M]</span></p><div class="a">
+      <p>Unrolling draws the recurrence as a feed-forward chain with one copy of the cell per time step; all copies share the same weights, so a sequence of length T becomes a T-layer network with tied parameters.</p>
+      <p>Parameters (recurrent layer only) = <code>W_xh</code> (20×10 = 200) + <code>W_hh</code> (20×20 = 400) + <code>b</code> (20) = <strong>620</strong>, i.e. nh(nx+nh+1). The count is independent of sequence length. An output layer to V classes would add nh·V + V.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Numerical: compute one RNN step. nx = 2, nh = 2, <code>W_xh = [[0.5,−0.3],[0.8,0.2]]</code>, <code>W_hh = [[0.1,0.4],[−0.2,0.3]]</code>, <code>b = [0.1,−0.1]</code>, <code>x_t = [1,2]</code>, <code>h_(t−1) = [0.5,−0.5]</code>. Find <code>h_t</code>. <span class="marks">[5M]</span></p><div class="a">
+      <p><code>W_xh x_t = [0.5 − 0.6, 0.8 + 0.4] = [−0.1, 1.2]</code>; <code>W_hh h_(t−1) = [0.05 − 0.2, −0.1 − 0.15] = [−0.15, −0.25]</code>.</p>
+      <p><code>z = [−0.1 − 0.15 + 0.1, 1.2 − 0.25 − 0.1] = [−0.15, 0.85]</code>, so <code>h_t = tanh(z) = <strong>[−0.149, 0.691]</strong></code>.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>What is Backpropagation Through Time? Write the gradient of the loss with respect to <code>W_hh</code>. <span class="marks">[6M]</span></p><div class="a">
+      <p>BPTT unrolls the RNN over the sequence and applies backpropagation to the unrolled graph. Because weights are shared, gradients from every time step are summed. With <code>L = Σ_t L_t</code>:</p>
+      <p><code>∂L/∂W_hh = Σ_t Σ_(k≤t) (∂L_t/∂y_t)(∂y_t/∂h_t) (∏_(i=k+1..t) ∂h_i/∂h_(i−1)) (∂h_k/∂W_hh)</code>, where <code>∂h_i/∂h_(i−1) = diag(1 − h_i²) W_hh</code>.</p>
+      <p>The long product is why gradients vanish or explode over many steps.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>Explain truncated BPTT and gradient clipping. When is each used? <span class="marks">[5M]</span></p><div class="a">
+      <p><strong>Truncated BPTT:</strong> split the long sequence into chunks of K steps (e.g. 35); carry the hidden state across chunks but backpropagate only inside the current chunk. It limits memory/compute, but gradients cannot cross chunk boundaries.</p>
+      <p><strong>Gradient clipping:</strong> if the gradient norm ‖g‖ exceeds a threshold τ, replace g with <code>τ·g/‖g‖</code>. It prevents <em>exploding</em> gradients and keeps updates stable; it does not cure vanishing gradients.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>Numerical: the gradient is multiplied by an average factor of 0.8 per time step. What fraction remains after 20 steps? What if the factor is 1.2? <span class="marks">[4M]</span></p><div class="a">
+      <p>0.8²⁰ ≈ <strong>0.0115</strong> (about 1% of the signal remains: vanishing). 1.2²⁰ ≈ <strong>38.3</strong> (the gradient is 38 times larger: exploding).</p>
+      <p>This is why a signal from 20 steps back is almost lost in a plain RNN, and why clipping is needed for the other case.</p></div></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>LSTM &amp; GRU</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q15</span>Write the equations of an LSTM cell and state the purpose of each gate. <span class="marks">[6M]</span></p><div class="a">
+      <p><code>f_t = σ(W_f[h_(t−1), x_t] + b_f)</code> forget: how much of <code>c_(t−1)</code> to keep.<br>
+      <code>i_t = σ(W_i[h_(t−1), x_t] + b_i)</code> input: how much new information to write.<br>
+      <code>g_t = tanh(W_g[h_(t−1), x_t] + b_g)</code> candidate memory content.<br>
+      <code>c_t = f_t ⊙ c_(t−1) + i_t ⊙ g_t</code> cell update.<br>
+      <code>o_t = σ(W_o[h_(t−1), x_t] + b_o)</code> output: how much of the cell to expose.<br>
+      <code>h_t = o_t ⊙ tanh(c_t)</code> new hidden state.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Numerical: one LSTM step with nx = nh = 1, x = 1, <code>h_(t−1) = 0.5</code>, <code>c_(t−1) = 0.4</code>. Gate parameters (w_x, w_h, b): f (0.5, 0.4, 0.1), i (0.6, −0.2, 0), g (0.9, 0.3, 0.1), o (0.7, 0.1, 0.2). Find <code>c_t</code> and <code>h_t</code>. <span class="marks">[6M]</span></p><div class="a">
+      <p>f = σ(0.5 + 0.2 + 0.1) = σ(0.8) = 0.690<br>
+      i = σ(0.6 − 0.1 + 0) = σ(0.5) = 0.622<br>
+      g = tanh(0.9 + 0.15 + 0.1) = tanh(1.15) = 0.818<br>
+      o = σ(0.7 + 0.05 + 0.2) = σ(0.95) = 0.721</p>
+      <p><code>c_t = 0.690·0.4 + 0.622·0.818 = 0.276 + 0.509 = <strong>0.785</strong></code><br>
+      <code>h_t = 0.721 · tanh(0.785) = 0.721 · 0.656 = <strong>0.473</strong></code></p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>Numerical: for nx = 100 and nh = 128, find the number of parameters in a vanilla RNN, a GRU and an LSTM layer. <span class="marks">[5M]</span></p><div class="a">
+      <p>One weight block = nh(nx + nh + 1) = 128 × 229 = 29,312.</p>
+      <p>Vanilla RNN: 1 block = <strong>29,312</strong>. GRU: 3 blocks (update, reset, candidate) = <strong>87,936</strong>. LSTM: 4 blocks (forget, input, candidate, output) = <strong>117,248</strong>.</p>
+      <p>Ratio RNN : GRU : LSTM = 1 : 3 : 4. (Libraries that use two bias vectors per gate add a few more.)</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>Write the GRU equations and explain the update and reset gates. How does a GRU differ from an LSTM structurally? <span class="marks">[6M]</span></p><div class="a">
+      <p><code>z_t = σ(W_z[h_(t−1), x_t] + b_z)</code>, <code>r_t = σ(W_r[h_(t−1), x_t] + b_r)</code>,<br>
+      <code>h̃_t = tanh(W_h[r_t ⊙ h_(t−1), x_t] + b_h)</code>, <code>h_t = (1 − z_t) ⊙ h_(t−1) + z_t ⊙ h̃_t</code>.</p>
+      <p><strong>Update gate z:</strong> how much of the state is replaced by the candidate (z≈0 keeps the old state, giving long memory). <strong>Reset gate r:</strong> how much past state is used to build the candidate (r≈0 ignores history).</p>
+      <p>Difference: a GRU has no separate cell state and no output gate, and it merges forget and input into one update gate, so it has fewer parameters.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>True or False: a GRU has a separate memory cell and three gates, like an LSTM. <span class="marks">[2M]</span></p><div class="a">
+      <p><strong>False.</strong> A GRU has two gates (update and reset) and a single hidden state with no separate cell; the LSTM has three gates and a separate cell state.</p></div></div>
+  </section>
+
+  <section id="g4">
+    <p class="eyebrow">Applied Practice</p>
+    <h2>RNNs vs. Traditional Language Models, and Design</h2>
+
+    <div class="qa"><p class="q"><span class="num">Q20</span>What is a bidirectional RNN? Give one task where it helps and one where it cannot be used. <span class="marks">[4M]</span></p><div class="a">
+      <p>It runs one RNN forward and another backward over the input and concatenates the two states at each position, <code>h_t = [h_t→ ; h_t←]</code>, so each token sees both left and right context.</p>
+      <p>Helps: POS tagging/NER, sentiment, and encoders in translation (the whole sentence is known). Cannot be used for: left-to-right text generation or real-time prediction, because future tokens are not available.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>A trigram language model over V = 10,000 words must store counts. Compare its storage and generalisation with an RNN LM. <span class="marks">[6M]</span></p><div class="a">
+      <p>The trigram model has up to V³ = 10¹² possible entries; most are never observed, so it relies on sparse tables plus smoothing/back-off, uses only the last 2 words, and gives zero or poor probability to unseen trigrams such as "purchase a laptop" if only "buy a laptop" was seen.</p>
+      <p>An RNN LM has a fixed number of parameters (embedding + recurrent weights + output layer, a few million), conditions on the entire history through <code>h_t</code>, and since "buy" and "purchase" have similar embeddings it generalises to the unseen phrase. The price is slower training and inference.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q22</span>Numerical: sentiment model with vocabulary 5,000, embedding size 50, one GRU of 64 units and a single sigmoid output. Count the trainable parameters. <span class="marks">[6M]</span></p><div class="a">
+      <ul>
+        <li>Embedding: 5,000 × 50 = 250,000</li>
+        <li>GRU: 3 × 64 × (50 + 64 + 1) = 3 × 7,360 = 22,080</li>
+        <li>Output (64 weights + 1 bias): 65</li>
+      </ul>
+      <p>Total = <strong>272,145</strong>. The embedding layer dominates; freezing pre-trained embeddings (Unit 3) would leave only about 22,145 trainable parameters.</p></div></div>
+  </section>
+
+</main>
+
+<footer>Unit 4 — Recurrent Neural Networks · Question Bank · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>
