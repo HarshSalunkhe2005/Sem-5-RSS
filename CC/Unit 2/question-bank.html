@@ -155,7 +155,7 @@
 
     <div class="qa"><p class="q"><span class="num">Q25</span>Explain para-virtualization with compiler support. State its advantages and disadvantages.<span class="marks">6 marks</span></p>
       <div class="a"><p>Unlike full virtualization (privileged instructions intercepted and emulated at runtime), para-virtualization handles them at <strong>compile time</strong>: the guest OS kernel is modified to replace privileged/sensitive instructions with <strong>hypercalls</strong> to the hypervisor/VMM. Xen uses this: the guest OS runs at <strong>Ring 1</strong> instead of Ring 0, so it cannot execute some privileged instructions directly and uses hypercalls instead. The virtualization layer sits between hardware and OS at Ring 0.</p>
-      <ul><li><strong>Advantages</strong>: relatively easy and practical; avoids the low performance of binary translation, which is hard to speed up; used by Xen, KVM and VMware ESX.</li>
+      <ul><li><strong>Advantages</strong>: relatively easy and practical; avoids the low performance of binary translation, which is hard to speed up; Xen is the standard example, and KVM and VMware ESX use paravirtual drivers for I/O.</li>
       <li><strong>Disadvantages</strong>: compatibility/portability doubts (must still support unmodified OSes for some uses); high maintenance cost for deep kernel changes; performance gain varies greatly with workload.</li></ul></div></div>
 
     <div class="qa"><p class="q"><span class="num">Q26</span>Explain Xen hypervisor architecture with a diagram.<span class="marks">7 marks</span></p>
@@ -178,7 +178,7 @@
       <p><strong>VMware ESX Server</strong></p>
       <ul><li>Bare-metal hypervisor for x86 SMP servers with direct I/O access and full resource control.</li>
       <li>Components: <em>virtualization layer</em> (VMM virtualizing CPU, memory, network, disk), <em>resource manager</em> (allocates CPU, memory, disk, network bandwidth), <em>hardware interface</em> (drivers) and <em>service console</em> (boots the system, starts VMM and resource manager, then hands over, aids administration).</li>
-      <li>Uses a para-virtualization architecture: the VM kernel talks directly to hardware, bypassing the host OS.</li></ul></div></div>
+      <li>The unit notes describe it as a para-virtualization-style architecture: the VM kernel talks directly to hardware, bypassing the host OS. Many books list ESX/ESXi as full virtualization (binary translation, as in Q22), so in the exam follow the wording of your unit notes.</li></ul></div></div>
 
     <div class="qa"><p class="q"><span class="num">Q28</span>Compare OS-level virtualization (containers) with hardware virtualization (VMs).<span class="marks">5 marks</span></p>
       <div class="a"><table><thead><tr><th>Aspect</th><th>OS-level (containers)</th><th>Hardware virtualization (VMs)</th></tr></thead><tbody>
