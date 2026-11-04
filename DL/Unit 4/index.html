@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Optimization, Tuning &amp; Interpretability</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f3ecfb;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 4</span>
+  <h1>🎛️ Deep Neural Net Optimization, Tuning &amp; Interpretability</h1>
+  <p>Optimization algorithms (SGD, Momentum, NAG, Adagrad, Adadelta, RMSprop, Adam) ·
+     batch normalization · exploding and vanishing gradients · hyperparameter tuning ·
+     and how to interpret what a trained network has learned.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#optimizers">Optimizers</a>
+    <a href="#sgd">SGD</a>
+    <a href="#momentum">Momentum</a>
+    <a href="#nag">NAG</a>
+    <a href="#adagrad">Adagrad</a>
+    <a href="#rmsprop">RMSprop</a>
+    <a href="#adadelta">Adadelta</a>
+    <a href="#adam">Adam</a>
+    <a href="#batchnorm">Batch Norm</a>
+    <a href="#gradients">Exploding/Vanishing</a>
+    <a href="#hypertuning">Hyperparameter Tuning</a>
+    <a href="#interpretability">Interpretability</a>
+    <a href="../Unit%201/index.html">Unit 1</a>
+    <a href="../Unit%202/index.html">Unit 2</a>
+    <a href="../Unit%203/index.html">Unit 3</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section id="optimizers">
+    <p class="eyebrow">01 · The big picture</p>
+    <h2>Optimization Algorithms — the Family at a Glance</h2>
+    <p>Training a deep network means minimizing a loss <code>L(θ)</code> over millions of parameters using only the
+      local gradient. Every optimizer below is a different recipe for turning that gradient into a step. Unit 3 already
+      explained SGD, Momentum, Nesterov, AdaGrad, RMSprop and Adam in depth
+      (<a href="../Unit%203/index.html#optimization" style="color:var(--coral);font-weight:700;">Unit 3 → Optimization Algorithms</a>),
+      so here each gets a compact exam-style treatment, and the new ones (Adadelta) get the full 5-part write-up.</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Optimizer</th><th>Core idea</th><th>Fixes</th><th>Drawback</th></tr></thead>
+      <tbody>
+        <tr><td>SGD / mini-batch</td><td>gradient from one example / small batch</td><td>cost per step of full-batch GD</td><td>noisy path, one η for everyone</td></tr>
+        <tr><td>Momentum</td><td>velocity = EMA of past gradients</td><td>zig-zag, slow valleys</td><td>extra hyperparameter β, can overshoot</td></tr>
+        <tr><td>NAG</td><td>gradient at the look-ahead point</td><td>momentum's overshoot</td><td>still one global η</td></tr>
+        <tr><td>Adagrad</td><td>divide by √(sum of squared gradients)</td><td>one η for all; sparse features</td><td>rate decays to zero</td></tr>
+        <tr><td>RMSprop</td><td>decaying average of squared gradients</td><td>Adagrad's vanishing rate</td><td>still needs a base η</td></tr>
+        <tr><td>Adadelta</td><td>ratio of two decaying averages, no η</td><td>Adagrad's decay + removes η</td><td>computationally heavier</td></tr>
+        <tr><td>Adam</td><td>momentum + RMSprop + bias correction</td><td>both of the above</td><td>more memory (2 states per weight)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout violet"><p><strong>Choosing (faculty note):</strong> for sparse data use an adaptive method (Adagrad, Adadelta, RMSprop, Adam). RMSprop, Adadelta and Adam behave similarly in many cases; Adam = RMSprop + bias correction + momentum, and does better than RMSprop as gradients get sparse.</p></div>
+  </section>
+
+  <!-- SGD -->
+  <section id="sgd">
+    <p class="eyebrow">02 · Gradient descent and its three flavours</p>
+    <h2>Gradient Descent &amp; SGD</h2>
+    <ul>
+      <li><strong>Definition:</strong> gradient descent updates each parameter against its gradient: <code>θ ← θ − α·∇L(θ)</code>, α = learning rate.</li>
+      <li><strong>Intuition:</strong> the gradient points uphill (steepest ascent); stepping the opposite way walks downhill. α sets the step length.</li>
+      <li><strong>Working:</strong> <em>Batch GD</em>: ∇L = (1/N)Σ∇Lᵢ over all N examples, m = N, one update per epoch. <em>SGD</em>: ∇L ≈ ∇Lᵢ from one random example, m = 1, N updates per epoch, noisy. <em>Mini-batch</em>: ∇L ≈ (1/m)Σ∇Lᵢ over m ≈ 32–256 examples, vectorizes on GPUs, the practical default.</li>
+      <li><strong>Example (deck):</strong> L(w,b) = w² + 4b², ∇L = (2w, 8b), α = 0.1 gives <code>w ← 0.8w</code>, <code>b ← 0.2b</code>. From (4, 2): step 1 → (3.2, 0.4), loss 32 → 10.88; after 8 steps w = 4·0.8⁸ ≈ 0.671, b ≈ 0, loss ≈ 0.4504. b converges first because its curvature (coefficient 4) is steeper, so one global α is a compromise, which motivates momentum and adaptive methods.</li>
+      <li><strong>Conclusion:</strong> batch GD is exact but slow and memory-hungry; SGD is cheap but noisy (its noise can help escape saddles; a decaying α is needed); mini-batch balances both. Too small α is slow, too large oscillates or diverges.</li>
+    </ul>
+  </section>
+
+  <!-- MOMENTUM -->
+  <section id="momentum">
+    <p class="eyebrow">03 · Give the ball inertia</p>
+    <h2>SGD with Momentum</h2>
+    <ul>
+      <li><strong>Definition:</strong> SGD plus a velocity term, an exponentially weighted average of past gradients: <code>v ← βv + α∇L</code>, <code>θ ← θ − v</code>.</li>
+      <li><strong>Intuition:</strong> a heavy ball rolling downhill keeps part of its previous direction. Consistent gradient directions build speed; sign-flipping (zig-zag) components cancel.</li>
+      <li><strong>Working:</strong> β = 0 is plain GD; β = 0.9 gives an effective memory of 1/(1−β) ≈ 10 steps (deck range 0.8–0.99).</li>
+      <li><strong>Example:</strong> L = w², w₀ = 4, α = 0.1, β = 0.9. Step 1: g = 8, v = 0.8, w = 3.2. Step 2: g = 6.4, v = 0.9·0.8 + 0.1·6.4 = 1.36, w = 3.2 − 1.36 = 1.84. (Plain GD would be at 2.56 after step 2.) The deck's run (α = 0.04, β = 0.7) reaches loss 0.0137 against 4.2477 for vanilla GD after 8 steps.</li>
+      <li><strong>Conclusion:</strong> faster on shallow consistent slopes and less zig-zag; costs one extra hyperparameter and can overshoot the minimum before settling.</li>
+    </ul>
+  </section>
+
+  <!-- NAG -->
+  <section id="nag">
+    <p class="eyebrow">04 · Look before you leap</p>
+    <h2>Nesterov Accelerated Gradient (NAG)</h2>
+    <ul>
+      <li><strong>Definition:</strong> momentum variant that evaluates the gradient at the look-ahead point where the velocity is about to carry the weights: <code>v ← βv + α∇L(θ − βv)</code>, <code>θ ← θ − v</code> (equivalent to the deck's θ + βv with the opposite sign convention for v).</li>
+      <li><strong>Intuition:</strong> "momentum acts then looks; Nesterov looks then acts". By peeking at the slope ahead, it feels an approaching wall one step early and brakes before overshooting.</li>
+      <li><strong>Working:</strong> (1) compute look-ahead θ̃ = θ − βv; (2) gradient at θ̃; (3) update velocity; (4) move. Better theoretical convergence on convex problems, and it tracks curved valleys (the deck's Rosenbrock valley) more tightly.</li>
+      <li><strong>Example:</strong> same L = w², w₀ = 4, α = 0.1, β = 0.9. Step 1: v = 0 so look-ahead is 4, g = 8, v = 0.8, w = 3.2. Step 2: look-ahead = 3.2 − 0.9·0.8 = 2.48, g = 4.96, v = 0.72 + 0.496 = 1.216, w = 3.2 − 1.216 = 1.984. Because the gradient is taken at 2.48 (closer to the minimum) instead of 3.2 (g = 6.4), the velocity is smaller (1.216 vs 1.36), so NAG is braking earlier than classical momentum, which would be at 1.84.</li>
+      <li><strong>Conclusion:</strong> same cost as momentum, less overshoot. Nadam = Adam with this look-ahead.</li>
+    </ul>
+  </section>
+
+  <!-- ADAGRAD -->
+  <section id="adagrad">
+    <p class="eyebrow">05 · The first adaptive method</p>
+    <h2>Adagrad (Adaptive Gradient)</h2>
+    <ul>
+      <li><strong>Definition:</strong> gives every parameter its own learning rate, scaled by the history of that parameter's squared gradients: <code>Gₜ = Gₜ₋₁ + gₜ²</code>, <code>θ ← θ − α·g / (√Gₜ + ε)</code> (ε ≈ 1e-8 only avoids division by zero).</li>
+      <li><strong>Intuition:</strong> sparse (rare) features have small accumulated gradient, so they keep large steps; dense features accumulate quickly and get small steps.</li>
+      <li><strong>Working:</strong> the accumulator Gₜ is a running <em>sum</em>, so it only grows and the effective rate α/√Gₜ shrinks monotonically.</li>
+      <li><strong>Example:</strong> L = w², w₀ = 4, α = 0.5. Step 1: g = 8, G = 64, step = 0.5·8/8 = 0.5, w = 3.5. Step 2: g = 7, G = 64 + 49 = 113, √G = 10.63, step = 0.5·7/10.63 = 0.329, w ≈ 3.171. Step 1 is always ≈ α·sign(g); later steps shrink as G grows.</li>
+      <li><strong>Conclusion:</strong> good for sparse data and removes manual rate tuning, but on deep or long runs the rate decays toward zero and learning stalls (the "dead neuron" problem in the faculty notes). Fix: forget old gradients (RMSprop, Adadelta).</li>
+    </ul>
+  </section>
+
+  <!-- RMSPROP -->
+  <section id="rmsprop">
+    <p class="eyebrow">06 · Adagrad, but it forgets</p>
+    <h2>RMSprop</h2>
+    <ul>
+      <li><strong>Definition:</strong> replaces Adagrad's cumulative sum by an exponentially decaying average of squared gradients: <code>E[g²]ₜ = ρE[g²]ₜ₋₁ + (1−ρ)gₜ²</code>, <code>θ ← θ − α·g / (√E[g²]ₜ + ε)</code>, ρ ≈ 0.9.</li>
+      <li><strong>Intuition:</strong> same per-parameter scaling, but old gradients fade, so the effective rate never collapses. Introduced in Hinton's lecture, never formally published.</li>
+      <li><strong>Working:</strong> ρ controls how fast the past is forgotten; the average acts on gradient <em>magnitude</em> where momentum acts on gradient <em>direction</em>.</li>
+      <li><strong>Example:</strong> w₀ = 4 (g = 8), ρ = 0.9, α = 0.1: E[g²] = 0.1·64 = 6.4, √ = 2.53, step = 0.1·8/2.53 = 0.316, w = 3.684. Compare Adagrad's first step (α·1): the (1−ρ) factor makes the first RMSprop step larger than α.</li>
+      <li><strong>Conclusion:</strong> a steady well-scaled step all the way in; the de-facto standard before Adam and still strong for RNNs. Still needs a base α.</li>
+    </ul>
+  </section>
+
+  <!-- ADADELTA -->
+  <section id="adadelta">
+    <p class="eyebrow">07 · No learning rate to set</p>
+    <h2>Adadelta</h2>
+    <ul>
+      <li><strong>Definition:</strong> an extension of Adagrad that fixes its aggressively shrinking rate <em>and</em> removes the need to choose a global learning rate. It keeps two decaying averages: of squared gradients and of squared parameter updates.</li>
+      <li><strong>Intuition:</strong> the update should have the same "units" as the parameter. Instead of multiplying the gradient by a fixed α, multiply by the ratio RMS(past updates) / RMS(past gradients), so the step size is learned from the running history of how large past steps were.</li>
+      <li><strong>Working (formulas):</strong>
+        <ol class="steps">
+          <li><code>E[g²]ₜ = ρE[g²]ₜ₋₁ + (1−ρ)gₜ²</code> (decaying average of squared gradients, as in RMSprop)</li>
+          <li><code>Δθₜ = − [ √(E[Δθ²]ₜ₋₁ + ε) / √(E[g²]ₜ + ε) ] · gₜ</code> (ratio of RMS values replaces α)</li>
+          <li><code>E[Δθ²]ₜ = ρE[Δθ²]ₜ₋₁ + (1−ρ)Δθₜ²</code> (decaying average of squared updates)</li>
+          <li><code>θₜ₊₁ = θₜ + Δθₜ</code></li>
+        </ol>
+        Typical ρ = 0.9–0.95, ε ≈ 1e-6.
+      </li>
+      <li><strong>Example:</strong> first step with g = 2, ρ = 0.9, ε = 1e-6, E[g²] = E[Δθ²] = 0 initially. E[g²] = 0.1·4 = 0.4. Δθ = −√(0+1e-6)/√(0.4+1e-6) · 2 = −0.001/0.6325 · 2 ≈ −0.00316. Then E[Δθ²] = 0.1·(0.00316)² = 1e-6. Early steps are tiny because the update history is empty (ε sets the initial scale) and grow as E[Δθ²] builds up.</li>
+      <li><strong>Conclusion:</strong> advantage: no default learning rate to set, no vanishing rate. Disadvantage: extra state and computation. Faculty summary: Adagrad → RMSprop → Adadelta are all adaptive-rate fixes; Adam combines the decaying gradient average (momentum) with the decaying squared-gradient average (RMSprop/Adadelta).</li>
+    </ul>
+  </section>
+
+  <!-- ADAM -->
+  <section id="adam">
+    <p class="eyebrow">08 · The default optimizer</p>
+    <h2>Adam (Adaptive Moment Estimation)</h2>
+    <ul>
+      <li><strong>Definition:</strong> keeps decaying averages of both the gradient (1st moment, like momentum) and the squared gradient (2nd moment, like RMSprop), bias-corrects them, and steps with momentum scaled by magnitude.</li>
+      <li><strong>Intuition:</strong> direction memory from m, per-parameter scaling from v; the bias correction fixes the fact that m and v start at zero.</li>
+      <li><strong>Working:</strong>
+        <ol class="steps">
+          <li><code>mₜ = β₁mₜ₋₁ + (1−β₁)gₜ</code> and <code>vₜ = β₂vₜ₋₁ + (1−β₂)gₜ²</code></li>
+          <li><code>m̂ₜ = mₜ/(1−β₁ᵗ)</code>, <code>v̂ₜ = vₜ/(1−β₂ᵗ)</code> (bias correction)</li>
+          <li><code>θ ← θ − α·m̂ₜ / (√v̂ₜ + ε)</code></li>
+        </ol>
+        Defaults: β₁ = 0.9, β₂ = 0.999, ε = 1e-8.
+      </li>
+      <li><strong>Example:</strong> t = 1, g = 2: m = 0.1·2 = 0.2, v = 0.001·4 = 0.004; m̂ = 0.2/0.1 = 2, v̂ = 0.004/0.001 = 4; step = α·2/√4 = α. So the first Adam step is about α·sign(g) regardless of gradient size; without bias correction it would be 0.2/0.063 ≈ 3.2α, a step more than three times too big (see Unit 3 for the t = 2 worked case).</li>
+      <li><strong>Conclusion:</strong> easy to implement, efficient, robust defaults, but stores two extra numbers per weight. Variants: AdamW (decoupled weight decay, default for Transformers), Nadam (Nesterov), AMSGrad. See <a href="../Unit%203/index.html#optimization" style="color:var(--coral);font-weight:700;">Unit 3</a> for the full comparison table.</li>
+    </ul>
+  </section>
+
+  <!-- BATCH NORM -->
+  <section id="batchnorm">
+    <p class="eyebrow">09 · Keep every layer's inputs well-behaved</p>
+    <h2>Batch Normalization <span class="tag" style="font-size:11px;font-weight:700;background:#fff0ef;color:#c0392b;border:1px solid #ffb4b0;border-radius:999px;padding:2px 9px;vertical-align:middle;">Beyond the deck: standard content</span></h2>
+<!--fig:dl-batchnorm-->
+<figure class="fig" data-caps='["Take the activations of one layer for a whole mini-batch.","Compute the batch mean μ and variance σ² of each feature.","Normalise: x̂ = (x − μ) / √(σ² + ε). Now zero mean, unit variance, so the next layer sees stable inputs.","Scale and shift with learnable γ and β: y = γ·x̂ + β. The network can undo the normalisation if that helps.","At inference there is no batch: use running averages of μ and σ² collected during training."]' data-intro="Build the normalisation step." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 330" role="img" aria-label="Batch normalisation" style="min-width:620px"><defs><marker id="fa8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-fill" x="30" y="110" width="120" height="70" rx="8"/></g><g data-s="1"><text class="tb" x="90" y="140" text-anchor="middle">mini-batch</text></g><g data-s="1"><text class="tm" x="90" y="162" text-anchor="middle">activations x</text></g><g data-s="2"><line class="arr" x1="152" y1="145" x2="186" y2="145" marker-end="url(#fa8)"/></g><g data-s="2"><rect class="s-acc" x="190" y="110" width="130" height="70" rx="8"/></g><g data-s="2"><text class="tm" x="255" y="140" text-anchor="middle">μ = mean(x)</text></g><g data-s="2"><text class="tm" x="255" y="162" text-anchor="middle">σ² = var(x)</text></g><g data-s="3"><line class="arr" x1="324" y1="145" x2="356" y2="145" marker-end="url(#fa8)"/></g><g data-s="3"><rect class="s-acc" x="360" y="110" width="150" height="70" rx="8"/></g><g data-s="3"><text class="tm" x="435" y="135" text-anchor="middle">x̂ = (x − μ)</text></g><g data-s="3"><text class="tm" x="435" y="157" text-anchor="middle">/ √(σ² + ε)</text></g><g data-s="4"><line class="arr" x1="514" y1="145" x2="536" y2="145" marker-end="url(#fa8)"/></g><g data-s="4"><rect class="s-mark" x="540" y="110" width="150" height="70" rx="8"/></g><g data-s="4"><text class="tb" x="615" y="140" text-anchor="middle">y = γ·x̂ + β</text></g><g data-s="4"><text class="tm" x="615" y="162" text-anchor="middle">γ, β learned</text></g><g data-s="5"><rect class="s-fill" x="110" y="245" width="540" height="44" rx="8"/></g><g data-s="5"><text class="tm" x="380" y="272" text-anchor="middle">inference: use running mean and variance from training</text></g></svg></div><figcaption>Build the normalisation step.</figcaption></figure>
+<!--/fig:dl-batchnorm-->
+
+    <ul>
+      <li><strong>Definition:</strong> a layer that normalizes each feature of a layer's inputs over the current mini-batch to zero mean and unit variance, then restores flexibility with a learnable scale γ and shift β (Ioffe and Szegedy, 2015).</li>
+      <li><strong>Why:</strong> as earlier layers change, the input distribution of later layers keeps shifting ("internal covariate shift", the original motivation). Normalizing keeps pre-activations in a healthy range, so activations do not saturate and gradients stay usable.</li>
+      <li><strong>Working (training, per feature, batch of m values x₁..xₘ):</strong>
+        <ol class="steps">
+          <li>Batch mean: <code>μ_B = (1/m) Σ xᵢ</code></li>
+          <li>Batch variance: <code>σ²_B = (1/m) Σ (xᵢ − μ_B)²</code></li>
+          <li>Normalize: <code>x̂ᵢ = (xᵢ − μ_B) / √(σ²_B + ε)</code></li>
+          <li>Scale and shift: <code>yᵢ = γ·x̂ᵢ + β</code> (γ, β learned by backprop; they let the network undo the normalization if that is optimal)</li>
+        </ol>
+      </li>
+      <li><strong>Train vs inference:</strong> at training time μ_B, σ²_B come from the batch. At inference there may be a single example, so the layer instead uses <em>running averages</em> collected during training: <code>μ_run ← λμ_run + (1−λ)μ_B</code> (same for variance, λ ≈ 0.9–0.99). Using batch statistics at test time is a classic bug.</li>
+      <li><strong>Example:</strong> batch x = [2, 4, 6, 8]: μ = 5, σ² = (9+1+1+9)/4 = 5. With ε = 1e-5, x̂ ≈ [−1.342, −0.447, 0.447, 1.342]. With γ = 2, β = 1: y ≈ [−1.683, 0.106, 1.894, 3.683].</li>
+      <li><strong>Benefits:</strong> faster training and higher usable learning rates; less sensitivity to weight initialization; helps with vanishing/exploding gradients; mild regularizing effect (batch noise), sometimes reducing the need for dropout.</li>
+      <li><strong>Limits:</strong> unreliable for very small batches; awkward for RNNs. Alternatives: Layer Norm (Transformers), Group Norm.</li>
+      <li><strong>Conclusion:</strong> normalize with batch statistics, rescale with learned γ and β, use running statistics at inference. Placed between the linear layer and the activation (or just after it, both are used).</li>
+    </ul>
+  </section>
+
+  <!-- GRADIENTS -->
+  <section id="gradients">
+    <p class="eyebrow">10 · When backprop breaks down in deep nets</p>
+    <h2>Exploding and Vanishing Gradients <span class="tag" style="font-size:11px;font-weight:700;background:#fff0ef;color:#c0392b;border:1px solid #ffb4b0;border-radius:999px;padding:2px 9px;vertical-align:middle;">Beyond the deck: standard content</span></h2>
+<!--fig:dl-vanish-->
+<figure class="fig" data-caps='["Y-axis: gradient size on a log scale (1 = unchanged). X-axis: how many layers back from the output.","Sigmoid: its slope is at most 0.25, so each layer multiplies the gradient by ≤ 0.25. After 9 layers: 0.25⁹ ≈ 4·10⁻⁶. Early layers barely learn: vanishing gradient.","ReLU: slope 1 for positive inputs, so the gradient passes through unchanged (with sensible weights). That is why ReLU fixed deep training.","If weights make each layer multiply by 1.5 instead, the gradient grows: 1.5⁹ ≈ 38. Exploding gradient. Fix: gradient clipping, careful initialisation, normalisation."]' data-intro="Plot the gradient layer by layer." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 445" role="img" aria-label="Gradient size as it travels back through 10 layers" style="min-width:620px"><defs><marker id="fa7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><line class="grid-l" x1="90" y1="313.3333333333333" x2="670" y2="313.3333333333333"/><text class="tm" x="80" y="318.3333333333333" text-anchor="end">1e-6</text><line class="grid-l" x1="90" y1="246.66666666666666" x2="670" y2="246.66666666666666"/><text class="tm" x="80" y="251.66666666666666" text-anchor="end">1e-4</text><line class="grid-l" x1="90" y1="180" x2="670" y2="180"/><text class="tm" x="80" y="185" text-anchor="end">1e-2</text><line class="grid-l" x1="90" y1="113.33333333333331" x2="670" y2="113.33333333333331"/><text class="tm" x="80" y="118.33333333333331" text-anchor="end">1e0</text><line class="grid-l" x1="90" y1="46.666666666666686" x2="670" y2="46.666666666666686"/><text class="tm" x="80" y="51.666666666666686" text-anchor="end">1e2</text><text class="tm" x="90" y="356" text-anchor="middle">0</text><text class="tm" x="154.44444444444446" y="356" text-anchor="middle">1</text><text class="tm" x="218.88888888888889" y="356" text-anchor="middle">2</text><text class="tm" x="283.3333333333333" y="356" text-anchor="middle">3</text><text class="tm" x="347.77777777777777" y="356" text-anchor="middle">4</text><text class="tm" x="412.22222222222223" y="356" text-anchor="middle">5</text><text class="tm" x="476.66666666666663" y="356" text-anchor="middle">6</text><text class="tm" x="541.1111111111111" y="356" text-anchor="middle">7</text><text class="tm" x="605.5555555555555" y="356" text-anchor="middle">8</text><text class="tm" x="670" y="356" text-anchor="middle">9</text><line class="axis" x1="90" y1="330" x2="670" y2="330"/><line class="axis" x1="90" y1="40" x2="90" y2="330"/><text class="tb" x="380" y="384" text-anchor="middle">layers back from the output</text><g data-s="2"><path class="c1" d="M90.0 113.3 L154.4 133.4 L218.9 153.5 L283.3 173.5 L347.8 193.6 L412.2 213.7 L476.7 233.7 L541.1 253.8 L605.6 273.9 L670.0 294.0"/></g><g data-s="2"><circle class="pt" cx="90" cy="113.33333333333331" r="5"/><circle class="pt" cx="154.44444444444446" cy="133.40199971093207" r="5"/><circle class="pt" cx="218.88888888888889" cy="153.4706660885308" r="5"/><circle class="pt" cx="283.3333333333333" cy="173.53933246612957" r="5"/><circle class="pt" cx="347.77777777777777" cy="193.60799884372832" r="5"/><circle class="pt" cx="412.22222222222223" cy="213.67666522132708" r="5"/><circle class="pt" cx="476.66666666666663" cy="233.74533159892582" r="5"/><circle class="pt" cx="541.1111111111111" cy="253.81399797652455" r="5"/><circle class="pt" cx="605.5555555555555" cy="273.8826643541233" r="5"/><circle class="pt" cx="670" cy="293.95133073172207" r="5"/></g><g data-s="2"><circle class="pt" cx="70" cy="424" r="6"/></g><g data-s="2"><text class="acc-t" x="84" y="429" text-anchor="start">sigmoid, ×0.25 per layer: vanishes</text></g><g data-s="3"><path class="c3" d="M90.0 113.3 L154.4 113.3 L218.9 113.3 L283.3 113.3 L347.8 113.3 L412.2 113.3 L476.7 113.3 L541.1 113.3 L605.6 113.3 L670.0 113.3"/></g><g data-s="3"><circle class="pt2" cx="385" cy="424" r="6"/></g><g data-s="3"><text class="blue-t" x="399" y="429" text-anchor="start">ReLU, ×1: stable</text></g><g data-s="4"><path class="c4" d="M90.0 113.3 L154.4 107.5 L218.9 101.6 L283.3 95.7 L347.8 89.9 L412.2 84.0 L476.7 78.1 L541.1 72.2 L605.6 66.4 L670.0 60.5"/></g><g data-s="4"><circle class="pt3" cx="560" cy="424" r="6"/></g><g data-s="4"><text class="pur-t" x="574" y="429" text-anchor="start">×1.5: explodes</text></g></svg></div><figcaption>Plot the gradient layer by layer.</figcaption></figure>
+<!--/fig:dl-vanish-->
+
+    <ul>
+      <li><strong>Definition:</strong> in a deep network the gradient reaching early layers is a <em>product</em> of many per-layer factors. If those factors are mostly &lt; 1 the product shrinks toward 0 (<strong>vanishing</strong>); if mostly &gt; 1 it grows without bound (<strong>exploding</strong>).</li>
+      <li><strong>Intuition:</strong> by the chain rule <code>∂L/∂w₁ = ∂L/∂aₙ · ∏ (wₖ·f′(zₖ)) ⋯</code>. Multiply 10 numbers around 0.25 and you get ≈ 1e-6; multiply 10 numbers around 1.5 and you get ≈ 58.</li>
+      <li><strong>Causes:</strong> saturating activations (sigmoid′ ≤ 0.25, tanh′ ≤ 1 and ≈ 0 when saturated); weights initialised too small (vanish) or too large (explode); very deep stacks; long sequences in RNNs (the same weight matrix multiplied over every time step).</li>
+      <li><strong>Effects:</strong> <em>Vanishing:</em> early layers barely learn, loss plateaus, training stalls. <em>Exploding:</em> huge updates, loss oscillates or becomes NaN/Inf, weights diverge.</li>
+      <li><strong>Numerical illustration:</strong> sigmoid gradient factor max 0.25 across 10 layers: 0.25¹⁰ ≈ 9.5×10⁻⁷. A per-layer factor of 1.5 across 10 layers: 1.5¹⁰ ≈ 57.7. With 1.5 across 50 layers: ≈ 6×10⁸.</li>
+      <li><strong>Fixes:</strong>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Fix</th><th>How it helps</th><th>Targets</th></tr></thead>
+          <tbody>
+            <tr><td>ReLU / Leaky ReLU / GELU</td><td>derivative is 1 for positive inputs, so no shrinkage</td><td>vanishing</td></tr>
+            <tr><td>Weight initialisation</td><td>Xavier/Glorot: Var(w) = 2/(n_in + n_out) for tanh/sigmoid. He: Var(w) = 2/n_in for ReLU. Keeps activation and gradient variance roughly constant across layers.</td><td>both</td></tr>
+            <tr><td>Batch normalization</td><td>keeps pre-activations in range; see above</td><td>both</td></tr>
+            <tr><td>Residual (skip) connections</td><td>y = x + F(x), so ∂y/∂x = 1 + ∂F/∂x: a direct gradient highway (ResNet)</td><td>vanishing</td></tr>
+            <tr><td>Gradient clipping</td><td>if ‖g‖ &gt; τ then g ← g·τ/‖g‖. Example: ‖g‖ = 10, τ = 5 scales g by 0.5. Standard for RNNs.</td><td>exploding</td></tr>
+            <tr><td>LSTM / GRU gates</td><td>the cell state is updated additively (c_t = f⊙c_{t−1} + i⊙c̃), giving a near-constant error path through time</td><td>vanishing in RNNs</td></tr>
+            <tr><td>Smaller learning rate, warm-up</td><td>limits damage from large early updates</td><td>exploding</td></tr>
+          </tbody>
+        </table></div>
+      </li>
+      <li><strong>Conclusion:</strong> detect via gradient norms per layer or a NaN loss; use ReLU-family activations + He/Xavier init + batch norm + residual connections as the default recipe, add clipping for recurrent models.</li>
+    </ul>
+  </section>
+
+  <!-- HYPERPARAMETER TUNING -->
+  <section id="hypertuning">
+    <p class="eyebrow">11 · Choosing the knobs the optimizer cannot learn</p>
+    <h2>Hyperparameter Tuning <span class="tag" style="font-size:11px;font-weight:700;background:#fff0ef;color:#c0392b;border:1px solid #ffb4b0;border-radius:999px;padding:2px 9px;vertical-align:middle;">Beyond the deck: standard content</span></h2>
+<!--fig:dl-hypersearch-->
+<figure class="fig" data-caps='["Two hyperparameters: one matters a lot (horizontal), one barely matters (vertical). We can afford 9 trials.","Grid search: 3 × 3 regular points. It only tries 3 different values of the important hyperparameter.","Random search: 9 random points. It tries 9 different values of the important one.","Project the points onto the important axis: grid covers 3 values, random covers 9. That is why random search usually finds a good setting faster."]' data-intro="Compare the two strategies." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Grid search vs random search" style="min-width:620px"><defs><marker id="fa9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><rect class="s-fill" x="40" y="40" width="310" height="250" rx="6"/><text class="tm" x="195" y="316" text-anchor="middle">important hyperparameter →</text><text class="tb" x="195" y="28" text-anchor="middle">Grid search</text><g data-s="2"><circle class="pt2" cx="105.9" cy="234.3" r="8"/></g><g data-s="2"><circle class="pt2" cx="105.9" cy="165" r="8"/></g><g data-s="2"><circle class="pt2" cx="105.9" cy="95.70000000000002" r="8"/></g><g data-s="2"><circle class="pt2" cx="195" cy="234.3" r="8"/></g><g data-s="2"><circle class="pt2" cx="195" cy="165" r="8"/></g><g data-s="2"><circle class="pt2" cx="195" cy="95.70000000000002" r="8"/></g><g data-s="2"><circle class="pt2" cx="284.1" cy="234.3" r="8"/></g><g data-s="2"><circle class="pt2" cx="284.1" cy="165" r="8"/></g><g data-s="2"><circle class="pt2" cx="284.1" cy="95.70000000000002" r="8"/></g><g data-s="4"><line class="s-ink" x1="105.9" y1="284" x2="105.9" y2="300"/></g><g data-s="4"><line class="s-ink" x1="105.9" y1="284" x2="105.9" y2="300"/></g><g data-s="4"><line class="s-ink" x1="105.9" y1="284" x2="105.9" y2="300"/></g><g data-s="4"><line class="s-ink" x1="195" y1="284" x2="195" y2="300"/></g><g data-s="4"><line class="s-ink" x1="195" y1="284" x2="195" y2="300"/></g><g data-s="4"><line class="s-ink" x1="195" y1="284" x2="195" y2="300"/></g><g data-s="4"><line class="s-ink" x1="284.1" y1="284" x2="284.1" y2="300"/></g><g data-s="4"><line class="s-ink" x1="284.1" y1="284" x2="284.1" y2="300"/></g><g data-s="4"><line class="s-ink" x1="284.1" y1="284" x2="284.1" y2="300"/></g><rect class="s-fill" x="410" y="40" width="310" height="250" rx="6"/><text class="tm" x="565" y="316" text-anchor="middle">important hyperparameter →</text><text class="tb" x="565" y="28" text-anchor="middle">Random search</text><g data-s="3"><circle class="pt" cx="451.6" cy="139.8" r="8"/></g><g data-s="3"><circle class="pt" cx="484" cy="238.5" r="8"/></g><g data-s="3"><circle class="pt" cx="513.7" cy="102" r="8"/></g><g data-s="3"><circle class="pt" cx="543.4" cy="186" r="8"/></g><g data-s="3"><circle class="pt" cx="573.1" cy="81" r="8"/></g><g data-s="3"><circle class="pt" cx="597.4" cy="223.8" r="8"/></g><g data-s="3"><circle class="pt" cx="627.1" cy="154.5" r="8"/></g><g data-s="3"><circle class="pt" cx="656.8" cy="249" r="8"/></g><g data-s="3"><circle class="pt" cx="681.1" cy="118.80000000000001" r="8"/></g><g data-s="4"><line class="s-ink" x1="451.6" y1="284" x2="451.6" y2="300"/></g><g data-s="4"><line class="s-ink" x1="484" y1="284" x2="484" y2="300"/></g><g data-s="4"><line class="s-ink" x1="513.7" y1="284" x2="513.7" y2="300"/></g><g data-s="4"><line class="s-ink" x1="543.4" y1="284" x2="543.4" y2="300"/></g><g data-s="4"><line class="s-ink" x1="573.1" y1="284" x2="573.1" y2="300"/></g><g data-s="4"><line class="s-ink" x1="597.4" y1="284" x2="597.4" y2="300"/></g><g data-s="4"><line class="s-ink" x1="627.1" y1="284" x2="627.1" y2="300"/></g><g data-s="4"><line class="s-ink" x1="656.8" y1="284" x2="656.8" y2="300"/></g><g data-s="4"><line class="s-ink" x1="681.1" y1="284" x2="681.1" y2="300"/></g><g data-s="4"><text class="blue-t" x="195" y="356" text-anchor="middle">3 distinct values tried</text></g><g data-s="4"><text class="acc-t" x="565" y="356" text-anchor="middle">9 distinct values tried</text></g></svg></div><figcaption>Compare the two strategies.</figcaption></figure>
+<!--/fig:dl-hypersearch-->
+
+    <ul>
+      <li><strong>Definition:</strong> hyperparameters are settings fixed before/outside training (learning rate, batch size, epochs, architecture, momentum β, dropout p, weight decay λ). Parameters (weights, biases) are learned; hyperparameters are searched.</li>
+      <li><strong>Key hyperparameters:</strong>
+        <ul>
+          <li><em>Learning rate</em>: the most important one (the lecture deck's first pitfall: "not tuning η, it dominates everything else"). Search on a log scale, e.g. 1e-5 to 1e-1; a schedule (Unit 3) or an LR-range test helps.</li>
+          <li><em>Batch size</em>: larger gives smoother gradients and better hardware use but more memory and possibly poorer generalization; smaller adds helpful noise. Typical 32–256.</li>
+          <li><em>Epochs</em>: too few underfit, too many overfit; use early stopping on validation loss.</li>
+          <li><em>Architecture</em>: depth, width, activation, dropout rate, weight decay.</li>
+        </ul>
+      </li>
+      <li><strong>Search strategies:</strong>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Method</th><th>Idea</th><th>Pros / cons</th></tr></thead>
+          <tbody>
+            <tr><td>Manual</td><td>intuition and trial</td><td>cheap start, not reproducible</td></tr>
+            <tr><td>Grid search</td><td>try every combination of a fixed grid. 3 learning rates × 3 batch sizes × 2 dropouts = 18 runs</td><td>exhaustive but cost explodes exponentially with the number of hyperparameters</td></tr>
+            <tr><td>Random search</td><td>sample each hyperparameter from a distribution (Bergstra and Bengio, 2012)</td><td>usually better than grid for the same budget, because only a few hyperparameters really matter and random sampling tries many distinct values of each</td></tr>
+            <tr><td>Bayesian optimization</td><td>build a surrogate model (e.g. Gaussian process) of validation score vs hyperparameters; pick the next trial by an acquisition function that balances exploration and exploitation</td><td>sample-efficient for expensive runs; harder to parallelize</td></tr>
+            <tr><td>Early-stopping schemes (e.g. Hyperband)</td><td>run many configs briefly, keep the best, give them more budget</td><td>saves compute</td></tr>
+          </tbody>
+        </table></div>
+      </li>
+      <li><strong>Validation protocol:</strong> split into train / validation / test. Tune hyperparameters on the <em>validation</em> set only; touch the test set once, at the end. For small data use k-fold cross-validation. Average over a few seeds, because one lucky run can mislead.</li>
+      <li><strong>Practical tips (lecture deck):</strong> use log axis for loss; compare optimizers each at their own best η, not one shared η; standardize inputs; if it diverges lower η first, add warm-up, clip gradients; if too slow raise η via an LR-range test.</li>
+      <li><strong>Conclusion:</strong> tune the learning rate first, prefer random over grid search, use Bayesian/Hyperband when each run is expensive, and keep the test set untouched.</li>
+    </ul>
+  </section>
+
+  <!-- INTERPRETABILITY -->
+  <section id="interpretability">
+    <p class="eyebrow">12 · Opening the black box</p>
+    <h2>Interpretability of Deep Networks <span class="tag" style="font-size:11px;font-weight:700;background:#fff0ef;color:#c0392b;border:1px solid #ffb4b0;border-radius:999px;padding:2px 9px;vertical-align:middle;">Beyond the deck: standard content</span></h2>
+    <ul>
+      <li><strong>Definition:</strong> interpretability (explainability) is the ability to explain <em>why</em> a model produced a given output, in terms a human can inspect.</li>
+      <li><strong>Why needed:</strong> trust and adoption (medicine, finance, law), debugging (spotting shortcuts such as a classifier looking at a watermark), fairness audits, and regulation requiring explanations.</li>
+      <li><strong>Scope:</strong> <em>global</em> (how the model behaves overall) vs <em>local</em> (why this one prediction); <em>intrinsic</em> (simple transparent models) vs <em>post-hoc</em> (explain a trained black box).</li>
+      <li><strong>Main techniques:</strong>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Technique</th><th>How it works</th><th>Output</th></tr></thead>
+          <tbody>
+            <tr><td>Saliency / gradient maps</td><td>take ∂(class score)/∂(input pixel); large magnitude means the output is sensitive to that pixel. Variants: Gradient×Input, SmoothGrad, Integrated Gradients.</td><td>pixel-level heatmap</td></tr>
+            <tr><td>Grad-CAM</td><td>for a conv layer with feature maps Aᵏ, weight each map by αₖ = average over positions of ∂yᶜ/∂Aᵏ; heatmap = ReLU(Σ αₖAᵏ), upsampled onto the image</td><td>coarse class-specific region map</td></tr>
+            <tr><td>LIME</td><td>perturb the input around one example, query the black box, fit a simple weighted linear model locally; its coefficients are the explanation</td><td>local feature importances, model-agnostic</td></tr>
+            <tr><td>SHAP</td><td>assign each feature its Shapley value φᵢ from cooperative game theory (average marginal contribution over feature subsets), with f(x) = baseline + Σ φᵢ</td><td>additive, consistent per-feature attributions (local and global)</td></tr>
+            <tr><td>Feature visualisation</td><td>optimise an input to maximally activate a neuron/channel (activation maximisation), or inspect filters and embeddings</td><td>what a unit has learned to detect</td></tr>
+          </tbody>
+        </table></div>
+      </li>
+      <li><strong>Example:</strong> a chest X-ray classifier says "pneumonia". Grad-CAM highlights the lung opacity (good) or a hospital marker in the corner (a shortcut, so retrain or fix the data). SHAP on a tabular credit model might say: baseline 0.30, income +0.25, debt −0.10, age +0.05 → output 0.50.</li>
+      <li><strong>Accuracy vs explainability:</strong> linear models and shallow trees are transparent but often less accurate; deep nets are accurate but opaque. Post-hoc tools narrow the gap but give <em>approximations</em>: explanations can be unstable or misleading, so they should be validated, not trusted blindly.</li>
+      <li><strong>Conclusion:</strong> use gradient/CAM methods for vision, LIME/SHAP for model-agnostic local explanations, feature visualisation to understand units, and always remember the explanation describes the model, not necessarily the real-world cause.</li>
+    </ul>
+  </section>
+
+  <section id="summary">
+    <p class="eyebrow">Wrap-up</p>
+    <h3>Unit 4 — Summary</h3>
+    <ul>
+      <li>GD family: batch (exact, slow), SGD (noisy, fast), mini-batch (default). Momentum adds velocity, NAG adds look-ahead.</li>
+      <li>Adaptive family: Adagrad (sum, rate vanishes) → RMSprop (decaying average) → Adadelta (ratio of averages, no η) → Adam (momentum + RMSprop + bias correction).</li>
+      <li>Batch norm: normalize per batch, scale/shift with γ and β, use running statistics at inference; trains faster and more stably.</li>
+      <li>Vanishing/exploding gradients come from long products of per-layer factors; fix with ReLU, He/Xavier init, batch norm, residual connections, clipping, LSTM gates.</li>
+      <li>Tune learning rate first; random search beats grid; Bayesian for costly runs; tune on validation, test once.</li>
+      <li>Interpretability: saliency, Grad-CAM, LIME, SHAP, feature visualisation; there is a trade-off between accuracy and explainability.</li>
+    </ul>
+    <div class="grid cols-2">
+      <div class="card"><h4>📚 Question Bank</h4><p>Concise exam-style answers for every Unit 4 topic.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 4 Question Bank →</a></p></div>
+      <div class="card"><h4>↩ Earlier optimization notes</h4><p>SGD, momentum, Adam and LR scheduling in more depth.</p><p><a href="../Unit%203/index.html#optimization" style="color:var(--coral);font-weight:700;">Open Unit 3 Optimization →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 4 — Deep Neural Net Optimization, Tuning &amp; Interpretability · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

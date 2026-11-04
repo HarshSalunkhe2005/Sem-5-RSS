@@ -33,10 +33,12 @@ Refuse:      gradient text, coloured side-border cards, identical icon-card grid
 
 ## Status (resume from here)
 - [x] Engine: assets/ese.css, assets/ese.js, self-hosted fonts (about 93 KB)
-- [x] DL slice (Units 1-3): notebook skin, 12 step-through diagrams, reveal Q&A, step-reveal numericals, Test-yourself panel,
-      flashcards.html, cheatsheet.html (formulas, parameter counter, likely ESE questions ranked from the 4 PYQ papers), homepage progress
-- [ ] DL Units 4/5 (RNN/LSTM, CNN/AlexNet/VGG, autoencoders, XOR gates): the PYQs test these in every paper and the site has NONE of it.
-      BLOCKED on Moodle login (btech browser). Extract text only, label anything not from a deck.
-- [ ] NLP  [ ] CN  [ ] CC  (wire with scratchpad wire.js: add ese.css/ese.js, then add figures, flashcards, cheatsheet, READY list in ese.js)
-- Per-subject checklist: wire pages -> figures (figlib.js step-through) -> flashcards.html -> cheatsheet.html -> add subject to READY in ese.js
+- [x] DL complete (syllabus has 5 units): Units 1-5, Unit 3 part 2 question bank (Q159-234), Unit 4 (optimisation, batch norm, tuning), Unit 5 (CNN, RNN, LSTM, autoencoders),
+      21 step-through diagrams, flashcards (287 cards), cheat sheet with ranked likely questions, homepage progress. Moodle decks pulled 4 Nov 2026.
+- [ ] NLP: pages wired + 10 diagrams placed; still to do: flashcards.html, cheatsheet.html, add NLP to READY in ese.js and ESE_MANIFEST. No syllabus or PYQs on Moodle (only 3 PDFs), so units beyond 3 are unknown: ask Harsh.
+- [ ] CN: syllabus has 5 units. Unit 4 (network layer) and Unit 5 (link layer) and extra-topics.html written by subagents; still to do: diagrams, wiring, flashcards, cheatsheet.
+- [ ] CC: syllabus has 5 units (all on site). Unit 4 rewritten from the real Module 4 deck. Still to do: diagrams, wiring, flashcards, cheatsheet.
+- Per-subject checklist: wire pages (scratchpad wire.js) -> figures (figlib.js step-through) -> flashcards.html -> cheatsheet.html -> add subject to READY in ese.js
   and to ESE_MANIFEST on index.html -> verify 1440 + 375, light + dark -> commit + push.
+- NOTE: */source-materials (about 62 MB of raw Moodle decks) is already tracked in git history from earlier commits. .gitignore now blocks new additions;
+  removing them from the repo (git rm --cached, or a history purge) needs Harsh's decision.

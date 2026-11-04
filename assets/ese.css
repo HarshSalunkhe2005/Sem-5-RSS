@@ -148,11 +148,12 @@ figure.fig svg{display:block;width:100%;height:auto;}
 figure.fig figcaption{padding:10px 14px;border-top:1px dashed var(--line);font-size:14.5px;color:var(--ink-2);}
 .fig-ctl{display:flex;gap:8px;align-items:center;padding:10px 14px;border-top:1px dashed var(--line);flex-wrap:wrap;}
 .fig-ctl .count{font-family:var(--f-mono);font-size:13px;color:var(--muted);}
-figure.fig [data-s]{opacity:0;transition:opacity .35s var(--ease);}
-figure.fig [data-s].on{opacity:1;}
+figure.fig [data-s],figure.fig [data-only]{opacity:0;transition:opacity .35s var(--ease);}
+figure.fig [data-s].on,figure.fig [data-only].on{opacity:1;}
 figure.fig .fig-now{filter:drop-shadow(0 0 0 transparent);}
 figure.fig [data-s].now .hl{stroke:var(--accent);stroke-width:3;}
 figure.fig:not(.js) [data-s]{opacity:1;}
+figure.fig:not(.js) [data-only]{display:none;}
 figure.fig .s-ink{stroke:var(--ink);fill:none;stroke-width:2;}
 figure.fig .s-fill{fill:var(--card);stroke:var(--ink);stroke-width:2;}
 figure.fig .s-acc{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2;}

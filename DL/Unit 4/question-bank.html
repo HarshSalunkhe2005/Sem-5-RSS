@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 Question Bank — Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 4</span>
+  <h1>📚 Unit 4 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers (Q1–28) — optimization algorithms, batch normalization,
+     exploding/vanishing gradients, hyperparameter tuning and interpretability.</p>
+  <a class="back" href="index.html">← Back to Unit 4 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#g1">Q1–9 · Optimizers</a>
+    <a href="#g2">Q10–15 · Batch Norm</a>
+    <a href="#g3">Q16–21 · Gradients</a>
+    <a href="#g4">Q22–28 · Tuning &amp; Interpretability</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 4 notes</a>
+    <a href="../Unit%203/question-bank.html" style="color:var(--coral);">Unit 3 QB</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Group A</p>
+    <h2>Optimization algorithms</h2>
+    <p class="range">Unit 4 Q1–9</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>Compare batch GD, SGD and mini-batch GD.<span class="marks">5 marks</span></p><div class="a"><p>Batch GD uses all N examples per update, ∇L = (1/N)Σ∇Lᵢ: exact, smooth, but one update per epoch and heavy on memory. SGD uses one example (m = 1): N cheap noisy updates per epoch; the noise can help escape saddles but the loss wobbles and needs a decaying α. Mini-batch uses m ≈ 32–256: stable enough, vectorizes on GPUs, and is the default in practice.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Explain SGD with momentum. Write its update rule.<span class="marks">5 marks</span></p><div class="a"><p>Momentum keeps a velocity, an exponentially weighted average of past gradients: v ← βv + α∇L, θ ← θ − v. Consistent directions accumulate speed while oscillating components cancel, so it learns faster and with less zig-zag. β = 0.9 gives about 1/(1−β) = 10 steps of memory. Drawback: an extra hyperparameter and possible overshoot.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>How does Nesterov Accelerated Gradient differ from momentum?<span class="marks">5 marks</span></p><div class="a"><p>NAG evaluates the gradient at the look-ahead point θ − βv instead of the current θ: v ← βv + α∇L(θ − βv), θ ← θ − v. "Momentum acts then looks; Nesterov looks then acts", so it senses an approaching rise early and brakes, giving less overshoot and better convergence on convex problems. Example (L = w², w₀ = 4, α = 0.1, β = 0.9): momentum gives w₂ = 1.84, NAG gives w₂ = 1.984 with a smaller velocity (1.216 vs 1.36).</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Explain Adagrad. What is its main drawback?<span class="marks">5 marks</span></p><div class="a"><p>Adagrad gives each parameter its own rate: Gₜ = Gₜ₋₁ + gₜ², θ ← θ − αg/(√Gₜ + ε). Rare (sparse) features keep large steps, frequent ones get small steps, and no manual per-parameter tuning is needed. Because Gₜ is a sum that only grows, the effective rate shrinks toward zero, so learning stalls on deep or long training runs.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Explain RMSprop and how it fixes Adagrad.<span class="marks">5 marks</span></p><div class="a"><p>RMSprop replaces Adagrad's cumulative sum with an exponentially decaying average: E[g²]ₜ = ρE[g²]ₜ₋₁ + (1−ρ)gₜ², θ ← θ − αg/(√E[g²]ₜ + ε), ρ ≈ 0.9. Old gradients are forgotten, so the denominator stays bounded and the learning rate does not vanish. It handles non-stationary objectives well and was the standard before Adam.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Explain Adadelta. Why does it not need a learning rate?<span class="marks">6 marks</span></p><div class="a"><p>Adadelta extends Adagrad by using decaying averages of squared gradients, E[g²], and of squared updates, E[Δθ²]. Update: Δθ = −[√(E[Δθ²]+ε)/√(E[g²]+ε)]·g, then θ ← θ + Δθ and E[Δθ²] is updated with the same decay ρ. The ratio of RMS(past updates) to RMS(gradients) plays the role of the learning rate (and makes units consistent), so no global α is set. It avoids Adagrad's vanishing rate; the cost is extra computation.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>Explain Adam with its update equations and default values.<span class="marks">6 marks</span></p><div class="a"><p>m = β₁m + (1−β₁)g and v = β₂v + (1−β₂)g² are the first and second moment estimates. Bias-corrected: m̂ = m/(1−β₁ᵗ), v̂ = v/(1−β₂ᵗ). Update: θ ← θ − α·m̂/(√v̂ + ε). Defaults β₁ = 0.9, β₂ = 0.999, ε = 1e-8. It combines momentum and RMSprop, so it is fast, needs little tuning and is the usual default; the cost is two extra stored values per weight.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>Why does Adam use bias correction? Show the first step for g = 2.<span class="marks">4 marks</span></p><div class="a"><p>m and v start at 0, so early estimates are biased toward 0 (especially v with β₂ = 0.999). Dividing by (1−βᵗ) removes that bias. For g = 2 at t = 1: m = 0.2, v = 0.004; m̂ = 0.2/0.1 = 2, v̂ = 0.004/0.001 = 4; step = α·2/√4 = α. Without correction the step would be about 3.2α.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q9</span>How would you choose an optimizer? Give a comparison of Adagrad, RMSprop, Adadelta and Adam.<span class="marks">5 marks</span></p><div class="a"><p>For sparse data prefer adaptive methods (Adagrad, Adadelta, RMSprop, Adam). Adagrad: sum of squares, rate decays. RMSprop: decaying average, needs base α. Adadelta: no α, ratio of averages. Adam: RMSprop + momentum + bias correction, and better than RMSprop as gradients get sparse. Default to Adam/AdamW; SGD with momentum is still common for CNNs. Always tune α for each optimizer separately.</p></div></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Group B</p>
+    <h2>Batch normalization</h2>
+    <p class="range">Unit 4 Q10–15 · Beyond the deck: standard content</p>
+
+    <div class="qa"><p class="q"><span class="num">Q10</span>What is batch normalization and why is it used?<span class="marks">4 marks</span></p><div class="a"><p>A layer that normalizes each feature over the mini-batch to zero mean and unit variance, then applies a learnable scale γ and shift β. It keeps layer inputs in a stable range as earlier layers change (the original "internal covariate shift" motivation), which allows higher learning rates and faster, more stable training.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Write the batch normalization equations.<span class="marks">5 marks</span></p><div class="a"><p>μ_B = (1/m)Σxᵢ; σ²_B = (1/m)Σ(xᵢ − μ_B)²; x̂ᵢ = (xᵢ − μ_B)/√(σ²_B + ε); yᵢ = γx̂ᵢ + β. ε avoids division by zero; γ and β are learned by backpropagation and let the network recover the original distribution if that is best.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Normalize the batch [2, 4, 6, 8] with γ = 2, β = 1 (ε = 1e-5).<span class="marks">4 marks</span></p><div class="a"><p>μ = 5, σ² = (9+1+1+9)/4 = 5, √(σ²+ε) ≈ 2.236. x̂ ≈ [−1.342, −0.447, 0.447, 1.342]. y = 2x̂ + 1 ≈ [−1.683, 0.106, 1.894, 3.683].</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>How does batch norm behave at training time versus inference time?<span class="marks">4 marks</span></p><div class="a"><p>Training: uses the current batch's μ_B and σ²_B, while also updating running averages (μ_run ← λμ_run + (1−λ)μ_B, likewise for variance). Inference: the batch may be one sample, so the stored running mean and variance are used, making the output deterministic. γ and β are learned parameters in both modes.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>List the benefits and limitations of batch normalization.<span class="marks">4 marks</span></p><div class="a"><p>Benefits: faster convergence, higher learning rates, less sensitivity to initialization, eases vanishing/exploding gradients, slight regularization from batch noise. Limitations: poor with very small batches, extra train/inference mismatch, awkward for RNNs. Alternatives: Layer Norm (Transformers) and Group Norm.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>Why are γ and β needed after normalizing?<span class="marks">3 marks</span></p><div class="a"><p>Forcing every layer to exactly zero mean and unit variance would reduce its representational power (e.g. it confines a sigmoid to its linear region). γ and β let the layer learn the best scale and offset, including the identity transform if normalization is not helpful.</p></div></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Group C</p>
+    <h2>Exploding and vanishing gradients</h2>
+    <p class="range">Unit 4 Q16–21 · Beyond the deck: standard content</p>
+
+    <div class="qa"><p class="q"><span class="num">Q16</span>What are vanishing and exploding gradients?<span class="marks">4 marks</span></p><div class="a"><p>In a deep network the gradient reaching early layers is a product of many per-layer factors (chain rule). If the factors are mostly below 1 the product tends to 0, so early layers stop learning (vanishing); if mostly above 1 it grows without bound, causing huge updates and NaN loss (exploding).</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q17</span>What causes them?<span class="marks">4 marks</span></p><div class="a"><p>Saturating activations (sigmoid′ ≤ 0.25, tanh at its tails), poor weight initialization (too small or too large), great depth, and in RNNs the repeated multiplication by the same weight matrix over many time steps. Example: 0.25¹⁰ ≈ 9.5×10⁻⁷ while 1.5¹⁰ ≈ 57.7.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>How can vanishing gradients be mitigated?<span class="marks">5 marks</span></p><div class="a"><p>Use ReLU-family activations (derivative 1 for positive inputs), He/Xavier initialization, batch normalization, residual (skip) connections where y = x + F(x) so ∂y/∂x = 1 + ∂F/∂x, and in RNNs gated cells (LSTM/GRU).</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>Explain gradient clipping.<span class="marks">3 marks</span></p><div class="a"><p>If the gradient norm exceeds a threshold τ, rescale it: g ← g·τ/‖g‖. This preserves direction but bounds the step. Example: ‖g‖ = 10, τ = 5 multiplies g by 0.5. Standard for training RNNs and Transformers.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>Compare Xavier and He initialization.<span class="marks">4 marks</span></p><div class="a"><p>Both choose weight variance to keep activations and gradients at a similar scale across layers. Xavier/Glorot: Var(w) = 2/(n_in + n_out), suited to sigmoid/tanh. He: Var(w) = 2/n_in, accounting for ReLU zeroing half the units. Example: n_in = 100 gives He std = √0.02 ≈ 0.141.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>How do LSTM gates and residual connections help gradient flow?<span class="marks">4 marks</span></p><div class="a"><p>An LSTM updates its cell state additively, c_t = f⊙c_{t−1} + i⊙c̃_t, so with the forget gate near 1 the gradient flows back through time almost unchanged. A residual block adds an identity path, so the gradient has a direct route to early layers regardless of what F does. Both replace long products of small factors with a near-constant path.</p></div></div>
+  </section>
+
+  <section id="g4">
+    <p class="eyebrow">Group D</p>
+    <h2>Hyperparameter tuning and interpretability</h2>
+    <p class="range">Unit 4 Q22–28 · Beyond the deck: standard content</p>
+
+    <div class="qa"><p class="q"><span class="num">Q22</span>What are hyperparameters? Name the important ones for a deep network.<span class="marks">3 marks</span></p><div class="a"><p>Settings chosen before training rather than learned: learning rate (most important), batch size, number of epochs, optimizer and its β/ρ values, network depth and width, activation, dropout rate, weight decay. Weights and biases are parameters, learned by gradient descent.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q23</span>Compare grid search and random search.<span class="marks">5 marks</span></p><div class="a"><p>Grid search tries every combination of a fixed grid; 3 learning rates × 3 batch sizes × 2 dropouts = 18 runs, and the count grows exponentially with the number of hyperparameters. Random search samples each one from a distribution; since usually only a few hyperparameters matter, it tries many more distinct values of those for the same budget and generally finds better settings.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q24</span>Explain Bayesian optimization for hyperparameter tuning.<span class="marks">4 marks</span></p><div class="a"><p>It fits a probabilistic surrogate (e.g. a Gaussian process) to the validation score observed so far, then uses an acquisition function to choose the next configuration, balancing exploration of uncertain regions and exploitation of promising ones. It needs far fewer trials, which matters when each training run is costly.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q25</span>Describe the correct validation protocol for tuning.<span class="marks">4 marks</span></p><div class="a"><p>Split data into train, validation and test sets. Fit weights on train, compare hyperparameters on validation, and evaluate the final chosen model once on test; tuning on the test set leaks information and inflates results. With little data use k-fold cross-validation, and average over several seeds.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q26</span>How do the learning rate and batch size affect training?<span class="marks">4 marks</span></p><div class="a"><p>Too small a learning rate converges slowly; too large oscillates or diverges, so search it on a log scale (about 1e-5 to 1e-1) and use a schedule. A larger batch gives smoother gradients and better hardware use but needs more memory and may generalize worse; a smaller batch adds helpful noise but more variance. Typical batch sizes are 32–256.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q27</span>What is interpretability? Explain Grad-CAM, LIME and SHAP briefly.<span class="marks">6 marks</span></p><div class="a"><p>Interpretability is explaining why a model gave a prediction. Grad-CAM weights a conv layer's feature maps Aᵏ by αₖ = mean of ∂yᶜ/∂Aᵏ and shows ReLU(Σαₖ Aᵏ) as a heatmap of the regions that drove class c. LIME perturbs one input, queries the model and fits a simple local linear model whose coefficients are the explanation. SHAP gives each feature its Shapley value φᵢ, with f(x) = baseline + Σφᵢ, so attributions are additive and consistent.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q28</span>Explain saliency maps and feature visualisation, and discuss the accuracy vs explainability trade-off.<span class="marks">5 marks</span></p><div class="a"><p>A saliency map is the gradient of the class score with respect to the input pixels: large magnitude means the output is sensitive to that pixel. Feature visualisation optimizes an input to maximally activate a chosen neuron or channel, showing what it detects. Linear models and shallow trees are transparent but often less accurate; deep nets are accurate but opaque. Post-hoc explanations are approximations and can mislead, so they should be validated.</p></div></div>
+  </section>
+
+</main>
+
+<footer>Unit 4 Question Bank · Deep Learning · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

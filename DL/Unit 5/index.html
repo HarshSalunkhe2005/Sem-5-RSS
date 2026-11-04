@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — CNNs, Architectures, RNNs &amp; LSTMs</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f3ecfb;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  .tag{display:inline-block;background:#fff4d6;color:#8a5a00;border:1px solid #ffd98a;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700;letter-spacing:.2px;vertical-align:middle;margin-left:6px;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 5</span>
+  <h1>🖼️ CNNs, Architectures, RNNs &amp; LSTMs</h1>
+  <p>Convolutional neural networks, their success and history · convolution arithmetic, padding, stride
+     and pooling · parameter counting · network design and image classification · LeNet, AlexNet,
+     VGG-16, GoogLeNet and ResNet · and an introduction to recurrent networks, the vanishing-gradient
+     problem, LSTM and autoencoders.</p>
+  <a class="back" href="../../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#cnn-basics">CNN Basics &amp; History</a>
+    <a href="#conv-math">Convolution Maths</a>
+    <a href="#pooling">Pooling</a>
+    <a href="#cnn-params">Parameter Counting</a>
+    <a href="#cnn-design">CNN Design &amp; Kaggle</a>
+    <a href="#architectures">Architectures</a>
+    <a href="#rnn">RNN</a>
+    <a href="#lstm">LSTM</a>
+    <a href="#autoencoders">Autoencoders</a>
+    <a href="../Unit%201/index.html">Unit 1</a>
+    <a href="../Unit%202/index.html">Unit 2</a>
+    <a href="../Unit%203/index.html">Unit 3</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">← Unit 4</a>
+    <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- CNN BASICS & HISTORY -->
+  <section id="cnn-basics">
+    <p class="eyebrow">01 · Why networks learned to see</p>
+    <h2>Convolutional Neural Networks: Idea, Success &amp; History</h2>
+    <p><strong>Definition.</strong> A Convolutional Neural Network (CNN) is a deep network whose early layers
+      apply <strong>learned filters (kernels)</strong> that slide across the input (an image) and produce
+      feature maps; later layers combine those maps into higher-level features and a classifier on top
+      predicts the output. The key point from the deck: the <em>filter weights are learned by
+      backpropagation</em>, not designed by hand.</p>
+
+    <h3>How we arrived here — from fixed features to learned features</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Raw pixels</h4><p>Feed pixels straight to a classifier (car, bus, monument, flower). No useful structure extracted.</p></div>
+      <div class="card"><h4>Hand-crafted features</h4><p>Edge detector, <strong>SIFT / HOG</strong>: <em>static feature extraction (no learning)</em>; only the classifier's weights are learned.</p></div>
+      <div class="card"><h4>CNN</h4><p>The kernel values themselves become parameters: <strong>learn these weights</strong>. Multiple kernels give multiple feature representations; multiple layers give a <em>hierarchy</em> of features, trained end to end by backpropagation.</p></div>
+    </div>
+
+    <h3>How a CNN differs from a fully connected network</h3>
+    <p>The deck poses the question: <em>can we have a DNN that is complex (many non-linearities) but has fewer
+      parameters, and is therefore less prone to overfitting?</em> Answer: a CNN, because of two ideas.</p>
+    <div class="grid cols-2">
+      <div class="card"><h4>Sparse connectivity</h4><p>Each output unit looks at only a small local patch of the input (e.g. a 2×2 patch of a 4×4 image), not at every input as in a fully connected layer.</p></div>
+      <div class="card"><h4>Weight sharing</h4><p>The same kernel is reused at every position of the input, so the number of weights does not grow with image size. Multiple kernels on the same input give multiple feature maps.</p></div>
+    </div>
+    <div class="callout violet"><p><strong>Scale of the saving (worked, checked with Python).</strong> Connecting a 227×227×3 image (154,587 values) fully to a 55×55×96 layer (290,400 units) would need 154,587 × 290,400 ≈ 4.49 × 10¹⁰ weights. AlexNet's first conv layer produces the same 55×55×96 output with only 11×11×3×96 = <strong>34,848</strong> weights.</p></div>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Fully connected network</th><th>CNN</th></tr></thead>
+      <tbody>
+        <tr><td>Connectivity</td><td>Every unit sees every input</td><td>Each unit sees a small local patch (sparse)</td></tr>
+        <tr><td>Weights</td><td>Separate weight per connection</td><td>One kernel shared across all positions</td></tr>
+        <tr><td>Parameters</td><td>Grow with input size × units</td><td>Depend only on kernel size × channels × filters</td></tr>
+        <tr><td>Spatial structure</td><td>Lost (input is flattened)</td><td>Preserved through feature maps</td></tr>
+        <tr><td>Overfitting risk</td><td>High</td><td>Lower (far fewer parameters)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Success: the ImageNet story</h3>
+    <p>The deck's chart (ILSVRC, top-5 error %) shows how depth and learned features took over:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Year</th><th>Model</th><th>Depth</th><th>Error (%)</th></tr></thead>
+      <tbody>
+        <tr><td>2010</td><td>Shallow (non-CNN)</td><td>shallow</td><td>28.2</td></tr>
+        <tr><td>2011</td><td>Shallow (non-CNN)</td><td>shallow</td><td>25.8</td></tr>
+        <tr><td>2012</td><td>AlexNet</td><td>8 layers</td><td>16.4</td></tr>
+        <tr><td>2013</td><td>ZFNet</td><td>8 layers</td><td>11.7</td></tr>
+        <tr><td>2014</td><td>VGG</td><td>19 layers</td><td>7.3</td></tr>
+        <tr><td>2014</td><td>GoogLeNet</td><td>22 layers</td><td>6.7</td></tr>
+        <tr><td>2015</td><td>ResNet</td><td>152 layers</td><td>3.57</td></tr>
+      </tbody>
+    </table></div>
+    <p>The big jump is 2011 → 2012: AlexNet cut the error from 25.8% to 16.4%, which started the deep-learning era in vision.
+      After that, error falls as depth rises.</p>
+    <p><strong>History in one line.</strong> <span class="tag">Beyond the deck: standard content, but asked in past papers</span>
+      Convolutional ideas date to the 1980s–90s; <strong>LeNet-5</strong> (LeCun, 1998) read handwritten digits;
+      <strong>AlexNet</strong> (2012, trained on GPUs) won ImageNet by a wide margin; VGG, GoogLeNet and ResNet
+      then pushed depth to tens and hundreds of layers.</p>
+
+    <h3>What CNNs are used for (deck)</h3>
+    <div class="pillbar"><span>Classification (one object)</span><span>Classification + localization</span><span>Object detection (multiple objects)</span><span>Instance segmentation</span></div>
+
+    <div class="callout"><p><strong>Conclusion.</strong> CNNs win on images because sparse connectivity and weight sharing keep parameters low while learned, stacked filters build features from edges to objects.</p></div>
+  </section>
+
+  <!-- CONVOLUTION MATHS -->
+  <section id="conv-math">
+    <p class="eyebrow">02 · The core operation</p>
+    <h2>Convolution: Formulas, Padding, Stride &amp; Output Size</h2>
+
+    <h3>1-D and 2-D convolution</h3>
+    <p>1-D: <code>s_t = Σ_{a=0}^{∞} x_{t−a} · w_{−a} = (x ∗ w)_t</code> (slide a weight vector along a sequence and take a weighted sum at each position).</p>
+<!--fig:dl-conv-->
+<figure class="fig" data-caps='["Input (5×5) and a 3×3 kernel. This kernel is a vertical-edge detector.","Place the kernel on the top-left patch. Multiply element by element and add: output = 0.","Slide one step right (stride 1). Same recipe gives 0.","Slide down one row and right one column: -4.","Do this at every position. No padding: output side = (5 − 3)/1 + 1 = 3, so a 3×3 feature map."]' data-intro="Slide the kernel over the input." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="2-D convolution, step by step" style="min-width:620px"><defs><marker id="fa1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><text class="tb" x="130" y="52" text-anchor="middle">Input 5×5</text><text class="tb" x="354" y="100" text-anchor="middle">Kernel 3×3</text><text class="tb" x="575" y="72" text-anchor="middle">Feature map 3×3</text><g data-s="1"><rect class="s-fill" x="30" y="70" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="50" y="96" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="70" y="70" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="90" y="96" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="110" y="70" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="130" y="96" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="150" y="70" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="170" y="96" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="190" y="70" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="210" y="96" text-anchor="middle">3</text></g><g data-s="1"><rect class="s-fill" x="30" y="110" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="50" y="136" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="70" y="110" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="90" y="136" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="110" y="110" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="130" y="136" text-anchor="middle">3</text></g><g data-s="1"><rect class="s-fill" x="150" y="110" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="170" y="136" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="190" y="110" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="210" y="136" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="30" y="150" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="50" y="176" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="70" y="150" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="90" y="176" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="110" y="150" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="130" y="176" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="150" y="150" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="170" y="176" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="190" y="150" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="210" y="176" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="30" y="190" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="50" y="216" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="70" y="190" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="90" y="216" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="110" y="190" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="130" y="216" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="150" y="190" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="170" y="216" text-anchor="middle">3</text></g><g data-s="1"><rect class="s-fill" x="190" y="190" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="210" y="216" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="30" y="230" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="50" y="256" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="70" y="230" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="90" y="256" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="110" y="230" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="130" y="256" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="150" y="230" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="170" y="256" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-fill" x="190" y="230" width="40" height="40" rx="0"/></g><g data-s="1"><text class="t" x="210" y="256" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-acc" x="300" y="120" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="318" y="144" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-acc" x="336" y="120" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="354" y="144" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-acc" x="372" y="120" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="390" y="144" text-anchor="middle">-1</text></g><g data-s="1"><rect class="s-acc" x="300" y="156" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="318" y="180" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-acc" x="336" y="156" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="354" y="180" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-acc" x="372" y="156" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="390" y="180" text-anchor="middle">-1</text></g><g data-s="1"><rect class="s-acc" x="300" y="192" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="318" y="216" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-acc" x="336" y="192" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="354" y="216" text-anchor="middle">0</text></g><g data-s="1"><rect class="s-acc" x="372" y="192" width="36" height="36" rx="0"/></g><g data-s="1"><text class="tb" x="390" y="216" text-anchor="middle">-1</text></g><rect class="s-fill" x="500" y="90" width="50" height="50" rx="0"/><rect class="s-fill" x="550" y="90" width="50" height="50" rx="0"/><rect class="s-fill" x="600" y="90" width="50" height="50" rx="0"/><rect class="s-fill" x="500" y="140" width="50" height="50" rx="0"/><rect class="s-fill" x="550" y="140" width="50" height="50" rx="0"/><rect class="s-fill" x="600" y="140" width="50" height="50" rx="0"/><rect class="s-fill" x="500" y="190" width="50" height="50" rx="0"/><rect class="s-fill" x="550" y="190" width="50" height="50" rx="0"/><rect class="s-fill" x="600" y="190" width="50" height="50" rx="0"/><g data-only="2"><rect class="s-mark" x="30" y="70" width="120" height="120" rx="0" style="fill-opacity:.35"/></g><g data-only="2"><rect class="s-mark" x="500" y="90" width="50" height="50" rx="0" style="fill-opacity:.7"/></g><g data-only="2"><text class="tm" x="30" y="298" text-anchor="start">(1·1 + 2·0 + 0·(-1)) + (0·1 + 1·0 + 3·(-1)) + (2·1 + 1·0 + 0·(-1))</text></g><g data-only="2"><text class="tm" x="30" y="320" text-anchor="start">= 0</text></g><g data-s="2"><text class="tb" x="525" y="121" text-anchor="middle">0</text></g><g data-only="3"><rect class="s-mark" x="70" y="70" width="120" height="120" rx="0" style="fill-opacity:.35"/></g><g data-only="3"><rect class="s-mark" x="550" y="90" width="50" height="50" rx="0" style="fill-opacity:.7"/></g><g data-only="3"><text class="tm" x="30" y="298" text-anchor="start">(2·1 + 0·0 + 1·(-1)) + (1·1 + 3·0 + 2·(-1)) + (1·1 + 0·0 + 1·(-1))</text></g><g data-only="3"><text class="tm" x="30" y="320" text-anchor="start">= 0</text></g><g data-s="3"><text class="tb" x="575" y="121" text-anchor="middle">0</text></g><g data-only="4"><rect class="s-mark" x="70" y="110" width="120" height="120" rx="0" style="fill-opacity:.35"/></g><g data-only="4"><rect class="s-mark" x="550" y="140" width="50" height="50" rx="0" style="fill-opacity:.7"/></g><g data-only="4"><text class="tm" x="30" y="298" text-anchor="start">(1·1 + 3·0 + 2·(-1)) + (1·1 + 0·0 + 1·(-1)) + (0·1 + 2·0 + 3·(-1))</text></g><g data-only="4"><text class="tm" x="30" y="320" text-anchor="start">= -4</text></g><g data-s="4"><text class="tb" x="575" y="171" text-anchor="middle">-4</text></g><g data-s="5"><text class="tb" x="625" y="121" text-anchor="middle">-1</text></g><g data-s="5"><text class="tb" x="525" y="171" text-anchor="middle">-2</text></g><g data-s="5"><text class="tb" x="625" y="171" text-anchor="middle">3</text></g><g data-s="5"><text class="tb" x="525" y="221" text-anchor="middle">0</text></g><g data-s="5"><text class="tb" x="575" y="221" text-anchor="middle">-1</text></g><g data-s="5"><text class="tb" x="625" y="221" text-anchor="middle">0</text></g></svg></div><figcaption>Slide the kernel over the input.</figcaption></figure>
+<!--/fig:dl-conv-->
+
+    <p>2-D: slide a kernel <code>K</code> over the image <code>I</code>; at each position multiply element by element and add:
+      <code>S_ij = (I ∗ K)_ij = Σ_a Σ_b I_{i+a, j+b} · K_{a,b}</code>.
+      With a 2×2 kernel [[w, x],[y, z]] on a 3×4 input [[a,b,c,d],[e,f,g,h],[i,j,k,l]] the first output is
+      <code>aw + bx + ey + fz</code>, the next <code>bw + cx + fy + gz</code>, and so on.</p>
+
+    <h3>Different kernels, different features</h3>
+    <ul>
+      <li><strong>Blur:</strong> 3×3 kernel of all 1s (averaging) — blurs the image.</li>
+      <li><strong>Edge detection:</strong> 3×3 kernel [[1,1,1],[1,−8,1],[1,1,1]] — detects edges.</li>
+      <li><strong>Sharpening:</strong> 3×3 kernel [[0,−1,0],[−1,5,−1],[0,−1,0]] (the deck's padding example, p = 2, s = 1).</li>
+      <li>The deck also lists 16 directional edge/image kernels (W/Edge, NE/Edge, … ). In a CNN the kernel values are not chosen; they are <strong>learned</strong>.</li>
+    </ul>
+
+    <h3>Worked example from the deck: 4×4 image, 3×3 kernel, no padding</h3>
+    <p>Image rows: [3 0 5 8], [2 1 7 1], [1 2 3 0], [3 4 6 9]. Kernel rows: [1 −1 −1], [−1 1 −1], [−1 −1 1].
+      Top-left output: 3·1 + 0·(−1) + 5·(−1) + 2·(−1) + 1·1 + 7·(−1) + 1·(−1) + 2·(−1) + 3·1 = <strong>−10</strong>.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Output (2×2)</th><th>col 1</th><th>col 2</th></tr></thead>
+      <tbody>
+        <tr><td>row 1</td><td>−10</td><td>−13</td></tr>
+        <tr><td>row 2</td><td>−9</td><td>−7</td></tr>
+      </tbody>
+    </table></div>
+    <p>Input 4×4 with F = 3 gives (4 − 3 + 1) = 2, so a 2×2 output — smaller than the input.</p>
+
+    <h3>One more by hand (all values verified with Python)</h3>
+    <p>5×5 input, 3×3 vertical-edge kernel [[1,0,−1],[1,0,−1],[1,0,−1]], stride 1, no padding → 3×3 output.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Input (5×5)</th><th>Output (3×3)</th></tr></thead>
+      <tbody>
+        <tr><td>[1 2 0 1 3] · [0 1 3 1 2] · [2 1 0 0 1] · [1 0 2 3 1] · [0 1 1 2 2]</td><td>[0 2 −3] · [−2 −2 1] · [0 −3 −1]</td></tr>
+      </tbody>
+    </table></div>
+    <p>Top-left: window [[1,2,0],[0,1,3],[2,1,0]] → row sums of (left column − right column) = (1−0) + (0−3) + (2−0) = 0.</p>
+
+    <h3>3-D inputs and multiple filters (deck)</h3>
+    <div class="callout violet"><p><strong>Important note.</strong> The input is 3-D (e.g. RGB) and the filter is also 3-D, yet the operation is still <strong>2-D</strong>: the filter slides only vertically and horizontally, never along the depth, because the filter's depth equals the input's depth. Each filter gives one 2-D output; combining the outputs of K filters gives a 3-D output.</p></div>
+    <p><strong>Terminology:</strong> input width/height/depth <code>W_I, H_I, D_I</code>; output <code>W_O, H_O, D_O</code>; filter spatial extent <code>F</code>; number of filters <code>K</code>; padding <code>P</code>; stride <code>S</code>.</p>
+
+    <h3>Output-size formulas (deck)</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Case</th><th>Formula</th><th>Remark</th></tr></thead>
+      <tbody>
+        <tr><td>No padding, stride 1</td><td><code>W_O = W_I − F + 1</code>, <code>H_O = H_I − F + 1</code></td><td>The kernel cannot be placed at the borders, so output &lt; input</td></tr>
+        <tr><td>With padding P</td><td><code>W_O = W_I − F + 2P + 1</code></td><td>Padding is used to keep output size equal to input; a bigger kernel needs more padding</td></tr>
+        <tr><td>Padding and stride</td><td><code>W_O = ⌊(W_I − F + 2P) / S⌋ + 1</code>, <code>H_O</code> likewise</td><td>Higher stride gives a smaller output</td></tr>
+        <tr><td>Depth</td><td><code>D_O = K</code></td><td>Depth of output = number of filters</td></tr>
+      </tbody>
+    </table></div>
+    <p>The floor ⌊ ⌋ is needed when (W_I − F + 2P) is not divisible by S. For "same" output size with S = 1 use <code>P = (F − 1)/2</code> (e.g. F = 3 → P = 1; F = 5 → P = 2).</p>
+
+    <h3>Worked examples</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>W_I</th><th>F</th><th>P</th><th>S</th><th>W_O = ⌊(W_I − F + 2P)/S⌋ + 1</th></tr></thead>
+      <tbody>
+        <tr><td>32</td><td>5</td><td>0</td><td>1</td><td>(32 − 5)/1 + 1 = <strong>28</strong></td></tr>
+        <tr><td>227</td><td>11</td><td>0</td><td>4</td><td>(227 − 11)/4 + 1 = <strong>55</strong></td></tr>
+        <tr><td>12</td><td>5</td><td>0</td><td>1</td><td>(12 − 5)/1 + 1 = <strong>8</strong></td></tr>
+        <tr><td>7</td><td>3</td><td>1</td><td>2</td><td>⌊(7 − 3 + 2)/2⌋ + 1 = <strong>4</strong></td></tr>
+        <tr><td>10</td><td>3</td><td>0</td><td>2</td><td>⌊(10 − 3)/2⌋ + 1 = ⌊3.5⌋ + 1 = <strong>4</strong></td></tr>
+        <tr><td>224</td><td>3</td><td>1</td><td>1</td><td>(224 − 3 + 2)/1 + 1 = <strong>224</strong> (same)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><p><strong>Deck question: W_I = 227, H_I = 227, D_I = 3 — find the width, height and depth of the first layer.</strong> With the AlexNet layer (K = 96, F = 11, S = 4, P = 0): W_O = H_O = (227 − 11 + 0)/4 + 1 = 55, D_O = K = 96. Answer: <strong>55 × 55 × 96</strong>.</p></div>
+
+    <div class="callout violet"><p><strong>Conclusion.</strong> Convolution = slide, multiply, add. Remember three levers: padding keeps size, stride shrinks it, and the number of filters sets the output depth.</p></div>
+  </section>
+
+  <!-- POOLING -->
+  <section id="pooling">
+    <p class="eyebrow">03 · Shrinking feature maps</p>
+    <h2>Pooling: Max and Average</h2>
+    <p><strong>Definition.</strong> Pooling slides a small window over each feature map (each depth slice separately) and replaces it with a single number: the <strong>maximum</strong> (max-pooling) or the <strong>mean</strong> (average-pooling).</p>
+<!--fig:dl-pool-->
+<figure class="fig" data-caps='["A 4×4 feature map. Pooling shrinks it and keeps the strongest signal in each window.","Top-left 2×2 window: max(1, 3, 4, 6) = 6.","Top-right window: max(2, 1, 5, 2) = 5.","Bottom-left window: max(7, 2, 1, 8) = 8.","Bottom-right window: max(9, 4, 3, 6) = 9. Output 2×2. No learnable parameters."]' data-intro="Slide the pooling window." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 700 300" role="img" aria-label="Max pooling 2×2, stride 2" style="min-width:620px"><defs><marker id="fa2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><text class="tb" x="160" y="36" text-anchor="middle">Input 4×4</text><text class="tb" x="490" y="86" text-anchor="middle">Output 2×2</text><g data-s="1"><rect class="s-fill" x="60" y="50" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="85" y="81" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="110" y="50" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="135" y="81" text-anchor="middle">3</text></g><g data-s="1"><rect class="s-fill" x="160" y="50" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="185" y="81" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="210" y="50" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="235" y="81" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="60" y="100" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="85" y="131" text-anchor="middle">4</text></g><g data-s="1"><rect class="s-fill" x="110" y="100" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="135" y="131" text-anchor="middle">6</text></g><g data-s="1"><rect class="s-fill" x="160" y="100" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="185" y="131" text-anchor="middle">5</text></g><g data-s="1"><rect class="s-fill" x="210" y="100" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="235" y="131" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="60" y="150" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="85" y="181" text-anchor="middle">7</text></g><g data-s="1"><rect class="s-fill" x="110" y="150" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="135" y="181" text-anchor="middle">2</text></g><g data-s="1"><rect class="s-fill" x="160" y="150" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="185" y="181" text-anchor="middle">9</text></g><g data-s="1"><rect class="s-fill" x="210" y="150" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="235" y="181" text-anchor="middle">4</text></g><g data-s="1"><rect class="s-fill" x="60" y="200" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="85" y="231" text-anchor="middle">1</text></g><g data-s="1"><rect class="s-fill" x="110" y="200" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="135" y="231" text-anchor="middle">8</text></g><g data-s="1"><rect class="s-fill" x="160" y="200" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="185" y="231" text-anchor="middle">3</text></g><g data-s="1"><rect class="s-fill" x="210" y="200" width="50" height="50" rx="0"/></g><g data-s="1"><text class="t" x="235" y="231" text-anchor="middle">6</text></g><rect class="s-fill" x="420" y="100" width="70" height="70" rx="0"/><rect class="s-fill" x="490" y="100" width="70" height="70" rx="0"/><rect class="s-fill" x="420" y="170" width="70" height="70" rx="0"/><rect class="s-fill" x="490" y="170" width="70" height="70" rx="0"/><g data-only="2"><rect class="s-mark" x="60" y="50" width="100" height="100" rx="0" style="fill-opacity:.4"/></g><g data-s="2"><line class="arr" x1="266" y1="150" x2="412" y2="170" marker-end="url(#fa2)"/></g><g data-s="2"><text class="tb" x="455" y="142" text-anchor="middle">6</text></g><g data-only="3"><rect class="s-mark" x="160" y="50" width="100" height="100" rx="0" style="fill-opacity:.4"/></g><g data-s="3"><line class="arr" x1="266" y1="150" x2="412" y2="170" marker-end="url(#fa2)"/></g><g data-s="3"><text class="tb" x="525" y="142" text-anchor="middle">5</text></g><g data-only="4"><rect class="s-mark" x="60" y="150" width="100" height="100" rx="0" style="fill-opacity:.4"/></g><g data-s="4"><line class="arr" x1="266" y1="150" x2="412" y2="170" marker-end="url(#fa2)"/></g><g data-s="4"><text class="tb" x="455" y="212" text-anchor="middle">8</text></g><g data-only="5"><rect class="s-mark" x="160" y="150" width="100" height="100" rx="0" style="fill-opacity:.4"/></g><g data-s="5"><line class="arr" x1="266" y1="150" x2="412" y2="170" marker-end="url(#fa2)"/></g><g data-s="5"><text class="tb" x="525" y="212" text-anchor="middle">9</text></g></svg></div><figcaption>Slide the pooling window.</figcaption></figure>
+<!--/fig:dl-pool-->
+
+
+    <div class="grid cols-2">
+      <div class="card"><h4>Max-pooling, 2×2 filter, stride 2 (deck)</h4><p>Input [[1,1,2,4],[5,6,7,8],[3,2,1,0],[1,2,3,4]] → output <code>[[6,8],[3,4]]</code>. Each output is the largest value in its 2×2 block.</p></div>
+      <div class="card"><h4>Average-pooling, F = 2, S = 2 (deck)</h4><p>Input [[2,2,7,3],[9,4,6,1],[8,5,2,4],[3,1,2,6]] → output <code>[[4.25, 4.25],[4.25, 3.5]]</code>. Top-left: (2+2+9+4)/4 = 4.25.</p></div>
+    </div>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Property</th><th>Convolution layer</th><th>Pooling layer</th></tr></thead>
+      <tbody>
+        <tr><td>Learnable parameters</td><td>Yes: (F·F·D_I + 1)·K</td><td>None (0)</td></tr>
+        <tr><td>Output size</td><td>⌊(W_I − F + 2P)/S⌋ + 1</td><td>Same formula (typically F = 2, S = 2 halves the size)</td></tr>
+        <tr><td>Output depth</td><td>K (number of filters)</td><td>Unchanged (D_O = D_I)</td></tr>
+        <tr><td>Purpose</td><td>Extract features</td><td>Reduce size / computation, small shift tolerance</td></tr>
+      </tbody>
+    </table></div>
+    <p>The deck's other pooling example: <strong>max-pooling with S = 1, F = 3, P = 1</strong>. The output size is (W − 3 + 2)/1 + 1 = W, so the output has the same size as the input.</p>
+    <p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> Max-pooling keeps the strongest response in each region, which gives some translation invariance and is the usual choice in classification CNNs; average-pooling smooths and is used, for example, as the final global pooling in GoogLeNet (deck: 7×7×1024 average pooled).</p>
+    <div class="callout violet"><p><strong>Conclusion.</strong> Pooling has no weights; it only downsamples height and width (not depth), cutting computation for the next layers.</p></div>
+  </section>
+
+  <!-- PARAMETER COUNTING -->
+  <section id="cnn-params">
+    <p class="eyebrow">04 · The exam numerical</p>
+    <h2>Counting Parameters and Computations</h2>
+    <div class="callout"><p><strong>Rules.</strong> Conv layer: <code>params = (F × F × D_I + 1) × K</code> (the +1 is each filter's bias; the deck's slide counts only the weights F×F×D_I×K). Pooling and activation layers: <strong>0</strong>. Fully connected: <code>n_in × n_out + n_out</code>. Multiplications in a conv layer: <code>K × F × F × D_I × W_O × H_O</code>.</p></div>
+
+    <h3>Deck example: 12×12×3 input, 256 filters of 5×5×3, S = 1, P = 0</h3>
+    <ul>
+      <li>W_O = H_O = (12 − 5 + 0)/1 + 1 = 8; D_O = K = 256 → output <strong>8 × 8 × 256</strong>.</li>
+      <li>Trainable parameters (deck, weights only): 5 × 5 × 3 × 256 = <strong>19,200</strong> (with biases: 19,456).</li>
+      <li>Computations: there are 256 kernels of 5×5×3 that move 8×8 times → 256 × 5 × 5 × 3 × 8 × 8 = <strong>1,228,800 multiplications</strong>.</li>
+    </ul>
+
+    <h3>Past-paper problem (May 2024): trainable parameters step by step</h3>
+    <p><code>Input(10,10,1)</code> → <code>Convolution2D(5,3)</code> → <code>Activation('Sigmoid')</code> → <code>Convolution2D(2,3)</code> → <code>Activation('Sigmoid')</code> (Convolution2D(filters, kernel) with S = 1, P = 0).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Step</th><th>Layer</th><th>Output shape</th><th>Trainable parameters</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Input 10×10×1</td><td>10×10×1</td><td>0</td></tr>
+        <tr><td>2</td><td>Conv2D(5, 3)</td><td>8×8×5</td><td>5 × (3×3×1 + 1) = 5 × 10 = <strong>50</strong></td></tr>
+        <tr><td>3</td><td>Activation (sigmoid)</td><td>8×8×5</td><td>0</td></tr>
+        <tr><td>4</td><td>Conv2D(2, 3)</td><td>6×6×2</td><td>2 × (3×3×5 + 1) = 2 × 46 = <strong>92</strong></td></tr>
+        <tr><td>5</td><td>Activation (sigmoid)</td><td>6×6×2</td><td>0</td></tr>
+      </tbody>
+    </table></div>
+    <p>Total = 50 + 92 = 142. The second filter has depth 5 because the input to layer 4 has 5 channels.</p>
+
+    <h3>Deck example: a small CNN (LeNet-style, input 32×32)</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Layer</th><th>Settings</th><th>Output</th><th>Parameters</th></tr></thead>
+      <tbody>
+        <tr><td>Conv 1</td><td>F=5, K=6, S=1, P=0</td><td>28×28×6</td><td>150 (156 with biases)</td></tr>
+        <tr><td>Pool 1</td><td>F=2, S=2</td><td>14×14×6</td><td>0</td></tr>
+        <tr><td>Conv 2</td><td>F=5, K=16, S=1, P=0</td><td>10×10×16</td><td>2,400 (2,416 with biases)</td></tr>
+        <tr><td>Pool 2</td><td>F=2, S=2</td><td>5×5×16</td><td>0</td></tr>
+        <tr><td>FC 1</td><td>400 → 120</td><td>120</td><td>400×120 + 120 = 48,120</td></tr>
+        <tr><td>FC 2</td><td>120 → 84</td><td>84</td><td>120×84 + 84 = 10,164</td></tr>
+        <tr><td>Output</td><td>84 → 10</td><td>10</td><td>84×10 + 10 = 850</td></tr>
+      </tbody>
+    </table></div>
+    <p>The deck's conv-layer counts (150, 2400) leave out biases while its FC counts include them; counting every bias, the total is 156 + 2,416 + 48,120 + 10,164 + 850 = <strong>61,706</strong>.</p>
+
+    <h3>Why filters share weights: the saving</h3>
+    <p>A 3×3 filter on a 64-channel input has 3×3×64 = 576 weights (+1 bias), whatever the image size. A fully connected layer on the same image would need a weight for every input–output pair.</p>
+    <div class="callout violet"><p><strong>Conclusion.</strong> For any CNN numerical: track the shape layer by layer with the output-size formula, then multiply F×F×(input depth)×K, add K biases, and remember pool/activation layers cost zero parameters.</p></div>
+  </section>
+
+  <!-- CNN DESIGN & KAGGLE -->
+  <section id="cnn-design">
+    <p class="eyebrow">05 · Putting the blocks together</p>
+    <h2>CNN Network Design and Image Classification (Kaggle)</h2>
+    <p><strong>Typical pattern (deck figure).</strong> Input → [Convolution → Pooling] × N → fully connected layers → output. Deck hyperparameters: <strong>number of layers, number of filters in each layer, size of filters, and the max-pooling layers</strong> (plus stride and padding).</p>
+<!--fig:dl-cnnpipe-->
+<figure class="fig" data-caps='["Input image: 32×32, one channel.","Convolution with 6 filters of 5×5: 28×28×6 (32 − 5 + 1 = 28).","Max-pool 2×2 halves each side: 14×14×6.","Second convolution with 16 filters of 5×5: 10×10×16.","Pool again: 5×5×16. Spatial size shrinks, depth (features) grows.","Flatten into a vector of 5·5·16 = 400 numbers.","Fully connected layers (400 → 120 → 84) combine the features.","Softmax gives the class probabilities (10 classes)."]' data-intro="Follow one image through the network." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 290" role="img" aria-label="A small CNN, stage by stage" style="min-width:620px"><defs><marker id="fa3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-fill" x="20" y="95" width="50" height="130" rx="5"/></g><g data-s="1"><text class="tb" x="45" y="214" text-anchor="middle">Input</text></g><g data-s="1"><text class="tm" x="45" y="232" text-anchor="middle"></text></g><g data-s="1"><text class="tm" x="45" y="250" text-anchor="middle">32×32×1</text></g><g data-s="2"><rect class="s-acc" x="112" y="101" width="50" height="118" rx="5"/></g><g data-s="2"><text class="tb" x="137" y="214" text-anchor="middle">Conv</text></g><g data-s="2"><text class="tm" x="137" y="232" text-anchor="middle">5×5, 6</text></g><g data-s="2"><text class="tm" x="137" y="250" text-anchor="middle">28×28×6</text></g><g data-s="2"><line class="arr" x1="98" y1="140" x2="110" y2="140" marker-end="url(#fa3)"/></g><g data-s="3"><rect class="s-fill" x="204" y="114" width="50" height="92" rx="5"/></g><g data-s="3"><text class="tb" x="229" y="214" text-anchor="middle">Max-pool</text></g><g data-s="3"><text class="tm" x="229" y="232" text-anchor="middle">2×2</text></g><g data-s="3"><text class="tm" x="229" y="250" text-anchor="middle">14×14×6</text></g><g data-s="3"><line class="arr" x1="190" y1="140" x2="202" y2="140" marker-end="url(#fa3)"/></g><g data-s="4"><rect class="s-acc" x="296" y="110" width="50" height="100" rx="5"/></g><g data-s="4"><text class="tb" x="321" y="214" text-anchor="middle">Conv</text></g><g data-s="4"><text class="tm" x="321" y="232" text-anchor="middle">5×5, 16</text></g><g data-s="4"><text class="tm" x="321" y="250" text-anchor="middle">10×10×16</text></g><g data-s="4"><line class="arr" x1="282" y1="140" x2="294" y2="140" marker-end="url(#fa3)"/></g><g data-s="5"><rect class="s-fill" x="388" y="121" width="50" height="78" rx="5"/></g><g data-s="5"><text class="tb" x="413" y="214" text-anchor="middle">Max-pool</text></g><g data-s="5"><text class="tm" x="413" y="232" text-anchor="middle">2×2</text></g><g data-s="5"><text class="tm" x="413" y="250" text-anchor="middle">5×5×16</text></g><g data-s="5"><line class="arr" x1="374" y1="140" x2="386" y2="140" marker-end="url(#fa3)"/></g><g data-s="6"><rect class="s-fill" x="480" y="130" width="50" height="60" rx="5"/></g><g data-s="6"><text class="tb" x="505" y="214" text-anchor="middle">Flatten</text></g><g data-s="6"><text class="tm" x="505" y="232" text-anchor="middle"></text></g><g data-s="6"><text class="tm" x="505" y="250" text-anchor="middle">400</text></g><g data-s="6"><line class="arr" x1="466" y1="140" x2="478" y2="140" marker-end="url(#fa3)"/></g><g data-s="7"><rect class="s-mark" x="572" y="127" width="50" height="66" rx="5"/></g><g data-s="7"><text class="tb" x="597" y="214" text-anchor="middle">FC</text></g><g data-s="7"><text class="tm" x="597" y="232" text-anchor="middle"></text></g><g data-s="7"><text class="tm" x="597" y="250" text-anchor="middle">120 → 84</text></g><g data-s="7"><line class="arr" x1="558" y1="140" x2="570" y2="140" marker-end="url(#fa3)"/></g><g data-s="8"><rect class="s-mark" x="664" y="131" width="50" height="58" rx="5"/></g><g data-s="8"><text class="tb" x="689" y="214" text-anchor="middle">Softmax</text></g><g data-s="8"><text class="tm" x="689" y="232" text-anchor="middle"></text></g><g data-s="8"><text class="tm" x="689" y="250" text-anchor="middle">10 classes</text></g><g data-s="8"><line class="arr" x1="650" y1="140" x2="662" y2="140" marker-end="url(#fa3)"/></g></svg></div><figcaption>Follow one image through the network.</figcaption></figure>
+<!--/fig:dl-cnnpipe-->
+
+    <div class="pillbar"><span>Input image</span><span>Conv + ReLU</span><span>Pool</span><span>Conv + ReLU</span><span>Pool</span><span>Flatten</span><span>FC</span><span>Softmax</span></div>
+
+    <h3>Design checklist</h3>
+    <ol class="steps">
+      <li><strong>Fix the input size</strong> (e.g. 32×32×3, 224×224×3, 227×227×3) and the number of classes.</li>
+      <li><strong>Choose the conv blocks:</strong> filter size F, number of filters K, stride S and padding P. Use the output-size formula to track every shape.</li>
+      <li><strong>Add pooling</strong> after some conv layers to shrink height and width as the number of filters grows.</li>
+      <li><strong>Flatten</strong> the last feature map and add one or more fully connected layers.</li>
+      <li><strong>Output layer:</strong> softmax with categorical cross-entropy for multi-class (Unit 3 pairing).</li>
+      <li><strong>Count parameters</strong> and check that the model is not larger than the data can support.</li>
+    </ol>
+    <p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> Common rules of thumb: small 3×3 filters stacked deep, ReLU after every conv, double the filters after each pooling, dropout in FC layers, and data augmentation to fight overfitting.</p>
+
+    <h3>Image-type classification (Kaggle style) <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h3>
+    <p>Syllabus topic "Image Type Classification (Kaggle)": a Kaggle-style task gives labelled images (for example digits, cats vs dogs, CIFAR-10 object classes) and scores predictions on a hidden test set. The usual workflow:</p>
+    <ol class="steps">
+      <li><strong>Load and resize</strong> every image to a fixed size; scale pixel values (÷255) or normalise per channel.</li>
+      <li><strong>Split</strong> the labelled data into train and validation sets; the validation score guards against overfitting.</li>
+      <li><strong>Augment</strong> the training images (flips, crops, small rotations) to enlarge the effective dataset.</li>
+      <li><strong>Build or reuse a model:</strong> a small CNN from scratch, or <em>transfer learning</em> — start from a network pre-trained on ImageNet (VGG, ResNet, …), replace the last layer with one for your classes, and fine-tune.</li>
+      <li><strong>Train</strong> with softmax + categorical cross-entropy (sigmoid + binary cross-entropy for two classes or multi-label), an adaptive optimiser such as Adam, and early stopping.</li>
+      <li><strong>Evaluate and submit:</strong> accuracy or log-loss on the validation set, then predict the test images and upload the file.</li>
+    </ol>
+    <div class="callout violet"><p><strong>Conclusion.</strong> Design a CNN by stacking conv-pool blocks until the feature map is small, then classify; for real competitions, pre-trained networks plus augmentation usually beat a from-scratch model.</p></div>
+  </section>
+
+  <!-- ARCHITECTURES -->
+  <section id="architectures">
+    <p class="eyebrow">06 · The famous networks</p>
+    <h2>Deep Convolutional Models: LeNet, AlexNet, VGG-16, GoogLeNet, ResNet</h2>
+
+    <h3>LeNet-5 <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h3>
+    <p>LeCun's 1998 digit recogniser. Input 32×32 → conv (6 filters, 5×5) → pool → conv (16 filters, 5×5) → pool → FC 120 → FC 84 → output 10. About <strong>61.7 K</strong> parameters (the deck's small CNN in section 04 follows this shape). It established the conv → pool → FC pattern.</p>
+
+    <h3>AlexNet (deck: 8 layers)</h3>
+    <p><strong>Definition.</strong> The CNN that won ImageNet 2012 with 16.4% top-5 error (next best was about 26%). It has <strong>8 learned layers: 5 convolutional + 3 fully connected</strong>, and takes a 227×227×3 input in the deck (224×224 in the original paper).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Layer</th><th>Settings</th><th>Output</th><th>Parameters (with bias)</th></tr></thead>
+      <tbody>
+        <tr><td>Input</td><td>227×227×3</td><td>227×227×3</td><td>0</td></tr>
+        <tr><td>Conv 1</td><td>K=96, F=11, S=4, P=0</td><td>55×55×96</td><td>34,944 (11×11×3×96 = 34,848 weights, deck: "34K")</td></tr>
+        <tr><td>Max-pool 1</td><td>F=3, S=2</td><td>27×27×96</td><td>0</td></tr>
+        <tr><td>Conv 2</td><td>K=256, F=5, P=2</td><td>27×27×256</td><td>614,656</td></tr>
+        <tr><td>Max-pool 2</td><td>F=3, S=2</td><td>13×13×256</td><td>0</td></tr>
+        <tr><td>Conv 3</td><td>K=384, F=3, P=1</td><td>13×13×384</td><td>885,120</td></tr>
+        <tr><td>Conv 4</td><td>K=384, F=3, P=1</td><td>13×13×384</td><td>1,327,488</td></tr>
+        <tr><td>Conv 5</td><td>K=256, F=3, P=1</td><td>13×13×256</td><td>884,992</td></tr>
+        <tr><td>Max-pool 3</td><td>F=3, S=2</td><td>6×6×256 (= 9,216)</td><td>0</td></tr>
+        <tr><td>FC 6</td><td>9,216 → 4,096</td><td>4,096</td><td>37,752,832</td></tr>
+        <tr><td>FC 7</td><td>4,096 → 4,096</td><td>4,096</td><td>16,781,312</td></tr>
+        <tr><td>FC 8</td><td>4,096 → 1,000 (softmax)</td><td>1,000</td><td>4,097,000</td></tr>
+      </tbody>
+    </table></div>
+    <p>Total ≈ <strong>62.4 M</strong> counted this way (the original two-GPU network is usually quoted as about <strong>60 M</strong>); about 94% of it sits in the three FC layers. Spatial sizes check: (227 − 11)/4 + 1 = 55; (55 − 3)/2 + 1 = 27; (27 − 3)/2 + 1 = 13; (13 − 3)/2 + 1 = 6.</p>
+    <p>The deck's diagram shows a slightly different size sequence (227 → 55 → 27 → 23 → 11 → 9 → 7 → 5 → 2, i.e. conv layers without padding), but the same structure: 96, 256, 384, 384, 256 filters, then dense 4096, 4096, 1000. For the exam, state the layer list and filter counts; the exact spatial sizes depend on whether padding is used.</p>
+    <p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> <strong>Key features:</strong> ReLU activation (faster training than tanh/sigmoid), <strong>dropout</strong> (0.5) in the FC layers against overfitting, <strong>overlapping max-pooling</strong> (3×3 window, stride 2), local response normalisation, heavy <strong>data augmentation</strong>, training on two GPUs. <strong>Contribution:</strong> proved deep CNNs trained on large data with GPUs beat hand-crafted features and started the modern deep-learning era in computer vision.</p>
+
+    <h3>VGG-16</h3>
+    <p><strong>Definition.</strong> VGG (Visual Geometry Group, Oxford, 2014) uses one simple rule: <strong>3×3 convolutions throughout</strong> (stride 1, padding 1, so size is preserved) and 2×2 max-pooling (stride 2) to halve the size. VGG-16 has <strong>13 convolutional + 3 fully connected = 16 weight layers</strong>. (The deck slide is titled "VGGNet – 8 layers", but its performance chart lists VGG as 19 layers; 16 and 19 are the two standard variants.)</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Block</th><th>Layers</th><th>Output after block</th><th>Parameters (with bias)</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>2 × conv 64</td><td>224×224×64 → pool → 112×112×64</td><td>1,792 + 36,928 = 38,720</td></tr>
+        <tr><td>2</td><td>2 × conv 128</td><td>112×112×128 → pool → 56×56×128</td><td>73,856 + 147,584 = 221,440</td></tr>
+        <tr><td>3</td><td>3 × conv 256</td><td>56×56×256 → pool → 28×28×256</td><td>295,168 + 590,080 + 590,080 = 1,475,328</td></tr>
+        <tr><td>4</td><td>3 × conv 512</td><td>28×28×512 → pool → 14×14×512</td><td>1,180,160 + 2,359,808 + 2,359,808 = 5,899,776</td></tr>
+        <tr><td>5</td><td>3 × conv 512</td><td>14×14×512 → pool → 7×7×512</td><td>3 × 2,359,808 = 7,079,424</td></tr>
+        <tr><td>FC</td><td>25,088 → 4,096 → 4,096 → 1,000</td><td>1,000 (softmax)</td><td>102,764,544 + 16,781,312 + 4,097,000 = 123,642,856</td></tr>
+      </tbody>
+    </table></div>
+    <p>Conv total = 14,714,688 (deck: "≈ 16M" for non-FC layers); FC total = 123,642,856 (deck: "≈ 122M"); <strong>grand total = 138,357,544 ≈ 138 M</strong>. The deck's note: <em>most parameters are in the first FC layer</em> (512 × 7 × 7 × 4096 ≈ 102 M). Deck FC formula: (512×7×7×4096) + (4096×4096) + (4096×1000). The slide prints 1024 for the last term; the real ImageNet output has 1,000 classes.</p>
+    <p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> <strong>Why 3×3?</strong> Two stacked 3×3 convs cover a 5×5 receptive field with 2×9 = 18 weights per channel pair instead of 25; three cover 7×7 with 27 instead of 49, and add extra non-linearities. <strong>Contribution:</strong> showed that depth with small uniform filters gives excellent accuracy (7.3% top-5 error for the 19-layer version in the deck's chart) and gave a simple, reusable feature extractor for transfer learning. <strong>Drawback:</strong> huge size (138 M parameters, heavy computation).</p>
+
+    <h3>AlexNet vs VGG-16</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>AlexNet (2012)</th><th>VGG-16 (2014)</th></tr></thead>
+      <tbody>
+        <tr><td>Layers with weights</td><td>8 (5 conv + 3 FC)</td><td>16 (13 conv + 3 FC)</td></tr>
+        <tr><td>Filter sizes</td><td>11×11, 5×5, 3×3 (mixed)</td><td>3×3 only</td></tr>
+        <tr><td>Input</td><td>227×227×3 (deck) / 224</td><td>224×224×3</td></tr>
+        <tr><td>Parameters</td><td>≈ 60 M</td><td>≈ 138 M</td></tr>
+        <tr><td>ImageNet top-5 error (deck)</td><td>16.4%</td><td>7.3% (19-layer VGG)</td></tr>
+        <tr><td>Design idea</td><td>ReLU, dropout, GPUs, augmentation</td><td>Depth through repeated 3×3 conv blocks</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>GoogLeNet and the Inception module (deck)</h3>
+    <p>GoogLeNet has <strong>22 layers</strong> (6.7% error). Instead of choosing one filter size, an <strong>Inception module</strong> applies 1×1, 3×3 and 5×5 convolutions and a 3×3 max-pooling <em>in parallel</em> on the same input and concatenates the results.</p>
+    <ul>
+      <li><strong>1×1 convolutions reduce the depth</strong> (use D_O &lt; D_I filters of size 1×1×D_I) and hence the number of computations; the resulting volume is smaller.</li>
+      <li>Deck example module: input 28×28×256 → branches of 96 (1×1), 128 (1×1) → 192 (3×3), 32 (1×1) → 96 (5×5), and 3×3 max-pool → 64 (1×1); concatenated output <strong>28×28×448</strong> (96 + 192 + 96 + 64 = 448).</li>
+      <li>The network has <strong>auxiliary loss</strong> branches during training and ends in <strong>average pooling</strong> of the 7×7×1024 volume.</li>
+    </ul>
+
+    <h3>ResNet</h3>
+    <p>The deck chart lists ResNet with <strong>152 layers</strong> and 3.57% top-5 error, the best of the series. <span class="tag">Beyond the deck: standard content, but asked in past papers</span> ResNet adds <strong>skip (shortcut) connections</strong>: a block computes <code>y = F(x) + x</code>, so it only has to learn the residual F(x). The identity path gives gradients a direct route backwards, which makes very deep networks trainable (very deep plain networks degrade because gradients vanish).</p>
+
+    <div class="callout"><p><strong>Conclusion.</strong> Progress came from depth plus smarter design: AlexNet (ReLU, dropout), VGG (uniform 3×3 blocks), GoogLeNet (inception, 1×1 reduction), ResNet (skip connections).</p></div>
+  </section>
+
+  <!-- RNN -->
+  <section id="rnn">
+    <p class="eyebrow">07 · Learning from sequences</p>
+    <h2>Introduction to Recurrent Neural Networks</h2>
+
+    <h3>Why not the networks we have seen so far?</h3>
+    <p>Feed-forward networks and CNNs share two limits (deck): <strong>outputs are independent of previous inputs</strong> and the <strong>input is of a fixed length</strong>. Sentences, speech, video and time series are sequences of variable length where order matters.</p>
+<!--fig:dl-rnn-->
+<figure class="fig" data-caps='["An RNN cell reads one input at a time and keeps a hidden state h: a running summary of what it has seen. The loop feeds h back in.","Unroll the loop over time. It is the same cell, with the same weights, at every step.","Each step: h_t = tanh(W_xh x_t + W_hh h_(t−1) + b),  y_t = W_hy h_t + c.","Training (backprop through time) sends the gradient backwards along the same arrows. It is multiplied by W_hh at every step, so it can shrink to nothing (vanishing) or blow up (exploding)."]' data-intro="Build the RNN." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="A recurrent neural network, unrolled in time" style="min-width:620px"><defs><marker id="fa4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-only="1"><rect class="s-acc" x="300" y="150" width="100" height="70" rx="10"/><text class="tb" x="350" y="192" text-anchor="middle">h</text><path class="arr" d="M400 170 C450 170 450 120 350 120 C250 120 250 150 300 165" marker-end="url(#fa4)"/><text class="tm" x="350" y="108" text-anchor="middle">feeds back</text></g><g data-only="1"><line class="arr" x1="350" y1="290" x2="350" y2="224" marker-end="url(#fa4)"/><text class="tm" x="350" y="316" text-anchor="middle">x (input)</text><line class="arr" x1="350" y1="148" x2="350" y2="70" marker-end="url(#fa4)"/><text class="tm" x="350" y="58" text-anchor="middle">y (output)</text></g><g data-s="2"><rect class="s-acc" x="100" y="160" width="100" height="70" rx="8"/></g><g data-s="2"><text class="tb" x="150" y="202" text-anchor="middle">h1</text></g><g data-s="2"><line class="arr" x1="150" y1="300" x2="150" y2="234" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="150" y="322" text-anchor="middle">x1</text></g><g data-s="2"><line class="arr" x1="150" y1="158" x2="150" y2="96" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="150" y="84" text-anchor="middle">y1</text></g><g data-s="2"><rect class="s-acc" x="290" y="160" width="100" height="70" rx="8"/></g><g data-s="2"><text class="tb" x="340" y="202" text-anchor="middle">h2</text></g><g data-s="2"><line class="arr" x1="340" y1="300" x2="340" y2="234" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="340" y="322" text-anchor="middle">x2</text></g><g data-s="2"><line class="arr" x1="340" y1="158" x2="340" y2="96" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="340" y="84" text-anchor="middle">y2</text></g><g data-s="2"><line class="arr" x1="202" y1="195" x2="288" y2="195" marker-end="url(#fa4)"/></g><g data-s="2"><rect class="s-acc" x="480" y="160" width="100" height="70" rx="8"/></g><g data-s="2"><text class="tb" x="530" y="202" text-anchor="middle">h3</text></g><g data-s="2"><line class="arr" x1="530" y1="300" x2="530" y2="234" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="530" y="322" text-anchor="middle">x3</text></g><g data-s="2"><line class="arr" x1="530" y1="158" x2="530" y2="96" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="530" y="84" text-anchor="middle">y3</text></g><g data-s="2"><line class="arr" x1="392" y1="195" x2="478" y2="195" marker-end="url(#fa4)"/></g><g data-s="2"><line class="arr" x1="30" y1="195" x2="98" y2="195" marker-end="url(#fa4)"/></g><g data-s="2"><text class="tm" x="54" y="180" text-anchor="middle">h0</text></g><g data-s="2"><line class="arr" x1="582" y1="195" x2="650" y2="195" marker-end="url(#fa4)"/></g><g data-s="3"><text class="tm" x="380" y="360" text-anchor="middle">h_t = tanh(W_xh·x_t + W_hh·h_(t−1) + b)      y_t = W_hy·h_t + c</text></g><g data-s="4"><line class="arr-acc" x1="288" y1="255" x2="202" y2="255" marker-end="url(#fb4)"/></g><g data-s="4"><line class="arr-acc" x1="478" y1="255" x2="392" y2="255" marker-end="url(#fb4)"/></g><g data-s="4"><text class="acc-t" x="340" y="280" text-anchor="middle">gradient flows back, times W_hh each step</text></g></svg></div><figcaption>Build the RNN.</figcaption></figure>
+<!--/fig:dl-rnn-->
+
+
+    <h3>The sequence-learning problem</h3>
+    <p>We need <code>y_t = f̂(x_1, x_2, …, x_t)</code>. The deck's three requirements:</p>
+    <ul>
+      <li>y_t must depend on the <strong>previous inputs</strong> as well;</li>
+      <li>the function must deal with a <strong>variable number of inputs</strong>;</li>
+      <li>the <strong>function executed at each time step must be the same</strong> — parameter sharing. Then y₁ = f(x₁), y₂ = f(x₁, x₂), y₃ = f(x₁, x₂, x₃), …</li>
+    </ul>
+
+    <h3>The recurrent neural network (deck)</h3>
+    <div class="callout violet"><p><code>s_i = σ(U·x_i + W·s_{i−1} + b)</code>, <code>y_i = O(V·s_i + c)</code>. Here <code>s_i</code> is the hidden state (memory), <code>U</code> maps the input, <code>W</code> maps the previous state (the recurrence), <code>V</code> maps the state to the output; σ is the state activation (tanh or sigmoid) and O the output function (e.g. softmax). <strong>U, W, V, b, c are shared across every time step.</strong></p></div>
+
+    <h3>Data and tasks (deck)</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Sequence classification</h4><p>One label for the whole sequence: sentiment classification, video classification. Output taken at the <strong>last step</strong>: ŷ = O(V·s_T + c), T = sequence length.</p></div>
+      <div class="card"><h4>Sequence labelling</h4><p>One label per element: part-of-speech tagging, named-entity recognition. Output at <strong>every step</strong>: ŷ_i = O(V·s_i + c).</p></div>
+      <div class="card"><h4>Sequence generation</h4><p>Produce a new sequence: machine translation, transliteration.</p></div>
+    </div>
+
+    <h3>Representing words as numbers (deck)</h3>
+    <ol class="steps">
+      <li>Define special symbols <code>&lt;sos&gt;</code> (start), <code>&lt;eos&gt;</code> (end), <code>&lt;pad&gt;</code> (padding); prepend/append <code>&lt;sos&gt;</code>/<code>&lt;eos&gt;</code> to every sequence.</li>
+      <li>Find the maximum sequence length (say 10) and add <code>&lt;pad&gt;</code> to shorter sequences so all have the same length.</li>
+      <li>Lower-case all words, compute the number of unique words L across all sentences (L = 24 in the deck's example) and give each word a unique id from 1 to L (the dictionary / vocabulary).</li>
+      <li><strong>One-hot encode:</strong> represent each word by an L-dimensional binary vector with a 1 only at the position of its id.</li>
+    </ol>
+
+    <h3>Loss functions (deck)</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Problem</th><th>Loss</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Sequence classification</td><td>L(θ) = −Σᵢ y[i] log ŷ[i] = −log y_c; over m examples: −(1/m) Σᵢ log y_ic</td><td>y = [1, 0], ŷ = [0.7, 0.3] → loss = −log 0.7 ≈ 0.357</td></tr>
+        <tr><td>Sequence labelling</td><td>L(θ) = −(1/m) Σ_{i=1}^{m} Σ_{j=1}^{T} log y_ijc (sum over every time step)</td><td>Cross-entropy at each position, summed over the sequence</td></tr>
+      </tbody>
+    </table></div>
+    <p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> Training uses backpropagation through time (BPTT): unroll the network over the T steps and backpropagate through all of them, adding up the gradients for the shared weights U, W, V.</p>
+
+    <h3>The vanishing-gradient problem in RNNs and dealing with longer sequences</h3>
+    <p>The deck's problem statement: at each new time step <strong>the old information gets morphed by the current input</strong>; after t steps the information from step t − k is <strong>completely morphed</strong>; and during backpropagation the information does <strong>not flow well</strong>. The RNN has only a finite-size state, so it cannot remember everything (the deck's "whiteboard" analogy: the board is finite, so we must selectively <em>write</em>, selectively <em>read</em> and selectively <em>forget</em>).</p>
+    <p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> <strong>Why the gradient vanishes.</strong> By the chain rule, the gradient reaching a step k steps back is a product of k Jacobians: <code>∂s_t/∂s_{t−k} = Π ∂s_j/∂s_{j−1}</code>, and each factor contains W and the activation derivative σ′ (≤ 0.25 for sigmoid, ≤ 1 for tanh). If these factors are below 1 the product shrinks exponentially (0.25¹⁰ ≈ 10⁻⁶; 0.9⁵⁰ ≈ 0.005), so early inputs get almost no learning signal and the RNN cannot learn long-range dependencies. If the factors exceed 1 the product explodes (1.5⁵⁰ ≈ 6 × 10⁸), which is the <em>exploding gradient</em> problem; it is handled by gradient clipping. The vanishing case is solved architecturally by gated cells: <strong>LSTM</strong> (next section) and GRU.</p>
+
+    <h3>RNN vs CNN <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>RNN</th><th>CNN</th></tr></thead>
+      <tbody>
+        <tr><td>Data</td><td>Sequences (text, speech, time series)</td><td>Grid data (images)</td></tr>
+        <tr><td>Input length</td><td>Variable</td><td>Fixed size</td></tr>
+        <tr><td>Structure</td><td>Recurrent connection W: state carried from step to step</td><td>Feed-forward; local filters</td></tr>
+        <tr><td>Memory</td><td>Yes (hidden state)</td><td>None across inputs</td></tr>
+        <tr><td>Weight sharing</td><td>Across time steps</td><td>Across spatial positions</td></tr>
+        <tr><td>Training</td><td>Backpropagation through time; vanishing gradients</td><td>Ordinary backpropagation</td></tr>
+        <tr><td>Parallelism</td><td>Sequential in time (slower)</td><td>Highly parallel</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Applications <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h3>
+    <div class="pillbar"><span>Language modelling / next-word prediction</span><span>Machine translation</span><span>Speech recognition</span><span>Sentiment analysis</span><span>Time-series forecasting</span><span>Image captioning</span></div>
+    <p>Parameter count example: input size d = 4, hidden size n = 3, output size k = 2 gives U (n×d) = 12, W (n×n) = 9, b = 3, V (k×n) = 6, c = 2: total <strong>32</strong>, independent of the sequence length because the weights are shared.</p>
+
+    <div class="callout"><p><strong>Conclusion.</strong> An RNN reuses one function at every step and carries a hidden state, which makes it suitable for sequences; its weakness is that the state forgets and gradients vanish over long ranges.</p></div>
+  </section>
+
+  <!-- LSTM -->
+  <section id="lstm">
+    <p class="eyebrow">08 · Selective read, write and forget</p>
+    <h2>Long Short-Term Memory (LSTM)</h2>
+    <p><strong>Definition.</strong> An LSTM is an RNN cell with a state vector and three <strong>gates</strong> (values between 0 and 1) that control what is written to the state, what is read from the new input, and what is forgotten. Computing s_t from s_{t−1}, the goal (deck) is "selective write, selective read and selective forget so that only important information is retained in s_t".</p>
+<!--fig:dl-lstm-->
+<figure class="fig" data-caps='["The cell state c is a conveyor belt: long-term memory that can pass through time almost unchanged.","Forget gate: f = σ(W_f·[h_(t−1), x_t] + b_f). Values near 0 erase memory, near 1 keep it. Multiply c_(t−1) by f.","Input gate i = σ(…) decides how much to write, candidate g = tanh(…) is what to write. Multiply them: i ⊙ g.","Update the memory: c_t = f ⊙ c_(t−1) + i ⊙ g (forget some old, add some new).","Output gate o = σ(…) decides what to reveal: h_t = o ⊙ tanh(c_t). h_t is the output and the next hidden state."]' data-intro="Walk through one time step." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="Inside an LSTM cell" style="min-width:620px"><defs><marker id="fa5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><line class="arr" x1="40" y1="70" x2="650" y2="70" marker-end="url(#fa5)"/></g><g data-s="1"><text class="tm" x="40" y="52" text-anchor="start">c(t−1)</text></g><g data-s="1"><text class="tm" x="650" y="52" text-anchor="end">c(t)</text></g><g data-s="1"><text class="acc-t" x="340" y="34" text-anchor="middle">cell state (long-term memory)</text></g><g data-s="2"><line class="s-ink" x1="60" y1="300" x2="540" y2="300"/></g><g data-s="2"><text class="tm" x="40" y="328" text-anchor="start">h(t−1) and x(t) concatenated</text></g><g data-s="2"><rect class="s-acc" x="88" y="190" width="84" height="44" rx="8"/></g><g data-s="2"><text class="tb" x="130" y="218" text-anchor="middle">σ</text></g><g data-s="2"><line class="arr" x1="130" y1="300" x2="130" y2="236" marker-end="url(#fa5)"/></g><g data-s="2"><text class="tm" x="130" y="256" text-anchor="middle">f</text></g><g data-s="2"><line class="arr" x1="130" y1="188" x2="130" y2="86" marker-end="url(#fa5)"/></g><g data-s="2"><circle class="s-mark" cx="130" cy="70" r="14"/></g><g data-s="2"><text class="tb" x="130" y="76" text-anchor="middle">×</text></g><g data-s="3"><rect class="s-acc" x="208" y="190" width="84" height="44" rx="8"/></g><g data-s="3"><text class="tb" x="250" y="218" text-anchor="middle">σ</text></g><g data-s="3"><line class="arr" x1="250" y1="300" x2="250" y2="236" marker-end="url(#fa5)"/></g><g data-s="3"><text class="tm" x="250" y="256" text-anchor="middle">i</text></g><g data-s="3"><rect class="s-acc" x="328" y="190" width="84" height="44" rx="8"/></g><g data-s="3"><text class="tb" x="370" y="218" text-anchor="middle">tanh</text></g><g data-s="3"><line class="arr" x1="370" y1="300" x2="370" y2="236" marker-end="url(#fa5)"/></g><g data-s="3"><text class="tm" x="370" y="256" text-anchor="middle">g</text></g><g data-s="3"><path class="arr" d="M250 188 L250 130 L296 130" marker-end="url(#fa5)"/><path class="arr" d="M370 188 L370 130 L324 130" marker-end="url(#fa5)"/></g><g data-s="3"><circle class="s-mark" cx="310" cy="130" r="14"/></g><g data-s="3"><text class="tb" x="310" y="136" text-anchor="middle">×</text></g><g data-s="4"><line class="arr" x1="310" y1="114" x2="310" y2="86" marker-end="url(#fa5)"/></g><g data-s="4"><circle class="s-mark" cx="310" cy="70" r="14"/></g><g data-s="4"><text class="tb" x="310" y="76" text-anchor="middle">+</text></g><g data-s="5"><rect class="s-acc" x="458" y="190" width="84" height="44" rx="8"/></g><g data-s="5"><text class="tb" x="500" y="218" text-anchor="middle">σ</text></g><g data-s="5"><line class="arr" x1="500" y1="300" x2="500" y2="236" marker-end="url(#fa5)"/></g><g data-s="5"><text class="tm" x="500" y="256" text-anchor="middle">o</text></g><g data-s="5"><path class="arr" d="M440 70 L440 106"/><rect class="s-fill" x="414" y="106" width="52" height="26" rx="6"/><text class="tm" x="440" y="124" text-anchor="middle">tanh</text><path class="arr" d="M440 132 L440 160 L486 160" marker-end="url(#fa5)"/></g><g data-s="5"><line class="arr" x1="500" y1="188" x2="500" y2="176" marker-end="url(#fa5)"/></g><g data-s="5"><circle class="s-mark" cx="500" cy="160" r="14"/></g><g data-s="5"><text class="tb" x="500" y="166" text-anchor="middle">×</text></g><g data-s="5"><line class="arr" x1="516" y1="160" x2="640" y2="160" marker-end="url(#fa5)"/></g><g data-s="5"><text class="tb" x="650" y="166" text-anchor="start">h(t)</text></g></svg></div><figcaption>Walk through one time step.</figcaption></figure>
+<!--/fig:dl-lstm-->
+
+
+    <h3>Step-by-step, as built in the deck</h3>
+    <ol class="steps">
+      <li><strong>Selective write — output gate.</strong> Instead of passing s_{t−1} as it is, pass a fraction of it: <code>h_{t−1} = o_{t−1} ⊙ σ(s_{t−1})</code>, with <code>o_{t−1} = σ(W_o·h_{t−2} + U_o·x_{t−1} + b_o)</code>. The gate o is <em>learned from data</em> (expressed through parameters), a value in (0,1) per component. <code>o_t</code> is the <strong>output gate</strong>.</li>
+      <li><strong>Temporary (candidate) state.</strong> Combine the previous output with the current input: <code>s̃_t = σ(W·h_{t−1} + U·x_t + b)</code>. It captures all the new information, but we may not want to use all of it.</li>
+      <li><strong>Selective read — input gate.</strong> <code>i_t = σ(W_i·h_{t−1} + U_i·x_t + b_i)</code>; the part of the new information actually used is <code>i_t ⊙ s̃_t</code>. <code>i_t</code> is the <strong>input gate</strong>.</li>
+      <li><strong>Selective forget — forget gate.</strong> <code>f_t = σ(W_f·h_{t−1} + U_f·x_t + b_f)</code>; the part of the old state kept is <code>f_t ⊙ s_{t−1}</code>. <code>f_t</code> is the <strong>forget gate</strong>.</li>
+      <li><strong>New state.</strong> <code>s_t = f_t ⊙ s_{t−1} + i_t ⊙ s̃_t</code> (keep part of the old, add part of the new).</li>
+      <li><strong>Output / hidden state.</strong> <code>h_t = o_t ⊙ σ(s_t)</code>; h_t is passed to the next time step (and to the output layer).</li>
+    </ol>
+    <div class="callout violet"><p><strong>Full set of equations (deck).</strong> Gates: <code>o_t = σ(W_o h_{t−1} + U_o x_t + b_o)</code>, <code>i_t = σ(W_i h_{t−1} + U_i x_t + b_i)</code>, <code>f_t = σ(W_f h_{t−1} + U_f x_t + b_f)</code>. States: <code>s̃_t = σ(W h_{t−1} + U x_t + b)</code>, <code>s_t = f_t ⊙ s_{t−1} + i_t ⊙ s̃_t</code>, <code>h_t = o_t ⊙ σ(s_t)</code>. (⊙ = element-wise product.) <span class="tag">Beyond the deck: standard content, but asked in past papers</span> Most textbooks write the cell state as c_t and use <strong>tanh</strong> for the candidate and for the output squashing; the structure is identical.</p></div>
+
+    <h3>Roles of the three gates</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>Forget gate f_t</h4><p>Decides how much of the old state to keep (1 = keep, 0 = erase). Example: forget stop-words, or a previous subject when a new one appears.</p></div>
+      <div class="card"><h4>Input gate i_t</h4><p>Decides how much of the new candidate information is written into the state. Example: store sentiment-bearing words like "awesome".</p></div>
+      <div class="card"><h4>Output gate o_t</h4><p>Decides how much of the state is exposed as the hidden state h_t / output at this step.</p></div>
+    </div>
+
+    <h3>Tiny numeric walkthrough <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h3>
+    <p>One scalar unit with gate outputs already computed: f = 0.8, i = 0.5, o = 0.9, candidate s̃ = 0.6, previous state s_{t−1} = 1.0. Then <code>s_t = 0.8×1.0 + 0.5×0.6 = 1.1</code> and, with tanh squashing, <code>h_t = 0.9 × tanh(1.1) = 0.9 × 0.8005 ≈ 0.72</code>.</p>
+    <p><strong>Parameters of one LSTM layer</strong> <span class="tag">Beyond the deck: standard content, but asked in past papers</span> (hidden size n, input size d): four weight blocks (three gates + candidate), each n·(n + d) + n, so <code>4·[n(n + d) + n]</code>. For n = 3, d = 4: 4 × (3×7 + 3) = 96, which is four times the 24 parameters of a plain RNN's state block, n(n + d) + n.</p>
+
+    <h3>Why LSTM fixes the vanishing gradient <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h3>
+    <p>The state update is <em>additive</em>, <code>s_t = f_t ⊙ s_{t−1} + …</code>, so the derivative <code>∂s_t/∂s_{t−1}</code> is essentially the forget gate f_t. When f_t ≈ 1 the gradient flows back through time almost unchanged, instead of being multiplied by W and σ′ at every step as in a plain RNN.</p>
+
+    <h3>RNN vs LSTM</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Plain RNN</th><th>LSTM</th></tr></thead>
+      <tbody>
+        <tr><td>State update</td><td>s_i = σ(U x_i + W s_{i−1} + b): old state is overwritten (morphed) every step</td><td>s_t = f_t ⊙ s_{t−1} + i_t ⊙ s̃_t: selective keep + selective write</td></tr>
+        <tr><td>Gates</td><td>None</td><td>Forget, input, output</td></tr>
+        <tr><td>Long-range memory</td><td>Poor (vanishing gradient)</td><td>Good (additive state path)</td></tr>
+        <tr><td>Parameters</td><td>One set (U, W, b)</td><td>About 4× more</td></tr>
+        <tr><td>Speed / complexity</td><td>Cheaper, simpler</td><td>Slower, more complex</td></tr>
+        <tr><td>Use</td><td>Short sequences</td><td>Long sequences: translation, speech, text</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><p><strong>Conclusion.</strong> LSTM = RNN + three learned gates. Forget controls the old memory, input controls the new, output controls what is revealed, so important information survives over long sequences.</p></div>
+  </section>
+
+  <!-- AUTOENCODERS -->
+  <section id="autoencoders">
+    <p class="eyebrow">09 · Learning to compress</p>
+    <h2>Autoencoders <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h2>
+    <p><strong>Definition.</strong> An autoencoder is a neural network trained to <strong>reproduce its own input</strong>. Its two main components are the <strong>encoder</strong>, <code>h = f(x)</code>, which maps the input to a hidden code, and the <strong>decoder</strong>, <code>x̂ = g(h)</code>, which reconstructs the input from the code. It is trained without labels (unsupervised) by minimising the reconstruction loss <code>L = ‖x − x̂‖²</code> (mean squared error; cross-entropy for binary inputs).</p>
+<!--fig:dl-autoenc-->
+<figure class="fig" data-caps='["Input x: the data we want to learn a compact description of (6 features here).","Encoder: layers get narrower and squeeze the input.","Bottleneck (code z): only 2 units, fewer than the 6 inputs. This is what makes it undercomplete: it cannot just copy, it must learn what matters.","Decoder: expands the code back to the original size to give the reconstruction x̂.","Training minimises the reconstruction loss ‖x − x̂‖². An overcomplete autoencoder has MORE hidden units than inputs, so it needs a regulariser (sparsity, noise, penalty) to avoid learning the identity."]' data-intro="Build the autoencoder." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 380" role="img" aria-label="An undercomplete autoencoder" style="min-width:620px"><defs><marker id="fa6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="2"><line class="grid-l" x1="110" y1="80" x2="250" y2="124"/></g><g data-s="2"><line class="grid-l" x1="110" y1="80" x2="250" y2="168"/></g><g data-s="2"><line class="grid-l" x1="110" y1="80" x2="250" y2="212"/></g><g data-s="2"><line class="grid-l" x1="110" y1="80" x2="250" y2="256"/></g><g data-s="2"><line class="grid-l" x1="110" y1="124" x2="250" y2="124"/></g><g data-s="2"><line class="grid-l" x1="110" y1="124" x2="250" y2="168"/></g><g data-s="2"><line class="grid-l" x1="110" y1="124" x2="250" y2="212"/></g><g data-s="2"><line class="grid-l" x1="110" y1="124" x2="250" y2="256"/></g><g data-s="2"><line class="grid-l" x1="110" y1="168" x2="250" y2="124"/></g><g data-s="2"><line class="grid-l" x1="110" y1="168" x2="250" y2="168"/></g><g data-s="2"><line class="grid-l" x1="110" y1="168" x2="250" y2="212"/></g><g data-s="2"><line class="grid-l" x1="110" y1="168" x2="250" y2="256"/></g><g data-s="2"><line class="grid-l" x1="110" y1="212" x2="250" y2="124"/></g><g data-s="2"><line class="grid-l" x1="110" y1="212" x2="250" y2="168"/></g><g data-s="2"><line class="grid-l" x1="110" y1="212" x2="250" y2="212"/></g><g data-s="2"><line class="grid-l" x1="110" y1="212" x2="250" y2="256"/></g><g data-s="2"><line class="grid-l" x1="110" y1="256" x2="250" y2="124"/></g><g data-s="2"><line class="grid-l" x1="110" y1="256" x2="250" y2="168"/></g><g data-s="2"><line class="grid-l" x1="110" y1="256" x2="250" y2="212"/></g><g data-s="2"><line class="grid-l" x1="110" y1="256" x2="250" y2="256"/></g><g data-s="2"><line class="grid-l" x1="110" y1="300" x2="250" y2="124"/></g><g data-s="2"><line class="grid-l" x1="110" y1="300" x2="250" y2="168"/></g><g data-s="2"><line class="grid-l" x1="110" y1="300" x2="250" y2="212"/></g><g data-s="2"><line class="grid-l" x1="110" y1="300" x2="250" y2="256"/></g><g data-s="2"><line class="grid-l" x1="250" y1="124" x2="380" y2="168"/></g><g data-s="2"><line class="grid-l" x1="250" y1="124" x2="380" y2="212"/></g><g data-s="2"><line class="grid-l" x1="250" y1="168" x2="380" y2="168"/></g><g data-s="2"><line class="grid-l" x1="250" y1="168" x2="380" y2="212"/></g><g data-s="2"><line class="grid-l" x1="250" y1="212" x2="380" y2="168"/></g><g data-s="2"><line class="grid-l" x1="250" y1="212" x2="380" y2="212"/></g><g data-s="2"><line class="grid-l" x1="250" y1="256" x2="380" y2="168"/></g><g data-s="2"><line class="grid-l" x1="250" y1="256" x2="380" y2="212"/></g><g data-s="4"><line class="grid-l" x1="380" y1="168" x2="510" y2="124"/></g><g data-s="4"><line class="grid-l" x1="380" y1="168" x2="510" y2="168"/></g><g data-s="4"><line class="grid-l" x1="380" y1="168" x2="510" y2="212"/></g><g data-s="4"><line class="grid-l" x1="380" y1="168" x2="510" y2="256"/></g><g data-s="4"><line class="grid-l" x1="380" y1="212" x2="510" y2="124"/></g><g data-s="4"><line class="grid-l" x1="380" y1="212" x2="510" y2="168"/></g><g data-s="4"><line class="grid-l" x1="380" y1="212" x2="510" y2="212"/></g><g data-s="4"><line class="grid-l" x1="380" y1="212" x2="510" y2="256"/></g><g data-s="4"><line class="grid-l" x1="510" y1="124" x2="650" y2="80"/></g><g data-s="4"><line class="grid-l" x1="510" y1="124" x2="650" y2="124"/></g><g data-s="4"><line class="grid-l" x1="510" y1="124" x2="650" y2="168"/></g><g data-s="4"><line class="grid-l" x1="510" y1="124" x2="650" y2="212"/></g><g data-s="4"><line class="grid-l" x1="510" y1="124" x2="650" y2="256"/></g><g data-s="4"><line class="grid-l" x1="510" y1="124" x2="650" y2="300"/></g><g data-s="4"><line class="grid-l" x1="510" y1="168" x2="650" y2="80"/></g><g data-s="4"><line class="grid-l" x1="510" y1="168" x2="650" y2="124"/></g><g data-s="4"><line class="grid-l" x1="510" y1="168" x2="650" y2="168"/></g><g data-s="4"><line class="grid-l" x1="510" y1="168" x2="650" y2="212"/></g><g data-s="4"><line class="grid-l" x1="510" y1="168" x2="650" y2="256"/></g><g data-s="4"><line class="grid-l" x1="510" y1="168" x2="650" y2="300"/></g><g data-s="4"><line class="grid-l" x1="510" y1="212" x2="650" y2="80"/></g><g data-s="4"><line class="grid-l" x1="510" y1="212" x2="650" y2="124"/></g><g data-s="4"><line class="grid-l" x1="510" y1="212" x2="650" y2="168"/></g><g data-s="4"><line class="grid-l" x1="510" y1="212" x2="650" y2="212"/></g><g data-s="4"><line class="grid-l" x1="510" y1="212" x2="650" y2="256"/></g><g data-s="4"><line class="grid-l" x1="510" y1="212" x2="650" y2="300"/></g><g data-s="4"><line class="grid-l" x1="510" y1="256" x2="650" y2="80"/></g><g data-s="4"><line class="grid-l" x1="510" y1="256" x2="650" y2="124"/></g><g data-s="4"><line class="grid-l" x1="510" y1="256" x2="650" y2="168"/></g><g data-s="4"><line class="grid-l" x1="510" y1="256" x2="650" y2="212"/></g><g data-s="4"><line class="grid-l" x1="510" y1="256" x2="650" y2="256"/></g><g data-s="4"><line class="grid-l" x1="510" y1="256" x2="650" y2="300"/></g><g data-s="1"><circle class="s-acc" cx="110" cy="80" r="14"/></g><g data-s="1"><circle class="s-acc" cx="110" cy="124" r="14"/></g><g data-s="1"><circle class="s-acc" cx="110" cy="168" r="14"/></g><g data-s="1"><circle class="s-acc" cx="110" cy="212" r="14"/></g><g data-s="1"><circle class="s-acc" cx="110" cy="256" r="14"/></g><g data-s="1"><circle class="s-acc" cx="110" cy="300" r="14"/></g><g data-s="2"><circle class="s-fill" cx="250" cy="124" r="14"/></g><g data-s="2"><circle class="s-fill" cx="250" cy="168" r="14"/></g><g data-s="2"><circle class="s-fill" cx="250" cy="212" r="14"/></g><g data-s="2"><circle class="s-fill" cx="250" cy="256" r="14"/></g><g data-s="3"><circle class="s-mark" cx="380" cy="168" r="14"/></g><g data-s="3"><circle class="s-mark" cx="380" cy="212" r="14"/></g><g data-s="4"><circle class="s-fill" cx="510" cy="124" r="14"/></g><g data-s="4"><circle class="s-fill" cx="510" cy="168" r="14"/></g><g data-s="4"><circle class="s-fill" cx="510" cy="212" r="14"/></g><g data-s="4"><circle class="s-fill" cx="510" cy="256" r="14"/></g><g data-s="4"><circle class="s-acc" cx="650" cy="80" r="14"/></g><g data-s="4"><circle class="s-acc" cx="650" cy="124" r="14"/></g><g data-s="4"><circle class="s-acc" cx="650" cy="168" r="14"/></g><g data-s="4"><circle class="s-acc" cx="650" cy="212" r="14"/></g><g data-s="4"><circle class="s-acc" cx="650" cy="256" r="14"/></g><g data-s="4"><circle class="s-acc" cx="650" cy="300" r="14"/></g><g data-s="1"><text class="tb" x="110" y="326" text-anchor="middle">input x</text></g><g data-s="2"><text class="tb" x="250" y="326" text-anchor="middle">encoder</text></g><g data-s="3"><text class="tb" x="380" y="326" text-anchor="middle">code z</text></g><g data-s="4"><text class="tb" x="510" y="326" text-anchor="middle">decoder</text></g><g data-s="4"><text class="tb" x="650" y="326" text-anchor="middle">output x̂</text></g><g data-s="5"><rect class="s-mark" x="190" y="346" width="380" height="28" rx="8"/></g><g data-s="5"><text class="tm" x="380" y="366" text-anchor="middle">loss = ‖x − x̂‖²   (make x̂ look like x)</text></g></svg></div><figcaption>Build the autoencoder.</figcaption></figure>
+<!--/fig:dl-autoenc-->
+
+
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Undercomplete</th><th>Overcomplete</th></tr></thead>
+      <tbody>
+        <tr><td>Code size</td><td>Smaller than the input (h &lt; n)</td><td>Equal to or larger than the input (h ≥ n)</td></tr>
+        <tr><td>Effect</td><td>The bottleneck forces the network to learn the most important features (compression)</td><td>Can copy the input (identity) and learn nothing useful</td></tr>
+        <tr><td>Remedy / variant</td><td>Not needed</td><td>Add regularisation: sparse, denoising or contractive autoencoder</td></tr>
+        <tr><td>Typical use</td><td>Dimensionality reduction, feature learning</td><td>Denoising, sparse representations</td></tr>
+      </tbody>
+    </table></div>
+    <p>An undercomplete autoencoder with a linear encoder and decoder behaves like PCA; non-linear activations let it learn a more powerful non-linear compression.</p>
+
+    <h3>Layer-wise pre-training</h3>
+    <ol class="steps">
+      <li>Train a first autoencoder on the raw input x to reconstruct x; keep its hidden code h₁ and discard its decoder.</li>
+      <li>Train a second autoencoder on h₁ (the codes of the first) to reconstruct h₁; keep its code h₂. Repeat for as many layers as wanted.</li>
+      <li>Stack the trained encoders to form a deep network, add the output (classifier) layer on top.</li>
+      <li><strong>Fine-tune</strong> the whole stack with ordinary backpropagation on the labelled task.</li>
+    </ol>
+    <p>Each layer starts from a sensible initialisation instead of random weights, which was important before modern activations and normalisation made deep networks easy to train directly.</p>
+
+    <h3>Use in feature learning and applications</h3>
+    <p>The hidden code is a compact, learned feature vector that can feed a classifier (needing fewer labelled examples), be used for visualisation, or support <strong>denoising</strong> (reconstruct clean data from corrupted input), <strong>anomaly detection</strong> (large reconstruction error flags unusual samples) and compression. Parameter example: a 784 → 32 → 784 autoencoder has (784×32 + 32) + (32×784 + 784) = 25,120 + 25,872 = <strong>50,992</strong> parameters.</p>
+    <div class="callout violet"><p><strong>Conclusion.</strong> An autoencoder learns features by reconstruction; undercomplete ones compress through a bottleneck, overcomplete ones need regularisation, and layer-wise pre-training stacks them into a deep, pre-initialised network.</p></div>
+
+    <h3>Unit 5 — Summary</h3>
+    <ul>
+      <li>CNN = learned filters + sparse connectivity + weight sharing; output size is ⌊(W − F + 2P)/S⌋ + 1 and output depth is K</li>
+      <li>Conv params = (F·F·D_I + 1)·K; pooling and activations add none; the deck's example costs 1,228,800 multiplications</li>
+      <li>AlexNet: 5 conv + 3 FC, ReLU, dropout, ≈ 60 M parameters; VGG-16: 13 conv + 3 FC, all 3×3, ≈ 138 M parameters; GoogLeNet uses Inception with 1×1 reductions; ResNet uses skip connections</li>
+      <li>RNN: s_i = σ(U x_i + W s_{i−1} + b) with shared weights handles variable-length sequences, but gradients vanish over long ranges</li>
+      <li>LSTM adds forget, input and output gates around an additive state, so long-range information survives</li>
+      <li>Autoencoders learn compact features by reconstructing the input</li>
+    </ul>
+    <div class="grid cols-2">
+      <div class="card"><h4>📚 Question Bank</h4><p>Exam-style answers on CNNs, convolution arithmetic, pooling, parameter counting, AlexNet, VGG-16, RNN, vanishing gradients, LSTM and autoencoders.</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 5 Question Bank →</a></p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Unit 5 — CNNs, Architectures, RNNs &amp; LSTMs · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 Question Bank — Deep Learning</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:15.5px;color:#ddd0f0;max-width:720px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:900px;margin:0 auto;padding:0 20px;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(19px,3vw,24px);margin:0 0 4px;color:var(--navy-2);}
+  .range{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .qa{padding:14px 0;border-bottom:1px solid var(--line);}
+  .qa:last-child{border-bottom:none;}
+  .qa .q{font-weight:700;color:var(--navy-2);margin:0 0 5px;display:flex;gap:9px;font-size:14.8px;}
+  .qa .q .num{color:var(--coral);font-family:Consolas,monospace;flex-shrink:0;min-width:2.2em;}
+  .qa .q .marks{font-weight:400;font-size:12px;color:var(--muted);margin-left:auto;flex-shrink:0;white-space:nowrap;}
+  .qa .a{color:#4a3d5c;font-size:14px;margin:0 0 0 2.9em;max-width:700px;}
+  .qa .a p{margin:0 0 6px;}
+  .tag{display:inline-block;background:#fff4d6;color:#8a5a00;border:1px solid #ffd98a;border-radius:999px;padding:1px 9px;font-size:11.5px;font-weight:700;vertical-align:middle;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:560px){ .qa .a{margin-left:0;} }
+</style>
+<link rel="stylesheet" href="../../assets/theme-toggle.css">
+<link rel="preload" href="../../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · UNIT 5</span>
+  <h1>📚 Unit 5 — Question Bank Answers</h1>
+  <p>Concise, exam-ready answers to Q1–Q34 — CNN basics and convolution arithmetic, pooling and
+     parameter counting, AlexNet / VGG-16 and other deep models, RNN, LSTM and autoencoders.
+     Items marked "Beyond the deck" are standard content that past papers have asked.</p>
+  <a class="back" href="index.html">← Back to Unit 5 notes</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#g1">Q1–9 · CNN &amp; Convolution</a>
+    <a href="#g2">Q10–16 · Pooling &amp; Parameters</a>
+    <a href="#g3">Q17–22 · Deep Conv Models</a>
+    <a href="#g4">Q23–34 · RNN, LSTM &amp; Autoencoders</a>
+    <a href="index.html" style="color:var(--coral);">← Unit 5 notes</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="g1">
+    <p class="eyebrow">Group A</p>
+    <h2>CNN basics and convolution arithmetic</h2>
+    <p class="range">Question Bank Q1–9</p>
+
+    <div class="qa"><p class="q"><span class="num">Q1</span>What is a Convolutional Neural Network, and how does it differ from a fully connected network?<span class="marks">3 marks</span></p><div class="a">A CNN is a deep network whose layers apply learned filters (kernels) that slide over the input (e.g. an image) to produce feature maps, followed by a classifier. Unlike a fully connected network, each unit sees only a small local patch (<strong>sparse connectivity</strong>) and the same kernel is reused at every position (<strong>weight sharing</strong>), so it has far fewer parameters, keeps spatial structure and overfits less.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q2</span>Why have CNNs been so successful in image tasks? Trace the idea from hand-crafted features.<span class="marks">3 marks</span></p><div class="a">Early systems fed raw pixels or fixed hand-crafted features (edge detectors, SIFT/HOG) to a classifier: only the classifier was learned. A CNN also <strong>learns the filter weights</strong> by backpropagation, and stacking layers builds a hierarchy (edges, then parts, then objects). On ImageNet the top-5 error fell from 25.8% (2011) to 16.4% with AlexNet (2012), then to 3.57% with the 152-layer ResNet (2015).</div></div>
+    <div class="qa"><p class="q"><span class="num">Q3</span>Explain sparse connectivity and weight sharing.<span class="marks">3 marks</span></p><div class="a">Sparse connectivity: an output unit is connected only to a small patch of the input (the kernel's size), not to all inputs. Weight sharing: the same kernel weights are applied at every spatial position, and several kernels on the same input give several feature maps. Together they make the parameter count depend only on F×F×depth×K and not on image size. Example: a fully connected layer from 227×227×3 to 55×55×96 would need about 4.5×10¹⁰ weights, whereas the conv layer needs 11×11×3×96 = 34,848.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q4</span>Define 2-D convolution and compute the output for the 4×4 image [[3,0,5,8],[2,1,7,1],[1,2,3,0],[3,4,6,9]] with kernel [[1,−1,−1],[−1,1,−1],[−1,−1,1]] (no padding).<span class="marks">3 marks</span></p><div class="a">2-D convolution slides the kernel over the image; at each position multiply element-wise and sum: S_ij = Σ_a Σ_b I_{i+a,j+b}·K_{a,b}. The output is 2×2 because 4 − 3 + 1 = 2. Top-left: 3 + 0 − 5 − 2 + 1 − 7 − 1 − 2 + 3 = −10. The full output is [[−10, −13],[−9, −7]].</div></div>
+    <div class="qa"><p class="q"><span class="num">Q5</span>Why is the convolution of a 3-D input (e.g. RGB) still called a 2-D operation? What is the output depth?<span class="marks">2 marks</span></p><div class="a">The filter is 3-D and its depth equals the input depth, so it slides only vertically and horizontally, never along the depth. Each filter produces one 2-D output; K filters produce K such maps, so the output is 3-D with <strong>D_O = K</strong>.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q6</span>Write the formula for the output size of a convolution layer with padding P and stride S.<span class="marks">2 marks</span></p><div class="a">W_O = ⌊(W_I − F + 2P)/S⌋ + 1 and H_O = ⌊(H_I − F + 2P)/S⌋ + 1, with D_O = K. Without padding and with stride 1 this reduces to W_O = W_I − F + 1. For "same" size with S = 1 use P = (F − 1)/2.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q7</span>What are the effects of padding and stride on the output?<span class="marks">2 marks</span></p><div class="a">Without padding the kernel cannot be placed at the borders, so the output is smaller than the input; padding with zeros (P) restores the size, and a bigger kernel needs more padding. A higher stride moves the kernel in bigger jumps, so the output becomes smaller (e.g. W = 7, F = 3, P = 1: S = 1 gives 7, S = 2 gives 4).</div></div>
+    <div class="qa"><p class="q"><span class="num">Q8</span>An input is 227×227×3. The first layer has 96 filters of 11×11, stride 4, no padding. Find the width, height and depth of its output.<span class="marks">2 marks</span></p><div class="a">W_O = H_O = (227 − 11 + 0)/4 + 1 = 216/4 + 1 = 55, and D_O = K = 96. The output is <strong>55 × 55 × 96</strong>. This is AlexNet's first layer, which has 11×11×3×96 = 34,848 weights (the deck says "34K").</div></div>
+    <div class="qa"><p class="q"><span class="num">Q9</span>A 12×12×3 input goes through 256 kernels of 5×5×3 (S = 1, P = 0). Find the output size, number of trainable parameters and number of multiplications.<span class="marks">3 marks</span></p><div class="a">Output: (12 − 5)/1 + 1 = 8, so 8×8×256. Parameters: 5×5×3×256 = 19,200 weights (19,456 with 256 biases). Multiplications: 256 kernels × 5×5×3 × 8×8 positions = 256×5×5×3×8×8 = <strong>1,228,800</strong>.</div></div>
+  </section>
+
+  <section id="g2">
+    <p class="eyebrow">Group B</p>
+    <h2>Pooling, parameter counting and CNN design</h2>
+    <p class="range">Question Bank Q10–16</p>
+
+    <div class="qa"><p class="q"><span class="num">Q10</span>What is pooling? Explain max-pooling and average-pooling with an example.<span class="marks">3 marks</span></p><div class="a">Pooling replaces each window of a feature map (each depth slice separately) with one number, shrinking height and width. Max-pooling takes the maximum, average-pooling the mean. Example (2×2, stride 2): [[1,1,2,4],[5,6,7,8],[3,2,1,0],[1,2,3,4]] gives max-pool [[6,8],[3,4]]; [[2,2,7,3],[9,4,6,1],[8,5,2,4],[3,1,2,6]] gives average-pool [[4.25,4.25],[4.25,3.5]].</div></div>
+    <div class="qa"><p class="q"><span class="num">Q11</span>Does a pooling layer have trainable parameters? How does it change the output size and depth?<span class="marks">2 marks</span></p><div class="a">No, pooling has zero trainable parameters; it only applies a fixed max or mean. The size follows the same formula ⌊(W − F + 2P)/S⌋ + 1 (a 2×2 pool with stride 2 halves width and height), and the depth is unchanged. Max-pooling with F = 3, S = 1, P = 1 keeps the size the same.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q12</span>Give the formula for the number of trainable parameters in a convolution layer and in a fully connected layer.<span class="marks">2 marks</span></p><div class="a">Convolution: (F × F × D_I + 1) × K, where D_I is the input depth, K the number of filters and the +1 is each filter's bias (the deck counts only F×F×D_I×K). Fully connected: n_in × n_out + n_out. Pooling and activation layers have 0 parameters.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q13</span>Find the trainable parameters at every step: Input(10,10,1) → Convolution2D(5,3) → Activation('Sigmoid') → Convolution2D(2,3) → Activation('Sigmoid').<span class="marks">3 marks</span></p><div class="a">Step 2, Conv2D(5,3): 5 filters × (3×3×1 weights + 1 bias) = 5 × 10 = <strong>50</strong>; output 8×8×5. Step 3, sigmoid: 0. Step 4, Conv2D(2,3): 2 filters × (3×3×5 weights + 1 bias) = 2 × 46 = <strong>92</strong>; output 6×6×2 (the filter depth is 5 because the input has 5 channels). Step 5, sigmoid: 0. Total = 142.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q14</span>For the small CNN: 32×32 input, conv (6 filters, 5×5), pool 2×2, conv (16 filters, 5×5), pool 2×2, FC 120, FC 84, output 10. Give the output shape and parameters of each layer.<span class="marks">4 marks</span></p><div class="a">Conv1: 28×28×6, 6×(5×5×1+1) = 156 (150 without bias). Pool1: 14×14×6, 0. Conv2: 10×10×16, 16×(5×5×6+1) = 2,416 (2,400 without bias). Pool2: 5×5×16 = 400 values, 0. FC1: 400×120 + 120 = 48,120. FC2: 120×84 + 84 = 10,164. Output: 84×10 + 10 = 850. Total = 61,706.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q15</span>What are the main hyperparameters and design steps of a CNN?<span class="marks">3 marks</span></p><div class="a">Hyperparameters (deck): number of layers, number of filters in each layer, size of the filters and the max-pooling layers; also stride and padding. Design: choose the input size, stack [conv → pool] blocks tracking shapes with the output-size formula, flatten, add fully connected layers, and end with softmax and categorical cross-entropy for multi-class output; then count parameters and regularise (dropout, augmentation).</div></div>
+    <div class="qa"><p class="q"><span class="num">Q16</span>Describe how you would approach an image-classification problem in a Kaggle competition. <span class="tag">Beyond the deck: standard content, but asked in past papers</span><span class="marks">4 marks</span></p><div class="a">Load and resize the images, normalise pixel values, split into training and validation sets, and augment the training images (flips, crops, rotations). Build a CNN, or use transfer learning: take an ImageNet-pretrained network (VGG, ResNet), replace its last layer and fine-tune. Train with softmax and categorical cross-entropy (sigmoid for multi-label), Adam and early stopping, monitor validation accuracy or log-loss, then predict the test set and submit.</div></div>
+  </section>
+
+  <section id="g3">
+    <p class="eyebrow">Group C</p>
+    <h2>Deep convolutional models</h2>
+    <p class="range">Question Bank Q17–22</p>
+
+    <div class="qa"><p class="q"><span class="num">Q17</span>Explain the architecture and key features of AlexNet. How did it contribute to computer vision and deep learning?<span class="marks">5 marks</span></p><div class="a"><p>AlexNet (ImageNet 2012 winner, 16.4% top-5 error) has <strong>8 learned layers: 5 convolutional + 3 fully connected</strong>, with input 227×227×3 (224 in the paper). Conv1: 96 filters 11×11, stride 4 → 55×55×96 (34,848 weights); then 3×3 max-pool, stride 2 → 27×27; conv2 256 filters 5×5; pool; conv3 384, conv4 384, conv5 256 filters (3×3); pool → 6×6×256; FC 4096 → FC 4096 → FC 1000 with softmax. About 60 M parameters, most of them in the FC layers.</p><p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> Key features: ReLU activation (fast training), dropout in the FC layers, overlapping max-pooling (3×3, stride 2), local response normalisation, data augmentation, two-GPU training. Contribution: showed that deep CNNs trained on large data with GPUs far outperform hand-crafted features (error 25.8% to 16.4%), which started the deep-learning era in vision.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q18</span>Explain the architecture and key features of VGG-16. How does it contribute to computer vision?<span class="marks">5 marks</span></p><div class="a"><p>VGG-16 has <strong>13 convolutional + 3 fully connected layers</strong>. Every convolution is 3×3 with stride 1 and padding 1 (size preserved) and every pooling is 2×2 with stride 2. Input 224×224×3; blocks of 2×conv64, 2×conv128, 3×conv256, 3×conv512, 3×conv512, each followed by a max-pool (224 → 112 → 56 → 28 → 14 → 7); then FC 4096, FC 4096 and FC 1000 with softmax. Total about 138 M parameters: conv layers ≈ 14.7 M, FC ≈ 123.6 M, and the first FC layer (512×7×7×4096) alone is about 102 M.</p><p><span class="tag">Beyond the deck: standard content, but asked in past papers</span> Key idea: stacking small 3×3 filters (two = 5×5 receptive field with 18 instead of 25 weights, three = 7×7 with 27 instead of 49) gives depth and extra non-linearity cheaply. Contribution: showed that depth with a simple uniform design improves accuracy (7.3% top-5 error for the 19-layer version) and gave a widely used feature extractor for transfer learning; its drawback is size and compute.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q19</span>Compare AlexNet and VGG-16.<span class="marks">3 marks</span></p><div class="a">AlexNet: 8 weight layers (5 conv + 3 FC), mixed filter sizes (11×11, 5×5, 3×3), about 60 M parameters, 16.4% error, introduced ReLU, dropout and GPU training. VGG-16: 16 weight layers (13 conv + 3 FC), only 3×3 filters with 2×2 pooling, about 138 M parameters, lower error (7.3% for the 19-layer version), and a simple repeated block design. Both end in FC 4096, 4096, 1000 layers that hold most of the parameters.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q20</span>Explain the Inception module of GoogLeNet and why 1×1 convolutions are used.<span class="marks">3 marks</span></p><div class="a">An Inception module applies 1×1, 3×3 and 5×5 convolutions and a 3×3 max-pool in parallel to the same input and concatenates the outputs, so the network picks the useful scale itself. 1×1 convolutions (with D_O &lt; D_I filters) reduce the depth, and hence the number of computations, before the expensive 3×3 and 5×5 convolutions. Deck example: input 28×28×256 → branches 96 + 192 + 96 + 64 = 28×28×448. GoogLeNet has 22 layers, auxiliary losses and a final 7×7×1024 average pooling (6.7% error).</div></div>
+    <div class="qa"><p class="q"><span class="num">Q21</span>What are skip connections in ResNet and what problem do they solve? <span class="tag">Beyond the deck: standard content, but asked in past papers</span><span class="marks">3 marks</span></p><div class="a">A residual block outputs y = F(x) + x: the input is added to the output of a few convolution layers, so the layers learn only the residual F(x). The identity path gives gradients a direct route backwards, which fixes the vanishing-gradient/degradation problem of very deep plain networks and makes 152 layers trainable (3.57% top-5 error in the deck's chart).</div></div>
+    <div class="qa"><p class="q"><span class="num">Q22</span>Describe LeNet-5 and give its parameter count. <span class="tag">Beyond the deck: standard content, but asked in past papers</span><span class="marks">3 marks</span></p><div class="a">LeNet-5 (LeCun, 1998) recognises handwritten digits: input 32×32 → conv 6 filters 5×5 (28×28×6) → pool (14×14) → conv 16 filters 5×5 (10×10×16) → pool (5×5) → FC 120 → FC 84 → output 10. Parameters: 156 + 2,416 + 48,120 + 10,164 + 850 = 61,706 (about 61.7 K). It established the conv → pool → FC pattern that later networks scaled up.</div></div>
+  </section>
+
+  <section id="g4">
+    <p class="eyebrow">Group D</p>
+    <h2>RNN, LSTM and autoencoders</h2>
+    <p class="range">Question Bank Q23–34</p>
+
+    <div class="qa"><p class="q"><span class="num">Q23</span>What is sequential data? Why can feed-forward networks and CNNs not handle it well?<span class="marks">3 marks</span></p><div class="a">Sequential data (text, speech, time series, video) is an ordered list of variable length where each element depends on the earlier ones. Feed-forward networks and CNNs have two limits: outputs are independent of previous inputs, and the input is of a fixed length. Sequence learning needs y_t = f(x₁, …, x_t): dependence on past inputs, handling of variable length, and the same function at each step.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q24</span>Explain the working of a Recurrent Neural Network and how it handles sequential data.<span class="marks">6 marks</span></p><div class="a"><p>An RNN reads the sequence one element at a time and keeps a hidden state s that summarises what it has seen: <code>s_i = σ(U·x_i + W·s_{i−1} + b)</code>, <code>y_i = O(V·s_i + c)</code>. U maps the input, W maps the previous state (the recurrence) and V maps the state to the output. The <strong>same weights U, W, V are used at every time step</strong> (parameter sharing), so the model handles any sequence length with a fixed number of parameters, and every output depends on all earlier inputs through s.</p><p>For sequence classification the output is taken at the last step (ŷ = O(V·s_T + c)); for sequence labelling at every step. Words are prepared with &lt;sos&gt;/&lt;eos&gt;/&lt;pad&gt; symbols and one-hot vectors over the vocabulary; the loss is cross-entropy (−log y_c) summed over the steps, trained with backpropagation through time. Applications: sentiment analysis, POS tagging, machine translation, speech recognition, time-series forecasting.</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q25</span>In what ways do RNNs differ from CNNs?<span class="marks">2 marks</span></p><div class="a">RNNs process sequences of variable length and carry a hidden state through time (recurrent connection, weights shared across time steps), trained by backpropagation through time and suffering from vanishing gradients. CNNs process fixed-size grid data such as images with local filters and weights shared across space, have no memory across inputs, and are highly parallel. <span class="tag">Beyond the deck: standard content, but asked in past papers</span></div></div>
+    <div class="qa"><p class="q"><span class="num">Q26</span>Name three key applications of RNNs.<span class="marks">2 marks</span></p><div class="a">(1) Language tasks: next-word prediction, machine translation and sentiment classification. (2) Speech recognition (audio frames in, text out). (3) Time-series forecasting, e.g. stock or sensor data. Others from the deck: part-of-speech tagging, named-entity recognition, transliteration and video classification.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q27</span>Discuss the vanishing gradient problem in RNNs.<span class="marks">6 marks</span></p><div class="a"><p>In an RNN the same weight matrix W is applied at every step, and the hidden state of the old input is repeatedly morphed by new inputs. During backpropagation through time the gradient reaching step t − k is a product of k Jacobians, ∂s_t/∂s_{t−k} = Π ∂s_j/∂s_{j−1}, each containing W and the activation derivative σ′ (at most 0.25 for sigmoid, at most 1 for tanh). If these factors are below 1 the product shrinks exponentially (0.25¹⁰ ≈ 10⁻⁶), so early inputs receive almost no learning signal. The deck states it as: information does not flow well during backpropagation.</p><p>Consequence: the RNN learns only short-range dependencies and forgets long-range context. If the factors exceed 1 the gradient explodes instead (fixed by gradient clipping). Remedies: gated cells (LSTM, GRU), careful initialisation, ReLU-type activations, and skip connections. <span class="tag">Beyond the deck: standard content, but asked in past papers</span></p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q28</span>Why does a plain RNN struggle with long sequences, and what strategy does the LSTM use? Give the whiteboard analogy.<span class="marks">3 marks</span></p><div class="a">The RNN has a finite-size state that is overwritten at every step, so old information is lost. Analogy: a whiteboard of finite size on which you must <strong>selectively write</strong> new content, <strong>selectively read</strong> what is already written, and <strong>selectively forget (erase)</strong> some content. The LSTM implements exactly these three operations with an output (write), input (read) and forget gate. In a review such as "The first half was dry but the second half picked up", the LSTM forgets stop-words and keeps sentiment-bearing words.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q29</span>Give a step-by-step walkthrough of the LSTM architecture, explaining the forget, input and output gates.<span class="marks">7 marks</span></p><div class="a"><p>All gates are sigmoids producing values in (0,1): <code>o_t = σ(W_o h_{t−1} + U_o x_t + b_o)</code>, <code>i_t = σ(W_i h_{t−1} + U_i x_t + b_i)</code>, <code>f_t = σ(W_f h_{t−1} + U_f x_t + b_f)</code>. Steps: (1) the previous hidden state is h_{t−1} = o_{t−1} ⊙ σ(s_{t−1}) (selective write by the <strong>output gate</strong>); (2) compute the candidate state s̃_t = σ(W h_{t−1} + U x_t + b), which holds all new information; (3) the <strong>input gate</strong> chooses what to read from it: i_t ⊙ s̃_t; (4) the <strong>forget gate</strong> chooses what to keep of the old state: f_t ⊙ s_{t−1}; (5) new state s_t = f_t ⊙ s_{t−1} + i_t ⊙ s̃_t; (6) h_t = o_t ⊙ σ(s_t) is passed to the next step and the output layer.</p><p>Roles: forget gate = how much old memory to keep; input gate = how much new information to write; output gate = how much of the state to expose. (Most textbooks use c_t for the cell state and tanh in place of σ for s̃_t and the output; the structure is the same.)</p></div></div>
+    <div class="qa"><p class="q"><span class="num">Q30</span>Explain the functions of any two gates in an LSTM.<span class="marks">2 marks</span></p><div class="a">Forget gate f_t = σ(W_f h_{t−1} + U_f x_t + b_f): a value between 0 and 1 per component that decides how much of the previous state s_{t−1} is kept (0 erases, 1 keeps). Input gate i_t = σ(W_i h_{t−1} + U_i x_t + b_i): decides how much of the new candidate s̃_t is written into the state. (The output gate o_t decides how much of the state is exposed as h_t.)</div></div>
+    <div class="qa"><p class="q"><span class="num">Q31</span>Compare RNN and LSTM networks, highlighting the key differences.<span class="marks">4 marks</span></p><div class="a">RNN: one update s_i = σ(U x_i + W s_{i−1} + b) that overwrites the state each step, no gates, vanishing gradients, poor long-range memory, fewer parameters, faster. LSTM: gated update s_t = f_t ⊙ s_{t−1} + i_t ⊙ s̃_t with forget, input and output gates, an additive state path that lets gradients flow (∂s_t/∂s_{t−1} ≈ f_t), good long-range memory, about 4× the parameters (4·[n(n+d)+n]) and more computation. Use RNNs for short sequences, LSTMs for long ones. <span class="tag">Beyond the deck: standard content, but asked in past papers</span></div></div>
+    <div class="qa"><p class="q"><span class="num">Q32</span>Work out the output of one LSTM step: f = 0.8, i = 0.5, o = 0.9, candidate s̃ = 0.6, s_{t−1} = 1.0 (tanh squashing).<span class="marks">3 marks</span></p><div class="a">New state: s_t = f·s_{t−1} + i·s̃ = 0.8×1.0 + 0.5×0.6 = 0.8 + 0.3 = 1.1. Hidden state: h_t = o·tanh(s_t) = 0.9 × tanh(1.1) = 0.9 × 0.8005 ≈ 0.72. The forget gate kept 80% of the old memory and the input gate wrote 50% of the candidate.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q33</span>What is an autoencoder? What are its two main components, and how do undercomplete and overcomplete autoencoders differ? <span class="tag">Beyond the deck: standard content, but asked in past papers</span><span class="marks">4 marks</span></p><div class="a">An autoencoder is a network trained without labels to reproduce its input, minimising the reconstruction loss ‖x − x̂‖². Components: an <strong>encoder</strong> h = f(x) that compresses the input into a code, and a <strong>decoder</strong> x̂ = g(h) that reconstructs it. Undercomplete: code smaller than the input, so the bottleneck forces it to learn the most important features. Overcomplete: code equal or larger than the input, which can simply copy the input unless regularised (sparse, denoising or contractive variants). The main benefit in feature learning is a compact, learned feature vector obtained without labels.</div></div>
+    <div class="qa"><p class="q"><span class="num">Q34</span>Explain layer-wise pre-training of an autoencoder and its use in feature learning. <span class="tag">Beyond the deck: standard content, but asked in past papers</span><span class="marks">3 marks</span></p><div class="a">Train a first autoencoder on the input x and keep its code h₁ (discard its decoder); train a second autoencoder on h₁ to get h₂; repeat for each layer. Stack the trained encoders into a deep network, add a classifier on top and <strong>fine-tune</strong> everything with backpropagation on the labelled task. Each layer starts from useful, data-driven weights rather than random ones, which helps deep networks train and reduces the labelled data needed; the learned codes are also used for dimensionality reduction, denoising and anomaly detection.</div></div>
+  </section>
+
+</main>
+
+<footer>Unit 5 Question Bank · Deep Learning · Sem 5 revision notes</footer>
+
+<script src="../../assets/theme-toggle.js" defer></script>
+<script src="../../assets/ese.js" defer></script>
+</body>
+</html>

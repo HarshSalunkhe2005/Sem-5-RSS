@@ -106,8 +106,9 @@
   /* ---------- Test yourself (unit index pages) ---------- */
   if (SUBJ && /^(CC|NLP|CN|DL)\/Unit [0-9]+\/index\.html$/.test(rel)) {
     var qb = BASE + rel.replace(/index\.html$/, "question-bank.html");
-    fetch(qb).then(function (r) { return r.ok ? r.text() : Promise.reject(); }).then(function (html) {
-      var doc = new DOMParser().parseFromString(html, "text/html");
+    Promise.all([qb, qb.replace("question-bank.html", "question-bank-2.html")].map(function (u) { return fetch(u).then(function (r) { return r.ok ? r.text() : ""; }).catch(function () { return ""; }); })).then(function (htmls) {
+      if (!htmls[0]) return Promise.reject();
+      var doc = new DOMParser().parseFromString(htmls.join(" "), "text/html");
       var items = [].slice.call(doc.querySelectorAll(".qa")).map(function (q, i) {
         var qe = q.querySelector(".q"), ae = q.querySelector(".a"); if (!qe || !ae) return null;
         var qq = qe.cloneNode(true); [].forEach.call(qq.querySelectorAll(".num,.marks"), function (x) { x.remove(); });
@@ -136,7 +137,7 @@
   [].slice.call(d.querySelectorAll("figure.fig[data-caps]")).forEach(function (fg) {
     var caps; try { caps = JSON.parse(fg.getAttribute("data-caps")); } catch (e) { return; }
     var n = caps.length, cur = 0, timer = null;
-    var items = [].slice.call(fg.querySelectorAll("[data-s]"));
+    var items = [].slice.call(fg.querySelectorAll("[data-s],[data-only]"));
     var cap = fg.querySelector("figcaption"); if (!cap) { cap = el("figcaption"); fg.appendChild(cap); }
     cap.setAttribute("aria-live", "polite");
     fg.classList.add("js");
@@ -154,7 +155,7 @@
     fg.insertBefore(ctl, cap);
     function go(i) {
       cur = Math.max(0, Math.min(n, i));
-      items.forEach(function (x) { var s = +x.getAttribute("data-s"); x.classList.toggle("on", s <= cur); x.classList.toggle("now", s === cur); });
+      items.forEach(function (x) { var o = x.getAttribute("data-only"); if (o !== null) { x.classList.toggle("on", +o === cur); x.classList.toggle("now", +o === cur); return; } var s = +x.getAttribute("data-s"); x.classList.toggle("on", s <= cur); x.classList.toggle("now", s === cur); });
       cap.textContent = cur === 0 ? (fg.getAttribute("data-intro") || "Press Next to build the diagram step by step.") : caps[cur - 1];
       count.textContent = "step " + cur + " / " + n;
       prev.disabled = cur === 0; nxt.disabled = cur >= n;
@@ -169,9 +170,11 @@
     var subj = fa.getAttribute("data-subject"), nUnits = +fa.getAttribute("data-units") || 3;
     var cards = [], view = [], idx = 0, onlyNew = false, unitSel = "all";
     fa.innerHTML = '<p class="flash-meta">Loading cards…</p>';
-    var loads = [];
-    for (var u = 1; u <= nUnits; u++) (function (u) {
-      var url = BASE + subj + "/Unit " + u + "/question-bank.html";
+    var loads = [], sources = [];
+    for (var u = 1; u <= nUnits; u++) sources.push({ unit: u, file: "Unit " + u + "/question-bank.html" });
+    (fa.getAttribute("data-extra") || "").split(",").forEach(function (x) { x = x.trim(); if (!x) return; var m = x.match(/Unit (d+)/); sources.push({ unit: m ? +m[1] : 0, file: x }); });
+    sources.forEach(function (s) {
+      var url = BASE + subj + "/" + s.file;
       loads.push(fetch(encodeURI(url)).then(function (r) { return r.ok ? r.text() : ""; }).then(function (h) {
         if (!h) return;
         var doc = new DOMParser().parseFromString(h, "text/html");
@@ -179,10 +182,10 @@
           var qe = q.querySelector(".q"), ae = q.querySelector(".a"); if (!qe || !ae) return;
           var qq = qe.cloneNode(true); [].forEach.call(qq.querySelectorAll(".marks"), function (x) { x.remove(); });
           var num = qq.querySelector(".num"); var numTxt = num ? num.textContent.trim() : ""; if (num) num.remove();
-          cards.push({ id: subj + "/Unit " + u + "#" + i, unit: u, tag: "Unit " + u + (numTxt ? " · " + numTxt : ""), q: qq.textContent.trim(), a: ae.innerHTML });
+          cards.push({ id: subj + "/" + s.file + "#" + i, unit: s.unit, tag: (s.unit ? "Unit " + s.unit : "Extra") + (numTxt ? " · " + numTxt : ""), q: qq.textContent.trim(), a: ae.innerHTML });
         });
       }).catch(function () {}));
-    })(u);
+    });
     Promise.all(loads).then(function () { if (!cards.length) { fa.innerHTML = "<p>Couldn't load the cards. Open a question bank page instead.</p>"; return; } build(); });
     function build() {
       fa.innerHTML = "";

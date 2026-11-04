@@ -118,6 +118,10 @@
       <tr><td>AdaGrad / RMSprop</td><td>divide step by √(sum of squared grads) / √(decaying average)</td><td>AdaGrad rate dies over time, RMSprop fixes that</td></tr>
       <tr><td>Adam</td><td>momentum + RMSprop + bias correction</td><td>β₁=0.9, β₂=0.999, ε=1e-8</td></tr>
       <tr><td>L2 / L1</td><td><code>L + λΣw²  /  L + λΣ|w|</code></td><td>L2 shrinks weights, L1 pushes some to exactly 0 (sparse)</td></tr>
+      <tr><td>Conv output size</td><td><code>⌊(W − F + 2P)/S⌋ + 1</code></td><td>W input, F kernel, P padding, S stride</td></tr>
+      <tr><td>Conv parameters</td><td><code>filters × (k × k × C_in + 1)</code></td><td>Pooling has none</td></tr>
+      <tr><td>Batch norm</td><td><code>x̂ = (x − μ)/√(σ² + ε),  y = γx̂ + β</code></td><td>Inference uses running μ, σ²</td></tr>
+      <tr><td>LSTM</td><td><code>c_t = f⊙c_(t−1) + i⊙g,  h_t = o⊙tanh(c_t)</code></td><td>f forget, i input, o output gates</td></tr>
       <tr><td>Dropout</td><td>zero each neuron with prob. p; inverted dropout scales by 1/(1−p)</td><td>Behaves like an ensemble of 2ᴹ thinned nets</td></tr>
     </tbody>
   </table></div>
@@ -166,22 +170,23 @@
 <section id="likely">
   <p class="eyebrow">Built from the four real papers (Dec 2023 to May 2025)</p>
   <h2>Likely ESE questions, ranked</h2>
-  <p>Each row shows how many of the 4 papers tested it and the marks they gave. Start at the top. Items marked <strong>Unit 4/5</strong> are not on this site yet: they are the biggest gap and are being added from the course decks.</p>
+  <p>Each row shows how many of the 4 papers tested it and the marks they gave. Start at the top. RNN/LSTM, CNN and autoencoders are in Unit 5; optimisation, batch norm and tuning are in Unit 4.</p>
   <div class="tw"><table>
     <thead><tr><th>#</th><th>Topic and typical question</th><th>Seen in</th><th>Marks</th><th>Study</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><strong>RNN and LSTM.</strong> How an RNN handles sequences, vanishing gradient in RNNs, LSTM gates (forget/input/output), RNN vs LSTM, RNN vs CNN, applications.</td><td>4 of 4</td><td>2 + 6 to 7</td><td><strong>Unit 4/5 (in progress)</strong></td></tr>
+      <tr><td>1</td><td><strong>RNN and LSTM.</strong> How an RNN handles sequences, vanishing gradient in RNNs, LSTM gates (forget/input/output), RNN vs LSTM, RNN vs CNN, applications.</td><td>4 of 4</td><td>2 + 6 to 7</td><td><a href="Unit%205/index.html#rnn">Unit 5 RNN</a>, <a href="Unit%205/index.html#lstm">LSTM</a>, <a href="Unit%205/question-bank.html">Q&amp;A</a></td></tr>
       <tr><td>2</td><td><strong>Optimizers.</strong> BGD vs SGD vs mini-batch, momentum, AdaGrad, RMSprop, Adam, comparison.</td><td>4 of 4</td><td>2 to 5</td><td><a href="Unit%203/index.html#optimization">Unit 3 optimisers</a>, <a href="Unit%203/question-bank.html">Q&amp;A</a></td></tr>
-      <tr><td>3</td><td><strong>Vanishing and exploding gradients.</strong> Cause, effect, fixes.</td><td>4 of 4</td><td>2 to 4</td><td><a href="Unit%202/index.html#backprop">Unit 2 backprop</a>, <a href="Unit%203/index.html#activations">Unit 3 activations</a></td></tr>
+      <tr><td>3</td><td><strong>Vanishing and exploding gradients.</strong> Cause, effect, fixes.</td><td>4 of 4</td><td>2 to 4</td><td><a href="Unit%204/index.html#gradients">Unit 4 vanishing and exploding</a>, <a href="Unit%202/index.html#backprop">Unit 2 backprop</a></td></tr>
       <tr><td>4</td><td><strong>Backpropagation.</strong> Chain rule, forward and backward pass, how weights and biases update.</td><td>3 of 4</td><td>2 to 7</td><td><a href="Unit%202/index.html#backprop">Unit 2 backprop</a> (step-through diagram), <a href="Unit%202/numericals.html">numericals</a></td></tr>
       <tr><td>5</td><td><strong>Activation and loss functions.</strong> "Explain four important ..." and "choose the loss for the problem".</td><td>3 of 4</td><td>3 to 7</td><td><a href="Unit%203/index.html#activations">Unit 3</a></td></tr>
-      <tr><td>6</td><td><strong>Autoencoders.</strong> Undercomplete vs overcomplete, layer-wise pre-training, use in feature learning.</td><td>3 of 4</td><td>2 to 3</td><td><strong>Unit 4/5 (in progress)</strong></td></tr>
-      <tr><td>7</td><td><strong>CNN architectures.</strong> AlexNet, VGG-16, and counting trainable parameters in conv layers.</td><td>2 of 4</td><td>3 to 5</td><td><strong>Unit 4/5 (in progress)</strong>, plus the counter above</td></tr>
+      <tr><td>6</td><td><strong>Autoencoders.</strong> Undercomplete vs overcomplete, layer-wise pre-training, use in feature learning.</td><td>3 of 4</td><td>2 to 3</td><td><a href="Unit%205/index.html#autoencoders">Unit 5 autoencoders</a></td></tr>
+      <tr><td>7</td><td><strong>CNN architectures.</strong> AlexNet, VGG-16, and counting trainable parameters in conv layers.</td><td>2 of 4</td><td>3 to 5</td><td><a href="Unit%205/index.html#architectures">Unit 5 AlexNet and VGG</a>, <a href="Unit%205/index.html#cnn-params">conv parameters</a>, counter above</td></tr>
       <tr><td>8</td><td><strong>Parameter counting.</strong> Weights and biases per layer of a feed-forward net (784 → 128 → 64 → 10).</td><td>2 of 4</td><td>4</td><td>Counter above</td></tr>
       <tr><td>9</td><td><strong>XOR, AND, OR with a neural network.</strong> Why XOR needs a hidden layer.</td><td>2 of 4 (older papers)</td><td>2 + 5</td><td><a href="Unit%202/index.html#shallow">Unit 2 shallow networks</a></td></tr>
       <tr><td>10</td><td><strong>Regularisation.</strong> L1 vs L2, dropout, early stopping, overfitting.</td><td>2 of 4 (recent)</td><td>7</td><td><a href="Unit%203/index.html#bias-variance">Unit 3 bias-variance</a></td></tr>
       <tr><td>11</td><td><strong>Basics.</strong> ANN vs DL, biological neuron vs perceptron, reasons for DL, applications, challenges, effect of depth and data.</td><td>2 of 4 (recent)</td><td>2 + 7</td><td><a href="Unit%201/index.html">Unit 1</a></td></tr>
-      <tr><td>12</td><td><strong>Hyperparameters and tuning.</strong></td><td>2 of 4</td><td>2 to 3</td><td><a href="Unit%203/index.html#scheduling">Unit 3 LR scheduling</a></td></tr>
+      <tr><td>12</td><td><strong>Hyperparameters and tuning.</strong></td><td>2 of 4</td><td>2 to 3</td><td><a href="Unit%204/index.html#hypertuning">Unit 4 tuning</a>, <a href="Unit%203/index.html#scheduling">LR scheduling</a></td></tr>
+      <tr><td>13</td><td><strong>Batch normalisation, interpretability, Keras and TensorFlow.</strong> On the syllabus, not yet asked in these 4 papers.</td><td>0 of 4</td><td>2 to 4</td><td><a href="Unit%204/index.html#batchnorm">Unit 4 batch norm</a>, <a href="Unit%203/index.html#tools">Unit 3 tools</a></td></tr>
     </tbody>
   </table></div>
   <div class="callout"><p><strong>How to use this:</strong> the long answers are 6 to 7 marks and appear in Part B. Rows 1, 2, 4, 5 and 10 are the ones that have carried the most marks. If you only have a night, do rows 1 to 5, then the flashcards.</p></div>

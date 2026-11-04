@@ -93,8 +93,13 @@
     <a href="#bias-variance">Bias-Variance &amp; Regularization</a>
     <a href="#optimization">Optimization Algorithms</a>
     <a href="#scheduling">LR Scheduling</a>
+    <a href="#design">Designing a DNN</a>
+    <a href="#tools">Keras &amp; TensorFlow</a>
     <a href="numericals.html" style="color:var(--coral);">Numericals →</a>
     <a href="question-bank.html" style="color:var(--coral);">Question Bank →</a>
+    <a href="../Unit%204/index.html" style="color:var(--coral);">Unit 4 →</a>
+    <a href="../Unit%205/index.html" style="color:var(--coral);">Unit 5 →</a>
+    <a href="question-bank-2.html" style="color:var(--coral);">Q&amp;A Part 2 →</a>
   </div>
 </nav>
 
@@ -327,11 +332,135 @@
       <li>Plain gradient descent zig-zags on ill-conditioned surfaces; momentum adds inertia, adaptive methods (AdaGrad→RMSprop→Adam) give every parameter its own rate</li>
       <li>Saddle points, not bad local minima, are the real obstacle in high-dimensional training</li>
       <li>Learning-rate schedules trade early speed for late precision — start high, decay low</li>
+      <li>Designing a DNN: split data → baseline (e.g. 2 hidden layers × 50 neurons) → ReLU + He/Xavier init + Adam → read train vs validation error → regularize/tune; the test set is touched only once, at the end</li>
+      <li>Tools: Keras (high-level API) runs on an engine (TensorFlow/PyTorch/JAX); the Keras workflow is compile → fit → evaluate → predict; TensorFlow adds tf.data, TensorBoard, TF Hub, TFX and deployment via TF Serving / LiteRT / TF.js; TFLearn is legacy</li>
     </ul>
     <div class="grid cols-2">
       <div class="card"><h4>🧮 Numericals</h4><p>Gradient descent iterations, momentum, Adam bias correction, L1/L2 penalty calculations, and dropout worked examples.</p><p><a href="numericals.html" style="color:var(--coral);font-weight:700;">Open Unit 3 Numericals →</a></p></div>
       <div class="card"><h4>📚 Question Bank</h4><p>Concise answers to every Unit 3 question-bank item (Q111–158).</p><p><a href="question-bank.html" style="color:var(--coral);font-weight:700;">Open Unit 3 Question Bank →</a></p></div>
     </div>
+  </section>
+
+  <!-- DESIGNING A DNN -->
+  <section id="design">
+    <p class="eyebrow">06 · From a blank page to a trained network</p>
+    <h2>Designing a Deep Neural Network</h2>
+
+    <h3>Deep neural network: why and applications</h3>
+    <p><span class="tag">Beyond the deck</span> A <strong>deep</strong> network stacks many hidden layers, so each layer builds more abstract features on the previous one (edges → shapes → objects). With enough data and compute this learns features automatically instead of relying on hand-engineered ones, and a deep stack can represent complex functions far more compactly than a shallow one.</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>Vision</h4><p>Image classification, object detection, medical imaging (CNNs).</p></div>
+      <div class="card"><h4>Language &amp; speech</h4><p>Translation, chatbots, speech recognition (RNNs, Transformers).</p></div>
+      <div class="card"><h4>Prediction</h4><p>Forecasting, fraud detection, recommendation (regression / classification nets).</p></div>
+    </div>
+
+    <h3>Design recipe (ordered checklist)</h3>
+    <ol class="steps">
+      <li><strong>Define the task and the metric</strong> — regression, binary or multi-class? Decide what "good" means (MSE, accuracy, AUC).</li>
+      <li><strong>Split the data</strong> into train / validation (development) / test <em>before doing anything else</em>.</li>
+      <li><strong>Preprocess</strong> — normalise or scale inputs (e.g. pixels to [0, 1]) so training is stable.</li>
+      <li><strong>Start with a baseline architecture</strong> — e.g. 2 hidden layers with 50 neurons each; grow depth/width only if the network underfits.</li>
+      <li><strong>Pick the hidden activation and initialisation</strong> — ReLU for CNNs/DNNs, leaky ReLU for CNNs, tanh for RNNs; He initialisation with ReLU, Xavier with tanh/sigmoid.</li>
+      <li><strong>Pick the output layer and loss as a pair</strong> — Linear→MSE, Sigmoid→Binary CE, Softmax→Categorical CE.</li>
+      <li><strong>Pick the optimiser and learning rate</strong> — Adam is the sound default; mini-batch of 32 / 64 / 128; add a learning-rate schedule if needed.</li>
+      <li><strong>Add regularisation as needed</strong> — L2, dropout, batch normalisation, data augmentation, early stopping.</li>
+      <li><strong>Train and monitor</strong> — watch training vs validation error; never touch the test set until the very end.</li>
+      <li><strong>Diagnose and tune</strong> — high train &amp; high validation error → high bias (bigger model / train longer); low train &amp; high validation → high variance (more data, regularisation, early stopping).</li>
+    </ol>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Design knob</th><th>Typical choice</th></tr></thead>
+      <tbody>
+        <tr><td>Number of layers / neurons</td><td>Start small (2 × 50), enlarge only if it underfits</td></tr>
+        <tr><td>Initialisation</td><td>Xavier (tanh/sigmoid), He (ReLU)</td></tr>
+        <tr><td>Hidden activation</td><td>tanh (RNNs), ReLU (CNNs, DNNs), leaky ReLU (CNNs)</td></tr>
+        <tr><td>Optimiser strategy</td><td>Batch, mini-batch (32, 64, 128), stochastic; learning-rate schedule</td></tr>
+        <tr><td>Regularisation</td><td>L2, early stopping, dataset augmentation, dropout, batch normalisation</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>How to choose your loss function</h3>
+    <div class="grid cols-3">
+      <div class="card"><h4>1 · Continuous number?</h4><p>e.g. house price, temperature.<br><strong>Use Mean Squared Error</strong> with a linear output.</p></div>
+      <div class="card"><h4>2 · Exactly two classes?</h4><p>e.g. fraud / not fraud.<br><strong>Use Binary Cross-Entropy</strong> with a sigmoid output.</p></div>
+      <div class="card"><h4>3 · One of many exclusive classes?</h4><p>e.g. handwritten digit, news topic.<br><strong>Use Categorical Cross-Entropy</strong> with a softmax output.</p></div>
+    </div>
+    <div class="callout violet"><p><strong>Rule of thumb:</strong> start from the shape of the output — the right loss almost always follows from it. Cross-entropy for classification, MSE for regression.</p></div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools">
+    <p class="eyebrow">07 · The toolkit that does the heavy lifting</p>
+    <h2>Tools: Keras, TensorFlow &amp; TFLearn</h2>
+    <p>A framework gives you automatic differentiation, hardware acceleration (CPU / GPU / TPU), prebuilt layers, optimisers / losses / metrics, data pipelines and deployment paths. Every framework rests on three primitives: <strong>tensors</strong> (n-dimensional arrays), the <strong>computational graph</strong> (the model as tensor operations) and <strong>autodiff</strong> (walk the graph backwards once to get all gradients, i.e. backprop done for you).</p>
+
+    <div class="table-wrap"><table>
+      <thead><tr><th>Tool</th><th>Level</th><th>Best at</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>TensorFlow</td><td>Low + high</td><td>Production, mobile/edge, huge ecosystem</td><td>Mature</td></tr>
+        <tr><td>PyTorch</td><td>Low + high</td><td>Research, dynamic models</td><td>Dominant in research</td></tr>
+        <tr><td>JAX</td><td>Low</td><td>Fast functional autodiff, TPUs, scale</td><td>Rising fast</td></tr>
+        <tr><td>Keras 3</td><td>High</td><td>Fast model building, multi-backend</td><td>Default TF API</td></tr>
+        <tr><td>TFLearn</td><td>High</td><td>Simple TF 1.x prototyping</td><td>Legacy, frozen 2020</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Keras and its elements</h3>
+    <p>Keras is a high-level, human-friendly API for building and training neural nets with minimal code. It began standalone, became TensorFlow's official API (<code>tf.keras</code>), and in Keras 3 runs on TensorFlow, JAX or PyTorch.</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>Layers</h4><p>Dense, Conv2D, LSTM, Attention — the transform units you stack.</p></div>
+      <div class="card"><h4>Models</h4><p>Sequential (linear stack), Functional (graphs, multi-input/output), Subclassing (full control).</p></div>
+      <div class="card"><h4>Losses</h4><p>What "wrong" means: cross-entropy, MSE.</p></div>
+      <div class="card"><h4>Optimizers</h4><p>How weights update: SGD, Adam, RMSprop.</p></div>
+      <div class="card"><h4>Metrics</h4><p>What you watch: accuracy, precision, AUC.</p></div>
+      <div class="card"><h4>Callbacks</h4><p>Hooks during training: checkpoints, early stopping, TensorBoard.</p></div>
+    </div>
+
+    <h3>Build a model: compile → fit → evaluate → predict</h3>
+    <pre>import tensorflow as tf
+from tensorflow import keras
+from keras import layers
+
+(x_tr, y_tr), (x_te, y_te) = keras.datasets.fashion_mnist.load_data()
+x_tr, x_te = x_tr / 255.0, x_te / 255.0          # scale to [0, 1]
+x_tr, x_te = x_tr[..., None], x_te[..., None]    # (N, 28, 28, 1)
+
+model = keras.Sequential([
+    keras.Input((28, 28, 1)),
+    layers.Conv2D(32, 3, activation="relu"), layers.MaxPooling2D(),
+    layers.Conv2D(64, 3, activation="relu"), layers.MaxPooling2D(),
+    layers.Flatten(), layers.Dropout(0.3),
+    layers.Dense(128, activation="relu"),
+    layers.Dense(10, activation="softmax"),      # 10 classes
+])
+
+model.compile(optimizer=keras.optimizers.Adam(1e-3),
+              loss="sparse_categorical_crossentropy",
+              metrics=["accuracy"])
+
+history = model.fit(x_tr, y_tr, epochs=10, batch_size=128,
+                    validation_split=0.1)         # hold out 10% for validation
+test_loss, test_acc = model.evaluate(x_te, y_te)  # untouched test set
+preds = model.predict(x_te[:5])                   # run on new data</pre>
+    <p>The six steps: get and prep data → build the model → compile → fit → evaluate → predict and save. In <code>fit()</code> each epoch sweeps all images in batches (forward pass → loss → autodiff → Adam update) and scores the validation split after every epoch so you can watch for overfitting. The deck's run on Fashion-MNIST (70,000 greyscale 28×28 images, 10 classes) reached about 90.8% test accuracy with 225,034 parameters. <span class="tag">Beyond the deck</span> <code>sparse_categorical_crossentropy</code> takes integer labels; use <code>categorical_crossentropy</code> for one-hot labels.</p>
+
+    <h3>TensorFlow and its ecosystem</h3>
+    <p>TensorFlow is the engine underneath (tensors, autodiff) and a whole platform around it.</p>
+    <div class="grid cols-3">
+      <div class="card"><h4>tf.data</h4><p>Fast, scalable input pipelines.</p></div>
+      <div class="card"><h4>TensorBoard</h4><p>Visualise loss, metrics and graphs.</p></div>
+      <div class="card"><h4>TF Hub</h4><p>Thousands of pretrained models.</p></div>
+      <div class="card"><h4>TFX</h4><p>Full production ML pipelines.</p></div>
+      <div class="card"><h4>TF Serving</h4><p>High-throughput model server for cloud APIs, with versioning and batching.</p></div>
+      <div class="card"><h4>LiteRT (was TF Lite)</h4><p>Phones, microcontrollers and edge NPUs; quantised, tiny, fast.</p></div>
+      <div class="card"><h4>TensorFlow.js</h4><p>Inference in the browser and Node, no install.</p></div>
+      <div class="card"><h4>SavedModel</h4><p>The universal on-disk format all the deployment tools load from.</p></div>
+    </div>
+
+    <h3>TFLearn</h3>
+    <p>TFLearn is an older high-level API on top of TensorFlow 1.x, meant for simple prototyping. It is <strong>legacy</strong>: development froze around 2020, and the deck uses it as a cautionary tale — syntax alone does not keep a framework alive. For new work use Keras. <span class="tag">Beyond the deck</span> Its style was layer functions chained on tensors, then wrapped in a <code>tflearn.DNN</code> model with <code>.fit()</code>.</p>
+
+    <div class="callout violet"><p><strong>Through-line:</strong> Keras to build fast, TensorFlow for the engine and ecosystem, one trained model deployed to servers, phones, browsers and edge chips. <span class="tag">Beyond the deck</span> Prototype on CPU, train on GPU, scale on TPU pods.</p></div>
   </section>
 
 </main>
