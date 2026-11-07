@@ -200,7 +200,7 @@ html[data-theme="dark"] .hero-fig img,html[data-theme="dark"] figure img{filter:
 
 /* PYQ answer pages */
 p.seen{font-size:.92rem;color:var(--muted,#6b6b6b);margin:.2rem 0 .8rem}
-p.beyond{font-size:.88rem;border-left:3px solid var(--accent,#7c4dff);padding:.15rem .7rem;margin:.4rem 0 .8rem;opacity:.9}
+p.beyond{font-size:.88rem;background:rgba(127,127,127,.1);border-radius:6px;padding:.35rem .7rem;margin:.4rem 0 .8rem}
 pre.art{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:.82rem;line-height:1.35;background:rgba(127,127,127,.12);border:1px solid rgba(127,127,127,.25);border-radius:8px;padding:.7rem .9rem;overflow-x:auto;max-width:100%;white-space:pre}
 
 /* mock paper */
