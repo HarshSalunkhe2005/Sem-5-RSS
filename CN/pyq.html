@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CN previous year questions with model answers</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · PYQ ANSWERS</span>
+  <h1>Past-paper questions, solved</h1>
+  <p>Every distinct question from the CN end-semester papers, grouped by topic and ranked by how often it was asked, with an answer shaped to be copied by hand in 8 to 10 minutes.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#overview">Overview</a>
+    <a href="#application">Application layer</a>
+    <a href="#datalink">Data link</a>
+    <a href="#ip">IP and addressing</a>
+    <a href="#arq">ARQ and flow control</a>
+    <a href="#transport">Transport (TCP and UDP)</a>
+    <a href="#routing">Routing</a>
+    <a href="#models">OSI and TCP/IP models</a>
+    <a href="#netmgmt">Network management</a>
+    <a href="#topology">Topologies and media</a>
+    <a href="#architecture">Architectures</a>
+    <a href="#switching">Switching and network structure</a>
+    <a href="#mac">Multiple access</a>
+    <a href="#arp">ARP</a>
+    <a href="#crypto">Cryptography</a>
+  </div>
+</nav>
+
+<main>
+<section id="overview">
+  <p class="eyebrow">Built from 7 real CN papers: Dec 2023 (two sittings), May 2024, Dec 2024, May 2025, Dec 2025 and May 2026.</p>
+  <h2>What the papers keep asking</h2>
+  <p>Topics are ranked by the number of the 7 papers in which a question on that topic appeared, so the first groups pay off most. Start with the application layer, data link and IP groups (each appeared in 6 or 7 papers), then ARQ and TCP, and leave the single-paper topics for the last night. Each answer follows the exam shape: a one-line definition, labelled steps or a table, a worked example with numbers, and one line on advantage or limit.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Topic</th><th>How often</th><th>Typical marks</th><th>Jump</th></tr></thead>
+    <tbody>
+      <tr><td>Application layer: HTTP, WWW, FTP, SMTP, email, TELNET</td><td>7 of 7 papers</td><td>2 to 6</td><td><a href="#application">Answers</a></td></tr>
+      <tr><td>Data link layer: framing, stuffing, error detection (parity, CRC), PPP</td><td>6 of 7 papers</td><td>2 to 7</td><td><a href="#datalink">Answers</a></td></tr>
+      <tr><td>Network layer: IP addressing, subnetting, IPv4 header, fragmentation, IPv6, forwarding</td><td>6 of 7 papers</td><td>2 to 7</td><td><a href="#ip">Answers</a></td></tr>
+      <tr><td>Flow control and ARQ: stop-and-wait, Go-Back-N, Selective Repeat, reliable data transfer</td><td>5 of 7 papers</td><td>2 to 5</td><td><a href="#arq">Answers</a></td></tr>
+      <tr><td>Transport layer: TCP vs UDP, three-way handshake, congestion control</td><td>5 of 7 papers</td><td>2 to 6</td><td><a href="#transport">Answers</a></td></tr>
+      <tr><td>Routing: network layer purpose, distance vector, link state, RIP, OSPF, BGP</td><td>4 of 7 papers</td><td>2 to 6</td><td><a href="#routing">Answers</a></td></tr>
+      <tr><td>Network models: OSI, TCP/IP suite, components of data communication</td><td>4 of 7 papers</td><td>3 to 6</td><td><a href="#models">Answers</a></td></tr>
+      <tr><td>Network management: SNMP and the functions of a network management system</td><td>4 of 7 papers</td><td>3 to 6</td><td><a href="#netmgmt">Answers</a></td></tr>
+      <tr><td>Topologies and transmission media</td><td>4 of 7 papers</td><td>3 to 6</td><td><a href="#topology">Answers</a></td></tr>
+      <tr><td>Application architectures: client-server, peer-to-peer, microservices</td><td>3 of 7 papers</td><td>2 to 6</td><td><a href="#architecture">Answers</a></td></tr>
+      <tr><td>Switching and network structure: switched networks, virtual circuit vs datagram, network core and edge</td><td>2 of 7 papers</td><td>3 to 6</td><td><a href="#switching">Answers</a></td></tr>
+      <tr><td>Multiple access: TDMA, FDMA, CSMA/CD and CSMA/CA</td><td>2 of 7 papers</td><td>2 to 6</td><td><a href="#mac">Answers</a></td></tr>
+      <tr><td>ARP: broadcast request, unicast reply, and Ethernet frame encapsulation</td><td>2 of 7 papers</td><td>6 to 7</td><td><a href="#arp">Answers</a></td></tr>
+      <tr><td>Cryptography: components and key types</td><td>1 of 7 papers</td><td>6</td><td><a href="#crypto">Answers</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><strong>How to use this page:</strong> pick one topic, hide the answer, write it in the exam shape (definition, diagram, points, example) in 8 to 10 minutes, then reveal and compare. Answers are written for this site; the questions are paraphrased from the real papers.</p></div>
+</section>
+
+<section id="application">
+  <p class="eyebrow">Asked in 7 of 7 papers</p>
+  <h2>Application layer: HTTP, WWW, FTP, SMTP, email, TELNET</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), Dec 23 (2 Dec), Dec 24, Dec 25, May 24, May 25, May 26</p>
+  <div class="callout"><p><p>Every paper has at least one question here, usually a 6 mark Part B choice between two protocols. Learn HTTP, SMTP, email retrieval, FTP and TELNET as a set: each is a client/server protocol over TCP with a fixed port and a fixed message flow.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P1</span>Discuss the application layer and its role in network communication.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>The application layer is the top layer, where network applications and their protocols run; it gives user programs access to network services.</p>
+<ul>
+<li><strong>Role:</strong> interface between the user's program (browser, mail client) and the network; it defines message formats, rules and the order of messages.</li>
+<li><strong>Protocols:</strong> HTTP (web), SMTP, POP3, IMAP (mail), FTP (files), DNS (names to IP addresses), TELNET and SSH (remote login), SNMP (management).</li>
+<li><strong>Uses the transport layer:</strong> TCP for reliable applications (web, mail, files), UDP for speed (DNS, streaming).</li>
+<li><strong>Architectures:</strong> client-server and peer-to-peer.</li>
+</ul>
+<p>Example: typing a URL makes the browser hand an HTTP request to TCP port 80 (443 for HTTPS).</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P2</span>How does the WWW work? Explain its working with a diagram and description.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>The World Wide Web is a distributed system of linked hypertext pages stored on web servers worldwide and fetched over the Internet with HTTP. The Web is a service on the Internet, not the Internet itself.</p>
+<p><strong>Parts:</strong> URL (address of a resource), HTML (page format), HTTP (transfer protocol), browser (client), web server.</p>
+<pre class="art">
+ Browser (client)                         Web server
+ +-----------+   1. DNS: name → IP        +-----------+
+ | URL typed |------------------------→   | HTML, CSS |
+ |           |   2. TCP connection        | images,   |
+ |           |   3. HTTP GET /index.html  | scripts   |
+ |  renders  |←------------------------   |           |
+ |  the page |   4. HTTP 200 OK + HTML    +-----------+
+ +-----------+   5. GET for each image/CSS/JS file
+</pre>
+<ol>
+<li>The user types <code>http://www.example.com/index.html</code>; DNS turns the host name into an IP address.</li>
+<li>The browser opens a TCP connection to port 80 (443 for HTTPS).</li>
+<li>It sends an HTTP GET request; the server replies with a status line (200 OK), headers and the HTML.</li>
+<li>The HTML names images, CSS and scripts; the browser sends one more request for each and then draws the page.</li>
+<li>Clicking a hyperlink repeats the cycle with a new URL.</li>
+</ol>
+<p>How to sketch: browser box on the left, server box on the right, numbered arrows between them, DNS as a small box above.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), May 24 (short note)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P3</span>Explain the function of FTP in the context of the application layer.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>FTP (File Transfer Protocol) transfers files between a client and a server and hides the differences in operating system, directory layout and character set of the two machines.</p>
+<ul>
+<li><strong>Two TCP connections:</strong> control connection on port 21 (login and commands, stays open for the whole session) and data connection on port 20 (carries the file, opened per transfer).</li>
+<li><strong>Typical session:</strong> connect with address, user name, password; <code>ls</code> / <code>cd</code> to browse; <code>get</code> to download; <code>put</code> to upload; <code>quit</code> to close.</li>
+<li><strong>Variants:</strong> anonymous FTP (no login), FTPS (FTP over TLS), SFTP (runs over SSH, port 22).</li>
+</ul>
+<pre class="art">
+ Client                                   Server
+  |-- control connection (port 21) ------→|  USER, PASS, GET file
+  |←-- 150 / 226 replies -----------------|
+  |←== data connection (port 20) =========|  file bytes
+</pre>
+<p><strong>Merit:</strong> simple, fast, resumable. <strong>Limit:</strong> user name and password travel in plain text, and two connections make it awkward for firewalls, so SFTP or FTPS is used today.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P4</span>Explain the concepts of HTTP used in the application layer.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>HTTP (HyperText Transfer Protocol) is the application-layer protocol of the Web. It follows a client/server request-response model over TCP (port 80, HTTPS on 443).</p>
+<ul>
+<li><strong>Stateless:</strong> the server remembers nothing between requests; cookies add state.</li>
+<li><strong>Media independent:</strong> any data type can be sent if its MIME type is given.</li>
+<li><strong>Request:</strong> request line (method, URL, version), header lines, blank line, optional body. Methods: GET, POST, HEAD, PUT, DELETE.</li>
+<li><strong>Response:</strong> status line, headers, body. Codes: 200 OK, 301 Moved, 404 Not Found, 500 Server Error.</li>
+<li><strong>Connections:</strong> non-persistent (new TCP connection per object, 2 RTT each) and persistent (HTTP/1.1: one connection reused, saves the set-up RTTs).</li>
+</ul>
+<p>Example: <code>GET /hello.htm HTTP/1.1</code> with <code>Host: www.example.com</code> is answered by <code>HTTP/1.1 200 OK</code> and the page.</p>
+<p><strong>Versions:</strong> 1.0 (1996), 1.1 (1997, persistent, caching), 2 (2015, multiplexing, header compression), 3 (2020, runs over QUIC on UDP, no TCP head-of-line blocking).</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), May 24 (short note)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P5</span>Identify the two main sections of an HTTP request message.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>An HTTP request has a <strong>header section</strong> and a <strong>body</strong>, separated by a blank line.</p>
+<ul>
+<li><strong>Header section:</strong> the request line (method, URL, HTTP version, for example <code>GET /index.html HTTP/1.1</code>) followed by header lines such as <code>Host</code>, <code>User-Agent</code>, <code>Accept</code>.</li>
+<li><strong>Body (entity):</strong> optional data sent to the server, for example form data in a POST. It is empty for a GET.</li>
+</ul>
+<p>Some books list the request line separately, giving three parts: request line, headers, body.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P6</span>Write a short note on SMTP.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>SMTP (Simple Mail Transfer Protocol) is the push protocol that moves email from the sender's mail client to its mail server and from server to server. It runs over TCP, port 25 between servers and 587 for secure submission.</p>
+<ul>
+<li><strong>Agents:</strong> UA (mail client), MTA (relays the message between servers), MDA (puts it in the recipient's mailbox).</li>
+<li><strong>Commands:</strong> HELO, MAIL FROM, RCPT TO, DATA, QUIT; replies are numeric (220, 250, 354, 221).</li>
+<li><strong>Delivery:</strong> store-and-forward through one or more MTAs; if the next server is down the message waits in a queue and is retried.</li>
+</ul>
+<p><strong>Limit:</strong> SMTP only pushes mail. The receiver reads it with POP3 or IMAP.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P7</span>Develop a training tutorial for new IT staff that explains SMTP sessions step by step, includes a diagram, and gives a checklist for monitoring SMTP logs.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>An SMTP session is a text conversation between a sending client and a receiving server over one TCP connection (port 25).</p>
+<pre class="art">
+ Client (sending MTA)                       Server (receiving MTA)
+  |------ TCP connect, port 25 ------------→|
+  |←----- 220 mail.example.com ready --------|
+  |-- HELO client.example.org -------------→|
+  |←----- 250 Hello --------------------------|
+  |-- MAIL FROM:&lt;faculty@sit.edu&gt; ---------→|
+  |←----- 250 OK ----------------------------|
+  |-- RCPT TO:&lt;student@mail.com&gt; ---------→|
+  |←----- 250 OK ----------------------------|
+  |-- DATA -----------------------------------→|
+  |←----- 354 end with a line holding "." ---|
+  |-- headers + body + "." ------------------→|
+  |←----- 250 Message queued -----------------|
+  |-- QUIT ----------------------------------→|
+  |←----- 221 Bye ----------------------------|
+</pre>
+<ol>
+<li><strong>Connect:</strong> client opens TCP to port 25; server greets with 220.</li>
+<li><strong>HELO / EHLO:</strong> client identifies itself.</li>
+<li><strong>MAIL FROM:</strong> sender address (the envelope sender).</li>
+<li><strong>RCPT TO:</strong> one command per recipient; each gets a 250 or an error.</li>
+<li><strong>DATA:</strong> server answers 354; client sends headers, a blank line, the body and a line with a single dot.</li>
+<li><strong>QUIT:</strong> server answers 221 and the connection closes.</li>
+</ol>
+<p><strong>Log monitoring checklist:</strong></p>
+<ul>
+<li>4xx replies (temporary failure): is the queue growing?</li>
+<li>5xx replies (permanent rejection) and bounces: wrong address or blocked sender?</li>
+<li>Repeated authentication failures from one IP: password guessing.</li>
+<li>One sender with a very large number of recipients: spam or a compromised account.</li>
+<li>Queue length and delivery delay against normal.</li>
+</ul>
+<p>How to sketch: two vertical lines (client, server) with horizontal arrows in the order above.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P8</span>Formulate the working of email.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>Email moves from sender to recipient in three hops: submit, relay, retrieve.</p>
+<ol>
+<li>The sender writes the message in a <strong>user agent</strong> (Gmail, Outlook) and presses Send. The UA passes it by SMTP to the sender's mail server, where it waits in the mail queue.</li>
+<li>The sender's <strong>MTA</strong> opens a TCP connection to the recipient's mail server (found by a DNS MX lookup) and relays the message by SMTP, possibly through intermediate MTAs (store-and-forward).</li>
+<li>The recipient's <strong>MDA</strong> stores it in the mailbox. The recipient's UA fetches it with POP3 or IMAP.</li>
+</ol>
+<pre class="art">
+ Sender UA → SMTP → Sender MTA → SMTP → Receiver MTA → MDA → mailbox → POP3/IMAP → Receiver UA
+</pre>
+<p>SMTP is the push protocol (steps 1 and 2); POP3 and IMAP are the pull protocols (step 3).</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P9</span>Describe the steps involved in retrieving or downloading an email from the mail server to the recipient device.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>SMTP only delivers mail into the recipient's mailbox on the server (push). The recipient's mail client then pulls it with <strong>POP3</strong> or <strong>IMAP</strong>.</p>
+<ol>
+<li>SMTP and the MDA place the message in the recipient's mailbox on the mail server.</li>
+<li>The mail client (UA) opens a TCP connection to the retrieval service: POP3 port 110 (995 with TLS), IMAP port 143 (993 with TLS).</li>
+<li>Authentication: user name and password.</li>
+<li>The client asks for the mailbox state (POP3 <code>STAT</code>, <code>LIST</code>; IMAP folder list and headers).</li>
+<li>The client downloads the chosen messages (POP3 <code>RETR</code>, IMAP <code>FETCH</code>) and the user reads them.</li>
+<li>The server deletes or keeps the messages as the protocol says; the session ends with <code>QUIT</code> or <code>LOGOUT</code>.</li>
+</ol>
+<table><thead><tr><th>Point</th><th>POP3</th><th>IMAP</th></tr></thead><tbody>
+<tr><td>Model</td><td>Download, usually deleted from server</td><td>Mail stays on server</td></tr>
+<tr><td>Many devices</td><td>Poor, each has its own copy</td><td>Good, all see the same mailbox</td></tr>
+<tr><td>Folders on server</td><td>No</td><td>Yes</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> Dec 24 (OR)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P10</span>Explain how TELNET functions as a client-server application, allowing a user to log on to a remote machine and access its system.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>TELNET (TErminal NETwork) lets a user log in to a remote computer and use it as if typing at its own keyboard. It is a client/server application over TCP, port 23.</p>
+<pre class="art">
+ Terminal → TELNET client → TCP/IP network → TELNET server → pseudo-terminal → remote OS
+ (keys)        (NVT)           (port 23)         (NVT→local)      driver
+</pre>
+<ol>
+<li>The user runs <code>telnet host</code>; the client opens a TCP connection to port 23 of the server.</li>
+<li>Keystrokes go from the local terminal driver to the client, which converts them to the universal <strong>NVT</strong> (Network Virtual Terminal) format so any terminal type and OS can interoperate.</li>
+<li>NVT data travels over TCP to the server, which converts it to the remote system's format and feeds a pseudo-terminal driver; the OS believes the input is local.</li>
+<li>The OS asks for login name and password, then runs commands; output returns by the same path.</li>
+<li>Client and server negotiate options (echo, terminal type) with control characters; logout closes the TCP connection.</li>
+</ol>
+<p><strong>Limit:</strong> everything, including the password, is sent as plain text. SSH (port 22) replaces it with encryption.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+</section>
+
+<section id="datalink">
+  <p class="eyebrow">Asked in 6 of 7 papers</p>
+  <h2>Data link layer: framing, stuffing, error detection (parity, CRC), PPP</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), Dec 24, Dec 25, May 24, May 25, May 26</p>
+  <div class="callout"><p><p>Two things are nearly guaranteed: a stuffing question and a CRC or parity worked example. Practise the CRC long division until you can do it in three minutes without looking. ARQ and flow control questions from this layer are in the next group.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P11</span>Discuss the fundamental principles of data link layer protocols. Describe framing, error control and flow control in detail.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>The data link layer moves frames reliably across one link (hop to hop). Its three core jobs are framing, error control and flow control.</p>
+<p><strong>1. Framing:</strong> the bit stream is cut into frames (header, payload, trailer) so the receiver can find where each frame starts and ends.</p>
+<ul>
+<li>Character (byte) count: a header field gives the length; one corrupted count ruins every later frame.</li>
+<li>Flag bytes with byte stuffing: an ESC byte is inserted before any flag or ESC byte in the data.</li>
+<li>Flag bits with bit stuffing: flag <code>01111110</code>; after five 1s the sender inserts a 0.</li>
+</ul>
+<p><strong>2. Error control:</strong> detect and repair damaged or lost frames.</p>
+<ul>
+<li>Detection: parity, checksum, CRC (redundant bits in the trailer).</li>
+<li>Correction: the receiver discards a bad frame and the sender retransmits it (ARQ) after a timeout or NAK; frames carry sequence numbers to spot loss and duplicates.</li>
+</ul>
+<p><strong>3. Flow control:</strong> stop a fast sender from overrunning a slow receiver.</p>
+<ul>
+<li>Stop-and-wait: send one frame, wait for its ACK. Simple but the link sits idle.</li>
+<li>Sliding window: send up to W frames before an ACK (Go-Back-N, Selective Repeat); the window slides as ACKs arrive.</li>
+</ul>
+<p>Example: bit stuffing turns <code>0111111011111110</code> into <code>011111010111110110</code>; a CRC trailer is checked by the receiver; a window of 4 keeps the link busy.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P12</span>Outline the services provided by the data link layer.<span class="marks">3 marks</span></p>
+      <div class="a">
+<ol>
+<li><strong>Framing:</strong> packets from the network layer are wrapped in frames with header and trailer.</li>
+<li><strong>Physical (MAC) addressing:</strong> the frame carries the source and destination hardware addresses of the next hop.</li>
+<li><strong>Error control:</strong> detects damaged frames (CRC) and has them retransmitted.</li>
+<li><strong>Flow control:</strong> keeps sender and receiver speeds matched (stop-and-wait, sliding window).</li>
+<li><strong>Media access control:</strong> decides who may transmit on a shared link (CSMA/CD, CSMA/CA).</li>
+</ol>
+<p>Two sub-layers: LLC (flow and error control) and MAC (access to the medium). Examples: Ethernet, PPP, HDLC.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P13</span>What is bit stuffing? Give an example.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>Bit stuffing is a framing technique in which the sender inserts an extra 0 after every run of five consecutive 1s in the data, so the flag <code>01111110</code> can never appear inside the payload. The receiver removes the 0 that follows five 1s.</p>
+<pre class="art">
+ Data      : 0110 11111 0 111111
+ Stuffed   : 0110 11111 [0] 0 11111 [0] 1     ([0] = inserted bit)
+ Stuffed   : 011011111001111101
+ On wire   : 01111110 | 011011111001111101 | 01111110
+</pre>
+<p>Check: 16 data bits become 18 bits and the stuffed data never holds six 1s in a row. The receiver sees five 1s followed by a 0, drops that 0 and recovers the original 16 bits.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P14</span>Explain the requirement of stuffing at the data link layer. Also list the advantages of bit stuffing over byte stuffing.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p><strong>Why stuffing:</strong> frames are marked by a flag pattern. If the payload happens to contain the same pattern, the receiver would think the frame ended early. Stuffing adds extra bits or bytes so the flag can never occur inside the data; the receiver removes them (destuffing).</p>
+<p><strong>Byte stuffing</strong> (flag byte F, escape byte ESC): insert ESC before any F or ESC in the data.</p>
+<pre class="art">
+ Data    : A F B ESC C
+ Stuffed : A ESC F B ESC ESC C
+</pre>
+<p>The receiver sees ESC, discards it and takes the next byte literally.</p>
+<p><strong>Bit stuffing</strong> (flag 01111110): insert 0 after five 1s.</p>
+<pre class="art">
+ Data    : 0111111011111110
+ Stuffed : 011111010111110110
+</pre>
+<p>16 bits become 18; the extra 0s break every run of six 1s.</p>
+<p><strong>Advantages of bit stuffing over byte stuffing:</strong></p>
+<ul>
+<li>Works on bits, so a frame can have any length; byte stuffing needs whole bytes.</li>
+<li>Independent of the character code (ASCII, Unicode, raw binary).</li>
+<li>Overhead is 1 bit per stuffing instead of 1 whole byte (8 bits).</li>
+<li>Easy to build in hardware; used by HDLC.</li>
+</ul><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P15</span>You applied cyclic redundancy check (CRC) using the dataword 1001 and the divisor 1011 and obtained a codeword. During transmission the received codeword is 1001110. Does the received codeword contain any errors?<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>CRC appends a remainder so that the codeword is exactly divisible by the divisor in modulo-2 arithmetic (XOR, no carries). Divisor 1011 has k = 4 bits, so the CRC has k − 1 = 3 bits.</p>
+<p><strong>Sender:</strong> append 3 zeros to the dataword: 1001 → 1001000. Divide by 1011.</p>
+<pre class="art">
+   1001000
+ ⊕ 1011          (leading bit 1: XOR the divisor)
+   -------
+   0010000
+ ⊕   1011        (next leading 1 is at the third bit)
+   -------
+   0000110       remainder = 110
+</pre>
+<p>Quotient 1010 (not needed). CRC = 110, so the codeword = 1001 + 110 = <strong>1001110</strong>.</p>
+<p><strong>Receiver:</strong> divide the received word 1001110 by 1011.</p>
+<pre class="art">
+   1001110
+ ⊕ 1011000
+   -------
+   0010110
+ ⊕   10110
+   -------
+   0000000       remainder = 000
+</pre>
+<p><strong>Conclusion:</strong> the received codeword equals the codeword the sender produced and the remainder is 000, so <strong>no error is detected</strong>.</p>
+<p>Check on an error: if the word arrived as 1000110 (one bit flipped), the remainder is 011, not zero, so the frame would be rejected.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P16</span>Evaluate the usefulness of CRC in error detection, showing its operation through a concrete example.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>CRC is a division-based error-detecting code: redundant bits are appended so that the whole frame is divisible by an agreed generator polynomial; the receiver divides again and any non-zero remainder means an error.</p>
+<p><strong>Example:</strong> dataword 101101, generator 1011 (x³ + x + 1), r = 3 check bits. Append 000 → 101101000.</p>
+<pre class="art">
+   101101000
+ ⊕ 101100000
+   ---------
+   000001000
+ ⊕      1011
+   ---------
+   000000011     remainder = 011
+</pre>
+<p>Codeword = 101101 + 011 = <strong>101101011</strong>. Receiver divides it by 1011 and gets 000: accepted. If one bit flips (100101011) the remainder is 101; a 3-bit burst (100011011) leaves 100; both rejected.</p>
+<p><strong>Why it is useful:</strong></p>
+<ul>
+<li>Detects every burst error of length ≤ r (here 3), and all single-bit errors; longer bursts are missed only with probability about 2^−r.</li>
+<li>Far stronger than simple parity for the same few extra bits.</li>
+<li>Cheap in hardware (shift register and XOR gates); Ethernet uses a 32-bit CRC as its frame check sequence.</li>
+</ul>
+<p><strong>Limit:</strong> detects only; the frame is dropped and must be resent. A rare error pattern can still slip through.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P17</span>Contrast simple parity check with two-dimensional parity check and illustrate each with a suitable example.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p><strong>Simple parity:</strong> one extra bit makes the number of 1s even (even parity) or odd. Example: data 1011001 has four 1s, so the parity bit is 0 and the codeword is 10110010. If bits 3 and 5 flip, the received word is 10011010, still four 1s, so the error is <strong>not</strong> detected. It catches every odd number of bit errors and misses every even number.</p>
+<p><strong>Two-dimensional parity:</strong> the data is laid out as a block; a parity bit is added to each row and each column.</p>
+<pre class="art">
+   data rows        row parity
+   1 1 0 0 1 0 1       0
+   1 0 1 0 0 1 1       0
+   0 1 1 0 1 1 0       0
+   1 0 0 1 1 0 1       0
+   -------------
+   1 0 0 1 1 0 1       0    ← column parity row
+</pre>
+<p>Single-bit error: bit in row 2, column 3 flips from 1 to 0 (<code>1010011</code> becomes <code>1000011</code>). Row 2 now has three 1s with its parity bit, so row 2 fails; column 3 has an odd count, so column 3 fails. The crossing point (row 2, column 3) is the bad bit; flip it back and the data is corrected.</p>
+<table><thead><tr><th>Point</th><th>Simple parity</th><th>2D parity</th></tr></thead><tbody>
+<tr><td>Extra bits</td><td>1 per word</td><td>1 per row + 1 per column</td></tr>
+<tr><td>Detects</td><td>Any odd number of errors</td><td>All 1-, 2- and 3-bit errors</td></tr>
+<tr><td>Corrects</td><td>Nothing</td><td>Any single-bit error</td></tr>
+<tr><td>Misses</td><td>All even-numbered errors</td><td>Some 4-bit patterns (corners of a rectangle)</td></tr>
+</tbody></table>
+<p>Cost of 2D parity: more overhead (here 12 extra bits for 28 data bits) and only single-bit correction.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P18</span>What type of error (single-bit or burst) is harder to detect with simple parity?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p><strong>Burst error.</strong></p>
+<ul>
+<li>A single-bit error always changes the count of 1s from even to odd, so simple parity always detects it.</li>
+<li>A burst flips several consecutive bits. If it flips an even number of bits the parity is unchanged and the error goes unnoticed.</li>
+</ul>
+<p>Example (even parity): sent 10110010, received 10011010. Two bits flipped, still four 1s, so it is accepted wrongly. Burst errors are better caught by CRC.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P19</span>Illustrate the transition phases of PPP.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>PPP (Point-to-Point Protocol) is the data link protocol for a direct link such as a dial-up or DSL connection to an ISP. A PPP link passes through six phases, shown by a transition diagram.</p>
+<pre class="art">
+ DEAD → ESTABLISH → AUTHENTICATE → NETWORK → OPEN → TERMINATE → DEAD
+   carrier   options     auth OK       NCP       done   carrier
+   detected  agreed                    configured        dropped
+ Side exits: ESTABLISH --failure--→ DEAD
+             ESTABLISH --no authentication needed--→ NETWORK
+             AUTHENTICATE --failure--→ TERMINATE
+</pre>
+<table><thead><tr><th>Phase</th><th>What happens</th></tr></thead><tbody>
+<tr><td>Dead</td><td>No physical link. When a carrier is detected the link moves to Establish.</td></tr>
+<tr><td>Establish</td><td>LCP (Link Control Protocol) packets negotiate options: maximum frame size, authentication method, compression. Failure returns to Dead.</td></tr>
+<tr><td>Authenticate</td><td>Optional. PAP (user name and password in clear) or CHAP (challenge and hashed reply). Failure goes to Terminate.</td></tr>
+<tr><td>Network</td><td>An NCP is run for each network protocol; IPCP configures IP and can assign the client an address.</td></tr>
+<tr><td>Open</td><td>Data frames flow. LCP echo packets can check the link.</td></tr>
+<tr><td>Terminate</td><td>LCP terminate-request and terminate-ack close the link; when the carrier drops the state returns to Dead.</td></tr>
+</tbody></table>
+<p>How to sketch: six boxes in a row with labelled arrows (carrier detected, options OK, auth OK, NCP done, done) and failure arrows back to Dead or Terminate.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+</section>
+
+<section id="ip">
+  <p class="eyebrow">Asked in 6 of 7 papers</p>
+  <h2>Network layer: IP addressing, subnetting, IPv4 header, fragmentation, IPv6, forwarding</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), Dec 23 (2 Dec), Dec 24, May 24, May 25, May 26</p>
+  <div class="callout"><p><p>Always at least one numerical (find the class, or subnet / broadcast / hosts) and often a 7 mark essay (IPv4 header or fragmentation). The subnet numerical in this group is solved step by step; learn the AND-with-mask method.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P20</span>Find the class of each IP address: (i) 227.12.15.89 (ii) 193.15.56.21.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>Read only the first byte: A 0 to 127, B 128 to 191, C 192 to 223, D 224 to 239, E 240 to 255.</p>
+<ol>
+<li><strong>227.12.15.89:</strong> first byte 227 lies in 224 to 239 (leading bits 1110), so <strong>Class D</strong>, a multicast address with no network/host split.</li>
+<li><strong>193.15.56.21:</strong> first byte 193 lies in 192 to 223 (leading bits 110), so <strong>Class C</strong>; default mask 255.255.255.0, network 193.15.56.0, 254 hosts.</li>
+</ol><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P21</span>Discuss the classes of IP addresses.<span class="marks">2 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Class</th><th>First byte</th><th>Leading bits</th><th>Default mask</th><th>Net / host bits</th><th>Hosts per network</th><th>Use</th></tr></thead><tbody>
+<tr><td>A</td><td>0 - 127</td><td>0</td><td>255.0.0.0</td><td>8 / 24</td><td>2^24 − 2 = 16,777,214</td><td>Very large networks</td></tr>
+<tr><td>B</td><td>128 - 191</td><td>10</td><td>255.255.0.0</td><td>16 / 16</td><td>2^16 − 2 = 65,534</td><td>Medium networks</td></tr>
+<tr><td>C</td><td>192 - 223</td><td>110</td><td>255.255.255.0</td><td>24 / 8</td><td>2^8 − 2 = 254</td><td>Small networks</td></tr>
+<tr><td>D</td><td>224 - 239</td><td>1110</td><td>none</td><td>none</td><td>n/a</td><td>Multicast groups</td></tr>
+<tr><td>E</td><td>240 - 255</td><td>1111</td><td>none</td><td>none</td><td>n/a</td><td>Reserved / experimental</td></tr>
+</tbody></table>
+<p>The "−2" removes the network address (host bits all 0) and the broadcast address (host bits all 1). Class A 127.x.x.x is loopback.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P22</span>Discuss the IP addressing methods and subnetting. How does the IP addressing scheme support hierarchical addressing in large networks?<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>An IPv4 address is a 32-bit number written as four decimal bytes (for example 193.27.100.110). It has two parts: a network part (which network) and a host part (which device on it).</p>
+<p><strong>Addressing methods:</strong></p>
+<ol>
+<li><strong>Classful:</strong> classes A to E fix the network/host split by the first byte (8, 16 or 24 network bits).</li>
+<li><strong>Subnetting:</strong> an organisation borrows host bits to create subnets; a mask marks network + subnet bits with 1s. Address = network | subnet | host.</li>
+<li><strong>Classless (CIDR / VLSM):</strong> the prefix length is written explicitly (a.b.c.d/n) and can be any length, so blocks are sized to need.</li>
+</ol>
+<p><strong>Subnetting example:</strong> 192.168.1.0/24 into 4 equal subnets. Borrow 2 bits (2^2 = 4), new prefix /26, mask 255.255.255.192, block size 256 − 192 = 64, 62 hosts each.</p>
+<table><thead><tr><th>Subnet</th><th>Network</th><th>Usable range</th><th>Broadcast</th></tr></thead><tbody>
+<tr><td>1</td><td>192.168.1.0/26</td><td>.1 - .62</td><td>192.168.1.63</td></tr>
+<tr><td>2</td><td>192.168.1.64/26</td><td>.65 - .126</td><td>192.168.1.127</td></tr>
+<tr><td>3</td><td>192.168.1.128/26</td><td>.129 - .190</td><td>192.168.1.191</td></tr>
+<tr><td>4</td><td>192.168.1.192/26</td><td>.193 - .254</td><td>192.168.1.255</td></tr>
+</tbody></table>
+<p><strong>How it supports hierarchy:</strong></p>
+<ul>
+<li>Like a postal address (country, city, street), the network part identifies the network and the host part the device; routers across the Internet look only at the network part and keep one table entry per network, not per host.</li>
+<li>Inside an organisation the subnet level adds a third tier; outside routers never see it.</li>
+<li>CIDR allows route aggregation: the four networks 200.10.0.0/24 to 200.10.3.0/24 are advertised as the single prefix 200.10.0.0/22, which keeps the global routing tables small.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P23</span>A host IP address is 193.27.100.110/26. Determine: (a) the subnet address, (b) the directed broadcast address of the subnet, (c) the maximum number of possible hosts on the subnet, (d) the maximum number of possible subnets.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>First byte 193 means Class C (default /24). The prefix /26 means 26 network bits, so the mask is 11111111.11111111.11111111.11000000 = <strong>255.255.255.192</strong>. Only the last byte needs binary work.</p>
+<p><strong>(a) Subnet address = IP AND mask:</strong> 110 = 01101110, 192 = 11000000, AND = 01000000 = 64. Subnet address = <strong>193.27.100.64</strong>.</p>
+<p><strong>(b) Directed broadcast:</strong> keep the 26 network bits, set all 6 host bits to 1: 01111111 = 127. Broadcast = <strong>193.27.100.127</strong>.</p>
+<p><strong>(c) Hosts:</strong> 32 − 26 = 6 host bits, 2^6 − 2 = 64 − 2 = <strong>62</strong> usable hosts (193.27.100.65 to 193.27.100.126).</p>
+<p><strong>(d) Subnets:</strong> the Class C network 193.27.100.0/24 borrows 26 − 24 = 2 bits, so 2^2 = <strong>4</strong> subnets. Block size 256 − 192 = 64, so they start at .0, .64, .128 and .192; our host (.110) is in the second.</p>
+<table><thead><tr><th>Subnet</th><th>Network</th><th>Broadcast</th></tr></thead><tbody>
+<tr><td>1</td><td>193.27.100.0</td><td>193.27.100.63</td></tr>
+<tr><td>2</td><td>193.27.100.64</td><td>193.27.100.127</td></tr>
+<tr><td>3</td><td>193.27.100.128</td><td>193.27.100.191</td></tr>
+<tr><td>4</td><td>193.27.100.192</td><td>193.27.100.255</td></tr>
+</tbody></table>
+<p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P24</span>Investigate the IPv4 header and explain all the fields in detail with a neat diagram.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p>The IPv4 header is 20 bytes without options (5 rows of 32 bits) and at most 60 bytes.</p>
+<pre class="art">
+  0         4         8                16                              31
+  +---------+---------+----------------+-------------------------------+
+  | Version |   IHL   |   ToS / DSCP   |         Total length          |
+  +---------+---------+----------------+-------------------------------+
+  |         Identification (16)        | Flags (3) | Fragment offset(13)|
+  +----------------+-------------------+-------------------------------+
+  |   TTL (8)      |   Protocol (8)    |       Header checksum (16)    |
+  +----------------+-------------------+-------------------------------+
+  |                     Source IP address (32)                         |
+  +--------------------------------------------------------------------+
+  |                   Destination IP address (32)                      |
+  +--------------------------------------------------------------------+
+  |                Options + padding (0 to 40 bytes)                   |
+  +--------------------------------------------------------------------+
+</pre>
+<table><thead><tr><th>Field</th><th>Bits</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Version</td><td>4</td><td>0100 for IPv4; tells the router how to read the rest.</td></tr>
+<tr><td>IHL</td><td>4</td><td>Header length in 32-bit words; 5 to 15 (20 to 60 bytes).</td></tr>
+<tr><td>ToS / DSCP</td><td>8</td><td>Priority / QoS class (6-bit DSCP) and 2-bit ECN congestion flag.</td></tr>
+<tr><td>Total length</td><td>16</td><td>Header + data in bytes; maximum 65,535.</td></tr>
+<tr><td>Identification</td><td>16</td><td>Same in all fragments of one datagram, for reassembly.</td></tr>
+<tr><td>Flags</td><td>3</td><td>0, DF (do not fragment), MF (more fragments; 0 only on the last fragment).</td></tr>
+<tr><td>Fragment offset</td><td>13</td><td>Position of the data in the original datagram, in 8-byte units.</td></tr>
+<tr><td>TTL</td><td>8</td><td>Hop limit, decremented at each router; at 0 the packet is dropped (ICMP Time Exceeded). Stops loops.</td></tr>
+<tr><td>Protocol</td><td>8</td><td>Upper layer: 6 = TCP, 17 = UDP, 1 = ICMP.</td></tr>
+<tr><td>Header checksum</td><td>16</td><td>Error check of the header only; recomputed at every hop because TTL changes.</td></tr>
+<tr><td>Source address</td><td>32</td><td>Sender's IP.</td></tr>
+<tr><td>Destination address</td><td>32</td><td>Receiver's IP; routers forward on this.</td></tr>
+<tr><td>Options</td><td>0 to 320</td><td>Record route, source route, timestamp; padded to 32 bits.</td></tr>
+</tbody></table>
+<p>How to sketch: a grid four bytes wide, rows in the order above, then label each box with its bit count.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P25</span>Discuss the fields related to fragmentation and reassembly of an IP datagram, and illustrate their functionality with an example.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p>Every link has an MTU (largest frame payload it can carry). A router cuts a datagram that is larger than the next link's MTU into fragments; only the destination host reassembles them.</p>
+<ul>
+<li><strong>Identification (16 bits):</strong> same value in all fragments of one datagram.</li>
+<li><strong>Flags:</strong> DF = 1 forbids fragmentation (the router drops the packet and sends ICMP); MF = 1 on every fragment except the last.</li>
+<li><strong>Fragment offset (13 bits):</strong> start of the fragment's data, measured in 8-byte units, so every fragment except the last must carry a multiple of 8 data bytes.</li>
+<li><strong>Total length:</strong> header + data of each fragment.</li>
+</ul>
+<p><strong>Example:</strong> datagram of 4000 bytes (20 header + 3980 data), MTU 1500, Identification 777.</p>
+<ol>
+<li>Data per fragment = 1500 − 20 = 1480 bytes (1480 / 8 = 185, so it is allowed).</li>
+<li>Fragments needed: 3980 / 1480 = 2.69, so 3 fragments: 1480 + 1480 + 1020 = 3980.</li>
+</ol>
+<table><thead><tr><th>Fragment</th><th>Data bytes</th><th>Total length</th><th>Offset field</th><th>MF</th><th>ID</th></tr></thead><tbody>
+<tr><td>1</td><td>1480</td><td>1500</td><td>0</td><td>1</td><td>777</td></tr>
+<tr><td>2</td><td>1480</td><td>1500</td><td>1480 / 8 = 185</td><td>1</td><td>777</td></tr>
+<tr><td>3</td><td>1020</td><td>1040</td><td>2960 / 8 = 370</td><td>0</td><td>777</td></tr>
+</tbody></table>
+<p><strong>Reassembly:</strong> the destination collects all pieces with ID 777, orders them by offset and knows it is complete when it has the fragment with MF = 0 and no gaps. Check: 370 × 8 + 1020 = 3980 bytes.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P26</span>Explain the difference between IPv4 and IPv6, and highlight the reasons for transitioning to IPv6.<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead><tbody>
+<tr><td>Address size</td><td>32 bits (about 4.3 billion)</td><td>128 bits (2^128)</td></tr>
+<tr><td>Header</td><td>20 to 60 bytes, variable</td><td>Fixed 40 bytes, simpler for routers</td></tr>
+<tr><td>Checksum / fragmentation</td><td>Header checksum; routers can fragment</td><td>No header checksum; only the source fragments</td></tr>
+<tr><td>Broadcast</td><td>Yes</td><td>No (multicast and anycast)</td></tr>
+<tr><td>Configuration</td><td>Manual or DHCP</td><td>Auto-configuration built in</td></tr>
+</tbody></table>
+<p><strong>Why move to IPv6:</strong></p>
+<ul>
+<li>Address exhaustion: 32 bits cannot cover phones, IoT devices and servers; NAT only delays the problem and breaks end-to-end addressing.</li>
+<li>Faster header processing, built-in multicast, auto-configuration, better QoS and IPsec.</li>
+<li>Transition is gradual: dual stack, tunnelling, translation.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P27</span>Identify the primary reason IPv4 addressing is considered insufficient for the modern Internet.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>The 32-bit address space is too small: 2^32 = 4,294,967,296 addresses (about 4.3 billion), and many are reserved (private, loopback, multicast, experimental).</p>
+<p>Billions of phones, laptops, servers and IoT devices now need globally unique addresses, so the pool ran out. NAT shares one public address among many hosts as a stop-gap but breaks end-to-end addressing. IPv6 with 128-bit addresses (2^128 ≈ 3.4 × 10^38) is the permanent fix.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P28</span>What is unicast and multicast routing?<span class="marks">3 marks</span></p>
+      <div class="a">
+<p><strong>Unicast routing:</strong> a packet goes from one source to exactly one destination. The router looks up the destination address and picks a single next hop. Example: browsing a web page.</p>
+<p><strong>Multicast routing:</strong> a packet goes from one source to a group of receivers named by a group address (IPv4 Class D, 224.0.0.0 to 239.255.255.255). Routers build a distribution tree and copy the packet only where the path splits, so each link carries one copy. Hosts join a group with IGMP. Example: live lecture, IPTV, OSPF and RIPv2 updates.</p>
+<table><thead><tr><th>Point</th><th>Unicast</th><th>Multicast</th></tr></thead><tbody>
+<tr><td>Receivers</td><td>One</td><td>A chosen group</td></tr>
+<tr><td>Address</td><td>Host address</td><td>Class D group address</td></tr>
+<tr><td>Bandwidth for 100 viewers</td><td>100 copies from the source</td><td>One copy per link</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P29</span>Analyze how routers differentiate the incoming unicast, multicast and broadcast IP packets.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>A router decides from the <strong>destination IP address</strong> in the header.</p>
+<table><thead><tr><th>Type</th><th>Destination address</th><th>Router action</th></tr></thead><tbody>
+<tr><td>Unicast</td><td>Ordinary host address, for example 193.27.100.110</td><td>Longest-prefix match in the forwarding table, send to one next hop.</td></tr>
+<tr><td>Multicast</td><td>Class D, first byte 224 to 239 (leading bits 1110)</td><td>Use the multicast routing table (group membership from IGMP); copy to every interface that leads to a member.</td></tr>
+<tr><td>Broadcast</td><td>Limited: 255.255.255.255; directed: host bits all 1, for example 193.27.100.191</td><td>Limited broadcast is never forwarded; a directed broadcast is routed to its network and flooded there only (often disabled).</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P30</span>How does a router make forwarding decisions in a computer network?<span class="marks">3 marks</span></p>
+      <div class="a">
+<ol>
+<li>The router reads the destination IP address in the arriving packet.</li>
+<li>It finds all entries in its forwarding table that match the address, and picks the one with the <strong>longest matching prefix</strong>.</li>
+<li>It decrements TTL (and drops the packet if it reaches 0), recomputes the checksum, and sends the packet out of the interface named in that entry (to the listed next hop).</li>
+<li>If nothing matches, the default route (0.0.0.0/0) is used.</li>
+</ol>
+<p>Example: table 200.23.16.0/21 → A, 200.23.18.0/23 → B, 200.23.18.128/25 → C, default → D. Destination 200.23.18.200 matches /25, /23, /21 and the default; the longest is /25, so it goes to C.</p>
+<p>The table is built by routing protocols (RIP, OSPF, BGP); forwarding is per packet, routing is the slower process that fills the table.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P31</span>Differentiate between the addressing responsibility of the network layer and the transport layer.<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Point</th><th>Network layer</th><th>Transport layer</th></tr></thead><tbody>
+<tr><td>Address used</td><td>Logical IP address (32 bits IPv4, 128 bits IPv6)</td><td>Port number (16 bits, 0 to 65535)</td></tr>
+<tr><td>Identifies</td><td>A host / network interface and the network it sits on</td><td>An application process on that host</td></tr>
+<tr><td>Delivery</td><td>Host to host across networks (routing, hop by hop)</td><td>Process to process, end to end</td></tr>
+<tr><td>Examples</td><td>193.27.100.110</td><td>80 (HTTP), 443 (HTTPS), 25 (SMTP), 53 (DNS)</td></tr>
+</tbody></table>
+<p>Together they form a <strong>socket</strong> = IP address + port, for example 192.168.1.67:80. IP gets the packet to the right computer; the port gets the data to the right program (browser or mail client). The link layer adds a third address, the MAC address, for the next hop only.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="arq">
+  <p class="eyebrow">Asked in 5 of 7 papers</p>
+  <h2>Flow control and ARQ: stop-and-wait, Go-Back-N, Selective Repeat, reliable data transfer</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), Dec 23 (2 Dec), Dec 25, May 24, May 26</p>
+  <div class="callout"><p><p>May 2026 asked three questions from this group in one paper (stop-and-wait problems, Go-Back-N, GBN vs SR). Keep one lost-packet example (window 4 or 5, packet 2 lost) ready; it answers most of them.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P32</span>Describe with examples the situations where each sliding window protocol is best suited.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>Sliding window protocols let the sender keep up to W frames in flight before an ACK, so the link stays busy.</p>
+<ul>
+<li><strong>Go-Back-N:</strong> best on links with a low error rate and a simple receiver with little buffer memory (receiver window = 1). One loss makes the sender resend a whole window, so it suits clean links such as a campus LAN or a fibre WAN.</li>
+<li><strong>Selective Repeat:</strong> best on noisy or lossy, long-delay links such as a satellite or wireless link, where resending only the lost frame saves bandwidth, and the receiver has buffer space to hold out-of-order frames.</li>
+<li><strong>Stop-and-wait</strong> (window of 1): short links, low data rate, very simple devices.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P33</span>How does ARQ (Automatic Repeat reQuest) work?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>ARQ gives reliable delivery over an unreliable link by detecting errors and asking for retransmission.</p>
+<ol>
+<li>The sender numbers each frame and starts a timer when it sends.</li>
+<li>The receiver checks each frame (checksum or CRC). A good frame is acknowledged (ACK); a bad one is dropped or answered with a NAK.</li>
+<li>If the ACK does not arrive before the timer expires (or a NAK arrives), the sender retransmits the frame.</li>
+<li>Sequence numbers let the receiver discard duplicates.</li>
+</ol>
+<p>Three forms: stop-and-wait (one frame at a time), Go-Back-N (resend from the lost frame onward) and Selective Repeat (resend only the lost frame).</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P34</span>Piggybacking is the better utilization of bandwidth. Justify.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>In two-way (full-duplex) communication the receiver, instead of sending a separate ACK frame, delays the ACK and attaches it to its own next data frame going back.</p>
+<pre class="art">
+ Without piggybacking : A -data→ B, B -ACK→ A, B -data→ A, A -ACK→ B     (4 frames)
+ With piggybacking    : A -data→ B, B -data+ACK→ A, A -data+ACK→ B       (3 frames)
+</pre>
+<p><strong>Justification:</strong> the ACK costs only a few header bits inside a data frame, whereas a stand-alone ACK needs its own header, trailer and channel access. So fewer frames are sent, header overhead falls and the channel carries more useful data.</p>
+<p><strong>Trade-off:</strong> the receiver must wait for outgoing data; if none is ready before a timeout it sends a separate ACK so the sender does not retransmit needlessly.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P35</span>List the three primary tools used in a generic reliable data transfer (RDT) protocol to ensure correctness.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>RDT builds a reliable channel on top of an unreliable network with these tools:</p>
+<ol>
+<li><strong>Acknowledgements (ACK / NAK):</strong> receiver feedback telling the sender whether a packet arrived intact.</li>
+<li><strong>Sequence numbers:</strong> let the receiver detect lost packets, duplicates and wrong order.</li>
+<li><strong>Timer and retransmission:</strong> if no ACK arrives in time the sender assumes loss and resends.</li>
+</ol>
+<p>These work with a <strong>checksum</strong> for error detection (a corrupted packet is treated as lost). A sliding window (Go-Back-N or Selective Repeat) adds pipelining for speed. TCP uses all of them.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P36</span>Evaluate the suitability of stop-and-wait ARQ in modern high-speed networks by discussing its advantages and disadvantages.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>Stop-and-wait sends one frame and waits for its ACK before the next.</p>
+<p><strong>Advantages:</strong> very simple; needs only 1-bit sequence numbers (0, 1) and one buffer; easy flow control; fine for short, slow links.</p>
+<p><strong>Disadvantages:</strong> the link is idle for a whole round trip per frame, so utilisation is very low on fast or long links.</p>
+<p>Utilisation U = 1 / (1 + 2a), where a = propagation delay / transmission delay.</p>
+<ul>
+<li>Low-speed case: 1000-bit frame at 1 Mbps gives Tt = 1 ms; Tp = 5 ms (1000 km at 2 × 10^8 m/s). a = 5, U = 1 / (1 + 10) = 1/11 = <strong>9.1%</strong>.</li>
+<li>High-speed case: 1500-byte frame (12,000 bits) at 1 Gbps gives Tt = 12 µs; same Tp = 5 ms. a = 5 ms / 12 µs ≈ 417, U = 1 / (1 + 833) ≈ <strong>0.12%</strong>; the 1 Gbps link carries about 1.2 Mbps.</li>
+</ul>
+<p><strong>Conclusion:</strong> faster links make it worse, so stop-and-wait is unsuitable for modern high-speed networks. They use sliding-window protocols (GBN, SR) or TCP windows, which keep many frames in flight.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P37</span>Analyze the three problems associated with the stop-and-wait protocol.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>With only one frame outstanding, stop-and-wait can go wrong in three ways.</p>
+<pre class="art">
+ 1 Lost data    S --F0→ X (lost)        timer expires → S resends F0 → R ACKs
+ 2 Lost ACK     S --F0→ R --ACK→ X      timer expires → S resends F0 → R sees a duplicate
+ 3 Delayed ACK  S --F0→ R ... ACK slow  timer expires → S resends F0; the late ACK arrives
+                                        and the sender may take it for the ACK of the new F0
+</pre>
+<ol>
+<li><strong>Lost data frame:</strong> the receiver never gets it, sends no ACK, and the sender would wait forever. Fix: a retransmission timer.</li>
+<li><strong>Lost ACK:</strong> the receiver has the frame but the sender cannot know; after timeout it resends and the receiver gets a duplicate. Fix: sequence numbers (0 and 1) so the duplicate is recognised, dropped and re-ACKed.</li>
+<li><strong>Delayed ACK:</strong> the ACK arrives after the timer expired, so the frame was resent unnecessarily and a late ACK could be matched with the wrong frame. Fix: numbered ACKs and a timeout longer than the RTT.</li>
+</ol>
+<p>Timing example: 1000 km, 2 × 10^8 m/s gives Tp = 5 ms, RTT = 10 ms, so timeout = 2 × RTT = 20 ms. Also, throughput is low because the link idles during every wait.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P38</span>Classify (explain) the working of the Go-Back-N protocol.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>Go-Back-N (GBN) is a sliding-window ARQ protocol: the sender may transmit up to N frames without waiting for ACKs; the receiver accepts frames only in order.</p>
+<ul>
+<li><strong>Sender:</strong> window of size N, frames numbered with k-bit sequence numbers (N ≤ 2^k − 1), one timer for the oldest unacknowledged frame; the window slides when an ACK arrives.</li>
+<li><strong>Receiver:</strong> window of size 1. It accepts the next expected frame and sends a cumulative ACK (ACK n means everything up to n arrived). Any out-of-order frame is discarded and the last in-order frame is ACKed again.</li>
+<li><strong>On timeout:</strong> the sender goes back and resends the lost frame and every frame sent after it.</li>
+</ul>
+<pre class="art">
+ N = 4   S: 0 1 2 3          frame 1 is lost
+ R: gets 0 → ACK 0; gets 2, 3 → discarded (still ACK 0)
+ S: timer for 1 expires → resend 1 2 3     R: ACK 1, 2, 3
+</pre>
+<p><strong>Efficiency</strong> (no loss) = N / (1 + 2a). With N = 4, Tp = 20 ms, Tt = 5 ms: a = 4, efficiency = 4 / 9 = 44.4%. With k = 3 bits, N can be at most 7.</p>
+<p><strong>Merit:</strong> simple receiver and good use of the link. <strong>Limit:</strong> one loss wastes up to a whole window of retransmissions.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P39</span>Explain the core differences in bandwidth efficiency between Go-Back-N (GBN) and Selective Repeat (SR) when a single packet is lost.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>Take window 5, packets 0 to 4 sent, packet 2 lost.</p>
+<table><thead><tr><th>Point</th><th>Go-Back-N</th><th>Selective Repeat</th></tr></thead><tbody>
+<tr><td>Packets 3, 4 at receiver</td><td>Discarded (receiver window 1)</td><td>Buffered and individually ACKed</td></tr>
+<tr><td>Retransmitted after loss of 2</td><td>2, 3, 4 (3 packets)</td><td>2 only (1 packet)</td></tr>
+<tr><td>Total transmissions for 5 packets</td><td>5 + 3 = 8</td><td>5 + 1 = 6</td></tr>
+<tr><td>Efficiency (useful / sent)</td><td>5 / 8 = 62.5%</td><td>5 / 6 = 83.3%</td></tr>
+<tr><td>ACKs and timers</td><td>Cumulative, one timer</td><td>Individual, one timer per packet</td></tr>
+<tr><td>Receiver cost</td><td>Minimal</td><td>Buffer and re-ordering</td></tr>
+</tbody></table>
+<p>GBN resends good packets that had already arrived, which wastes bandwidth and gets worse with a bigger window or a lossy link. SR resends exactly what was lost, so it is more bandwidth efficient, at the price of receiver buffers and complexity.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="transport">
+  <p class="eyebrow">Asked in 5 of 7 papers</p>
+  <h2>Transport layer: TCP vs UDP, three-way handshake, congestion control</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), Dec 24, Dec 25, May 24, May 25</p>
+  <div class="callout"><p><p>TCP vs UDP is a standing 3 mark question. The congestion control essay appears every other paper and always rewards a small cwnd table, so learn the 1, 2, 4, 8, 16, 17, 18 pattern.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P40</span>Compare and contrast the TCP and UDP protocols, highlighting their strengths and weaknesses.<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Point</th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+<tr><td>Connection</td><td>Connection-oriented (three-way handshake)</td><td>Connectionless</td></tr>
+<tr><td>Reliability</td><td>ACKs, retransmission, in-order delivery</td><td>Best effort, no ACK, may lose or reorder</td></tr>
+<tr><td>Flow / congestion control</td><td>Yes</td><td>No</td></tr>
+<tr><td>Header</td><td>20 to 60 bytes</td><td>8 bytes</td></tr>
+<tr><td>Speed</td><td>Slower, more overhead</td><td>Faster, low delay</td></tr>
+<tr><td>Checksum</td><td>Mandatory</td><td>Optional in IPv4</td></tr>
+<tr><td>Uses</td><td>Web, email, file transfer</td><td>DNS, VoIP, streaming, games</td></tr>
+</tbody></table>
+<p><strong>Strengths:</strong> TCP is dependable and ordered; UDP is fast and light. <strong>Weaknesses:</strong> TCP adds delay and head-of-line blocking; UDP gives no delivery guarantee and the application must handle loss.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P41</span>Which is better, TCP or UDP, for online multiplayer gaming where real-time responsiveness is critical and occasional packet loss is acceptable? Why?<span class="marks">3 marks</span></p>
+      <div class="a">
+<p><strong>UDP is better.</strong></p>
+<ul>
+<li>Game state updates (positions, actions) are time-sensitive; a late packet is useless because a newer update replaces it.</li>
+<li>TCP retransmits lost segments and delivers in order, so one lost packet stalls all later data behind it (head-of-line blocking) and adds delay and jitter.</li>
+<li>UDP has no handshake, no retransmission and an 8-byte header, so latency is lowest.</li>
+<li>The game tolerates occasional loss and can add light reliability itself (sequence numbers, prediction) only for important events.</li>
+</ul>
+<p>TCP stays suitable for things that must arrive intact, such as login, chat and purchases.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P42</span>Examine the performance of the three-way handshake used to establish a transport-level connection.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>TCP opens a connection with three segments so both sides agree on initial sequence numbers and confirm they can send and receive.</p>
+<pre class="art">
+ Client                                   Server (listening)
+   |-- SYN, seq = 100 -----------------→|
+   |←-- SYN+ACK, seq = 300, ack = 101 ---|
+   |-- ACK, seq = 101, ack = 301 -------→|
+   ESTABLISHED                      ESTABLISHED
+</pre>
+<ol>
+<li><strong>SYN:</strong> client picks initial sequence number x (100) and asks to connect.</li>
+<li><strong>SYN-ACK:</strong> server acknowledges x + 1 (101) and sends its own number y (300).</li>
+<li><strong>ACK:</strong> client acknowledges y + 1 (301); data can now flow (it may ride on this segment).</li>
+</ol>
+<p><strong>Performance:</strong> costs one round trip (1 RTT) before the first data byte; this is why short transfers feel slow and why persistent connections are used. Three steps (not two) are needed because each side must hear its own sequence number acknowledged, which also rejects old duplicate SYNs. Weakness: a flood of SYNs can exhaust the server's half-open connection table (SYN flood).</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P43</span>What is congestion? Discuss any of the congestion control algorithms used in TCP.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p><strong>Congestion</strong> means too much traffic for the routers and links on the path; router queues fill, delay rises and packets are dropped, which triggers retransmissions that add even more load (congestion collapse).</p>
+<p><strong>TCP congestion control (AIMD with slow start):</strong> the sender limits itself to min(cwnd, rwnd), where cwnd is the congestion window, and treats packet loss as the sign of congestion.</p>
+<ol>
+<li><strong>Slow start:</strong> cwnd starts at 1 segment and doubles each RTT (+1 per ACK) until it reaches ssthresh.</li>
+<li><strong>Congestion avoidance:</strong> above ssthresh, cwnd grows by 1 segment per RTT (additive increase).</li>
+<li><strong>On loss:</strong> ssthresh = cwnd / 2 (multiplicative decrease). A timeout sets cwnd = 1 and restarts slow start (Tahoe); three duplicate ACKs set cwnd = ssthresh and continue in congestion avoidance (Reno, fast recovery).</li>
+</ol>
+<p>Example: ssthresh = 16 gives cwnd = 1, 2, 4, 8, 16, 17, 18 over seven RTTs. A timeout at 18 sets ssthresh = 9, cwnd = 1, and the next RTTs are 1, 2, 4, 8, 9, 10.</p>
+<p>Without this every sender would flood the network; AIMD keeps queues short and shares bandwidth fairly.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P44</span>Analyze the major phases or algorithms of TCP congestion control and interpret how each contributes to performance. Describe how TCP implements congestion control to prevent or alleviate congestion.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>TCP controls its sending rate with a congestion window cwnd (rate ≈ cwnd / RTT) and a threshold ssthresh. Loss is the congestion signal: a timeout (strong) or three duplicate ACKs (mild).</p>
+<table><thead><tr><th>Phase</th><th>Rule</th><th>Contribution to performance</th></tr></thead><tbody>
+<tr><td>Slow start</td><td>cwnd doubles every RTT until ssthresh</td><td>Finds the usable rate quickly (exponential) without a long ramp-up.</td></tr>
+<tr><td>Congestion avoidance</td><td>cwnd + 1 segment per RTT</td><td>Probes for spare bandwidth cautiously; avoids overshoot.</td></tr>
+<tr><td>Multiplicative decrease</td><td>On loss: ssthresh = cwnd / 2</td><td>Backs off fast so queues drain; gives fairness among flows.</td></tr>
+<tr><td>Fast retransmit</td><td>Resend after 3 duplicate ACKs, without waiting for the timer</td><td>Recovers from a single loss quickly.</td></tr>
+<tr><td>Fast recovery (Reno)</td><td>cwnd = ssthresh, stay in avoidance</td><td>Keeps throughput high after mild loss; Tahoe would restart from 1.</td></tr>
+</tbody></table>
+<p><strong>Worked trace</strong> (ssthresh = 16, cwnd = 1):</p>
+<table><thead><tr><th>RTT</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead><tbody>
+<tr><td>cwnd</td><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td><td>17</td><td>18</td></tr>
+<tr><td>Phase</td><td>SS</td><td>SS</td><td>SS</td><td>SS</td><td>SS ends</td><td>CA</td><td>CA</td></tr>
+</tbody></table>
+<p>Loss at cwnd = 18: ssthresh = 9. Timeout (Tahoe): cwnd = 1, then 1, 2, 4, 8, 9, 10. Three duplicate ACKs (Reno): cwnd = 9, then 10, 11.</p>
+<p>The result is the saw-tooth pattern: steady growth, sharp cut, growth again. TCP also respects the receiver window rwnd (flow control).</p><p class="seen"><strong>Seen in:</strong> Dec 25, May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P45</span>During the TCP slow start phase, if a sender transmits 2 segments and receives 2 ACKs, how many segments will it be able to send in the next round-trip time (RTT)?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>In slow start cwnd grows by 1 MSS for every ACK received.</p>
+<ol>
+<li>Sender had cwnd = 2 and sent 2 segments.</li>
+<li>Two ACKs arrive: cwnd = 2 + 1 + 1 = 4 segments.</li>
+<li>In the next RTT it can send <strong>4 segments</strong>, doubling each RTT.</li>
+</ol>
+<p>The sequence from the start is 1, 2, 4, 8, 16 until ssthresh. General rule: next window = old window + number of ACKs received, so if n segments are acknowledged the sender can send 2n in the next RTT.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+</section>
+
+<section id="routing">
+  <p class="eyebrow">Asked in 4 of 7 papers</p>
+  <h2>Routing: network layer purpose, distance vector, link state, RIP, OSPF, BGP</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), Dec 23 (2 Dec), Dec 25, May 26</p>
+  <div class="callout"><p><p>Dec 2025 and May 2026 each asked two routing protocol comparisons as 5 mark questions (RIPv1 vs v2, OSPF; BGP vs OSPF, RIP timers). Know the comparison tables cold, and keep one small distance-vector table ready for the older worked-example questions.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P46</span>What is the purpose of the network layer in the OSI model? Explain the count-to-infinity problem in a routing table with a suitable diagram and description.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p><strong>Purpose of the network layer (layer 3):</strong> deliver packets from the source host to the destination host across many networks. Functions: logical (IP) addressing, routing (choosing the path), forwarding (moving each packet to the next hop), fragmentation, and error and status reporting with ICMP.</p>
+<p><strong>Count-to-infinity:</strong> in distance-vector routing, after a link fails the routers keep raising their estimate to the unreachable network because each believes the other still has a valid path, causing a routing loop and slow convergence.</p>
+<pre class="art">
+   X ---- A ---- B ---- C        costs: each link 1; routers know X through A
+   (A-X link fails)
+</pre>
+<p>Before the failure: A→X = 0 (directly connected), B→X = 1 via A, C→X = 2 via B. The A-X link fails. A marks X unreachable (∞), but B still advertises distance 1 to X.</p>
+<table><thead><tr><th>Update</th><th>A's distance to X</th><th>B's distance to X</th></tr></thead><tbody>
+<tr><td>Before failure</td><td>0</td><td>1</td></tr>
+<tr><td>After failure (stale info at B)</td><td>∞</td><td>1</td></tr>
+<tr><td>1</td><td>1 + 1 = 2</td><td>1</td></tr>
+<tr><td>2</td><td>2</td><td>1 + 2 = 3</td></tr>
+<tr><td>3</td><td>1 + 3 = 4</td><td>3</td></tr>
+<tr><td>4</td><td>4</td><td>1 + 4 = 5</td></tr>
+<tr><td>...</td><td>6, 8, ...</td><td>7, 9, ...</td></tr>
+</tbody></table>
+<p>The values climb by 2 per exchange until they reach the protocol's infinity (16 in RIP); packets for X loop between A and B meanwhile.</p>
+<p><strong>Remedies:</strong> split horizon (do not advertise a route back to where it was learned), route poisoning (advertise a failed route with infinite metric), poison reverse, triggered updates (send at once on a change) and hold-down timers.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P47</span>Discuss the concept of the distance vector routing algorithm with a suitable example.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>Distance vector (DV) routing: each router keeps a table of destination, distance (cost) and next hop, and shares its vector only with its direct neighbours. It is based on the Bellman-Ford equation d_x(y) = min over neighbours v of { c(x,v) + d_v(y) }. Used by RIP.</p>
+<ol>
+<li>Each router starts knowing only itself (0) and its directly connected neighbours.</li>
+<li>It sends its vector to its neighbours (periodically or when it changes).</li>
+<li>On receiving a vector it computes cost through each neighbour and keeps the minimum.</li>
+<li>Repeat until no table changes (convergence).</li>
+</ol>
+<p><strong>Example:</strong> links A-B = 1, B-C = 1, A-D = 4, D-C = 1.</p>
+<table><thead><tr><th>Round</th><th>A to B, C, D</th><th>D to A, B, C</th></tr></thead><tbody>
+<tr><td>0 (initial)</td><td>1 (B), ∞, 4 (D)</td><td>4 (A), ∞, 1 (C)</td></tr>
+<tr><td>1</td><td>1 (B), 2 (B), 4 (D)</td><td>4 (A), 2 (C), 1 (C)</td></tr>
+<tr><td>2</td><td>1 (B), 2 (B), 3 (B)</td><td>3 (C), 2 (C), 1 (C)</td></tr>
+</tbody></table>
+<p>Round 1: A to C via B = c(A,B) + d_B(C) = 1 + 1 = 2; via D = 4 + 1 = 5; minimum 2, next hop B. Round 2: D to A via C = 1 + d_C(A) = 1 + 2 = 3, better than the direct 4. Round 3: no change, so the network has converged.</p>
+<p><strong>Merit:</strong> simple, little memory. <strong>Limit:</strong> slow convergence and count-to-infinity.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P48</span>Contrast the update mechanism used by the distance-vector algorithm with the link-state algorithm.<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Point</th><th>Distance vector</th><th>Link state</th></tr></thead><tbody>
+<tr><td>What is sent</td><td>The router's whole table (distance to every destination)</td><td>Only its own link information (LSA: neighbours and link costs)</td></tr>
+<tr><td>To whom</td><td>Direct neighbours only</td><td>Flooded to every router in the area</td></tr>
+<tr><td>When</td><td>Periodic (RIP: 30 s) and on change</td><td>On a change (and rarely refreshed)</td></tr>
+<tr><td>View of network</td><td>Only distances learned from neighbours ("routing by rumour")</td><td>Full map (LSDB) identical in every router</td></tr>
+<tr><td>Computation</td><td>Bellman-Ford, step by step with neighbours</td><td>Dijkstra's SPF locally</td></tr>
+<tr><td>Convergence</td><td>Slow; count-to-infinity</td><td>Fast, loop-free</td></tr>
+<tr><td>Example</td><td>RIP</td><td>OSPF</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P49</span>State the key metric used by RIP and mention one limitation of it.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p><strong>Metric:</strong> hop count, the number of routers on the path. A directly connected network is 1 hop. (An administrator can raise a link's cost to discourage its use.)</p>
+<p><strong>Limitation:</strong> the maximum is 15 hops; 16 means unreachable, so RIP cannot be used in large networks. Hop count also ignores bandwidth and delay (a 1 hop slow link beats a 2 hop fast path), and RIP converges slowly with count-to-infinity.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P50</span>Identify the different timers related to RIP.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>RIP is a distance-vector protocol over UDP port 520. It uses timers to send updates and to age out routes.</p>
+<table><thead><tr><th>Timer</th><th>Value</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Update</td><td>30 s</td><td>How often each router sends its full routing table to its neighbours.</td></tr>
+<tr><td>Invalid (timeout)</td><td>180 s</td><td>If no update for a route arrives in 180 s (six missed updates) the route is marked invalid (metric 16) and put in hold-down.</td></tr>
+<tr><td>Hold-down</td><td>180 s</td><td>After a route goes bad, the router ignores new information about it that is not clearly better, which prevents routing loops (Cisco).</td></tr>
+<tr><td>Flush</td><td>240 s</td><td>After this time the route is finally removed from the routing table.</td></tr>
+</tbody></table>
+<p>Books following RFC 2453 name them: update 30 s, timeout 180 s, and garbage-collection 120 s (the invalid route is advertised with metric 16 for 120 s, then deleted).</p>
+<p>Worked timeline: last update for network N received at t = 0. At t = 180 s N is marked invalid; the router advertises metric 16 for it; at 240 s (Cisco flush) the entry is removed. The 30 s update plus the 180 s invalid timer means six updates must be lost before a route is declared dead.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P51</span>Evaluate the differences between RIPv1 and RIPv2 and justify which version is more suitable in modern network environments.<span class="marks">5 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Point</th><th>RIPv1 (1988)</th><th>RIPv2 (1998)</th></tr></thead><tbody>
+<tr><td>Addressing</td><td>Classful</td><td>Classless (VLSM, CIDR, summarisation)</td></tr>
+<tr><td>Subnet mask in update</td><td>Not carried</td><td>Carried</td></tr>
+<tr><td>Update delivery</td><td>Broadcast (255.255.255.255)</td><td>Multicast (224.0.0.9)</td></tr>
+<tr><td>Authentication</td><td>None</td><td>Supported</td></tr>
+<tr><td>Next hop in update</td><td>No</td><td>Yes</td></tr>
+</tbody></table>
+<p>Common to both: distance vector, hop count metric, maximum 15 hops, 30 s updates, UDP port 520.</p>
+<p><strong>Justification:</strong> RIPv2 is the suitable one. Modern networks use subnets of different sizes (VLSM) and CIDR, which RIPv1 cannot represent because it sends no masks. Multicast updates do not disturb hosts that are not RIP routers, and authentication stops fake routes being injected. RIPv2 is still simple to configure for small flat networks or the edge of a larger one. For large networks neither version scales (15 hop limit, slow convergence), and OSPF is preferred.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P52</span>Analyze the workflow of OSPF, including neighbour discovery, LSA flooding and SPF computation, and support your analysis with a detailed diagram.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>OSPF is a link-state interior gateway protocol used inside an autonomous system. It runs directly over IP (protocol 89).</p>
+<pre class="art">
+        Hello (224.0.0.5)             LSA flooding
+ R1 &lt;---------------→ R2 &lt;--------------→ R3
+  |                    |                  |
+  | 1 Hello:           | 2 Neighbours:    | 3 LSDB identical
+  |   find neighbours  |   Down→Init→2-Way| in all routers
+  |                    |   →ExStart→Exch. |
+  |                    |   →Loading→Full  | 4 Each router runs SPF
+  |                    |                  |   (Dijkstra) on LSDB
+                                            5 Routing table updated
+</pre>
+<ol>
+<li><strong>Router ID and Hello:</strong> each router picks a unique Router ID and sends Hello packets on all OSPF links (every 10 s on broadcast links; neighbour declared dead after 40 s).</li>
+<li><strong>Neighbour discovery and adjacency:</strong> neighbours move Down, Init, Two-Way (each sees itself in the other's Hello; a DR and BDR are elected on multi-access networks), ExStart, Exchange (database descriptions), Loading (requests for missing LSAs) and Full.</li>
+<li><strong>LSA flooding:</strong> each router describes its links and their costs in LSAs and floods them to all routers in the area. Every router now holds the same link-state database (LSDB).</li>
+<li><strong>SPF computation:</strong> each router runs Dijkstra's algorithm on the LSDB with itself as the root and builds a shortest-path tree.</li>
+<li><strong>Routing table:</strong> best paths from the tree go into the routing table; a link change triggers new LSAs and a recalculation.</li>
+</ol>
+<p>Cost example (cost = 100 Mbps / link bandwidth): R1-R2 = 10, R2-R3 = 5, R1-R3 = 20. R1 reaches R3 via R2 at 10 + 5 = 15, which beats the direct 20.</p>
+<p>Large networks are split into areas around backbone Area 0 to limit LSDB size.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P53</span>Differentiate between BGP and OSPF protocols, highlighting their key characteristics, use-cases and how they differ.<span class="marks">5 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Point</th><th>OSPF</th><th>BGP</th></tr></thead><tbody>
+<tr><td>Type</td><td>Link state, intra-domain (IGP)</td><td>Path vector, inter-domain (EGP)</td></tr>
+<tr><td>Scope</td><td>Inside one autonomous system</td><td>Between autonomous systems</td></tr>
+<tr><td>Metric</td><td>Cost (bandwidth based)</td><td>Path attributes and policy (AS path, local preference...)</td></tr>
+<tr><td>Algorithm</td><td>Dijkstra shortest path</td><td>Best path chosen by policy among advertised AS paths</td></tr>
+<tr><td>Convergence</td><td>Fast</td><td>Slow</td></tr>
+<tr><td>Transport</td><td>Directly over IP (protocol 89)</td><td>TCP, port 179</td></tr>
+<tr><td>Neighbours</td><td>Found automatically with Hello</td><td>Configured manually as peers (eBGP, iBGP)</td></tr>
+<tr><td>Use case</td><td>Campus or company network</td><td>ISPs exchanging routes across the Internet</td></tr>
+</tbody></table>
+<p>Together they cover the whole path: OSPF routes inside each organisation, BGP stitches the organisations together. BGP's main concern is policy (which neighbour to prefer, what to advertise) rather than the shortest path.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P54</span>Illustrate the five protocols that routers use.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>A router uses routing protocols to build its table and supporting protocols to forward packets and report problems.</p>
+<table><thead><tr><th>Protocol</th><th>Layer</th><th>What the router uses it for</th></tr></thead><tbody>
+<tr><td>IP</td><td>Network</td><td>Addressing and forwarding of every packet using the destination address and TTL.</td></tr>
+<tr><td>ICMP</td><td>Network</td><td>Error and status messages: destination unreachable, time exceeded (traceroute), echo (ping).</td></tr>
+<tr><td>RIP</td><td>Application (UDP 520)</td><td>Distance vector, hop count, max 15, 30 s updates; small networks.</td></tr>
+<tr><td>OSPF</td><td>Network (IP protocol 89)</td><td>Link state, floods LSAs, Dijkstra; inside an autonomous system.</td></tr>
+<tr><td>BGP</td><td>Application (TCP 179)</td><td>Path vector between autonomous systems; the Internet's inter-ISP routing.</td></tr>
+</tbody></table>
+<p>Others: <strong>EIGRP</strong> (Cisco distance vector based on bandwidth and delay), <strong>ARP</strong> (finds the MAC address of the next hop), <strong>IGMP</strong> (multicast group membership), <strong>DHCP</strong> and <strong>NAT</strong> on home routers.</p>
+<pre class="art">
+ Host A → [Router: IP lookup, TTL-1] → [Router] → Host B
+            uses RIP / OSPF / BGP to fill its table, ICMP to report errors, ARP for next-hop MAC
+</pre><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="models">
+  <p class="eyebrow">Asked in 4 of 7 papers</p>
+  <h2>Network models: OSI, TCP/IP suite, components of data communication</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), Dec 24, May 24, May 25</p>
+  <div class="callout"><p><p>The OSI diagram is a near-certain Part A or Part B question. Draw the two stacks side by side once, with headers added going down and removed going up, and it serves for every variant.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P55</span>Draw the OSI reference model and explain any three layers. Provide examples of protocols that operate at each layer.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>OSI (Open Systems Interconnection) is a 7-layer reference model by ISO. Each layer uses the services of the layer below and serves the layer above.</p>
+<pre class="art">
+ 7 Application   HTTP, SMTP, FTP, DNS
+ 6 Presentation  encryption, compression, translation (TLS, JPEG)
+ 5 Session       dialog control, checkpoints (NetBIOS, RPC)
+ 4 Transport     process to process: TCP, UDP
+ 3 Network       logical addressing, routing: IP, ICMP, OSPF
+ 2 Data link     framing, MAC address, errors: Ethernet, PPP, HDLC
+ 1 Physical      bits on the medium: cable, Wi-Fi radio
+</pre>
+<p>Mnemonic top to bottom: All People Seem To Need Data Processing.</p>
+<ul>
+<li><strong>Transport (4):</strong> end-to-end delivery between processes using port numbers; segmentation, reliability, flow and congestion control. Protocols: TCP, UDP.</li>
+<li><strong>Network (3):</strong> logical (IP) addressing and routing of packets between networks. Protocols: IP, ICMP, OSPF, RIP.</li>
+<li><strong>Data link (2):</strong> frames, MAC addresses, error detection, flow and medium access control on each hop. Protocols: Ethernet, PPP, HDLC.</li>
+</ul>
+<p>Data units on the way down: message, segment, packet, frame, bits.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P56</span>Organize the diagrammatic view of an exchange using the OSI model.<span class="marks">3 marks</span></p>
+      <div class="a">
+<pre class="art">
+   Sender (A)                                           Receiver (B)
+ 7 Application  ----------- data -----------------→ 7 Application
+ 6 Presentation ---------- H6 data ---------------→ 6 Presentation
+ 5 Session      --------- H5 data ----------------→ 5 Session
+ 4 Transport    -------- H4 data -----------------→ 4 Transport
+ 3 Network      ------- H3 data ------------------→ 3 Network
+ 2 Data link    ------ H2 data T2 ----------------→ 2 Data link
+ 1 Physical     ===== bits on the medium ==========→ 1 Physical
+      ↓ each layer adds a header on the way down        ↑ each layer strips its header on the way up
+</pre>
+<p>The sender's data goes down the stack, each layer wrapping it with its header (the data link layer also adds a trailer). The bits cross the physical link, usually through intermediate nodes (routers work up to layer 3, switches to layer 2). At the receiver each layer removes its own header and passes the rest up. Each layer talks logically to its peer on the other side.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P57</span>Draw the OSI model and explain the function of the session and presentation layers.<span class="marks">3 marks</span></p>
+      <div class="a">
+<pre class="art">
+ 7 Application | 6 Presentation | 5 Session | 4 Transport | 3 Network | 2 Data link | 1 Physical
+</pre>
+<table><thead><tr><th>Point</th><th>Session layer (5)</th><th>Presentation layer (6)</th></tr></thead><tbody>
+<tr><td>Role</td><td>Dialog controller: establishes, maintains and ends a session</td><td>Translator between application and network data formats</td></tr>
+<tr><td>Functions</td><td>Dialog control (who sends when, half or full duplex); synchronisation checkpoints; recovery</td><td>Translation of character codes (ASCII, Unicode); encryption and decryption; compression</td></tr>
+<tr><td>Example</td><td>Checkpoint every 100 pages of a 2000 page transfer; after a crash at page 523, resume from 500</td><td>Sender encrypts and compresses a file; receiver decompresses and decrypts it</td></tr>
+</tbody></table>
+<p>In the TCP/IP suite these two layers have no separate existence; the application or a library such as TLS does their job.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P58</span>Explain in detail the TCP/IP protocol suite with a neat diagram.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>The TCP/IP suite is the set of protocols the Internet really runs on, arranged in layers. Each layer has several protocols and each uses the one below it.</p>
+<pre class="art">
+ Layer            Protocols                                   Data unit
+ 5 Application    HTTP  FTP  SMTP  DNS  TELNET  SNMP  DHCP    message
+ 4 Transport      TCP        UDP        SCTP                   segment / datagram
+ 3 Network        IP   with  ICMP  IGMP  ARP  (RIP OSPF BGP)  packet (datagram)
+ 2 Data link      Ethernet  Wi-Fi  PPP  HDLC                   frame
+ 1 Physical       cable, fibre, radio signals                  bits
+</pre>
+<ul>
+<li><strong>Application:</strong> user services; talks to a transport port.</li>
+<li><strong>Transport:</strong> process-to-process delivery. TCP is reliable and connection-oriented; UDP is fast and connectionless; SCTP is reliable with several streams.</li>
+<li><strong>Network (Internet):</strong> IP gives host-to-host delivery with best effort; ICMP reports errors; IGMP manages multicast groups; ARP maps IP to MAC.</li>
+<li><strong>Data link and physical:</strong> carry frames over one link and the bits over the medium (called the network access layer in the 4-layer version).</li>
+</ul>
+<p><strong>Encapsulation example:</strong> HTTP message → TCP adds ports (segment) → IP adds addresses (packet) → Ethernet adds MAC addresses and a CRC trailer (frame) → bits.</p>
+<p><strong>Versus OSI:</strong> application + presentation + session of OSI = application layer of TCP/IP; the other layers map one to one. TCP/IP came first as protocols, OSI as a model.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P59</span>List and explain the five components of data communication.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<pre class="art">
+  Sender --- message ---→ [ transmission medium ] ---→ Receiver
+     ________________ protocol (agreed rules) _______________/
+</pre>
+<ol>
+<li><strong>Message:</strong> the information to be sent (text, numbers, image, audio, video).</li>
+<li><strong>Sender:</strong> the device that sends the message (computer, phone, camera).</li>
+<li><strong>Receiver:</strong> the device that receives it (computer, phone, server).</li>
+<li><strong>Transmission medium:</strong> the physical path, wired (twisted pair, coaxial, fibre) or wireless (radio, microwave, satellite).</li>
+<li><strong>Protocol:</strong> the set of rules on format and order that both sides follow. Without it two connected devices cannot understand each other, like two people with no common language.</li>
+</ol>
+<p>Example: a student (sender) emails a file (message) through the college network and Internet (medium) to a friend (receiver) using SMTP and TCP/IP (protocols).</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+</section>
+
+<section id="netmgmt">
+  <p class="eyebrow">Asked in 4 of 7 papers</p>
+  <h2>Network management: SNMP and the functions of a network management system</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), Dec 24, May 24, May 25</p>
+  <div class="callout"><p><p>SNMP is a 3 mark question or a short note nearly every other paper. May 2025 asked the functions of a network management system as one choice of Q6; the five-letter answer FCAPS covers it.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P60</span>Explain the working of SNMP.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>SNMP (Simple Network Management Protocol) is an application-layer protocol that lets a central station monitor and manage routers, switches, servers and printers.</p>
+<ul>
+<li><strong>Manager (NMS):</strong> the management station run by the administrator; sends requests, receives responses and traps.</li>
+<li><strong>Agent:</strong> software on each managed device; collects local data and answers the manager.</li>
+<li><strong>MIB:</strong> the database of objects an agent exposes (interface status, traffic counters, CPU load), each named by an object ID in a tree.</li>
+</ul>
+<pre class="art">
+ Manager (NMS)  -- GetRequest / SetRequest (UDP 161) --→  Agent + MIB
+                ←-- Response ----------------------------
+                ←-- Trap (UDP 162, sent by agent on an event) --
+</pre>
+<p><strong>Operations:</strong> GET reads a value (polling), SET changes a value (for example disables an interface), TRAP is an alert the agent sends by itself. SNMP uses UDP to keep management traffic light. SNMPv1 and v2c send only a plain-text community string; SNMPv3 adds authentication and encryption.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), May 24 (short note)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P61</span>Assess the importance of the Simple Network Management Protocol (SNMP).<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>SNMP lets one administrator monitor and control thousands of devices from one place, which is why it is the standard management protocol.</p>
+<ul>
+<li><strong>Central monitoring:</strong> a single NMS watches routers, switches, servers and printers.</li>
+<li><strong>Fault detection:</strong> traps give immediate alerts (link down, high temperature) without polling.</li>
+<li><strong>Performance monitoring and capacity planning:</strong> counters such as bytes in/out and CPU load show trends and bottlenecks.</li>
+<li><strong>Remote configuration:</strong> SET changes settings without visiting the device.</li>
+<li><strong>Accounting:</strong> traffic counters support usage reports.</li>
+<li><strong>Simple and light:</strong> small messages over UDP, supported by almost all network equipment.</li>
+</ul>
+<p><strong>Weakness:</strong> SNMPv1 and v2c are insecure (plain community string); SNMPv3 adds authentication and encryption.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P62</span>What are the key functions performed by a network management system?<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>A network management system (NMS) monitors and controls the network's devices and services. Its functions are grouped as <strong>FCAPS</strong> (the ISO model):</p>
+<table><thead><tr><th>Function</th><th>What it does</th><th>Example</th></tr></thead><tbody>
+<tr><td>Fault management</td><td>Detect, isolate and correct problems; raise alarms and keep logs</td><td>A trap says a router link is down; the NMS alerts the admin and shows the failed link</td></tr>
+<tr><td>Configuration management</td><td>Record, set up and track device settings and versions; inventory and backup</td><td>Push a new VLAN setting to 20 switches with SNMP SET</td></tr>
+<tr><td>Accounting management</td><td>Measure resource usage per user or department for billing and quotas</td><td>Monthly bandwidth used by each hostel block</td></tr>
+<tr><td>Performance management</td><td>Collect and analyse throughput, delay, utilisation, error rate; set thresholds; plan capacity</td><td>Alert when a link stays above 80% utilisation</td></tr>
+<tr><td>Security management</td><td>Control access to devices, authenticate users, log events, protect management traffic</td><td>Only the NMS address may query devices; SNMPv3 with encryption</td></tr>
+</tbody></table>
+<pre class="art">
+ Managed devices (agents + MIB) → SNMP → NMS (manager) → alerts, reports, config changes → Admin
+</pre>
+<p>The management station talks to agents mostly through SNMP; the five functions together keep the network available, correctly configured, efficient and secure.</p><p class="seen"><strong>Seen in:</strong> May 25 (OR)</p></div></div>
+</section>
+
+<section id="topology">
+  <p class="eyebrow">Asked in 4 of 7 papers</p>
+  <h2>Topologies and transmission media</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), Dec 23 (2 Dec), Dec 24, May 24</p>
+  <div class="callout"><p><p>Easy marks: a table of pros and cons plus a tiny sketch of each topology. The media questions are answered with one comparison table; end with a ranking of bandwidth, reliability and cost.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P63</span>Discuss the advantages and disadvantages of three network topologies in different network scenarios. (List the pros and cons of various networking topologies.)<span class="marks">3 marks</span></p>
+      <div class="a">
+<pre class="art">
+   BUS                     STAR                    RING                MESH (4 nodes)
+ A   B   C   D            B   C                  A --- B              A --- B
+ |   |   |   |              /                   |     |              |  / |
+ ============ backbone     [HUB]                 D --- C              | /  |
+                           /                                         D --- C
+                          A   D
+</pre>
+<table><thead><tr><th>Topology</th><th>Advantages</th><th>Disadvantages</th><th>Scenario</th></tr></thead><tbody>
+<tr><td>Bus</td><td>Cheapest, least cable, easy to extend</td><td>Backbone fault stops everyone; collisions rise with load; hard to troubleshoot</td><td>Tiny temporary LAN</td></tr>
+<tr><td>Star</td><td>Easy to add nodes; one cable failure hits only that node; easy fault finding</td><td>Hub or switch is a single point of failure; more cable than bus</td><td>Offices, homes, most LANs</td></tr>
+<tr><td>Ring</td><td>Orderly access (token); predictable under load</td><td>One break or dead node stops the ring; adding nodes disturbs it</td><td>Token ring, metro fibre rings</td></tr>
+<tr><td>Mesh</td><td>Very reliable, many alternate paths, no bottleneck</td><td>Costly; n(n − 1)/2 links; complex to install</td><td>Backbones, critical links</td></tr>
+</tbody></table>
+<p>Full mesh of 5 devices: 5 × 4 / 2 = 10 links and 4 ports per device.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P64</span>What is network topology? Explain the different network topologies.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>Topology is the arrangement of the nodes (devices) and links of a network. <strong>Physical</strong> topology is the actual cabling layout; <strong>logical</strong> topology is the way data flows.</p>
+<ol>
+<li><strong>Bus:</strong> all nodes tap one shared backbone cable with terminators at the ends. Cheap, but a backbone break kills the network and collisions rise with load.</li>
+<li><strong>Star:</strong> every node connects to a central hub or switch. Easy to manage and a cable fault affects one node, but the centre is a single point of failure.</li>
+<li><strong>Ring:</strong> each node links to two neighbours, forming a loop, usually with token passing. Orderly access, but one break stops the ring unless there is a dual ring.</li>
+<li><strong>Mesh:</strong> every node links to every other (full) or to several (partial). Most reliable but most expensive; full mesh of n nodes needs n(n − 1)/2 links and n − 1 ports per node.</li>
+<li><strong>Tree / hybrid:</strong> stars hung off a bus or a root (hierarchy); hybrid combines any of the above. Scalable, faults isolated to a branch, but a root failure splits the network.</li>
+</ol>
+<pre class="art">
+ Tree:        [root switch]
+               /        |
+         [switch]     [switch]
+         /   |          |   |
+        PC   PC        PC   PC
+</pre>
+<p>How to sketch: draw each in a small box with 4 to 6 nodes and write one pro and one con under it.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P65</span>Describe the characteristics and applications of UTP and STP cable, fibre optic cable, on the basis of twisted pair, coaxial cable, speed, installation, EMI and cost.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<table><thead><tr><th>Point</th><th>UTP</th><th>STP</th><th>Coaxial</th><th>Optical fibre</th></tr></thead><tbody>
+<tr><td>Construction</td><td>Four pairs of twisted copper wire, no shield</td><td>Twisted pairs plus a foil or braid shield</td><td>Central copper core, insulator, braided shield, jacket</td><td>Glass or plastic core with cladding; light pulses</td></tr>
+<tr><td>Speed</td><td>Cat 5e: 1 Gbps at 100 m; Cat 6a: 10 Gbps at 100 m</td><td>Similar to UTP, up to 10 Gbps</td><td>Higher bandwidth than twisted pair (cable TV, DOCSIS up to hundreds of Mbps shared)</td><td>Highest: many Gbps to Tbps; km to tens of km (single mode)</td></tr>
+<tr><td>Installation</td><td>Easy and flexible, RJ-45 connectors</td><td>Stiffer, needs grounding</td><td>Heavier, harder to bend and terminate</td><td>Skilled work, fragile, special connectors</td></tr>
+<tr><td>EMI</td><td>Twisting cancels some noise; susceptible</td><td>Shield gives better protection</td><td>Good shielding</td><td>Immune to electromagnetic interference; hard to tap</td></tr>
+<tr><td>Cost</td><td>Lowest</td><td>Higher than UTP</td><td>Moderate</td><td>Highest (cheap per bit at scale)</td></tr>
+<tr><td>Applications</td><td>Office and home Ethernet LANs, telephone lines</td><td>Factories, data centres, noisy areas</td><td>Cable TV, broadband cable internet, antenna feeds</td><td>Backbones, ISP and undersea links, data centres, FTTH</td></tr>
+</tbody></table>
+<p>Ranking: speed and EMI immunity: fibre &gt; coaxial &gt; STP &gt; UTP; cost: fibre &gt; STP &gt; coaxial &gt; UTP.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P66</span>What are the various types of transmission media? How do they differ in terms of bandwidth and reliability?<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>A transmission medium is the physical path that carries the signal. Two families: guided (wired) and unguided (wireless).</p>
+<table><thead><tr><th>Medium</th><th>Type</th><th>Bandwidth</th><th>Reliability</th></tr></thead><tbody>
+<tr><td>Twisted pair (UTP / STP)</td><td>Guided, copper</td><td>Low to moderate; about 100 m per LAN segment</td><td>Moderate; STP better against noise</td></tr>
+<tr><td>Coaxial cable</td><td>Guided, copper</td><td>Higher than twisted pair</td><td>Better noise immunity than UTP</td></tr>
+<tr><td>Optical fibre</td><td>Guided, light</td><td>Highest; very long distances</td><td>Highest: immune to EMI, hard to tap</td></tr>
+<tr><td>Radio / microwave / satellite / infrared</td><td>Unguided</td><td>Varies with band; shared and limited by spectrum</td><td>Lowest: interference, fading, weather, eavesdropping</td></tr>
+</tbody></table>
+<p>Bandwidth: fibre &gt; coax &gt; twisted pair &gt; wireless (typically). Reliability: fibre best, wireless worst.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+</section>
+
+<section id="architecture">
+  <p class="eyebrow">Asked in 3 of 7 papers</p>
+  <h2>Application architectures: client-server, peer-to-peer, microservices</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), Dec 25, May 26</p>
+  <div class="callout"><p><p>May 2026 turned the microservices idea from Unit 2 into a case-study question: name three real companies, state the domain and describe the move from monolith to microservices. The Netflix / Amazon / Uber answer below is ready to copy.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P67</span>Outline the differences between client-server and peer-to-peer network architectures. Provide examples of applications that use each of these models.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p><strong>Client-server:</strong> an always-on server provides a service; clients request it. <strong>Peer-to-peer (P2P):</strong> every host is both client and server and talks directly to other peers.</p>
+<pre class="art">
+ Client-server:  C1 --+              P2P:   P1 --- P2
+                 C2 --+--→ [Server]           |  X  |
+                 C3 --+                       P3 --- P4
+</pre>
+<table><thead><tr><th>Point</th><th>Client-server</th><th>Peer-to-peer</th></tr></thead><tbody>
+<tr><td>Roles</td><td>Fixed: client or server</td><td>Every peer is both</td></tr>
+<tr><td>Control / admin</td><td>Centralised, easy to secure and back up</td><td>Decentralised, hard to control</td></tr>
+<tr><td>Scalability</td><td>Server load grows with clients; needs bigger server</td><td>Each new peer adds capacity</td></tr>
+<tr><td>Failure</td><td>Server is a single point of failure</td><td>No single point; resilient</td></tr>
+<tr><td>Cost</td><td>Server infrastructure needed</td><td>Uses peers' resources</td></tr>
+<tr><td>Examples</td><td>Web (HTTP), email (SMTP), FTP, online banking</td><td>BitTorrent file sharing, early Napster and Gnutella, blockchain nodes</td></tr>
+</tbody></table>
+<p>P2P directory styles: centralised directory (Napster, single point of failure), query flooding (Gnutella, inefficient), supernodes (KaZaA hybrid).</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P68</span>Illustrate the two advantages of the P2P architecture for file distribution as compared to the client-server model.<span class="marks">2 marks</span></p>
+      <div class="a">
+<ol>
+<li><strong>Self-scaling:</strong> every peer that downloads also uploads, so capacity grows with the number of peers, while in client-server the server must send N copies and slows as N grows.</li>
+<li><strong>No single point of failure / lower server cost:</strong> the file is available from many peers, so the service survives a server crash and needs less server bandwidth.</li>
+</ol>
+<p>Example: file F = 1 Gbit, server upload 100 Mbps, N = 10 peers each uploading 10 Mbps, minimum download rate 50 Mbps. Client-server time = max(N·F / u_s, F / d_min) = max(10 × 1000 / 100, 1000 / 50) = max(100 s, 20 s) = <strong>100 s</strong>. P2P time = max(F / u_s, F / d_min, N·F / (u_s + Σu_i)) = max(10 s, 20 s, 10,000 / 200 = 50 s) = <strong>50 s</strong>. With N = 100 peers client-server takes 1000 s but P2P about 91 s (100,000 / 1100).</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P69</span>Choose three real-world companies that have adopted a microservices architecture. For each, classify the domain and describe how their architecture evolved from a monolithic or service-oriented model into microservices.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>A <strong>monolith</strong> is one deployable program holding all features; a change needs a full redeploy and one fault can take everything down. <strong>Microservices</strong> split the application into small services, each owning one business function and its data, deployed and scaled independently and talking through APIs or message queues.</p>
+<table><thead><tr><th>Company</th><th>Domain</th><th>Evolution</th></tr></thead><tbody>
+<tr><td>Netflix</td><td>Video streaming / entertainment</td><td>Began as one monolithic Java application in its own data centres. A major database corruption in 2008 stopped DVD shipping for days, which pushed a move to the cloud (AWS). Between about 2009 and 2016 it was rebuilt as many independent services (accounts, recommendations, playback, billing) behind an API gateway, with tools such as service discovery and circuit breakers. Hundreds of services now.</td></tr>
+<tr><td>Amazon</td><td>E-commerce / retail (and cloud)</td><td>Started as a large monolithic web application. Around 2001 to 2002 it moved to a service-oriented design: every team had to expose its function as a service with an API. Small teams own services end to end (cart, catalogue, orders, payment, inventory, shipping), and a single product page is built from calls to hundreds of services. The internal services approach also led to AWS.</td></tr>
+<tr><td>Uber</td><td>Transportation / ride-hailing</td><td>Launched around 2010 as one monolith handling dispatch, passenger management, billing and payments. As it spread across many cities and features, deployments became risky and slow, so from about 2014 it split into services (trips, drivers, riders, pricing, maps/ETA, payments), reaching well over a thousand services later organised by domain.</td></tr>
+</tbody></table>
+<pre class="art">
+ Monolith:  [ UI + orders + payment + inventory + shipping + DB ]   one deploy, one failure domain
+ Services:  Client → API gateway → [Order] [Payment] [Inventory] [Shipping]   each with its own data
+                                       | message queue (events)
+</pre>
+<p><strong>Common reasons:</strong> independent deployment, independent scaling, fault isolation, team autonomy. <strong>Cost:</strong> more network calls, operational complexity and harder distributed debugging.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="switching">
+  <p class="eyebrow">Asked in 2 of 7 papers</p>
+  <h2>Switching and network structure: switched networks, virtual circuit vs datagram, network core and edge</h2>
+  <p class="seen"><strong>Seen in:</strong> May 24, Dec 25</p>
+  <div class="callout"><p><p>Link the taxonomy tree to the Unit 4 virtual-circuit and datagram notes; both questions are answered from the same tree.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P70</span>Illustrate the definition and taxonomy of switched networks in detail. Explain any two of them in brief.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>A switched network is a set of interconnected switches (or routers). Data is moved from source to destination through intermediate nodes, so no dedicated link is needed between every pair of hosts.</p>
+<pre class="art">
+ Switched networks
+  |-- Circuit switching   (dedicated path for the whole call)
+  |-- Message switching   (whole message stored and forwarded; historical)
+  +-- Packet switching    (message cut into packets)
+        |-- Datagram approach         (connectionless, each packet routed on its own)
+        +-- Virtual-circuit approach  (connection-oriented, one path for all packets)
+</pre>
+<p><strong>Circuit switching:</strong> a path is set up before data and reserved for the whole conversation (setup, transfer, teardown). Guaranteed rate and no per-hop delay, but the capacity is wasted when idle and there is a setup delay. Example: classic telephone network.</p>
+<p><strong>Packet switching:</strong> the message is cut into packets that share links. No setup (datagram) or a logical path (virtual circuit); good use of capacity, but queuing delay and possible loss. Example: the Internet.</p>
+<table><thead><tr><th>Point</th><th>Circuit</th><th>Message</th><th>Packet</th></tr></thead><tbody>
+<tr><td>Path</td><td>Dedicated, set up first</td><td>None, hop by hop</td><td>Shared; none (datagram) or logical (VC)</td></tr>
+<tr><td>Data unit</td><td>Continuous stream</td><td>Entire message</td><td>Small packets</td></tr>
+<tr><td>Resource use</td><td>Reserved, wasteful when idle</td><td>Needs big buffers</td><td>Efficient sharing</td></tr>
+<tr><td>Delay</td><td>Setup delay only</td><td>High</td><td>Low but variable</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P71</span>Compare the three services provided by a virtual-circuit network with those of a datagram network.<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Service</th><th>Virtual-circuit network</th><th>Datagram network</th></tr></thead><tbody>
+<tr><td>1 Connection</td><td>Set-up before data, teardown after; resources reserved on the path</td><td>No set-up; no reservation</td></tr>
+<tr><td>2 Routing and addressing</td><td>All packets follow one path; after set-up each carries a short VC number; every switch keeps per-connection state</td><td>Each packet routed independently using the full destination address; no state</td></tr>
+<tr><td>3 Ordering and reliability</td><td>Packets arrive in order, in the same sequence sent; a path failure breaks the circuit</td><td>Packets may arrive out of order or be lost; the destination reorders; a failed node is routed around</td></tr>
+</tbody></table>
+<p>Examples: VC in ATM, Frame Relay, MPLS-style paths; datagram in IP (the Internet). VC suits long conversations, datagram suits a few packets.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P72</span>Differentiate between the network core and the network edge, elucidating their respective architectural roles and providing illustrative examples for each.<span class="marks">5 marks</span></p>
+      <div class="a">
+<pre class="art">
+ [Laptop] -- [Wi-Fi router] -- [Edge router] ==== [Core routers] ==== [Edge router] -- [Web server]
+   hosts        access           network edge        network core
+</pre>
+<p><strong>Network edge:</strong> the boundary where end systems (hosts such as laptops, phones, servers, IoT devices) connect through access networks (Wi-Fi, Ethernet, DSL, cable, 4G). Edge routers connect local users to the Internet and run firewalls, NAT, VPN and QoS.</p>
+<p><strong>Network core:</strong> the mesh of high-speed routers and fibre links that carries traffic between networks across long distances; it only forwards and routes (OSPF, BGP) with redundancy so a cut fibre is routed around. Examples: submarine fibre cables, ISP backbones such as Jio and Airtel, data-centre interconnects.</p>
+<table><thead><tr><th>Feature</th><th>Network edge</th><th>Network core</th></tr></thead><tbody>
+<tr><td>Location</td><td>Boundary of the network</td><td>Centre / backbone</td></tr>
+<tr><td>Devices</td><td>PCs, phones, servers, access points, edge routers</td><td>High-speed core routers</td></tr>
+<tr><td>Purpose</td><td>Connect users to the network</td><td>Transfer data between networks</td></tr>
+<tr><td>Speed</td><td>Moderate</td><td>Very high</td></tr>
+<tr><td>Functions</td><td>Security (firewall, NAT, VPN), traffic management, edge computing</td><td>Fast routing and forwarding</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
+</section>
+
+<section id="mac">
+  <p class="eyebrow">Asked in 2 of 7 papers</p>
+  <h2>Multiple access: TDMA, FDMA, CSMA/CD and CSMA/CA</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov), May 26</p>
+
+    <div class="qa"><p class="q"><span class="num">P73</span>Explain the channelization techniques TDMA and FDMA.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>Channelization shares one link's bandwidth among stations by dividing it by frequency, time (or code) so that stations do not collide.</p>
+<p><strong>FDMA (Frequency Division Multiple Access):</strong> the available band is divided into separate frequency sub-bands and each station is given its own band for the whole time. All stations can transmit at the same moment; small guard bands between sub-bands prevent interference.</p>
+<p><strong>TDMA (Time Division Multiple Access):</strong> stations use the whole bandwidth, but one at a time. Time is cut into frames and each frame into slots; each station owns one slot in every frame. Needs synchronisation and guard times between slots.</p>
+<pre class="art">
+ FDMA (frequency)                    TDMA (time)
+ f4 | S4 | S4 | S4 | S4              all stations use the full band
+ f3 | S3 | S3 | S3 | S3              | S1 | S2 | S3 | S4 | S1 | S2 | S3 | S4 | ...
+ f2 | S2 | S2 | S2 | S2              |&lt;-- one frame --→|
+ f1 | S1 | S1 | S1 | S1              time →
+    +-------------------→ time
+</pre>
+<p><strong>Worked example:</strong> FDMA: 1000 kHz band, 4 stations, 10 kHz guard band between neighbours (3 guards = 30 kHz): each station gets (1000 − 30) / 4 = 242.5 kHz. TDMA: a 1 Mbps link shared by 4 stations in equal 1 ms slots: the frame is 4 ms, each station sends at 1 Mbps for 1 ms in every 4 ms, an average of 1 / 4 = 250 kbps.</p>
+<table><thead><tr><th>Point</th><th>FDMA</th><th>TDMA</th></tr></thead><tbody>
+<tr><td>Shared resource</td><td>Frequency</td><td>Time</td></tr>
+<tr><td>Transmission</td><td>Simultaneous, narrow band</td><td>One at a time, full band</td></tr>
+<tr><td>Needs</td><td>Guard bands, filters</td><td>Synchronisation, guard times</td></tr>
+<tr><td>Example</td><td>Radio and TV channels, 1G cellular</td><td>GSM (2G)</td></tr>
+</tbody></table>
+<p>A third method, CDMA, lets all stations use all the band at the same time using different codes. Weakness of both FDMA and TDMA: an idle station's share is wasted.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (27 Nov)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P74</span>Identify the main difference between CSMA/CD and CSMA/CA.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p><strong>Main difference:</strong> CSMA/CD <strong>detects</strong> a collision while sending and stops (wired Ethernet); CSMA/CA <strong>avoids</strong> collisions before sending using random back-off and acknowledgements (wireless LAN).</p>
+<table><thead><tr><th>Point</th><th>CSMA/CD</th><th>CSMA/CA</th></tr></thead><tbody>
+<tr><td>Medium</td><td>Wired, IEEE 802.3</td><td>Wireless, IEEE 802.11</td></tr>
+<tr><td>Collision handling</td><td>Listen while sending; on collision abort, send jam, back off</td><td>Sense idle for DIFS, random back-off counter, optional RTS/CTS</td></tr>
+<tr><td>Sender can detect collision?</td><td>Yes</td><td>No (cannot send and listen together)</td></tr>
+<tr><td>Acknowledgement</td><td>Not needed</td><td>Link-layer ACK after every frame</td></tr>
+<tr><td>Hidden terminal</td><td>Not an issue</td><td>Real problem; RTS/CTS helps</td></tr>
+</tbody></table>
+<p>CSMA/CD minimum frame: frame time must be at least 2 × propagation time, so at 10 Mbps the frame is at least 512 bits = 64 bytes.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="arp">
+  <p class="eyebrow">Asked in 2 of 7 papers</p>
+  <h2>ARP: broadcast request, unicast reply, and Ethernet frame encapsulation</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24, May 25</p>
+  <div class="callout"><p><p>Both ARP questions are 6 mark long answers, one on reasoning and one on the exact frame fields. Learn the field table; it is the same for every host pair, only the addresses change.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P75</span>Explain why an ARP request is sent as a broadcast and the reply as a unicast, using an example to support your justification.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p>ARP (Address Resolution Protocol) finds the MAC address of a host on the same LAN when only its IP address is known.</p>
+<p><strong>Request = broadcast</strong> (destination MAC FF:FF:FF:FF:FF:FF): the sender does not know which device owns the target IP or its MAC; that is exactly the question. It cannot address anyone directly, so it asks everyone. Only the owner of the IP answers; the rest ignore it.</p>
+<p><strong>Reply = unicast:</strong> the request already carries the requester's IP and MAC, so the target knows exactly who asked. Sending the answer to everyone would waste bandwidth and interrupt every host.</p>
+<p><strong>Example:</strong> Host A: IP 192.168.1.10, MAC AA:AA:AA:AA:AA:01. Host B: IP 192.168.1.20, MAC BB:BB:BB:BB:BB:02.</p>
+<ol>
+<li>A has data for 192.168.1.20 but its ARP cache has no entry.</li>
+<li>A broadcasts: "Who has 192.168.1.20? Tell 192.168.1.10 (AA:AA:AA:AA:AA:01)."</li>
+<li>Every host receives it; only B matches the IP. B also stores A's IP-to-MAC pair.</li>
+<li>B sends a unicast reply to AA:AA:AA:AA:AA:01: "192.168.1.20 is at BB:BB:BB:BB:BB:02."</li>
+<li>A caches the pair and sends the data frame to BB:BB:BB:BB:BB:02.</li>
+</ol>
+<p>The ARP cache holds recent IP-to-MAC pairs, with a timeout, so ARP is not repeated for every packet. For a destination in another network the host ARPs for its default gateway instead.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P76</span>Host 130.23.43.20 (physical address B2:34:55:10:22:10) has a packet to send to host 130.23.43.25 (physical address A4:6E:F4:59:83:AB). Both are on the same Ethernet network. Show the ARP request and reply packets encapsulated in Ethernet frames.<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>An ARP packet (28 bytes) travels as the payload of an Ethernet frame with Type = 0x0806. Let A = 130.23.43.20 and B = 130.23.43.25.</p>
+<p><strong>1. ARP request (broadcast)</strong></p>
+<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Ethernet header</strong></td><td></td></tr>
+<tr><td>Destination MAC</td><td>FF:FF:FF:FF:FF:FF (broadcast)</td></tr>
+<tr><td>Source MAC</td><td>B2:34:55:10:22:10</td></tr>
+<tr><td>Type</td><td>0x0806 (ARP)</td></tr>
+<tr><td><strong>ARP packet</strong></td><td></td></tr>
+<tr><td>Hardware type</td><td>0x0001 (Ethernet)</td></tr>
+<tr><td>Protocol type</td><td>0x0800 (IPv4)</td></tr>
+<tr><td>Hardware size / Protocol size</td><td>6 / 4</td></tr>
+<tr><td>Opcode</td><td>1 (request)</td></tr>
+<tr><td>Sender hardware address</td><td>B2:34:55:10:22:10</td></tr>
+<tr><td>Sender protocol address</td><td>130.23.43.20</td></tr>
+<tr><td>Target hardware address</td><td>00:00:00:00:00:00 (unknown, all zeros)</td></tr>
+<tr><td>Target protocol address</td><td>130.23.43.25</td></tr>
+</tbody></table>
+<p><strong>2. ARP reply (unicast from B to A)</strong></p>
+<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Ethernet header</strong></td><td></td></tr>
+<tr><td>Destination MAC</td><td>B2:34:55:10:22:10 (A, unicast)</td></tr>
+<tr><td>Source MAC</td><td>A4:6E:F4:59:83:AB</td></tr>
+<tr><td>Type</td><td>0x0806 (ARP)</td></tr>
+<tr><td><strong>ARP packet</strong></td><td></td></tr>
+<tr><td>Hardware type</td><td>0x0001</td></tr>
+<tr><td>Protocol type</td><td>0x0800</td></tr>
+<tr><td>Hardware size / Protocol size</td><td>6 / 4</td></tr>
+<tr><td>Opcode</td><td>2 (reply)</td></tr>
+<tr><td>Sender hardware address</td><td>A4:6E:F4:59:83:AB</td></tr>
+<tr><td>Sender protocol address</td><td>130.23.43.25</td></tr>
+<tr><td>Target hardware address</td><td>B2:34:55:10:22:10</td></tr>
+<tr><td>Target protocol address</td><td>130.23.43.20</td></tr>
+</tbody></table>
+<pre class="art">
+ Request ARP payload (hex):
+ 0001 0800 06 04 0001 | B2 34 55 10 22 10 | 82 17 2B 14 | 00 00 00 00 00 00 | 82 17 2B 19
+ (130.23.43.20 = 82 17 2B 14, 130.23.43.25 = 82 17 2B 19)
+</pre>
+<p>Frame size: 14-byte Ethernet header + 28-byte ARP packet + 18 bytes padding (minimum payload is 46 bytes) + 4-byte CRC = 64 bytes. After the reply, A stores 130.23.43.25 → A4:6E:F4:59:83:AB in its ARP cache and sends its data frame to that MAC.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+</section>
+
+<section id="crypto">
+  <p class="eyebrow">Asked in 1 of 7 papers</p>
+  <h2>Cryptography: components and key types</h2>
+  <p class="seen"><strong>Seen in:</strong> May 25 (OR)</p>
+
+    <div class="qa"><p class="q"><span class="num">P77</span>Given that cryptography is both a science and an art focused on transforming messages to secure them against attacks, what are the essential components involved in cryptography?<span class="marks">6 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
+<p>Cryptography converts a readable message into an unreadable form so that only the intended receiver can recover it.</p>
+<pre class="art">
+ Plaintext --[ Encryption algorithm + key ]--→ Ciphertext --( network, attacker may listen )--→
+                                                                     [ Decryption algorithm + key ]--→ Plaintext
+</pre>
+<ol>
+<li><strong>Plaintext:</strong> the original readable message.</li>
+<li><strong>Encryption algorithm (cipher):</strong> the procedure that turns plaintext into ciphertext.</li>
+<li><strong>Ciphertext:</strong> the scrambled output that travels over the network.</li>
+<li><strong>Decryption algorithm:</strong> the reverse procedure that recovers the plaintext.</li>
+<li><strong>Key:</strong> the secret value that controls the cipher. The algorithm can be public; security rests on the key.</li>
+</ol>
+<p><strong>Example (Caesar cipher, key = 3):</strong> each letter moves 3 places on: HELLO → KHOOR; decrypting shifts back 3.</p>
+<table><thead><tr><th>Point</th><th>Symmetric key</th><th>Asymmetric (public) key</th></tr></thead><tbody>
+<tr><td>Keys</td><td>One shared secret key for both encryption and decryption</td><td>Key pair: public key encrypts, private key decrypts</td></tr>
+<tr><td>Speed</td><td>Fast, good for bulk data</td><td>Slow, used for small data and key exchange</td></tr>
+<tr><td>Key distribution</td><td>Hard: the key must be shared secretly</td><td>Easy: the public key can be published</td></tr>
+<tr><td>Examples</td><td>AES, DES</td><td>RSA, ECC</td></tr>
+</tbody></table>
+<p>The aims are confidentiality, integrity, authentication and non-repudiation. In practice HTTPS uses asymmetric cryptography to exchange a key and symmetric cryptography for the data.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+</section>
+</main>
+
+<footer>SEM 5 · COMPUTER NETWORKS · PYQ ANSWERS · Sem 5 revision notes</footer>
+
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>

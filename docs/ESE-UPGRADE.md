@@ -46,5 +46,6 @@ Refuse:      gradient text, coloured side-border cards, identical icon-card grid
 ## PYQ answers phase (Nov 2026)
 Real Sem 5 papers were pulled into the local, gitignored pyq/ folder and audited (see pyq/AUDIT.md, local only). Each subject gets a solved PYQ page, sorted by how often a topic is asked.
 - [x] CC: CC/pyq.html (31 model answers incl. AWS services, load balancing and auto-scaling scenario, AWS dev/deploy tools). Flashcards include it.
-- [ ] NLP, DL, CN: pending.
+- [x] NLP: NLP/pyq.html (74 answers, 13 topic groups). DL: DL/pyq.html (53 answers). CN: CN/pyq.html (77 answers). All in flashcards, nav and homepage.
+- [ ] Next: gap-fill checks on question banks, one timed paper per subject.
 Never commit the papers or OCR text; only written model answers go on the site.

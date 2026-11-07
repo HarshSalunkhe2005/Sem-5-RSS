@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLP previous year questions with model answers</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(26px,4vw,42px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  pre{background:#1c1329;color:#e6d9fa;border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:12.4px;line-height:1.5;margin:12px 0;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · NLP · PYQ ANSWERS</span>
+  <h1>Past-paper questions, solved</h1>
+  <p>Every distinct question from nine NLP end-semester papers, grouped by topic and answered in the shape you can copy out by hand in the exam.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#overview">Overview</a>
+    <a href="#embeddings">Embeddings</a>
+    <a href="#lstm">LSTM</a>
+    <a href="#attention">Attention and Transformers</a>
+    <a href="#rnn">RNN</a>
+    <a href="#seq2seq">Seq2seq and NMT</a>
+    <a href="#pipeline">Phases and preprocessing</a>
+    <a href="#textrep">BoW and TF-IDF</a>
+    <a href="#textclass">Text classification</a>
+    <a href="#eval">Evaluation metrics</a>
+    <a href="#ner">NER</a>
+    <a href="#topic">Topic modelling</a>
+    <a href="#lm">Language models</a>
+    <a href="#misc">May 26 one-offs</a>
+  </div>
+</nav>
+
+<main>
+<section id="overview">
+  <p class="eyebrow">Built from 9 real NLP papers, Dec 2023 to May 2026 (Dec 24, Dec 25 and May 25 each had two sets)</p>
+  <h2>What the papers keep asking</h2>
+  <p>Topics are ranked by how many of the nine papers asked about them, so the first group is the one most likely to come again; start at the top and work down. For each question, write the model answer out once by hand, then redo only the diagram and the numbers from memory. Part A questions carry about 3 marks (3 to 5 lines) and Part B about 6 marks (definition, labelled structure, example, one closing line); the marks shown are inferred from the 5 x 3 + 5 x 6 = 45 pattern because the printed marks are not legible in every scan.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Topic</th><th>How often</th><th>Typical marks</th><th>Jump</th></tr></thead>
+    <tbody>
+      <tr><td>Word embeddings: Word2Vec, CBOW vs skip-gram, GloVe, negative sampling</td><td>9 of 9 papers</td><td>3 to 6</td><td><a href="#embeddings">Answers</a></td></tr>
+      <tr><td>LSTM: architecture, gates, vanishing gradient, Bi-LSTM, language modelling</td><td>8 of 9 papers</td><td>3 to 6</td><td><a href="#lstm">Answers</a></td></tr>
+      <tr><td>Attention, multi-head attention, Transformer and BERT</td><td>8 of 9 papers</td><td>3 to 6</td><td><a href="#attention">Answers</a></td></tr>
+      <tr><td>RNN family: architecture, hidden state, backpropagation, RNN vs CNN, SimpleRNN on IMDB</td><td>8 of 9 papers</td><td>3 to 6</td><td><a href="#rnn">Answers</a></td></tr>
+      <tr><td>Seq2seq and neural machine translation</td><td>7 of 9 papers</td><td>3 to 6</td><td><a href="#seq2seq">Answers</a></td></tr>
+      <tr><td>NLP phases, pipeline, preprocessing, tokenization and lemmatization</td><td>5 of 9 papers</td><td>3 to 6</td><td><a href="#pipeline">Answers</a></td></tr>
+      <tr><td>Text representation: one-hot, Bag of Words, CountVectorizer and TF-IDF</td><td>5 of 9 papers</td><td>3 to 6</td><td><a href="#textrep">Answers</a></td></tr>
+      <tr><td>Text classification: Naive Bayes, logistic regression, applications, hate-speech detection</td><td>5 of 9 papers</td><td>3 to 6</td><td><a href="#textclass">Answers</a></td></tr>
+      <tr><td>Evaluation metrics: BLEU, ROUGE, micro vs macro averaging</td><td>4 of 9 papers</td><td>3 to 6</td><td><a href="#eval">Answers</a></td></tr>
+      <tr><td>Named Entity Recognition: techniques and applications</td><td>4 of 9 papers</td><td>3 to 6</td><td><a href="#ner">Answers</a></td></tr>
+      <tr><td>Topic modelling: LSI (LSA) vs LDA</td><td>3 of 9 papers</td><td>6</td><td><a href="#topic">Answers</a></td></tr>
+      <tr><td>Language models: applications and smoothing</td><td>2 of 9 papers</td><td>3</td><td><a href="#lm">Answers</a></td></tr>
+      <tr><td>May 2026 one-off topics: dependency parsing, paradigm shift, applications, Indian-language NLP</td><td>1 of 9 papers</td><td>3 to 6</td><td><a href="#misc">Answers</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><strong>How to use this page:</strong> pick one topic, hide the answer, write it in the exam shape (definition, diagram, points, example) in 8 to 10 minutes, then reveal and compare. Answers are written for this site; the questions are paraphrased from the real papers.</p></div>
+</section>
+
+<section id="embeddings">
+  <p class="eyebrow">Asked in 9 of 9 papers</p>
+  <h2>Word embeddings: Word2Vec, CBOW vs skip-gram, GloVe, negative sampling</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A, Dec 24 set B, Dec 25 set A, Dec 25 set B, May 24, May 25 set A, May 25 set B, May 26</p>
+  <div class="callout"><p><p>Learn three things from this group and you cover most of it: the CBOW vs skip-gram table, the list of skip-gram (target, context) pairs for one sentence, and the negative-sampling idea (1 real pair against k random pairs). GloVe is simply &quot;vectors fitted to global co-occurrence counts&quot;.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P1</span>Compare and contrast CBOW and skip-gram. In which scenarios would you prefer each?<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> CBOW and skip-gram are the two training architectures of Word2Vec, a shallow neural network that learns a dense vector (usually 100 to 300 numbers) for every word, so that words used in similar contexts get similar vectors. CBOW predicts the target word from its context words; skip-gram predicts the context words from the target word.</p>
+<pre class="art">CBOW (context -&gt; target)            Skip-gram (target -&gt; context)
+
+ quick  brown  jumps  over                    fox
+   |      |      |      |                      |
+   +------+--+---+------+                 [embedding]
+              |                              |
+        average (hidden)              +------+------+------+
+              |                       |      |      |      |
+          [softmax]                 quick  brown  jumps  over
+              |
+             fox</pre>
+<p><strong>How to sketch it:</strong> three boxes in a row (input, hidden/embedding layer, output softmax). For CBOW draw several context boxes merging into one hidden layer; for skip-gram draw one input box fanning out to several output boxes.</p>
+<table><thead><tr><th>Point</th><th>CBOW</th><th>Skip-gram</th></tr></thead><tbody>
+<tr><td>Input and output</td><td>context words → target word</td><td>target word → each context word</td></tr>
+<tr><td>Training pairs per window</td><td>1 (context vectors are averaged)</td><td>one per context word (up to 2 × window)</td></tr>
+<tr><td>Training speed</td><td>faster</td><td>slower</td></tr>
+<tr><td>Frequent words</td><td>very good</td><td>good</td></tr>
+<tr><td>Rare words</td><td>weaker (averaged away)</td><td>better (many pairs per occurrence)</td></tr>
+<tr><td>Best corpus</td><td>very large</td><td>small or specialised</td></tr>
+</tbody></table>
+<p><strong>Example.</strong> Sentence &quot;the quick brown fox jumps over&quot;, window 2, centre word &quot;fox&quot;. CBOW makes one example: {quick, brown, jumps, over} → fox. Skip-gram makes four: (fox, quick), (fox, brown), (fox, jumps), (fox, over).</p>
+<p><strong>When to use which.</strong> CBOW: huge corpus of common words and limited compute (product catalogue of frequent items, spoken-command systems). Skip-gram: rare or domain-specific words matter, or the data is small (legal precedents, medical terms).</p>
+<p>In gensim the switch is one flag: <code>sg=0</code> for CBOW, <code>sg=1</code> for skip-gram.</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 25 set A, Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P2</span>Explain how GloVe creates word embeddings, with an example.<span class="marks">3 to 6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> GloVe (Global Vectors) learns word vectors by fitting them to the word-word co-occurrence counts of the whole corpus, so that the dot product of two word vectors approximates the logarithm of how often the two words occur together.</p>
+<p><strong>For a 3-mark question write the definition, steps 1 to 3 and the last line. For 6 marks add the example.</strong></p>
+<ol>
+<li><strong>Count.</strong> Build a matrix X where X_ij is the number of times word j appears in a window around word i, over the entire corpus.</li>
+<li><strong>Fit.</strong> Learn word vectors w_i, context vectors w̃_j and biases b_i, b̃_j by minimising J = Σ f(X_ij) (w_i·w̃_j + b_i + b̃_j − log X_ij)².</li>
+<li><strong>Weight.</strong> f(x) = (x / x_max)^0.75 for x &lt; x_max (x_max = 100), otherwise 1. It stops very frequent pairs dominating, and f(0) = 0 so zero counts are skipped.</li>
+<li><strong>Output.</strong> The final vector of a word is w_i + w̃_i.</li>
+</ol>
+<p><strong>Example.</strong> Corpus: &quot;I like deep learning&quot;, &quot;I like NLP&quot;, &quot;I enjoy flying&quot;, window 1 (neighbours on both sides). Counts: I-like 2, I-enjoy 1, like-deep 1, like-NLP 1, deep-learning 1, enjoy-flying 1. So the row of &quot;like&quot; is I = 2, deep = 1, NLP = 1.</p>
+<p>One term of the loss for a pair with X = 10: f(10) = (10/100)^0.75 = 0.178. If the current vectors give w·w̃ + b + b̃ = 1.5 and log 10 = 2.303, the error is 1.5 − 2.303 = −0.803, squared 0.644, weighted 0.178 × 0.644 = 0.114. Gradient descent changes the vectors to shrink this value for every pair.</p>
+<p><strong>Why ratios.</strong> GloVe is motivated by ratios of co-occurrence probabilities: P(solid | ice) / P(solid | steam) is large, P(gas | ice) / P(gas | steam) is small, and for a neutral word such as &quot;water&quot; the ratio is near 1. The vectors are fitted so their differences encode these ratios.</p>
+<p><strong>Versus Word2Vec.</strong> Word2Vec learns from local windows one at a time (predictive); GloVe uses aggregated global counts (count-based). Advantage: uses corpus-wide statistics and pre-trained vectors are available. Limitation: needs the co-occurrence matrix in memory, and each word gets one fixed vector whatever the sentence.</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set B, May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P3</span>Demonstrate the working of Word2Vec for converting words to vectors, with an example.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Word2Vec is a two-layer neural network (Mikolov et al.) that turns each word into a dense vector learned from its neighbouring words, using the idea that words in similar contexts have similar meanings.</p>
+<ol>
+<li><strong>Prepare.</strong> Tokenise, lowercase, build the vocabulary of V words, choose vector size d (say 100), window (say 2) and architecture (CBOW or skip-gram).</li>
+<li><strong>Make training pairs</strong> by sliding the window over the text.</li>
+<li><strong>Network.</strong> One-hot input (V) → hidden layer W (V × d, no activation; this is the embedding table) → output layer W′ (d × V) → softmax over the V words.</li>
+<li><strong>Train.</strong> Minimise cross-entropy (or the negative-sampling loss) with gradient descent over many passes. Words that appear in the same contexts receive the same updates, so their rows in W drift together.</li>
+<li><strong>Use.</strong> Throw away the output layer and keep the rows of W as the word vectors.</li>
+</ol>
+<p><strong>Example.</strong> Text &quot;the cat drinks milk&quot;, window 2, skip-gram. Pairs for the centre word &quot;drinks&quot;: (drinks, the), (drinks, cat), (drinks, milk). Over a large corpus &quot;cat&quot; and &quot;dog&quot; both occur near &quot;drinks&quot;, &quot;milk&quot;, &quot;pet&quot;, so their vectors end up close (cosine similarity near 1), while &quot;cat&quot; and &quot;airplane&quot; stay far apart. The learned space also supports analogies: king − man + woman ≈ queen.</p>
+<p><strong>Size.</strong> With V = 10,000 and d = 300 there are two matrices of 3,000,000 numbers each, 6,000,000 parameters in total.</p>
+<p><strong>Limitation.</strong> One vector per word, so &quot;bank&quot; (river) and &quot;bank&quot; (money) share a vector; contextual models such as BERT fix this.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P4</span>Illustrate how word embeddings are generated with the skip-gram model. What are the steps to train skip-gram on a corpus of healthcare data?<span class="marks">6 marks (3 marks for the short form)</span></p>
+      <div class="a"><p><strong>Definition.</strong> Skip-gram takes one centre word and predicts the words around it inside a window; the weights that map the centre word to its hidden layer become its embedding.</p>
+<p><strong>Example.</strong> Clinical sentence &quot;patient reports chest pain and shortness of breath&quot;, window 2, centre &quot;chest&quot;. Pairs: (chest, patient), (chest, reports), (chest, pain), (chest, and). Each pair is one training example, so a rare term like &quot;dyspnoea&quot; still produces several examples per occurrence.</p>
+<p><strong>Steps for a healthcare corpus</strong></p>
+<ol>
+<li><strong>Collect and protect.</strong> Clinical notes, discharge summaries or PubMed abstracts. Remove names, IDs and dates (de-identification) before anything else.</li>
+<li><strong>Clean.</strong> Lowercase, split into sentences and tokens, keep medical abbreviations and units (mg, ECG), replace numbers with a tag, join frequent phrases such as heart_attack.</li>
+<li><strong>Build vocabulary.</strong> Drop words below <code>min_count</code> (for example 5). Subsample very frequent words (&quot;the&quot;, &quot;patient&quot;).</li>
+<li><strong>Generate pairs</strong> with window 5 (clinical text is short and dense, a smaller window favours syntactic similarity, a larger one favours topical similarity).</li>
+<li><strong>Train with negative sampling.</strong> <code>Word2Vec(sentences, vector_size=100, window=5, min_count=5, sg=1, negative=5)</code>, several epochs, decaying learning rate.</li>
+<li><strong>Evaluate.</strong> <code>most_similar('diabetes')</code> should return related conditions or drugs; check on a downstream task (disease-code classification); plot with PCA or t-SNE.</li>
+</ol>
+<p><strong>Why skip-gram here.</strong> Medical vocabularies are full of rare terms and the data is small, which is where skip-gram beats CBOW.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B, May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P5</span>You are given a corpus of news articles. Illustrate the steps to preprocess the text and train a Word2Vec model on it.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Goal.</strong> Turn raw articles into clean token lists (one list per sentence) and train vectors that capture how words are used in news.</p>
+<ol>
+<li><strong>Collect and clean.</strong> Remove HTML, bylines, ads, URLs and boilerplate; fix encoding.</li>
+<li><strong>Split</strong> articles into sentences, then sentences into tokens.</li>
+<li><strong>Normalise.</strong> Lowercase (but note this merges &quot;Apple&quot; the company with &quot;apple&quot; the fruit), strip punctuation, replace numbers and dates with a tag such as NUM. Stop-word removal is optional because Word2Vec already subsamples frequent words.</li>
+<li><strong>Phrases.</strong> Detect multi-word names such as new_york or prime_minister so they get one vector.</li>
+<li><strong>Vocabulary.</strong> Keep words with <code>min_count</code> of at least 5 to drop typos and one-off names.</li>
+<li><strong>Train.</strong> <code>Word2Vec(sentences, vector_size=200, window=5, min_count=5, sg=1, epochs=10)</code>. News corpora are large, so CBOW (<code>sg=0</code>) is a faster alternative.</li>
+<li><strong>Evaluate and use.</strong> <code>model.wv.most_similar('election')</code> should list votes, polls, ballot; try analogies such as Paris − France + Italy ≈ Rome; save the vectors for classification or search.</li>
+</ol>
+<p><strong>Tip.</strong> Lemmatising is optional; keep it only if you want &quot;election&quot; and &quot;elections&quot; to share one vector.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P6</span>Elaborate on the negative sampling technique in Word2Vec. How does it improve training efficiency?<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Problem.</strong> The softmax output layer must score all V words for every training pair; with V = 100,000 each update touches 100,000 output vectors.</p>
+<p><strong>Idea.</strong> Turn the task into yes/no questions. For each real (target, context) pair (label 1) pick k random &quot;noise&quot; words (label 0) and update only those 1 + k output vectors. Noise words are drawn from the unigram distribution raised to the power 3/4, so frequent words are sampled less often. Typical k is 5 to 20 for small corpora and 2 to 5 for large ones.</p>
+<p><strong>Loss.</strong> −log σ(u_o·v_c) − Σ log σ(−u_n·v_c), where v_c is the target vector, u_o the real context and u_n the noise words.</p>
+<p><strong>Numbers.</strong> Real pair score 2.0, two noise scores −1.0 and −0.5: loss = −log σ(2.0) − log σ(1.0) − log σ(0.5) = 0.127 + 0.313 + 0.474 = 0.914.</p>
+<p><strong>Gain.</strong> With V = 100,000 and k = 5 only 6 output vectors are updated instead of 100,000, about 16,000 times less work per step, with no loss of vector quality.</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P7</span>In a sentiment analysis project you must classify tweets as positive, negative or neutral. How would you use Word2Vec embeddings to represent the words and improve the classifier?<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Idea.</strong> Replace sparse word counts with dense vectors in which similar words (&quot;good&quot;, &quot;great&quot;, &quot;superb&quot;) sit close together, so the classifier generalises to words it saw rarely.</p>
+<ol>
+<li><strong>Clean tweets.</strong> Lowercase, replace URLs and @mentions with tags, split hashtags, shorten repeated letters (&quot;soooo&quot; → &quot;soo&quot;), keep or map emojis, keep negation words.</li>
+<li><strong>Get embeddings.</strong> Load pre-trained Twitter or Google News vectors, or train skip-gram on a large collection of tweets so slang is covered. Out-of-vocabulary words get a zero or random vector (FastText handles them better).</li>
+<li><strong>Represent each tweet.</strong> Either average its word vectors into one 300-number vector, or feed the sequence of vectors to an LSTM/GRU to keep word order.</li>
+<li><strong>Classify.</strong> A softmax layer with 3 outputs (positive, negative, neutral). For averaged 300-d input the layer has 300 × 3 + 3 = 903 parameters. Train with cross-entropy and fine-tune the embeddings if there is enough data.</li>
+<li><strong>Evaluate</strong> with macro-averaged F1, because neutral tweets often dominate.</li>
+</ol>
+<p><strong>Why it improves results.</strong> A bag-of-words model has no feature for an unseen word like &quot;superb&quot;; embeddings give it a vector close to &quot;excellent&quot;, so it still predicts positive.</p>
+<p><strong>Limit.</strong> Averaging loses order and negation (&quot;not good&quot;) and cannot detect sarcasm; use an LSTM or BERT when that matters.</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P8</span>Justify the need for word embeddings in AI-based text analysis problems.<span class="marks">3 marks</span></p>
+      <div class="a"><p>Models work on numbers, so words must be converted to vectors. The simple choice, one-hot encoding, fails in three ways, and embeddings fix each.</p>
+<ul>
+<li><strong>Size.</strong> One-hot vectors have V dimensions (50,000 or more) and are almost all zeros; embeddings use about 300 dense numbers (about 166 times smaller for a 50,000-word vocabulary).</li>
+<li><strong>Meaning.</strong> One-hot vectors are mutually orthogonal, so &quot;cat&quot; is as far from &quot;dog&quot; as from &quot;airplane&quot;; embeddings place related words close (cosine similarity).</li>
+<li><strong>Generalisation.</strong> Embeddings learned from a huge unlabelled corpus can be reused (transfer learning), so a classifier with little labelled data still knows that &quot;buy&quot; and &quot;purchase&quot; are alike.</li>
+</ul>
+<p>They also capture relations such as king − man + woman ≈ queen and feed directly into RNN, LSTM and Transformer models.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P9</span>You trained word embeddings on a dataset of m1 words and want to use them for a task that has a separate labelled dataset of m2 words. For the embeddings to help (transfer learning), which must be bigger: m1 ≫ m2 or m2 ≫ m1? Justify.<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Answer: m1 ≫ m2.</strong></p>
+<ul>
+<li>Embeddings are learned from a very large, cheap, unlabelled corpus (m1, for example billions of words), where they absorb general word meaning and relations.</li>
+<li>The target task has only a small labelled set (m2, for example thousands of words), too small to learn good word meanings on its own. Reusing the embeddings gives it that knowledge for free, so it needs fewer labelled examples and overfits less.</li>
+<li>If m2 were much larger than m1, the task data would already teach the model its own representations and the small m1 corpus would add little (it could even be worse than learning from m2).</li>
+</ul>
+<p>Example: GloVe vectors trained on Wikipedia and web text (m1) used for a 5,000-review sentiment task (m2).</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P10</span>Evaluate how word embeddings have transformed traditional NLP models that were based on feature engineering.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Before.</strong> Traditional NLP models (Naive Bayes, SVM, CRF) depended on hand-designed features: n-gram counts, TF-IDF, POS tags, capitalisation flags, gazetteers (word lists). Every task needed its own feature work, and the features were sparse and had no notion of word similarity.</p>
+<p><strong>After.</strong> Word embeddings learn a dense vector for each word from raw text, with no manual design.</p>
+<table><thead><tr><th>Aspect</th><th>Feature engineering</th><th>Word embeddings</th></tr></thead><tbody>
+<tr><td>Features</td><td>designed by hand for each task</td><td>learned automatically from text</td></tr>
+<tr><td>Vector type</td><td>sparse, thousands of dimensions</td><td>dense, 100 to 300 dimensions</td></tr>
+<tr><td>Similarity</td><td>none (&quot;good&quot; ≠ &quot;great&quot;)</td><td>cosine similarity captures it</td></tr>
+<tr><td>Reuse</td><td>rebuilt per task</td><td>pre-trained vectors reused across tasks</td></tr>
+<tr><td>Labelled data needed</td><td>more</td><td>less, thanks to transfer</td></tr>
+</tbody></table>
+<p><strong>Example.</strong> A sentiment classifier built on a hand-made list of positive words misses &quot;superb&quot;; with embeddings, &quot;superb&quot; lies near &quot;excellent&quot; and is handled automatically.</p>
+<p><strong>Impact.</strong> Embeddings became the input layer of RNN, LSTM and seq2seq models, moving NLP from feature engineering to representation learning.</p>
+<p><strong>Limits.</strong> One vector per word (no polysemy), poor with unseen words, needs a large corpus. Contextual models (BERT) gave each word a different vector per sentence and went further.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="lstm">
+  <p class="eyebrow">Asked in 8 of 9 papers</p>
+  <h2>LSTM: architecture, gates, vanishing gradient, Bi-LSTM, language modelling</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A, Dec 24 set B, Dec 25 set A, May 24, May 25 set A, May 25 set B, May 26</p>
+  <div class="callout"><p><p>Keep one set of LSTM equations and one small numeric step (the gates example below) ready. Almost every LSTM question, whether it says &quot;note&quot;, &quot;gates&quot;, &quot;vanishing gradient&quot; or &quot;language modelling&quot;, can be answered from those two things plus a diagram.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P11</span>Write a note on LSTM and draw the architecture of an LSTM network.<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> LSTM (Long Short-Term Memory) is a recurrent network whose cell keeps a separate memory, the cell state c_t, and uses three gates (forget, input, output) to decide what to erase, write and show. This lets it learn dependencies over many time steps where a plain RNN fails.</p>
+<pre class="art">          c(t-1) ---&gt;( x )--------------&gt;( + )------------+---&gt; c(t)
+                       ^                    ^              |
+                       | f                  | i * g        v
+                       |                  ( x )        [tanh]
+                       |                 ^     ^          |
+                     [sig]            [sig]  [tanh]       v
+                       ^                ^      ^    o ---&gt;( x )---&gt; h(t)
+                       |                |      |    ^
+   h(t-1) , x(t) ------+----------------+------+----+
+   f = forget gate   i = input gate   g = candidate memory   o = output gate</pre>
+<p><strong>How to sketch it:</strong> draw a horizontal line on top for the cell state, three small sigmoid boxes below it (forget, input, output) and one tanh box (candidate), all fed by [h_t−1, x_t], with × and + circles where they meet the cell-state line.</p>
+<ul>
+<li>f_t = σ(W_f[h_t−1, x_t] + b_f), i_t = σ(W_i[h_t−1, x_t] + b_i), o_t = σ(W_o[h_t−1, x_t] + b_o)</li>
+<li>g_t = tanh(W_g[h_t−1, x_t] + b_g), c_t = f_t ⊙ c_t−1 + i_t ⊙ g_t, h_t = o_t ⊙ tanh(c_t)</li>
+</ul>
+<p>Use: language modelling, sentiment analysis, machine translation, speech recognition.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P12</span>Describe the purpose of the gates (input, forget, output) in an LSTM cell and evaluate how they control the flow of information.<span class="marks">3 to 6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> A gate is a sigmoid layer whose output lies between 0 (block everything) and 1 (let everything through); it is multiplied element by element with a signal, so it works like a valve.</p>
+<table><thead><tr><th>Gate</th><th>Question it answers</th><th>Acts on</th></tr></thead><tbody>
+<tr><td>Forget f_t</td><td>How much of the old memory should be kept?</td><td>c_t−1</td></tr>
+<tr><td>Input i_t</td><td>How much of the new candidate g_t should be written?</td><td>g_t</td></tr>
+<tr><td>Output o_t</td><td>How much of the memory should be shown as h_t?</td><td>tanh(c_t)</td></tr>
+</tbody></table>
+<p>c_t = f_t ⊙ c_t−1 + i_t ⊙ g_t and h_t = o_t ⊙ tanh(c_t).</p>
+<p><strong>Worked step</strong> (one unit, x = 1, h_t−1 = 0.5, c_t−1 = 0.4):</p>
+<ul>
+<li>f = σ(0.5×1 + 0.4×0.5 + 0.1) = σ(0.8) = 0.690</li>
+<li>i = σ(0.6×1 − 0.2×0.5 + 0) = σ(0.5) = 0.622</li>
+<li>g = tanh(0.9×1 + 0.3×0.5 + 0.1) = tanh(1.15) = 0.818</li>
+<li>o = σ(0.7×1 + 0.1×0.5 + 0.2) = σ(0.95) = 0.721</li>
+<li>c_t = 0.690×0.4 + 0.622×0.818 = 0.276 + 0.509 = 0.785</li>
+<li>h_t = 0.721 × tanh(0.785) = 0.721 × 0.656 = 0.473</li>
+</ul>
+<p><strong>Evaluation.</strong> The forget gate lets the cell drop old, irrelevant context (for example a previous sentence's subject); the input gate stops noise from entering memory; the output gate lets the cell hold information privately without exposing it at every step. Because the memory update is additive, the gradient through c_t is multiplied only by f_t, and with f_t close to 1 it flows back almost unchanged, which is what fights vanishing gradients. Cost: four weight blocks, so 4·n_h(n_x + n_h + 1) parameters.</p><p class="seen"><strong>Seen in:</strong> May 26 (Part A and Part B)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P13</span>Explain the vanishing gradient problem and how LSTM and GRU architectures address it.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> In an RNN trained by backpropagation through time, the gradient that reaches an early time step is a product of many factors (each made of W_hh and the tanh derivative). When these factors are below 1 the product shrinks exponentially with distance, so the network cannot learn long-range dependencies. This is the vanishing gradient problem (above 1 it explodes).</p>
+<p><strong>Numbers.</strong> Factor 0.9 per step: 0.9^10 = 0.35 but 0.9^50 = 0.005. The sigmoid derivative is at most 0.25, and 0.25^10 ≈ 1×10^−6. Effect: in &quot;The books that the teacher gave to the students last year <strong>were</strong> heavy&quot; a plain RNN forgets that the subject was plural.</p>
+<p><strong>LSTM fix.</strong> The cell state is updated additively, c_t = f_t ⊙ c_t−1 + i_t ⊙ g_t, so ∂c_t/∂c_t−1 = f_t. With f_t ≈ 0.95 the gradient over 50 steps is 0.95^50 = 0.077 instead of 0.005, and a forget gate near 1 gives a nearly constant error path.</p>
+<p><strong>GRU fix.</strong> Two gates, update z and reset r: h_t = (1 − z_t) ⊙ h_t−1 + z_t ⊙ h̃_t. When z ≈ 0 the old state is copied forward, again an additive path.</p>
+<table><thead><tr><th></th><th>LSTM</th><th>GRU</th></tr></thead><tbody>
+<tr><td>Gates</td><td>3 (forget, input, output) plus cell state</td><td>2 (update, reset), no separate cell</td></tr>
+<tr><td>Parameters (n_x = 100, n_h = 128)</td><td>4 × 29,312 = 117,248</td><td>3 × 29,312 = 87,936</td></tr>
+<tr><td>Speed</td><td>slower</td><td>faster</td></tr>
+</tbody></table>
+<p>Exploding gradients are handled by gradient clipping. LSTM and GRU reduce the problem but do not remove it for very long sequences; attention and Transformers go further.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B, Dec 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P14</span>Discuss the techniques used to resolve the vanishing gradient problem in RNNs.<span class="marks">3 marks</span></p>
+      <div class="a"><ul>
+<li><strong>Gated cells (LSTM, GRU):</strong> additive state update gives gradients a short, stable path.</li>
+<li><strong>Better initialisation:</strong> orthogonal or identity initialisation of W_hh keeps gradient size near 1 at the start.</li>
+<li><strong>Activation choice:</strong> ReLU-type activations do not squash gradients the way sigmoid (max slope 0.25) and tanh do.</li>
+<li><strong>Skip or residual connections</strong> and normalisation layers give gradients a shortcut.</li>
+<li><strong>Truncated BPTT</strong> limits how far gradients travel (it saves memory, but long-range credit is lost).</li>
+<li><strong>Attention and Transformers:</strong> connect any two positions directly, so the path length is 1.</li>
+</ul>
+<p>Note: gradient clipping fixes exploding gradients only, not vanishing ones.</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P15</span>Apply and demonstrate the implementation of LSTM for a text analytics example in detail.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Task.</strong> Sentiment analysis of IMDB movie reviews (25,000 training and 25,000 test reviews, label 1 = positive, 0 = negative). It is a many-to-one problem: a whole sequence of words gives one label.</p>
+<pre class="art">review -&gt; word ids -&gt; Embedding -&gt; LSTM -&gt; last state h -&gt; Dense(sigmoid) -&gt; P(positive)
+"the movie was not good"  [4,17,9,22,41]  (32-d each)  reads word by word</pre>
+<ol>
+<li><strong>Load and clean.</strong> Keep the 10,000 most frequent words.</li>
+<li><strong>Pad or cut</strong> every review to 200 words so a batch is a rectangle.</li>
+<li><strong>Embedding layer</strong> (10,000 × 32): each id becomes a 32-number vector.</li>
+<li><strong>LSTM layer</strong> (64 units) reads the vectors in order; the final hidden state summarises the review. The cell state remembers &quot;not&quot; until it meets &quot;good&quot;, so the meaning flips.</li>
+<li><strong>Output:</strong> Dense(1, sigmoid) gives the probability of positive.</li>
+<li><strong>Train</strong> with binary cross-entropy and Adam for a few epochs with a validation split; stop early if validation loss rises.</li>
+<li><strong>Evaluate</strong> on the test set: accuracy, precision, recall, F1, confusion matrix.</li>
+</ol>
+<pre class="art">model = Sequential([
+    Embedding(10000, 32),
+    LSTM(64),
+    Dense(1, activation='sigmoid')])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.fit(x_train, y_train, epochs=3, validation_split=0.2)</pre>
+<p><strong>Parameters.</strong> Embedding 10,000 × 32 = 320,000; LSTM 4 × 64 × (32 + 64 + 1) = 24,832; Dense 64 + 1 = 65. Total = 344,897.</p>
+<p><strong>Why LSTM.</strong> It handles long reviews and negation better than bag-of-words or a plain RNN. Limit: slower than CNN or Transformer models because it is sequential.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P16</span>How can the LSTM architecture be implemented for language modelling?<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> A language model gives the probability of the next word, P(w_t | w_1 … w_t−1). An LSTM LM reads the words so far and keeps the history in its cell state instead of a fixed n-gram window.</p>
+<pre class="art">input   :  the     cat     sat     on      the
+             |       |       |       |       |
+Embedding   v       v       v       v       v
+LSTM     [h1] -&gt; [h2] -&gt; [h3] -&gt; [h4] -&gt; [h5]      (state carried forward)
+             |       |       |       |       |
+Softmax(V)   v       v       v       v       v
+target   :  cat     sat     on      the     mat</pre>
+<ol>
+<li><strong>Data.</strong> Tokenise; the target sequence is the input shifted by one word.</li>
+<li><strong>Layers.</strong> Embedding → LSTM (return a hidden state at every step) → Dense layer of size V with softmax.</li>
+<li><strong>Loss.</strong> Cross-entropy at every position; metric: perplexity = exp(average cross-entropy).</li>
+<li><strong>Generate text.</strong> Feed a seed such as &quot;the cat sat on the&quot;, pick the next word (highest probability or sampled), append it, repeat.</li>
+</ol>
+<p><strong>Parameters</strong> (V = 10,000, d = 100, n_h = 128): embedding 1,000,000; LSTM 4 × 128 × (100 + 128 + 1) = 117,248; output 128 × 10,000 + 10,000 = 1,290,000; total 2,407,248. The embedding and softmax layers dominate.</p>
+<p><strong>Perplexity example.</strong> Average cross-entropy 4.605 gives perplexity e^4.605 = 100: the model is as unsure as picking among 100 equally likely words. Lower is better.</p>
+<p><strong>Advantage:</strong> no fixed context window and no zero-count problem. <strong>Limit:</strong> slow softmax for large V, sequential training.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P17</span>Discuss the step-by-step implementation architecture of Bi-LSTM with a suitable example.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> A Bidirectional LSTM runs one LSTM left-to-right and a second LSTM right-to-left over the same sentence and joins their states, so every word sees both its past and its future.</p>
+<pre class="art">words      :   He       saw      the      bank     by       the     river
+                |        |        |        |        |        |        |
+forward  LSTM:  -&gt;       -&gt;       -&gt;       -&gt;       -&gt;       -&gt;       -&gt;
+backward LSTM:  &lt;-       &lt;-       &lt;-       &lt;-       &lt;-       &lt;-       &lt;-
+                |        |        |        |        |        |        |
+concat [fwd;bwd] at each word  -&gt;  Dense + softmax  -&gt;  tag per word</pre>
+<ol>
+<li><strong>Embed</strong> every word into a vector.</li>
+<li><strong>Forward LSTM</strong> reads word 1 to n and produces h_t→.</li>
+<li><strong>Backward LSTM</strong> reads word n to 1 and produces h_t←.</li>
+<li><strong>Concatenate:</strong> h_t = [h_t→ ; h_t←], twice as wide.</li>
+<li><strong>Output layer:</strong> softmax per word for tagging (POS, NER), or pool/last states then sigmoid for classification.</li>
+<li><strong>Train</strong> with cross-entropy as for a normal LSTM.</li>
+</ol>
+<p><strong>Example.</strong> In &quot;He saw the bank by the river&quot; the forward state at &quot;bank&quot; only knows &quot;He saw the&quot;; the backward state knows &quot;by the river&quot;, which settles that it is a river bank (a LOCATION or geographic noun), not a money bank.</p>
+<p><strong>Size.</strong> With n_x = 100, n_h = 128 one LSTM has 117,248 parameters, so Bi-LSTM has 234,496 and a 256-number output per word.</p>
+<p><strong>Limit.</strong> Needs the whole sentence in advance, so it cannot be used for left-to-right text generation or live prediction.</p><p class="seen"><strong>Seen in:</strong> May 25 set A (OR choice)</p></div></div>
+</section>
+
+<section id="attention">
+  <p class="eyebrow">Asked in 8 of 9 papers</p>
+  <h2>Attention, multi-head attention, Transformer and BERT</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24 set A, Dec 24 set B, Dec 25 set A, Dec 25 set B, May 24, May 25 set A, May 25 set B, May 26</p>
+  <div class="callout"><p><p>&quot;Multi-head vs single-head with an example&quot; appeared in three papers and &quot;need of attention and its types&quot; in three. Write those two first. Keep the formula Attention(Q, K, V) = softmax(QKᵀ / √d_k) V and the 3-weight numeric example in your head.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P18</span>Justify the need for attention in neural networks and differentiate the various types of attention models.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Need.</strong> A basic encoder-decoder squeezes the whole source sentence into one fixed-size context vector. For long sentences information is lost, quality falls, and gradients must travel through many steps. Attention removes this bottleneck: at every output step the decoder scores all encoder states, turns the scores into weights with softmax, and takes the weighted sum as a fresh context vector. It also gives soft word alignments and shortens gradient paths.</p>
+<p><strong>Steps.</strong> (1) score e_i = score(s, h_i); (2) α_i = exp(e_i) / Σ_j exp(e_j); (3) context c = Σ α_i h_i.</p>
+<p><strong>Numbers.</strong> Decoder state s = (1, 0), encoder states h_1 = (1, 0), h_2 = (0, 1), h_3 = (1, 1). Dot scores = (1, 0, 1). exp = (2.718, 1, 2.718), sum 6.437, so α = (0.4223, 0.1554, 0.4223). c = 0.4223·(1, 0) + 0.1554·(0, 1) + 0.4223·(1, 1) = (0.8446, 0.5777).</p>
+<table><thead><tr><th>Type</th><th>How it works</th></tr></thead><tbody>
+<tr><td>Additive (Bahdanau)</td><td>score = vᵀ tanh(W_1s + W_2h); a small feed-forward network scores each pair</td></tr>
+<tr><td>Multiplicative (Luong dot / general)</td><td>score = sᵀh or sᵀWh; cheaper, uses matrix products</td></tr>
+<tr><td>Scaled dot-product</td><td>score = qᵀk / √d_k; used in the Transformer; scaling keeps softmax from saturating</td></tr>
+<tr><td>Global vs local</td><td>global attends to all source positions; local attends to a window around one position (cheaper for long input)</td></tr>
+<tr><td>Self vs cross</td><td>self: a sequence attends to itself; cross: decoder queries attend to encoder outputs</td></tr>
+<tr><td>Multi-head</td><td>several attention functions in parallel, each looking at a different relation</td></tr>
+</tbody></table>
+<p>Cost: O(n·m) scores for n source and m target words.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, Dec 24 set B, May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P19</span>Distinguish between multi-head attention and single-head attention. Explain with an example.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Single-head self-attention computes one attention pattern per word: Attention(Q, K, V) = softmax(QKᵀ / √d_k) V. Multi-head attention runs h such attention functions in parallel, each with its own projections W_Q, W_K, W_V, then concatenates the results and projects with W_O.</p>
+<pre class="art">X --[WQ1,WK1,WV1]--&gt; attention head 1 --+
+X --[WQ2,WK2,WV2]--&gt; attention head 2 --+--&gt; concat --&gt; [WO] --&gt; output
+ ...                                       |
+X --[WQ8,WK8,WV8]--&gt; attention head 8 --+</pre>
+<p><strong>How to sketch it:</strong> one input box on the left splitting into 8 parallel attention boxes, merging into a concat box and one linear box.</p>
+<table><thead><tr><th>Point</th><th>Single-head</th><th>Multi-head</th></tr></thead><tbody>
+<tr><td>Attention patterns</td><td>one weighted average per word</td><td>h patterns, one per head</td></tr>
+<tr><td>Information captured</td><td>one mixed view (different relations get averaged together)</td><td>different heads can focus on different relations (syntax, co-reference, nearby words)</td></tr>
+<tr><td>Dimensions (d_model = 512)</td><td>d_k = 512</td><td>h = 8 heads, d_k = 512 / 8 = 64 each</td></tr>
+<tr><td>Parameters for Q, K, V</td><td>3 × 512 × 512 = 786,432</td><td>8 × 3 × 512 × 64 = 786,432 (the same)</td></tr>
+<tr><td>Cost</td><td>about the same</td><td>about the same, and the heads run in parallel</td></tr>
+</tbody></table>
+<p><strong>Example.</strong> Sentence &quot;The animal did not cross the street because it was tired&quot;. One head can link &quot;it&quot; to &quot;animal&quot; (co-reference), another links &quot;cross&quot; to &quot;street&quot; (verb and object), a third looks at neighbouring words. A single head has to blend all of these into one set of weights. (Learned heads are not guaranteed to be this clean; this is the typical illustration.)</p>
+<p><strong>Advantage:</strong> richer representation at no extra parameter cost. <strong>Limit:</strong> some heads turn out redundant.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B (OR choice), May 25 set A, May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P20</span>A translation system uses a Seq2Seq model to convert English to French. Compare how a standard Seq2Seq decoder and an attention-based Seq2Seq decoder use the encoder's information, and explain the trade-off involved in attention.<span class="marks">6 marks</span></p>
+      <div class="a"><table><thead><tr><th>Point</th><th>Standard decoder</th><th>Attention decoder</th></tr></thead><tbody>
+<tr><td>Encoder information used</td><td>only the final encoder state (one fixed context vector c)</td><td>all encoder states h_1 … h_n</td></tr>
+<tr><td>Context at each step</td><td>the same c for every output word</td><td>a new c_t = Σ α_ti h_i computed at each step</td></tr>
+<tr><td>Long sentences</td><td>quality drops (bottleneck)</td><td>stays good</td></tr>
+<tr><td>Interpretability</td><td>none</td><td>alignment matrix shows which source word each output word used</td></tr>
+</tbody></table>
+<p><strong>Example.</strong> &quot;I love cats&quot; → &quot;J'aime les chats&quot;. When producing &quot;chats&quot; the attention weights over (I, love, cats) are about (0.03, 0.07, 0.90), so the decoder reads &quot;cats&quot; almost alone, whereas the standard decoder only has one summary vector for the whole sentence.</p>
+<p><strong>Trade-off.</strong> Attention costs extra computation and memory: n × m scores per sentence (for n = m = 50 that is 2,500 per sentence, per layer), and the decoder can no longer run from one stored vector. In exchange it removes the bottleneck, improves long sentences and shortens gradient paths. The weights are soft guides, not guaranteed word alignments.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P21</span>Draw the architecture of the Transformer model.<span class="marks">3 marks</span></p>
+      <div class="a"><pre class="art"> ENCODER (x N = 6)                         DECODER (x N = 6)
+ +-----------------------------+          +--------------------------------+
+ | Add+Norm                    |          | Add+Norm                       |
+ | Feed-forward                |          | Feed-forward                   |
+ | Add+Norm                    |          | Add+Norm                       |
+ | Multi-head self-attention   |-- K,V --&gt;| Multi-head cross-attention     |
+ +-----------------------------+          | Add+Norm                       |
+            ^                             | Masked multi-head self-attn    |
+ input embedding + position               +--------------------------------+
+ (source words)                                  ^                  |
+                                  output embedding + position       v
+                                  (target words shifted right)  Linear + Softmax</pre>
+<p><strong>How to sketch it:</strong> two tall stacks side by side. Left: embedding plus positional encoding, then self-attention and feed-forward, each followed by Add+Norm. Right: the same with an extra masked self-attention at the bottom; draw an arrow from the top of the encoder into the decoder's middle attention block; finish with Linear and Softmax.</p>
+<ul>
+<li>Base model: d_model = 512, 8 heads, feed-forward 512 → 2048 → 512.</li>
+<li>The mask stops a word from seeing later words; positional encoding supplies word order because attention itself ignores order.</li>
+</ul><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P22</span>Justify the need for Transformers and draw the architecture of the BERT model.<span class="marks">6 marks (Part A in the paper, 3 for the diagram and 3 for the need)</span></p>
+      <div class="a"><p><strong>Need for Transformers.</strong> RNNs read words one after another, so training cannot be parallelised, information between distant words passes through every step (path length O(n)), and gradients vanish. Transformers use self-attention: all words are processed in parallel (fast on GPUs), any two words are linked in one step (path length O(1)), and the model scales to huge data and pre-training. Cost: attention is O(n²·d), expensive for very long inputs.</p>
+<p><strong>BERT</strong> (Bidirectional Encoder Representations from Transformers) is a stack of Transformer <strong>encoder</strong> layers only, pre-trained to read context from both sides.</p>
+<pre class="art"> input :  [CLS] w1 w2 ... [SEP] v1 v2 ... [SEP]
+ embeddings = token + segment (sentence A/B) + position   (added together)
+ +----------------------------------------------------------+
+ |  Transformer encoder layer  (self-attention + feed-fwd)  |   x 12 (base)
+ |  ... every word attends to all words, left and right ... |   x 24 (large)
+ +----------------------------------------------------------+
+   |      |      |             |
+   C     T1     T2    ...     Tn          (output vectors)
+   |      +----------------------- each Ti -&gt; MLM / NER / QA span
+ classifier head (sentiment, next-sentence prediction)</pre>
+<ul>
+<li>BERT-base: 12 layers, hidden size 768, 12 heads, about 110 million parameters. BERT-large: 24 layers, 1024, 16 heads, about 340 million.</li>
+<li><strong>Pre-training:</strong> Masked Language Modelling (about 15% of tokens hidden; of those 80% become [MASK], 10% a random word, 10% unchanged) and Next Sentence Prediction.</li>
+<li><strong>Fine-tuning:</strong> add a small output layer and train on the labelled task.</li>
+</ul><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P23</span>Discuss the role of Transformers in enabling conversational AI systems.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Conversational AI systems (chatbots, voice interfaces such as Alexa and Siri) must understand a user's message in the context of the whole dialogue and produce a fluent reply. Transformers made this practical.</p>
+<ol>
+<li><strong>Context.</strong> Self-attention links any two words in the dialogue history in one step, so the system resolves references (&quot;it&quot;, &quot;that one&quot;) many turns later.</li>
+<li><strong>Understanding.</strong> Encoder models such as BERT, fine-tuned, do intent classification (&quot;book a ticket&quot;) and slot filling (NER for date, city).</li>
+<li><strong>Generation.</strong> Decoder-style models (GPT family) predict the next token again and again, producing fluent multi-sentence replies.</li>
+<li><strong>Scale and alignment.</strong> Parallel training allows very large models pre-trained on huge text; instruction tuning and RLHF align replies with what users want; few-shot prompts change behaviour with no retraining.</li>
+<li><strong>Grounding.</strong> Retrieval-augmented generation lets the model quote company documents, reducing made-up answers.</li>
+</ol>
+<pre class="art">user message + dialogue history -&gt; tokenise -&gt; Transformer (self-attention) -&gt; next-token loop -&gt; reply</pre>
+<p><strong>Limits:</strong> hallucination, bias, high compute cost, a finite context window, privacy concerns, so human oversight is needed.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P24</span>Illustrate how the rise of Transformer-based models (BERT, GPT) redefined benchmarks in NLP tasks.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Before.</strong> Task-specific models (RNN/LSTM, hand-built features) were trained from scratch for each task, needed large labelled sets, and were hard to parallelise.</p>
+<p><strong>After.</strong> Pre-train a large Transformer on huge unlabelled text, then fine-tune or prompt it. This raised results on shared benchmarks such as GLUE (language understanding tasks) and SQuAD (question answering) when BERT appeared, and pre-trained models became the default starting point.</p>
+<table><thead><tr><th></th><th>BERT</th><th>GPT</th></tr></thead><tbody>
+<tr><td>Architecture</td><td>Transformer encoder, bidirectional</td><td>Transformer decoder, left-to-right</td></tr>
+<tr><td>Pre-training</td><td>masked language modelling + next sentence prediction</td><td>next-token prediction</td></tr>
+<tr><td>Strength</td><td>understanding: classification, NER, QA</td><td>generation, chat, few-shot prompting</td></tr>
+</tbody></table>
+<p><strong>Why benchmarks moved.</strong> (1) Transfer learning: knowledge from billions of words reaches tasks with few labels. (2) Contextual vectors: &quot;bank&quot; gets a different vector in each sentence. (3) Parallel training lets models scale. (4) One model adapts to many tasks, so less feature engineering. Models also began to match or beat reported human baselines on some benchmarks, which pushed the field to build harder tests.</p>
+<p><strong>Cost:</strong> heavy compute and energy, bias and hallucination, and benchmark scores do not always mean real understanding.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A (OR choice)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P25</span>Discuss how BERT has transformed NLP tasks such as sentiment analysis and question answering.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Key change.</strong> Instead of training a separate model for each task, BERT is pre-trained once on large text (masked language modelling) and then fine-tuned with a small output layer. Its vectors are contextual and bidirectional.</p>
+<ul>
+<li><strong>Sentiment analysis.</strong> Input: [CLS] review [SEP]. The final vector of [CLS] goes to a linear layer and softmax (positive/negative). Because each word's vector depends on the whole sentence, &quot;not good&quot; and &quot;sick beat&quot; are read correctly, and a few thousand labelled reviews are enough. Earlier: bag-of-words with a lexicon, which misses negation and context.</li>
+<li><strong>Question answering (SQuAD style).</strong> Input: [CLS] question [SEP] passage [SEP]. The model learns two vectors, one scoring each passage token as the answer <strong>start</strong> and one as the answer <strong>end</strong>; softmax over positions picks the span. Example: passage &quot;The Taj Mahal is in Agra.&quot;, question &quot;Where is the Taj Mahal?&quot; → start = end = &quot;Agra&quot;. Earlier systems used hand-built features or RNNs with attention.</li>
+</ul>
+<table><thead><tr><th></th><th>Before BERT</th><th>With BERT</th></tr></thead><tbody>
+<tr><td>Word vectors</td><td>static (one per word)</td><td>contextual</td></tr>
+<tr><td>Training</td><td>from scratch per task</td><td>pre-train once, fine-tune</td></tr>
+<tr><td>Labelled data</td><td>large</td><td>small</td></tr>
+</tbody></table>
+<p>Limit: large model, slow inference, 512-token input limit, and it does not generate text (that is GPT's strength).</p><p class="seen"><strong>Seen in:</strong> May 26 (OR choice)</p></div></div>
+</section>
+
+<section id="rnn">
+  <p class="eyebrow">Asked in 8 of 9 papers</p>
+  <h2>RNN family: architecture, hidden state, backpropagation, RNN vs CNN, SimpleRNN on IMDB</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A, Dec 24 set B, Dec 25 set A, Dec 25 set B, May 24, May 25 set A, May 25 set B</p>
+  <div class="callout"><p><p>The &quot;draw the RNN&quot; diagram is a free 3 marks in three papers. Practise the unrolled diagram with the equation h_t = tanh(W_xh x_t + W_hh h_(t−1) + b) written beside it. The SimpleRNN parameter count (item at the end) is a one-line formula: units × (input_dim + units + 1).</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P26</span>Draw the architecture of an RNN.<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> A recurrent neural network processes a sequence one element at a time and passes a hidden state h_t from each step to the next, using the same weights at every step.</p>
+<pre class="art">       y1          y2          y3
+       ^           ^           ^
+       | Why       | Why       | Why
+h0 -&gt; [h1] ------&gt; [h2] ------&gt; [h3]      same W_hh at every step
+       ^           ^           ^
+       | Wxh       | Wxh       | Wxh
+       x1          x2          x3
+(h0 = initial state, usually zeros)
+
+rolled form:   x -&gt; [ h ] -&gt; y      with a loop arrow from h back to itself</pre>
+<ul>
+<li>h_t = tanh(W_xh x_t + W_hh h_t−1 + b)</li>
+<li>y_t = softmax(W_hy h_t + c)</li>
+</ul>
+<p><strong>How to sketch it:</strong> draw the rolled cell with a self-loop first, then unroll it into three or four copies joined by horizontal arrows, with x below and y above.</p>
+<p>Parameters of the recurrent layer: n_h(n_x + n_h + 1), independent of sequence length.</p><p class="seen"><strong>Seen in:</strong> Dec 23, May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P27</span>Draw the architecture of a stacked RNN.<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> A stacked (deep) RNN places several recurrent layers on top of each other; the sequence of hidden states of layer l is the input sequence of layer l + 1. Lower layers learn simple patterns, upper layers more abstract ones.</p>
+<pre class="art"> y1        y2        y3
+  ^         ^         ^
+ [L2:h1]--&gt;[L2:h2]--&gt;[L2:h3]     layer 2 (input = layer 1 states)
+  ^         ^         ^
+ [L1:h1]--&gt;[L1:h2]--&gt;[L1:h3]     layer 1 (input = word vectors)
+  ^         ^         ^
+  x1        x2        x3</pre>
+<p><strong>Parameters</strong> (n_x = 100, n_h = 64): layer 1 = 64 × (100 + 64 + 1) = 10,560; layer 2 = 64 × (64 + 64 + 1) = 8,256; total 18,816. In Keras every lower layer needs <code>return_sequences=True</code>.</p>
+<p>Advantage: more capacity. Limit: slower, harder to train, gradient problems grow with depth (use LSTM/GRU, dropout, residual links).</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P28</span>Explain the role of the hidden state in an RNN.<span class="marks">3 marks</span></p>
+      <div class="a"><ul>
+<li>The hidden state h_t is the network's <strong>memory</strong>: a vector summarising everything read up to step t.</li>
+<li>It is computed from the current input and the previous state: h_t = tanh(W_xh x_t + W_hh h_t−1 + b), so information flows forward through time.</li>
+<li>It is used to make the output y_t = softmax(W_hy h_t + c), and for classification the last state h_T represents the whole sentence.</li>
+<li>Example (sizes 2 and 2): x_t = [1, 2], h_t−1 = [0.5, −0.5] gives pre-activation [−0.15, 0.85] and h_t = [−0.149, 0.691].</li>
+</ul>
+<p>Limit: it has a fixed size, so very long histories are compressed and early information fades.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P29</span>Describe the purpose of the tanh activation function in an RNN used for language modelling.<span class="marks">3 marks</span></p>
+      <div class="a"><ul>
+<li>tanh squashes the hidden-state update into the range (−1, 1), so the values of h_t cannot grow without limit when the same weights are applied over many steps (stability).</li>
+<li>It is zero-centred (negative and positive values), which usually trains better than sigmoid, whose outputs are all positive.</li>
+<li>It adds the non-linearity that lets the RNN model more than a linear function of the past.</li>
+<li>Example: tanh(−0.15) = −0.149 and tanh(0.85) = 0.691.</li>
+<li>Its derivative 1 − tanh² is at most 1 (sigmoid's is at most 0.25), but it is close to 0 when the unit saturates, which contributes to vanishing gradients.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P30</span>Explain the use of RNN for analysing long textual sentences. How does it differ from CNN?<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Use of RNN.</strong> An RNN reads a sentence word by word and carries a hidden state, so each word is interpreted in the light of all earlier words. This suits text because order matters and sentences have variable length. For long sentences, a plain RNN forgets early words (vanishing gradient), so LSTM or GRU cells, or a Bi-LSTM, are used.</p>
+<p><strong>Example.</strong> &quot;The movie, which I had waited months to see and which my friends kept praising, was <strong>not</strong> good.&quot; Linking &quot;not&quot; to &quot;good&quot; across many words needs the memory of an LSTM.</p>
+<table><thead><tr><th>Point</th><th>RNN / LSTM</th><th>CNN</th></tr></thead><tbody>
+<tr><td>How it reads</td><td>sequentially, one word per step, with memory</td><td>sliding filters (for example 3 words wide) over the sentence</td></tr>
+<tr><td>What it captures</td><td>order and long-range dependencies</td><td>local n-gram patterns (&quot;not good&quot;); max-pooling keeps the strongest</td></tr>
+<tr><td>Parallelism</td><td>none over time (slow training)</td><td>fully parallel (fast)</td></tr>
+<tr><td>Input length</td><td>any length, shared weights</td><td>fixed-width filters, padding to fixed length</td></tr>
+<tr><td>Weakness</td><td>vanishing gradient, slow</td><td>sees only a limited window, ignores long-distance links</td></tr>
+<tr><td>Typical use</td><td>language modelling, translation, tagging</td><td>text classification, fast feature detection</td></tr>
+</tbody></table>
+<p>Choose RNN/LSTM when long-range order matters; CNN when speed and local phrases are enough.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P31</span>Define backpropagation. How is it used in training neural networks for NLP?<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Backpropagation is the algorithm that computes the gradient of the loss with respect to every weight by applying the chain rule from the output layer back to the input, so that gradient descent can update the weights.</p>
+<p><strong>Steps in an NLP network</strong> (for example a sentiment classifier): (1) forward pass: words → embeddings → hidden layers → prediction; (2) compute loss (cross-entropy); (3) backward pass: chain rule gives gradients for the output layer, hidden layers and also the embedding vectors; (4) update w ← w − η · gradient.</p>
+<p><strong>Numbers</strong> (one sigmoid neuron: x = 2, w = 0.5, b = 0.1, target y = 1, η = 0.1): z = 0.5×2 + 0.1 = 1.1; a = σ(1.1) = 0.750; loss = −ln 0.750 = 0.287. For sigmoid with cross-entropy ∂L/∂z = a − y = −0.250, so ∂L/∂w = (a − y)·x = −0.500 and ∂L/∂b = −0.250. New w = 0.5 − 0.1×(−0.500) = 0.550; new b = 0.1 + 0.025 = 0.125. The next prediction is higher, so the loss falls.</p>
+<p>In RNNs the same idea is run over time (BPTT).</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P32</span>Explain with a suitable example how backpropagation is implemented in an RNN.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Backpropagation Through Time (BPTT) unrolls the RNN over the T steps of the sequence, runs ordinary backpropagation on the unrolled network, and because the weights are shared, adds up the gradient contributions from every time step.</p>
+<ol>
+<li><strong>Forward pass:</strong> h_t = tanh(w_x x_t + w_h h_t−1), then loss L.</li>
+<li><strong>Backward pass:</strong> start at the last step; at each earlier step multiply by the local derivative: ∂h_t/∂h_t−1 = w_h (1 − h_t²).</li>
+<li><strong>Sum</strong> the gradients of the shared weights over all steps, then update.</li>
+</ol>
+<p><strong>Example</strong> (scalar RNN: w_x = 0.5, w_h = 0.8, h_0 = 0.5, inputs x_1 = x_2 = 1, target 1, loss L = ½(h_2 − 1)²):</p>
+<ul>
+<li>z_1 = 0.5×1 + 0.8×0.5 = 0.9, h_1 = tanh(0.9) = 0.7163</li>
+<li>z_2 = 0.5×1 + 0.8×0.7163 = 1.0730, h_2 = tanh(1.0730) = 0.7906, L = ½(−0.2094)² = 0.0219</li>
+<li>δ_2 = ∂L/∂z_2 = (h_2 − 1)(1 − h_2²) = −0.2094 × 0.3749 = −0.0785</li>
+<li>δ_1 = δ_2 · w_h · (1 − h_1²) = −0.0785 × 0.8 × 0.4869 = −0.0306</li>
+<li>∂L/∂w_h = δ_2 h_1 + δ_1 h_0 = −0.0785×0.7163 + (−0.0306)×0.5 = −0.0562 − 0.0153 = −0.0715</li>
+<li>Update with η = 0.1: w_h = 0.8 − 0.1×(−0.0715) = 0.8072</li>
+</ul>
+<p>The two terms are the contributions from step 2 and step 1, which is why it is called &quot;through time&quot;. The factor w_h(1 − h²) is repeated at each earlier step, so over many steps the product shrinks (vanishing) or grows (exploding) which is why LSTM, GRU and gradient clipping are used.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B (OR choice)</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P33</span>Apply and demonstrate the implementation of a Recurrent Neural Network for a text analytics example in detail.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Task.</strong> Spam detection for SMS messages (many-to-one: a sequence of words gives one label, spam or ham).</p>
+<pre class="art">message -&gt; word ids -&gt; Embedding -&gt; SimpleRNN -&gt; last state -&gt; Dense(sigmoid) -&gt; P(spam)
+ x1 -&gt; [h1] -&gt; [h2] -&gt; [h3] -&gt; ... -&gt; [hT] -&gt; y     (the same cell repeated)</pre>
+<ol>
+<li><strong>Collect and label</strong> messages (spam = 1, ham = 0). Spam data is imbalanced, so plan to report precision and recall.</li>
+<li><strong>Preprocess:</strong> lowercase, remove punctuation, tokenise, build a vocabulary of 5,000 words, convert to ids, pad every message to 50 ids.</li>
+<li><strong>Split</strong> into train, validation and test sets.</li>
+<li><strong>Model:</strong> Embedding(5000, 16) → SimpleRNN(32) → Dense(1, sigmoid).</li>
+<li><strong>Train</strong> with binary cross-entropy and Adam; watch validation loss.</li>
+<li><strong>Evaluate:</strong> precision, recall, F1 and the confusion matrix on the test set.</li>
+<li><strong>Predict</strong> a new message such as &quot;win a free prize now&quot;.</li>
+</ol>
+<p><strong>Parameters.</strong> Embedding 5,000 × 16 = 80,000; SimpleRNN 32 × (16 + 32 + 1) = 1,568; Dense 32 + 1 = 33. Total 81,601.</p>
+<p>Limit: a SimpleRNN forgets early words in long messages; swap in LSTM or GRU if that hurts accuracy.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P34</span>A SimpleRNN model is built for IMDB movie review sentiment analysis. Describe its structure, how its parameters are calculated, and how its performance can be evaluated.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Structure.</strong> Reviews are converted to sequences of word ids, padded to a fixed length, and passed through three layers.</p>
+<pre class="art">input (batch, 500 word ids)
+  -&gt; Embedding(10000, 32)   output (batch, 500, 32)
+  -&gt; SimpleRNN(32)          output (batch, 32)      last hidden state only
+  -&gt; Dense(1, sigmoid)      output (batch, 1)       P(positive)</pre>
+<p><strong>Parameter formulas</strong></p>
+<ul>
+<li>Embedding = vocabulary × embedding size = 10,000 × 32 = <strong>320,000</strong></li>
+<li>SimpleRNN = units × (input_dim + units + 1) = 32 × (32 + 32 + 1) = 32 × 65 = <strong>2,080</strong>. This is W_xh (32 × 32 = 1,024) + W_hh (32 × 32 = 1,024) + bias (32).</li>
+<li>Dense = 32 weights + 1 bias = <strong>33</strong></li>
+<li>Total = 320,000 + 2,080 + 33 = <strong>322,113</strong>. The recurrent part is tiny; the embedding dominates, and the count does not depend on the review length.</li>
+</ul>
+<p><strong>Training.</strong> Binary cross-entropy loss, Adam optimiser, validation split.</p>
+<p><strong>Evaluation.</strong></p>
+<ul>
+<li>Plot training and validation accuracy and loss per epoch; a growing gap means overfitting (use early stopping or dropout).</li>
+<li>On the held-out test set report accuracy (IMDB classes are balanced), precision, recall, F1 and the confusion matrix; ROC-AUC for threshold-free comparison.</li>
+<li>Compare with an LSTM: a SimpleRNN usually does worse on long reviews because of vanishing gradients.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+</section>
+
+<section id="seq2seq">
+  <p class="eyebrow">Asked in 7 of 9 papers</p>
+  <h2>Seq2seq and neural machine translation</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A, Dec 24 set B, Dec 25 set A, Dec 25 set B, May 25 set B, May 26</p>
+  <div class="callout"><p><p>One diagram covers most of this group: encoder on the left, a context vector in the middle, decoder on the right, with &lt;sos&gt; and &lt;eos&gt; markers. Learn it once and adapt it for NMT, Hindi to English, and the attention version. The attention-based decoder comparison is in the Attention group.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P35</span>Explain how neural machine translation is done using the seq2seq model architecture.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Neural machine translation (NMT) uses one neural network, an encoder-decoder (seq2seq) model, to map a sentence in a source language to a sentence in a target language, trained end to end on parallel sentence pairs.</p>
+<pre class="art"> ENCODER                                   DECODER
+ I        love      NLP                &lt;sos&gt;    mujhe    NLP     pasand    hai
+ |         |         |                   |        |       |        |        |
+[h1] --&gt; [h2] --&gt; [h3] ==context c==&gt; [s1] --&gt; [s2] --&gt; [s3] --&gt; [s4] --&gt; [s5]
+                                         |        |       |        |        |
+                                       mujhe     NLP    pasand    hai     &lt;eos&gt;</pre>
+<p><strong>How to sketch it:</strong> two rows of LSTM boxes, the left row (encoder) fed with source words, the right row (decoder) fed with &lt;sos&gt; and its own previous output, joined by one thick arrow carrying the context vector.</p>
+<ol>
+<li><strong>Preprocess:</strong> tokenise (subwords help rare words), add &lt;sos&gt; and &lt;eos&gt;, build source and target vocabularies, embed.</li>
+<li><strong>Encoder</strong> (LSTM/GRU) reads the source: h_t = f(x_t, h_t−1); the final state is the context vector c.</li>
+<li><strong>Decoder</strong> is a conditional language model: s_t = f(s_t−1, y_t−1, c), and P(y_t | y_&lt;t, x) = softmax(W s_t). It starts from c and &lt;sos&gt; and stops at &lt;eos&gt;.</li>
+<li><strong>Train</strong> with teacher forcing (the true previous word is fed as input) and cross-entropy loss.</li>
+<li><strong>Decode</strong> at test time with greedy or beam search.</li>
+<li><strong>Evaluate</strong> with BLEU and human review.</li>
+</ol>
+<p><strong>Example.</strong> &quot;I love NLP&quot; → &quot;मुझे NLP पसंद है&quot;: 3 source words, 4 target words, so input and output lengths differ.</p>
+<p><strong>Limit.</strong> One fixed vector for the whole sentence is a bottleneck for long sentences; attention fixes this.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P36</span>Explain the architecture of the seq2seq model. Illustrate the role of the encoder and the decoder.<span class="marks">3 marks</span></p>
+      <div class="a"><p>A seq2seq model maps an input sequence to an output sequence of a different length by joining two recurrent networks.</p>
+<ul>
+<li><strong>Encoder:</strong> reads the input tokens one by one, updating its hidden state, and compresses the whole input into a context vector c (its final state).</li>
+<li><strong>Decoder:</strong> a second RNN initialised with c; starting from &lt;sos&gt; it generates one output token per step, feeding its previous output back in, until it produces &lt;eos&gt;.</li>
+<li>Both parts are trained together by maximising P(y | x) = Π P(y_t | y_&lt;t, x).</li>
+</ul>
+<pre class="art">x1 x2 x3 -&gt; [Encoder LSTM] -&gt; c -&gt; [Decoder LSTM] -&gt; y1 y2 y3 y4 &lt;eos&gt;</pre>
+<p>Strength: variable-length input and output without hand-made features. Weakness: the single vector c loses information on long inputs.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, Dec 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P37</span>Elaborate on the applications of seq-to-seq modelling.<span class="marks">3 marks</span></p>
+      <div class="a"><table><thead><tr><th>Application</th><th>Input sequence</th><th>Output sequence</th></tr></thead><tbody>
+<tr><td>Machine translation</td><td>English sentence</td><td>Hindi sentence</td></tr>
+<tr><td>Text summarisation</td><td>long article</td><td>short summary</td></tr>
+<tr><td>Chatbots and dialogue</td><td>user message</td><td>reply</td></tr>
+<tr><td>Speech recognition</td><td>audio frames</td><td>text</td></tr>
+<tr><td>Image captioning</td><td>image features (from a CNN)</td><td>caption words</td></tr>
+<tr><td>Question answering and code generation</td><td>question or description</td><td>answer or code</td></tr>
+</tbody></table>
+<p>Common feature: input and output lengths differ, which is what the encoder-decoder design handles.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P38</span>Show the application of the seq-to-seq model to a Hindi to English machine translation task.<span class="marks">3 marks</span></p>
+      <div class="a"><ol>
+<li><strong>Data:</strong> a parallel corpus of Hindi-English sentence pairs, cleaned and normalised (Devanagari text).</li>
+<li><strong>Tokenise</strong> both sides, with subword units (BPE) so inflected Hindi words are covered; add &lt;sos&gt;/&lt;eos&gt;.</li>
+<li><strong>Encoder</strong> (bidirectional LSTM) reads the Hindi sentence; <strong>decoder</strong> (LSTM, ideally with attention) writes English one word at a time.</li>
+<li><strong>Train</strong> with teacher forcing and cross-entropy; <strong>decode</strong> with beam search; <strong>evaluate</strong> with BLEU.</li>
+</ol>
+<p><strong>Example.</strong> &quot;मुझे किताबें पसंद हैं&quot; (mujhe kitaabein pasand hain) → &quot;I like books&quot;. The model must reorder words: Hindi is subject-object-verb, English is subject-verb-object, and Hindi uses an experiencer form (&quot;to me books pleasing are&quot;). Attention shows &quot;pasand&quot; aligned with &quot;like&quot; and &quot;kitaabein&quot; with &quot;books&quot;.</p>
+<p>Challenge: little parallel data, rich morphology and gender agreement.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P39</span>Machine translation takes a sequence of words in one language and outputs a sequence in another. How would you categorise this task by input/output sequence length and data types?<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Category: sequence-to-sequence, many-to-many, unaligned (encoder-decoder).</strong></p>
+<ul>
+<li><strong>Length:</strong> variable-length input (n words) and variable-length output (m words) with n ≠ m in general. Example: &quot;I love cats&quot; (3 words) → &quot;J'aime les chats&quot; (4 tokens).</li>
+<li><strong>Data type:</strong> both input and output are sequences of discrete tokens (categorical symbols from two different vocabularies), i.e. text to text, so the output layer is a softmax over the target vocabulary.</li>
+<li><strong>Timing:</strong> the output starts only after (or while) the whole input is read, so it is not step-aligned like POS tagging.</li>
+</ul>
+<table><thead><tr><th>Pattern</th><th>Example</th></tr></thead><tbody>
+<tr><td>Many-to-one</td><td>sentiment classification</td></tr>
+<tr><td>Many-to-many, aligned (same length)</td><td>POS tagging, NER</td></tr>
+<tr><td>Many-to-many, unaligned (different length)</td><td>machine translation, summarisation</td></tr>
+<tr><td>One-to-many</td><td>image captioning</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P40</span>Explain the architecture and working of a sequence-to-sequence model with attention for machine translation.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> A seq2seq model with attention (Bahdanau, 2014) lets the decoder look at all encoder states at every output step instead of one fixed context vector.</p>
+<pre class="art">  h1(I)   h2(love)   h3(cats)         encoder states
+    |        |          |
+    +--------+----------+--&gt; scores e_i = score(s_t, h_i)
+                         |
+                      softmax -&gt; weights a_1 a_2 a_3  (sum = 1)
+                         |
+              context c_t = a_1 h1 + a_2 h2 + a_3 h3
+                         |
+ s_(t-1), y_(t-1) ---&gt; [ decoder step t ] ---&gt; y_t    (J'aime ...)</pre>
+<ol>
+<li><strong>Encoder</strong> (often bidirectional) produces h_1 … h_n, one per source word.</li>
+<li><strong>Score</strong> the decoder state against each h_i (additive or dot product); <strong>softmax</strong> gives weights; <strong>context</strong> c_t = Σ α_ti h_i.</li>
+<li><strong>Decoder</strong> uses [s_t; c_t] to predict the next word, then moves on; a new c_t is computed every step.</li>
+<li><strong>Train</strong> with teacher forcing and cross-entropy; <strong>decode</strong> with beam search; <strong>evaluate</strong> with BLEU.</li>
+</ol>
+<p><strong>Example alignment</strong> for &quot;I love cats&quot; → &quot;J'aime les chats&quot; (rows = output words, columns = I, love, cats):</p>
+<table><thead><tr><th></th><th>I</th><th>love</th><th>cats</th></tr></thead><tbody>
+<tr><td>J'</td><td>0.85</td><td>0.10</td><td>0.05</td></tr>
+<tr><td>aime</td><td>0.10</td><td>0.80</td><td>0.10</td></tr>
+<tr><td>les</td><td>0.05</td><td>0.15</td><td>0.80</td></tr>
+<tr><td>chats</td><td>0.03</td><td>0.07</td><td>0.90</td></tr>
+</tbody></table>
+<p>Each row sums to 1. <strong>Advantage:</strong> no bottleneck, better on long sentences, interpretable alignments. <strong>Cost:</strong> n × m scores per sentence, and still sequential (Transformers removed that).</p><p class="seen"><strong>Seen in:</strong> May 26 (OR choice)</p></div></div>
+</section>
+
+<section id="pipeline">
+  <p class="eyebrow">Asked in 5 of 9 papers</p>
+  <h2>NLP phases, pipeline, preprocessing, tokenization and lemmatization</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A, Dec 24 set B, Dec 25 set A, May 25 set B</p>
+  <div class="callout"><p><p>&quot;Phases of NLP with a sentiment-analysis example&quot; was a 6-mark Part B question twice. Learn the five phases in order (lexical, syntactic, semantic, discourse, pragmatic) and keep the running example below, because the same example works for the pipeline question too.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P41</span>Explain the phases of NLP in detail with an example of sentiment analysis.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> NLP processes text in five phases, each adding a deeper level of understanding: lexical, syntactic, semantic, discourse integration and pragmatic analysis.</p>
+<pre class="art">Raw text -&gt; Lexical -&gt; Syntactic -&gt; Semantic -&gt; Discourse -&gt; Pragmatic -&gt; Sentiment label</pre>
+<p><strong>Example sentence:</strong> &quot;The camera is great, but it died after two days.&quot;</p>
+<table><thead><tr><th>Phase</th><th>What happens</th><th>On the example</th></tr></thead><tbody>
+<tr><td>1. Lexical analysis</td><td>split text into sentences and tokens, identify words and their forms</td><td>12 tokens: The, camera, is, great, comma, but, it, died, after, two, days, full stop</td></tr>
+<tr><td>2. Syntactic analysis (parsing)</td><td>POS tags and grammatical structure</td><td>two clauses joined by &quot;but&quot;: [NP The camera][VP is great] and [NP it][VP died after two days]</td></tr>
+<tr><td>3. Semantic analysis</td><td>meaning of words and sentences, word sense disambiguation</td><td>&quot;great&quot; is positive; &quot;died&quot; here means the device stopped working (negative), not that something lived and died</td></tr>
+<tr><td>4. Discourse integration</td><td>link a sentence to its context, resolve references</td><td>&quot;it&quot; refers to &quot;camera&quot;; &quot;but&quot; marks contrast, so the second clause carries more weight</td></tr>
+<tr><td>5. Pragmatic analysis</td><td>intended meaning using real-world knowledge</td><td>in a product review, a camera failing in two days is a serious defect: the writer is complaining</td></tr>
+</tbody></table>
+<p><strong>Result:</strong> overall sentiment = negative (the praise is outweighed). Skipping the later phases would give a wrong &quot;mixed or positive&quot; answer because the words &quot;great&quot; and &quot;died&quot; alone cancel out.</p>
+<p><strong>Ambiguity</strong> handled along the way: lexical (one word, several senses), syntactic (several parse trees), semantic (several meanings of a phrase).</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P42</span>Elaborate on the NLP pipeline with an example.<span class="marks">3 marks</span></p>
+      <div class="a"><p>The NLP pipeline is the ordered sequence of steps that turns raw text into a result.</p>
+<pre class="art">Raw text -&gt; Clean -&gt; Tokenize -&gt; Lowercase -&gt; Remove punctuation/stop words
+         -&gt; Stem or Lemmatize -&gt; POS tag / NER -&gt; Vectorize -&gt; Model -&gt; Output</pre>
+<p><strong>Example</strong> &quot;I love NLP!&quot;: tokenize → [I, love, NLP, !]; lowercase → [i, love, nlp, !]; remove punctuation → [i, love, nlp]; remove stop words → [love, nlp]; lemmatize → [love, nlp]; POS tag → [(love, VB), (nlp, NN)]; vectorize (TF-IDF or embeddings) → feed the classifier or model.</p>
+<p>Each step is chosen by the task: sentiment analysis keeps negation words and capitals that a topic classifier would drop.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P43</span>Explain various methods to perform tokenization with examples.<span class="marks">3 to 6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Tokenization splits text into units (tokens) such as words, sub-words, characters or sentences; it is the first step of every NLP pipeline.</p>
+<table><thead><tr><th>Method</th><th>How it works</th><th>Example</th></tr></thead><tbody>
+<tr><td>Whitespace</td><td>split on spaces</td><td>&quot;She isn't coming.&quot; → [She, isn't, coming.] (punctuation stays stuck to words)</td></tr>
+<tr><td>Rule-based / regex (Treebank style)</td><td>rules for punctuation and contractions</td><td>→ [She, is, n't, coming, .]</td></tr>
+<tr><td>Sentence tokenization</td><td>split into sentences, handling abbreviations</td><td>&quot;Dr. Rao is here. He is late.&quot; → 2 sentences</td></tr>
+<tr><td>Sub-word (BPE, WordPiece)</td><td>start from characters and merge the most frequent pairs; rare words split into pieces</td><td>&quot;playing&quot; → [play, ##ing]; used in BERT and GPT; no unknown-word problem</td></tr>
+<tr><td>Character-level</td><td>every character is a token</td><td>&quot;NLP&quot; → [N, L, P]; tiny vocabulary but long sequences</td></tr>
+</tbody></table>
+<p><strong>Challenges:</strong> languages without spaces (Chinese, Japanese) need dedicated tokenizers; agglutinative languages build long words; hashtags, URLs and emojis need special rules.</p>
+<p>Choose word tokens for classical models and sub-words for neural models.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P44</span>Compare and contrast tokenization and lemmatization.<span class="marks">3 marks</span></p>
+      <div class="a"><table><thead><tr><th>Point</th><th>Tokenization</th><th>Lemmatization</th></tr></thead><tbody>
+<tr><td>Purpose</td><td>split text into tokens</td><td>reduce each word to its dictionary base form (lemma)</td></tr>
+<tr><td>Stage</td><td>first step of the pipeline</td><td>normalisation step, after tokenization</td></tr>
+<tr><td>Needs</td><td>rules or a trained tokenizer</td><td>dictionary (WordNet) and the POS tag</td></tr>
+<tr><td>Output</td><td>more tokens than words if contractions or punctuation are split</td><td>fewer distinct forms</td></tr>
+</tbody></table>
+<p><strong>Example</strong> &quot;The programmers were studying running strategies better than corpora.&quot; Tokens: [The, programmers, were, studying, running, strategies, better, than, corpora, .]. Lemmas: programmers → programmer, studying → study, running → run, strategies → strategy, better → good, corpora → corpus.</p>
+<p>Stemming is the faster, cruder cousin of lemmatization: studying → studi (not a real word). Both are used before building features.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, Dec 24 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P45</span>Justify the importance of preprocessing steps in achieving higher model accuracy in NLP applications.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Claim.</strong> Preprocessing decides which words and features a model sees. Clean, consistent input shrinks the feature space and removes noise, so the model learns the real signal from limited data. For classical pipelines it is often a larger accuracy lever than the choice of model.</p>
+<table><thead><tr><th>Step</th><th>Effect on accuracy</th><th>Caution</th></tr></thead><tbody>
+<tr><td>Cleaning (HTML, URLs, odd symbols)</td><td>removes tokens that carry no meaning</td><td>keep emojis for sentiment</td></tr>
+<tr><td>Lowercasing</td><td>&quot;Good&quot;, &quot;good&quot;, &quot;GOOD&quot; become one feature</td><td>capitals matter for NER and emotion</td></tr>
+<tr><td>Tokenization</td><td>defines the units; &quot;don't&quot; handled consistently</td><td>language-specific rules</td></tr>
+<tr><td>Stop-word removal</td><td>cuts dimensions and noise for BoW/TF-IDF models</td><td>&quot;not&quot; must stay for sentiment</td></tr>
+<tr><td>Stemming / lemmatization</td><td>merges &quot;studies&quot;, &quot;studying&quot; so each concept gets more training examples</td><td>stemming makes non-words</td></tr>
+<tr><td>Vectorization</td><td>BoW/TF-IDF for frequency, embeddings for meaning</td><td>match the model</td></tr>
+</tbody></table>
+<p><strong>Example.</strong> A spam filter that sees &quot;FREE!!!&quot;, &quot;free&quot; and &quot;Free&quot; as three features splits its evidence three ways; after lowercasing and punctuation removal it has one strong feature.</p>
+<p><strong>Conclusion.</strong> Good preprocessing improves accuracy and speed, but it is task-dependent; over-aggressive cleaning can delete the signal (for example stop-word removal turns &quot;not good&quot; into &quot;good&quot;). Deep contextual models need less of it.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P46</span>Describe the need for NLP in artificial intelligence.<span class="marks">3 marks</span></p>
+      <div class="a"><ul>
+<li>Humans communicate in language, so an AI system that cannot read, write or understand it cannot work with people or with the large amount of text data (emails, reviews, documents, web pages) that is unstructured.</li>
+<li>NLP lets machines extract meaning (sentiment, entities, intent) and generate language (summaries, replies, translations).</li>
+<li>It makes AI usable through chatbots, voice interfaces and search engines, and bridges language barriers through machine translation.</li>
+<li>It automates text-heavy work such as spam filtering, document classification and information extraction.</li>
+<li>Language is ambiguous and context-dependent, so dedicated methods (tokenization, parsing, embeddings, Transformers) are needed.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+</section>
+
+<section id="textrep">
+  <p class="eyebrow">Asked in 5 of 9 papers</p>
+  <h2>Text representation: one-hot, Bag of Words, CountVectorizer and TF-IDF</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24 set A, Dec 24 set B, Dec 25 set A, Dec 25 set B, May 26</p>
+  <div class="callout"><p><p>The numerical convention used on this site is TF = count ÷ words in the document and IDF = log10(N ÷ DF). Libraries such as scikit-learn use a smoothed natural-log IDF and normalise the vectors, so their numbers differ, but the ideas and the ranking are the same. Say which convention you use in the exam.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P47</span>A text classifier uses one-hot encoding for words but struggles with a large vocabulary and word similarity. What is its primary limitation?<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Primary limitation: one-hot vectors carry no similarity information and grow with the vocabulary.</strong></p>
+<ul>
+<li>Each word is a vector of length V (the vocabulary size) with a single 1; for 50,000 words that is a 50,000-number vector, almost all zeros (sparse, memory-heavy).</li>
+<li>Every pair of one-hot vectors is orthogonal (cosine similarity 0), so &quot;cat&quot; looks as unrelated to &quot;dog&quot; as to &quot;airplane&quot;; the classifier cannot generalise from one word to a similar one.</li>
+<li>Adding a new word changes the vector length, so models must be retrained.</li>
+</ul>
+<p><strong>Fix:</strong> dense word embeddings (Word2Vec, GloVe), about 300 numbers, in which similar words are close.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P48</span>Illustrate with an example how Bag of Words represents text.<span class="marks">3 marks</span></p>
+      <div class="a"><p>Bag of Words (BoW) represents a document as a vector of word counts over a fixed vocabulary, ignoring order. Strictly, it represents documents with counts; it does not learn a meaning-bearing embedding for each word.</p>
+<p><strong>Example.</strong> D1 = &quot;I love NLP&quot;, D2 = &quot;I love deep learning&quot;. Vocabulary = [I, love, NLP, deep, learning].</p>
+<table><thead><tr><th></th><th>I</th><th>love</th><th>NLP</th><th>deep</th><th>learning</th></tr></thead><tbody>
+<tr><td>D1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>D2</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+</tbody></table>
+<p>Cosine similarity of D1 and D2 = (1+1) / (√3 × √4) = 2 / 3.464 = 0.577.</p>
+<p>Advantage: simple and fast. Limitation: loses word order and meaning (&quot;dog bites man&quot; = &quot;man bites dog&quot;).</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P49</span>Critically evaluate the limitations of bag-of-words for representing semantic information. Suggest improvements.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>What BoW does.</strong> It turns a document into a vector of word counts over a fixed vocabulary.</p>
+<table><thead><tr><th>Limitation</th><th>Example</th></tr></thead><tbody>
+<tr><td>Loses word order</td><td>&quot;dog bites man&quot; and &quot;man bites dog&quot; give the identical vector</td></tr>
+<tr><td>Cannot handle negation or phrases</td><td>&quot;not good&quot; is counted as &quot;not&quot; and &quot;good&quot; separately, and &quot;good&quot; pushes the score positive</td></tr>
+<tr><td>No semantic similarity</td><td>&quot;car&quot; and &quot;automobile&quot; are unrelated columns</td></tr>
+<tr><td>Sparse and high-dimensional</td><td>one column per word; thousands of mostly zero entries</td></tr>
+<tr><td>All words weighted by raw count</td><td>&quot;the&quot; and &quot;is&quot; dominate, rare informative words are drowned out</td></tr>
+<tr><td>Unseen words ignored</td><td>a word outside the vocabulary has no column</td></tr>
+</tbody></table>
+<p><strong>Improvements.</strong></p>
+<ol>
+<li><strong>n-grams</strong> (bigrams such as &quot;not_good&quot;) restore some local order.</li>
+<li><strong>TF-IDF</strong> down-weights common words and boosts distinctive ones.</li>
+<li><strong>Stop-word handling, stemming or lemmatization</strong> to reduce the vocabulary.</li>
+<li><strong>Word embeddings</strong> (Word2Vec, GloVe, averaged per document) give dense vectors with similarity.</li>
+<li><strong>Contextual models</strong> (LSTM, BERT) capture order and context.</li>
+</ol>
+<p>Conclusion: BoW is a good quick baseline for topic classification, but it cannot represent meaning.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P50</span>Compare CountVectorizer and TF-IDF methods for text representation.<span class="marks">3 marks</span></p>
+      <div class="a"><table><thead><tr><th>Point</th><th>CountVectorizer</th><th>TF-IDF</th></tr></thead><tbody>
+<tr><td>Value stored</td><td>raw count of the word in the document</td><td>count (as TF) multiplied by IDF, a rarity weight</td></tr>
+<tr><td>Common words (the, is)</td><td>get large values</td><td>pushed towards 0</td></tr>
+<tr><td>Rare, informative words</td><td>no extra weight</td><td>boosted</td></tr>
+<tr><td>Output</td><td>sparse matrix, same shape as TF-IDF</td><td>sparse matrix of weights</td></tr>
+<tr><td>Best for</td><td>quick baseline, Naive Bayes</td><td>search, ranking, linear classifiers</td></tr>
+</tbody></table>
+<p><strong>Example</strong> (3 documents: &quot;Data is powerful&quot;, &quot;Data is useful for science&quot;, &quot;Science is powerful and useful&quot;; document 2 has 5 words). Counts for document 2: data 1, is 1, for 1. TF-IDF: &quot;is&quot; appears in all 3 documents, IDF = log10(3/3) = 0, so its weight is 0; &quot;data&quot; (DF 2): 0.2 × log10(3/2) = 0.2 × 0.176 = 0.035; &quot;for&quot; (DF 1): 0.2 × log10(3) = 0.2 × 0.477 = 0.095.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P51</span>Explain the TF-IDF technique and how it improves upon simple term frequency by capturing the importance of words across multiple documents.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> TF-IDF (Term Frequency × Inverse Document Frequency) gives each word a weight that is high when the word is frequent in one document but rare across the collection.</p>
+<ul>
+<li>TF(t, d) = count of t in d ÷ total words in d</li>
+<li>IDF(t) = log10(N ÷ DF(t)), where N is the number of documents and DF(t) the number containing t</li>
+<li>TF-IDF = TF × IDF</li>
+</ul>
+<p><strong>Problem with plain TF.</strong> It only looks inside one document, so &quot;the&quot; and &quot;is&quot; score highest everywhere even though they say nothing about the topic.</p>
+<p><strong>Example.</strong> A 100-word document uses &quot;the&quot; 5 times and &quot;python&quot; 5 times, in a collection of N = 1,000 documents where &quot;the&quot; occurs in all 1,000 and &quot;python&quot; in 10. TF is 0.05 for both. IDF(the) = log10(1000/1000) = 0; IDF(python) = log10(1000/10) = 2. TF-IDF: the = 0.05 × 0 = 0; python = 0.05 × 2 = 0.1. TF could not separate them; TF-IDF does.</p>
+<p><strong>Uses:</strong> keyword extraction, search ranking, document similarity, features for classifiers.</p>
+<p><strong>Limits:</strong> no word order and no meaning (synonyms count as different words), and the vectors are long and sparse. Variants: sublinear TF (1 + log TF), smoothed IDF, length normalisation.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P52</span>In a legal document search system, explain how TF-IDF could be used to extract important terms from legal text and rank documents by relevance to a search query (for example terms related to specific laws, cases or statutes).<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Idea.</strong> Every legal document becomes a TF-IDF vector. Terms with the highest weights are its important terms, and a query is scored against each document.</p>
+<ol>
+<li><strong>Preprocess:</strong> lowercase, tokenise, remove ordinary stop words and legal boilerplate such as &quot;hereinafter&quot; and &quot;whereas&quot;, keep section numbers and statute names, and add bigrams such as &quot;breach of contract&quot; and &quot;penal code&quot;.</li>
+<li><strong>Index:</strong> build the vocabulary, count TF for each document and compute IDF over all N documents.</li>
+<li><strong>Important terms:</strong> sort each document's terms by TF-IDF; terms like &quot;breach&quot; that are frequent here and rare elsewhere rise to the top, while &quot;the&quot; and &quot;court&quot; (in many documents) fall.</li>
+<li><strong>Query:</strong> process the query in the same way; the relevance score of a document is the sum of the TF-IDF of the query terms (or the cosine similarity between query and document vectors).</li>
+<li><strong>Rank</strong> by score, highest first.</li>
+</ol>
+<p><strong>Worked example</strong> (5 short documents, TF = count ÷ words, IDF = log10(5 ÷ DF)). Query: &quot;breach contract&quot;. DF(breach) = 1, so IDF = log10(5) = 0.699; DF(contract) = 2, so IDF = log10(2.5) = 0.398.</p>
+<table><thead><tr><th>Document</th><th>Words</th><th>breach</th><th>contract</th><th>Score</th></tr></thead><tbody>
+<tr><td>D1 &quot;the court held the contract void for breach of contract&quot;</td><td>10</td><td>0.1 × 0.699 = 0.0699</td><td>0.2 × 0.398 = 0.0796</td><td><strong>0.1495</strong></td></tr>
+<tr><td>D4 &quot;tenant must pay rent under the lease contract&quot;</td><td>8</td><td>0</td><td>0.125 × 0.398 = 0.0497</td><td><strong>0.0497</strong></td></tr>
+<tr><td>D2, D3, D5</td><td>-</td><td>0</td><td>0</td><td>0</td></tr>
+</tbody></table>
+<p>Ranking: D1, then D4, then the rest. <strong>Why TF-IDF suits this:</strong> it favours specific legal terms and ignores common ones. <strong>Limit:</strong> it does not know synonyms (&quot;act&quot; and &quot;statute&quot;); use BM25 or embeddings to improve.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P53</span>Evaluate the effectiveness of TF-IDF for document similarity detection. Support your answer with an example.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Method.</strong> Represent each document as a TF-IDF vector and measure the cosine similarity cos θ = (a·b) / (‖a‖ ‖b‖); 1 means the same direction (similar), 0 means no shared weighted words.</p>
+<p><strong>Example</strong> (TF = count ÷ words, IDF = log10(3 ÷ DF)). D1 = &quot;Data is powerful&quot;, D2 = &quot;Data is useful for science&quot;, D3 = &quot;Science is powerful and useful&quot;. &quot;is&quot; is in all three, so its IDF is 0.</p>
+<table><thead><tr><th>Measure</th><th>D1-D2</th><th>D1-D3</th><th>D2-D3</th></tr></thead><tbody>
+<tr><td>Cosine on raw counts</td><td>0.516</td><td>0.516</td><td>0.600</td></tr>
+<tr><td>Cosine on TF-IDF</td><td>0.220</td><td>0.220</td><td>0.193</td></tr>
+</tbody></table>
+<p>With raw counts the pair D2-D3 looks most similar mostly because of shared common words such as &quot;is&quot;; with TF-IDF those words weigh nothing and the scores reflect distinctive words only. (In this tiny corpus all similarities are low, which is realistic.)</p>
+<p><strong>Strengths.</strong> Simple, fast, interpretable; suppresses common words; works well for near-duplicate detection, plagiarism screening and search.</p>
+<p><strong>Weaknesses.</strong> Exact word match only: &quot;car&quot; and &quot;automobile&quot; give zero similarity; no word order; long sparse vectors; IDF depends on the corpus.</p>
+<p><strong>Verdict.</strong> Effective as a baseline for lexical similarity; for meaning-based similarity use embeddings or BERT sentence vectors.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+</section>
+
+<section id="textclass">
+  <p class="eyebrow">Asked in 5 of 9 papers</p>
+  <h2>Text classification: Naive Bayes, logistic regression, applications, hate-speech detection</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 25 set B, May 24, May 25 set A, May 25 set B</p>
+  <div class="callout"><p><p>Naive Bayes appeared in three papers, twice as a 6-mark &quot;implement with an example&quot; question. Memorise the recipe prior × product of Laplace-smoothed likelihoods and practise it on the five-review table below.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P54</span>Describe how the Naive Bayes algorithm is implemented for text classification, with an example.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> Naive Bayes classifies a document by choosing the class c with the highest P(c) × Π P(w_i | c), using Bayes' theorem and the &quot;naive&quot; assumption that words are independent given the class.</p>
+<ol>
+<li><strong>Prior:</strong> P(c) = documents in class c ÷ total documents.</li>
+<li><strong>Likelihood with Laplace smoothing:</strong> P(w | c) = (count(w, c) + 1) ÷ (total words in c + V), where V is the vocabulary size. This avoids zero probabilities for unseen words.</li>
+<li><strong>Score</strong> a new document: P(c) × Π P(w_i | c) over its words (in practice sum logs to avoid underflow).</li>
+<li><strong>Decide:</strong> the class with the larger score; divide by the sum of scores for a posterior probability.</li>
+</ol>
+<p><strong>Example.</strong> Training reviews: positive: &quot;great fun movie&quot;, &quot;loved great acting&quot;; negative: &quot;boring slow movie&quot;, &quot;bad boring plot&quot;, &quot;awful acting&quot;. Vocabulary V = 10 words. Positive class has 6 words, negative class 8. Priors: P(pos) = 2/5 = 0.4, P(neg) = 3/5 = 0.6.</p>
+<p>Test review: &quot;great fun acting&quot;.</p>
+<table><thead><tr><th>Word</th><th>P(w | pos)</th><th>P(w | neg)</th></tr></thead><tbody>
+<tr><td>great</td><td>(2+1)/(6+10) = 3/16</td><td>(0+1)/(8+10) = 1/18</td></tr>
+<tr><td>fun</td><td>(1+1)/16 = 1/8</td><td>(0+1)/18 = 1/18</td></tr>
+<tr><td>acting</td><td>(1+1)/16 = 1/8</td><td>(1+1)/18 = 1/9</td></tr>
+</tbody></table>
+<p>Score(pos) = 0.4 × 3/16 × 1/8 × 1/8 = 0.001172. Score(neg) = 0.6 × 1/18 × 1/18 × 1/9 = 0.000206. Posterior P(pos) = 0.001172 / (0.001172 + 0.000206) = 0.85. <strong>Predicted class: positive.</strong></p>
+<p>With scikit-learn: <code>CountVectorizer()</code> then <code>MultinomialNB()</code>, <code>fit</code> and <code>predict</code>.</p>
+<p><strong>Advantage:</strong> fast, works with little data. <strong>Limit:</strong> independence assumption ignores word order and negation (&quot;not good&quot;).</p><p class="seen"><strong>Seen in:</strong> Dec 23, May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P55</span>Illustrate the implementation of email spam classification using the Naive Bayes algorithm.<span class="marks">3 marks</span></p>
+      <div class="a"><p>Training emails: spam: &quot;win cash prize now&quot;, &quot;win cash now&quot;; ham (not spam): &quot;meeting at noon now&quot;, &quot;lunch at noon&quot;, &quot;project meeting notes&quot;. V = 10; spam has 7 words, ham has 10. P(spam) = 2/5, P(ham) = 3/5.</p>
+<p>New email: &quot;win prize now&quot;, Laplace-smoothed:</p>
+<ul>
+<li>spam: 2/5 × (2+1)/(7+10) × (1+1)/17 × (2+1)/17 = 0.4 × 3/17 × 2/17 × 3/17 = 0.001466</li>
+<li>ham: 3/5 × (0+1)/(10+10) × 1/20 × (1+1)/20 = 0.6 × 1/20 × 1/20 × 1/10 = 0.000150</li>
+</ul>
+<p>Posterior P(spam) = 0.001466 / (0.001466 + 0.000150) = 0.91, so the email is flagged <strong>spam</strong>. Steps in practice: clean the text, make word counts, train MultinomialNB, predict, check precision and recall (a false &quot;spam&quot; costs a lost real email).</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P56</span>Which machine learning algorithm is used to implement binary-class text classification?<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Logistic regression</strong> is the standard answer for binary text classification (positive/negative, spam/ham). <strong>Naive Bayes</strong> and linear SVM are the other common choices.</p>
+<ul>
+<li>Features: BoW, TF-IDF or averaged embeddings x.</li>
+<li>Model: P(y = 1 | x) = σ(w·x + b) = 1 / (1 + e^−(w·x + b)); predict class 1 if the probability is above 0.5.</li>
+<li>Loss: binary cross-entropy (log loss), minimised by gradient descent.</li>
+<li>Example: if w·x + b = 0.8 then P = σ(0.8) = 0.69, so class 1.</li>
+</ul>
+<p>Naive Bayes is faster and works with very little data; logistic regression usually gives better accuracy. For more than two classes the sigmoid becomes a softmax.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P57</span>A company wants to automate organising customer feedback and filtering spam emails. State any two applications of text classification.<span class="marks">3 marks</span></p>
+      <div class="a"><ol>
+<li><strong>Spam filtering:</strong> each email is classified as spam or not spam (binary), using a classifier such as Naive Bayes or logistic regression on TF-IDF features; spam goes to a separate folder.</li>
+<li><strong>Organising customer feedback:</strong> each message is labelled by topic (delivery, billing, product quality) or by sentiment (positive, neutral, negative), so complaints are routed to the right team and trends can be counted.</li>
+</ol>
+<p>Other applications: language identification, news topic labelling, hate-speech detection, intent detection in chatbots. Common pipeline: clean text, vectorise, train a classifier, evaluate with precision, recall and F1.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P58</span>A logistic regression model for sentiment analysis uses a Flatten layer before the output. What is the purpose of this layer?<span class="marks">3 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p>The model is typically Embedding → Flatten → Dense(1, sigmoid): a logistic regression on the embedded words.</p>
+<ul>
+<li>The Embedding layer outputs a 2-D table for each review, for example 100 words × 8 numbers.</li>
+<li>The output unit expects one flat vector per review. <strong>Flatten reshapes 100 × 8 into a single vector of 800 numbers</strong> (it has no parameters).</li>
+<li>The sigmoid unit then computes P(positive) = σ(w·x + b) with one weight per input number.</li>
+</ul>
+<p><strong>Parameters</strong> (vocabulary 10,000): Embedding 10,000 × 8 = 80,000; Flatten 0; Dense 800 + 1 = 801; total 80,801.</p>
+<p><strong>Limit:</strong> each word position gets its own weights and the review length must be fixed (padding). Alternatives: GlobalAveragePooling1D, or an RNN/CNN for order.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P59</span>A social media company wants to automatically detect hate speech in posts and generate personalised content for users. Explain the applications of text classification and text generation in such real-world scenarios with examples.<span class="marks">6 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p><strong>Text classification</strong> assigns a label to a text; <strong>text generation</strong> produces new text. They can work together in one product.</p>
+<p><strong>1. Hate-speech detection (classification).</strong> Labels: hate, offensive, neither.</p>
+<ol>
+<li>Collect posts and have people label them; clean text (slang, emojis, code-mixed words, intentional misspellings such as &quot;h@te&quot;).</li>
+<li>Vectorise (TF-IDF, or contextual vectors from BERT).</li>
+<li>Train a classifier (logistic regression for a baseline, fine-tuned BERT for the best accuracy).</li>
+<li>Evaluate with precision, recall and F1 per class; the classes are imbalanced, so accuracy alone is misleading.</li>
+<li>Act: remove or flag the post, send borderline cases to human moderators.</li>
+</ol>
+<p>Example: &quot;I'll hurt people like you&quot; → hate/threat; &quot;this match was a massacre&quot; → neither. Difficulties: sarcasm, context, dialects, and bias against groups.</p>
+<p><strong>2. Personalised content (generation).</strong> A language model generates text conditioned on the user's interests and history: suggested captions, reply drafts, summaries of long threads, notification text. Example: for a user who follows cricket, generate &quot;India won by 5 wickets: key moments&quot;.</p>
+<p><strong>3. Together.</strong> Every generated text is passed through the hate-speech classifier before it is shown; unsafe text is blocked. Classification can also pick the topic or sentiment that steers what is generated.</p>
+<p><strong>Risks:</strong> false positives (silencing legitimate speech), generated text that is unsafe or false, privacy of user data, so human review and clear policies are needed.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set B</p></div></div>
+</section>
+
+<section id="eval">
+  <p class="eyebrow">Asked in 4 of 9 papers</p>
+  <h2>Evaluation metrics: BLEU, ROUGE, micro vs macro averaging</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set A, May 24, May 25 set B</p>
+  <div class="callout"><p><p>BLEU with a full calculation is the 6-mark one (twice). ROUGE and micro/macro are 3-mark Part A items; they are not covered in the course notes, so the answers here are standard textbook content.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P60</span>Summarise any three evaluation metrics used for NLP.<span class="marks">3 marks</span></p>
+      <div class="a"><table><thead><tr><th>Metric</th><th>Used for</th><th>What it measures</th></tr></thead><tbody>
+<tr><td>Precision, recall, F1</td><td>classification, NER, tagging</td><td>precision = TP/(TP+FP); recall = TP/(TP+FN); F1 = 2PR/(P+R)</td></tr>
+<tr><td>BLEU</td><td>machine translation</td><td>modified n-gram precision of the output against reference translations, with a brevity penalty</td></tr>
+<tr><td>ROUGE</td><td>summarisation</td><td>n-gram overlap (recall-oriented) between the summary and reference summaries</td></tr>
+<tr><td>Perplexity</td><td>language models</td><td>exp(−average log probability of the test words); lower is better</td></tr>
+</tbody></table>
+<p>Perplexity example: a model gives four test words the probabilities 0.2, 0.1, 0.25, 0.05. Perplexity = (0.2 × 0.1 × 0.25 × 0.05)^−1/4 = (0.00025)^−1/4 = 7.95, as if choosing among about 8 equally likely words.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P61</span>How is the ROUGE evaluation metric used for NLP model performance analysis?<span class="marks">3 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p><strong>Definition.</strong> ROUGE (Recall-Oriented Understudy for Gisting Evaluation) compares a machine-generated summary (candidate) with one or more human reference summaries by counting overlapping units. It is mainly used for text summarisation, and also for translation and headline generation.</p>
+<ul>
+<li><strong>ROUGE-N:</strong> overlap of n-grams. ROUGE-1 uses words, ROUGE-2 uses word pairs. Recall = matched n-grams ÷ n-grams in the reference; precision = matched ÷ n-grams in the candidate; F1 combines them.</li>
+<li><strong>ROUGE-L:</strong> based on the longest common subsequence (LCS), which rewards correct word order without needing adjacent words.</li>
+</ul>
+<p><strong>Example.</strong> Reference: &quot;the cat is on the mat&quot; (6 words). Candidate: &quot;the cat sat on the mat&quot; (6 words).</p>
+<ul>
+<li>ROUGE-1: matched words = the, cat, on, the, mat = 5; recall = 5/6, precision = 5/6, F1 = 0.833.</li>
+<li>ROUGE-2: reference bigrams (5): the cat, cat is, is on, on the, the mat; candidate (5): the cat, cat sat, sat on, on the, the mat; matches = the cat, on the, the mat = 3; recall = 3/5 = 0.6, precision = 0.6, F1 = 0.6.</li>
+<li>ROUGE-L: LCS = &quot;the cat on the mat&quot; = 5 words; recall = precision = 5/6 = 0.833.</li>
+</ul>
+<p><strong>BLEU vs ROUGE:</strong> BLEU is precision-oriented (is the output correct?), ROUGE is recall-oriented (does it cover the reference?). <strong>Limit:</strong> counts words, not meaning, so a good paraphrase scores low.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P62</span>Describe any four evaluation metrics used for NLP and explain in detail the BLEU score along with its calculation method. How is BLEU used to assess NLP applications?<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Four metrics.</strong> (1) F1 score (precision and recall) for classification and NER; (2) BLEU for machine translation; (3) ROUGE for summarisation; (4) perplexity for language models. (METEOR, which adds stems and synonyms, and chrF, based on character n-grams, are alternatives.)</p>
+<p><strong>BLEU (Bilingual Evaluation Understudy).</strong> It scores a candidate translation against human reference translations using <strong>modified n-gram precision</strong> and a <strong>brevity penalty</strong>.</p>
+<ul>
+<li>Modified precision p_n = clipped matches of n-grams ÷ n-grams in the candidate. Clipping counts a candidate n-gram at most as often as it appears in the reference, so repeating &quot;the the the&quot; cannot cheat.</li>
+<li>Brevity penalty: BP = 1 if c &gt; r, otherwise e^(1 − r/c), where c is the candidate length and r the reference length. It stops very short outputs scoring well.</li>
+<li>BLEU = BP × exp(Σ w_n ln p_n), usually N = 4 and w_n = 1/4, a geometric mean of p_1 to p_4.</li>
+</ul>
+<p><strong>Calculation.</strong> Reference: &quot;the cat is sitting on the mat today&quot; (r = 8). Candidate: &quot;the cat is on the mat today&quot; (c = 7).</p>
+<table><thead><tr><th>n</th><th>Candidate n-grams</th><th>Matches</th><th>p_n</th></tr></thead><tbody>
+<tr><td>1</td><td>7</td><td>7</td><td>1.000</td></tr>
+<tr><td>2</td><td>6 (the cat, cat is, is on, on the, the mat, mat today)</td><td>5 (all but &quot;is on&quot;)</td><td>5/6 = 0.833</td></tr>
+<tr><td>3</td><td>5</td><td>3 (the cat is, on the mat, the mat today)</td><td>3/5 = 0.600</td></tr>
+<tr><td>4</td><td>4</td><td>1 (on the mat today)</td><td>1/4 = 0.250</td></tr>
+</tbody></table>
+<p>BP = e^(1 − 8/7) = e^−0.1429 = 0.867. Geometric mean = (1 × 0.833 × 0.6 × 0.25)^1/4 = (0.125)^1/4 = 0.595. <strong>BLEU-4 = 0.867 × 0.595 = 0.515.</strong></p>
+<p><strong>Use.</strong> BLEU is the standard automatic score for machine translation, and is also used for captioning and text generation; scores are averaged over a whole test set (it is unreliable for single sentences, where p_4 is often 0). <strong>Limits:</strong> ignores meaning and synonyms, depends on the reference translations, and correlates only loosely with human judgement.</p><p class="seen"><strong>Seen in:</strong> Dec 24 set A, May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P63</span>Compare and contrast micro-average and macro-average performance metrics.<span class="marks">3 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p>Both combine per-class results in multi-class evaluation.</p>
+<ul>
+<li><strong>Macro-average:</strong> compute the metric for each class, then take the plain mean. Every class counts equally.</li>
+<li><strong>Micro-average:</strong> add up TP, FP and FN over all classes, then compute the metric once. Every sample counts equally, so large classes dominate. (For single-label multi-class problems micro-F1 equals accuracy.)</li>
+</ul>
+<p><strong>Example.</strong> Three classes, 75 test documents (rows = true class, columns = predicted):</p>
+<table><thead><tr><th></th><th>Sports</th><th>Politics</th><th>Tech</th></tr></thead><tbody>
+<tr><td>Sports</td><td>50</td><td>5</td><td>5</td></tr>
+<tr><td>Politics</td><td>5</td><td>4</td><td>1</td></tr>
+<tr><td>Tech</td><td>3</td><td>1</td><td>1</td></tr>
+</tbody></table>
+<p>Per-class precision: Sports 50/58 = 0.862, Politics 4/10 = 0.400, Tech 1/7 = 0.143. Macro-precision = (0.862 + 0.400 + 0.143) / 3 = 0.468.</p>
+<p>Micro: TP = 50 + 4 + 1 = 55, FP = 8 + 6 + 6 = 20, FN = 10 + 6 + 4 = 20. Micro-precision = 55/(55 + 20) = 0.733. Micro-recall is also 55/75 = 0.733 and so is micro-F1.</p>
+<p>Macro-F1 = (0.848 + 0.400 + 0.167) / 3 = 0.471.</p>
+<p><strong>Reading:</strong> micro (0.733) looks good because Sports is large; macro (0.471) exposes that Politics and Tech are handled badly. Use macro when small classes matter, micro when overall performance matters.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
+</section>
+
+<section id="ner">
+  <p class="eyebrow">Asked in 4 of 9 papers</p>
+  <h2>Named Entity Recognition: techniques and applications</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set B, May 24, May 25 set A</p>
+  <div class="callout"><p><p>The two forms of this question are &quot;techniques/approaches&quot; (once as a 3-mark, once as a 6-mark) and &quot;applications&quot; (twice, 3 marks). The IOB-tagged example sentence below works for both.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P64</span>Explain the AI-based techniques and different approaches used for Named Entity Recognition (NER).<span class="marks">3 to 6 marks</span></p>
+      <div class="a"><p><strong>Definition.</strong> NER finds spans of text that name real-world entities (PERSON, ORGANIZATION, LOCATION, DATE, MONEY) and labels their type. Sequence labelling is the usual formulation: each token gets an IOB tag.</p>
+<p><strong>Example.</strong> &quot;Sundar Pichai visited Pune on 5 May&quot; →</p>
+<table><thead><tr><th>Token</th><th>Sundar</th><th>Pichai</th><th>visited</th><th>Pune</th><th>on</th><th>5</th><th>May</th></tr></thead><tbody>
+<tr><td>Tag</td><td>B-PER</td><td>I-PER</td><td>O</td><td>B-LOC</td><td>O</td><td>B-DATE</td><td>I-DATE</td></tr>
+</tbody></table>
+<table><thead><tr><th>Approach</th><th>How it works</th><th>Pros and cons</th></tr></thead><tbody>
+<tr><td>Dictionary / gazetteer</td><td>string match against lists of names</td><td>simple; list must be kept updated, misses new names</td></tr>
+<tr><td>Rule-based</td><td>hand-written patterns (regex for phone numbers, capitalisation, context words like &quot;Mr.&quot;)</td><td>precise; costly to write, hard to port</td></tr>
+<tr><td>Classical machine learning</td><td>features (capitalisation, POS, prefixes, neighbours) fed to a sequence model such as CRF or HMM</td><td>learns from data; needs feature design and labelled text</td></tr>
+<tr><td>Deep learning</td><td>embeddings → BiLSTM (often with a CRF layer) predicting a tag per token</td><td>no hand features; needs more labelled data</td></tr>
+<tr><td>Transformer (BERT) fine-tuning</td><td>pre-trained contextual vectors, one softmax over tags per token</td><td>best accuracy; heavy compute</td></tr>
+<tr><td>Hybrid</td><td>rules plus a learned model</td><td>practical in industry</td></tr>
+</tbody></table>
+<p><strong>Steps:</strong> extraction (POS tagging, sentence boundaries, capitalisation, co-reference) then searching/classifying the candidates. <strong>Evaluate</strong> with entity-level precision, recall and F1. <strong>Difficulties:</strong> ambiguity (&quot;Apple&quot; the company or fruit), new names, and languages without capital letters.</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P65</span>Summarise the applications of Named Entity Recognition in various domains, including information retrieval from financial documents.<span class="marks">3 marks</span></p>
+      <div class="a"><ul>
+<li><strong>Finance (information retrieval):</strong> extract company names, amounts, dates and instruments from annual reports, filings and news; index them so analysts can search &quot;profit decline of Company X&quot;. Example: &quot;Acme Bank reported a net profit of Rs 5,000 crore in Q2 2025&quot; → ORG, MONEY, DATE. Also compliance screening and linking events to companies.</li>
+<li><strong>Legal:</strong> parties, effective dates, document types from contracts.</li>
+<li><strong>Healthcare and pharma:</strong> diseases, drugs and doses from clinical notes and research papers.</li>
+<li><strong>Search and e-commerce:</strong> product type, colour and brand from a search query, to expand synonyms and improve results.</li>
+<li><strong>Customer support, news and HR:</strong> route tickets by product name, tag news by people and places, summarise resumes.</li>
+<li><strong>Chatbots and recommendation:</strong> fill slots (city, date) and personalise suggestions.</li>
+</ul><p class="seen"><strong>Seen in:</strong> May 24, May 25 set A</p></div></div>
+</section>
+
+<section id="topic">
+  <p class="eyebrow">Asked in 3 of 9 papers</p>
+  <h2>Topic modelling: LSI (LSA) vs LDA</h2>
+  <p class="seen"><strong>Seen in:</strong> May 24, May 25 set A, May 25 set B</p>
+  <div class="callout"><p><p>Topic modelling was a 6-mark Part B question in all three papers where it appeared, and the course notes mention it in only one line (Gensim: LDA finds hidden topics, LSI relates words and documents). The three answers below are standard content: learn the comparison table, the SVD formula A ≈ U_k Σ_k V_kᵀ, and the car/auto example.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P66</span>Compare and contrast LSI and LDA techniques for topic modelling.<span class="marks">6 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p><strong>Topic modelling</strong> finds hidden themes (topics) in a collection of documents without labels. <strong>LSI</strong> (Latent Semantic Indexing, also called LSA) does it with linear algebra; <strong>LDA</strong> (Latent Dirichlet Allocation) does it with a probabilistic model.</p>
+<table><thead><tr><th>Point</th><th>LSI / LSA</th><th>LDA</th></tr></thead><tbody>
+<tr><td>Basis</td><td>Singular Value Decomposition of the term-document (TF-IDF) matrix</td><td>generative probabilistic model with Dirichlet priors</td></tr>
+<tr><td>Topic</td><td>a direction (combination of terms) with positive and negative weights</td><td>a probability distribution over words</td></tr>
+<tr><td>Document</td><td>a point in k-dimensional topic space</td><td>a probability mixture of topics (for example 70% topic A, 30% topic B)</td></tr>
+<tr><td>Output values</td><td>not probabilities, can be negative</td><td>probabilities, always positive and sum to 1</td></tr>
+<tr><td>Interpretability</td><td>harder</td><td>easier (top words per topic)</td></tr>
+<tr><td>Speed and determinism</td><td>fast, same answer each time</td><td>slower iterative inference (Gibbs sampling or variational), results vary with the random seed</td></tr>
+<tr><td>Handles synonymy</td><td>yes, words that co-occur end up close</td><td>yes, through shared topics</td></tr>
+<tr><td>Inputs</td><td>number of topics k</td><td>number of topics K and priors α, β</td></tr>
+</tbody></table>
+<p><strong>LDA idea (generative story).</strong> For each document draw a topic mixture; for each word draw a topic from that mixture, then draw the word from that topic's word distribution. Training reverses this process to find the topics.</p>
+<p><strong>Illustration (made-up numbers).</strong> Topic A: car 0.30, engine 0.25, road 0.20; topic B: bank 0.35, money 0.30, loan 0.20. A document about car loans might be 60% A and 40% B.</p>
+<p><strong>Use:</strong> LSI for search and quick dimensionality reduction; LDA when interpretable topics and mixtures are needed. <strong>Gensim:</strong> <code>LsiModel(corpus, num_topics=2)</code> and <code>LdaModel(corpus, num_topics=2, passes=10)</code>.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P67</span>Explain how topic modelling can be implemented using LSI.<span class="marks">6 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p><strong>Idea.</strong> Build a term-document matrix A (terms × documents) and approximate it with a few strong patterns using truncated SVD: A ≈ U_k Σ_k V_kᵀ. Each of the k kept directions is a topic.</p>
+<ol>
+<li><strong>Preprocess:</strong> tokenise, remove stop words, lemmatise.</li>
+<li><strong>Matrix:</strong> count or TF-IDF weights, A of size m terms × n documents.</li>
+<li><strong>SVD</strong> A = U Σ Vᵀ; keep the k largest singular values.</li>
+<li><strong>Read topics:</strong> the columns of U_k give term weights for each topic (list the top terms); the rows of V_k (scaled by Σ_k) give each document's coordinates.</li>
+<li><strong>Use:</strong> compare documents or queries by cosine similarity in the k-dimensional space.</li>
+</ol>
+<p><strong>Worked example.</strong> Five documents: d1 &quot;car engine&quot;, d2 &quot;auto engine&quot;, d3 &quot;car auto&quot;, d4 &quot;bank money&quot;, d5 &quot;money bank money&quot;.</p>
+<table><thead><tr><th></th><th>d1</th><th>d2</th><th>d3</th><th>d4</th><th>d5</th></tr></thead><tbody>
+<tr><td>car</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>auto</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>engine</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>bank</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>money</td><td>0</td><td>0</td><td>0</td><td>1</td><td>2</td></tr>
+</tbody></table>
+<p>The singular values are 2.618, 2.000, 1.000, 1.000, 0.382. Keep k = 2. Topic 1 (finance): money 0.85, bank 0.53. Topic 2 (vehicles): car, auto, engine 0.58 each. (Signs from SVD are arbitrary; magnitudes matter.) Documents d1, d2, d3 lie on the vehicle axis, d4 and d5 on the finance axis.</p>
+<p><strong>Why LSI helps.</strong> Query &quot;car&quot;. In the original term space its cosine with d2 (&quot;auto engine&quot;) is 0, because d2 does not contain the word &quot;car&quot;. In the 2-topic space the query lies on the vehicle axis and its cosine with d2 is 1.0. LSI therefore finds documents about the same idea even without the exact word.</p>
+<p><strong>Limit:</strong> k must be chosen, topics can have negative weights, and polysemous words are mixed.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P68</span>You have a large collection of research papers in PDF format. Explain how to apply LSI to preprocess the data, create the term-document matrix and extract the key topics or concepts from the corpus.<span class="marks">6 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><ol>
+<li><strong>Extract text from the PDFs</strong> with a PDF text extractor (pdfminer, PyPDF2 or pdftotext); scanned PDFs need OCR first. Keep one text string per paper.</li>
+<li><strong>Clean:</strong> remove headers, footers, page numbers, reference lists, figure captions, hyphenation at line breaks and non-text noise.</li>
+<li><strong>Preprocess:</strong> lowercase, tokenise, remove stop words plus paper-specific ones (&quot;abstract&quot;, &quot;figure&quot;, &quot;et al.&quot;), lemmatise, optionally add bigrams (&quot;neural network&quot;).</li>
+<li><strong>Vocabulary filter:</strong> drop terms in fewer than about 5 papers or in more than about 80% of papers.</li>
+<li><strong>Term-document matrix:</strong> TF-IDF weights, stored as a sparse matrix.</li>
+<li><strong>Apply LSI:</strong> truncated SVD with k components (100 to 300 is common for large collections; use 2 to 10 for a small demo); k is chosen by topic coherence or the drop in singular values.</li>
+<li><strong>Extract topics:</strong> for each component list the highest-weight terms and name the topic from them (for example &quot;convolution, image, filter, pooling&quot; → computer vision). Look at each paper's strongest components.</li>
+<li><strong>Use:</strong> cluster papers, search by concept (query mapped into the topic space), recommend related papers.</li>
+</ol>
+<pre class="art">texts = [extract_text(p) for p in pdf_files]
+tfidf = TfidfVectorizer(stop_words='english', min_df=5, max_df=0.8, ngram_range=(1, 2))
+X = tfidf.fit_transform(texts)             # documents x terms (sparse)
+svd = TruncatedSVD(n_components=100)       # LSI
+Z = svd.fit_transform(X)                   # documents x topics
+terms = tfidf.get_feature_names_out()      # top terms of topic i: terms[svd.components_[i].argsort()[-8:]]</pre>
+<p><strong>Limit:</strong> topics are mathematical directions, not guaranteed to be human-readable; LDA gives more interpretable topics.</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+</section>
+
+<section id="lm">
+  <p class="eyebrow">Asked in 2 of 9 papers</p>
+  <h2>Language models: applications and smoothing</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 25 set A</p>
+
+    <div class="qa"><p class="q"><span class="num">P69</span>Explain the applications of language modelling in various domains.<span class="marks">3 marks</span></p>
+      <div class="a"><p>A language model assigns a probability to a sequence of words, P(w_1 … w_n), or predicts the next word. A system picks the more probable, more fluent text.</p>
+<ul>
+<li><strong>Speech recognition:</strong> chooses &quot;recognise speech&quot; over the acoustically similar &quot;wreck a nice beach&quot; because it is far more probable.</li>
+<li><strong>Machine translation:</strong> scores candidate translations for fluency.</li>
+<li><strong>Auto-complete and predictive text:</strong> suggests the next word in keyboards and search boxes.</li>
+<li><strong>Spelling and grammar correction:</strong> prefers &quot;their car&quot; to &quot;there car&quot;.</li>
+<li><strong>Text generation and chatbots:</strong> GPT-style models generate answers, stories, code and summaries.</li>
+<li><strong>Information retrieval, OCR, summarisation:</strong> rank candidates and pick the likelier reading.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P70</span>Discuss smoothing in probabilistic language models. Comment on its need.<span class="marks">3 marks</span></p>
+      <div class="a"><p><strong>Need.</strong> Maximum-likelihood estimates give probability 0 to any n-gram unseen in training: P(w_i | w_i−1) = C(w_i−1, w_i) / C(w_i−1). A sentence's probability is the product of its n-gram probabilities, so one zero makes the whole sentence impossible (data sparsity). <strong>Smoothing</strong> takes a little probability from seen events and gives it to unseen ones.</p>
+<p><strong>Laplace (add-one):</strong> P = (C(w_i−1, w_i) + 1) / (C(w_i−1) + V).</p>
+<p><strong>Example</strong> (corpus &quot;I enjoy reading books&quot;, &quot;I enjoy watching movies&quot;, &quot;I enjoy reading news&quot;; V = 9 tokens including the two boundary markers; C(reading) = 2). P(books | reading) = 1/2 by MLE. The unseen pair &quot;reading movies&quot; has MLE 0, but with add-one it gets (0+1)/(2+9) = 1/11 = 0.091. Cost: seen pairs shrink, for instance (1+1)/(2+9) = 0.18 instead of 0.5.</p>
+<p>Other methods: add-k, Good-Turing, backoff, interpolation, Kneser-Ney (used in practice).</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
+</section>
+
+<section id="misc">
+  <p class="eyebrow">Asked in 1 of 9 papers</p>
+  <h2>May 2026 one-off topics: dependency parsing, paradigm shift, applications, Indian-language NLP</h2>
+  <p class="seen"><strong>Seen in:</strong> May 26</p>
+  <div class="callout"><p><p>These came up only in the newest paper, but the paper setter has changed over time, so treat them as live. Dependency parsing and the paradigm shift are not in the course notes; the answers are standard content.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P71</span>Give two examples of NLP applications.<span class="marks">3 marks</span></p>
+      <div class="a"><ol>
+<li><strong>Machine translation:</strong> converts text from one language to another (Google Translate); modern systems use neural encoder-decoder or Transformer models.</li>
+<li><strong>Sentiment analysis (opinion mining):</strong> classifies reviews or tweets as positive, negative or neutral, so companies can track customer opinion.</li>
+</ol>
+<p>Others: chatbots and voice interfaces, text summarisation, speech recognition, information retrieval and question answering, spam filtering, named entity recognition.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P72</span>Describe dependency parsing. Why is it important in NLP?<span class="marks">3 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p><strong>Definition.</strong> Dependency parsing finds the grammatical structure of a sentence as directed, labelled links from a head word to its dependents. One word (usually the main verb) is the root and every other word depends on exactly one head.</p>
+<p><strong>Example.</strong> &quot;She bought a red car&quot;:</p>
+<pre class="art">bought (root)
+ |-- She  (nsubj)    subject of the verb
+ |-- car  (obj)      object of the verb
+      |-- a    (det)    determiner
+      |-- red  (amod)   adjective modifier</pre>
+<p><strong>Methods.</strong> Transition-based parsers read left to right using a stack and the actions SHIFT, LEFT-ARC and RIGHT-ARC (for &quot;She bought cars&quot;: shift, shift, left-arc (bought → She), shift, right-arc (bought → cars), right-arc (root → bought)). Graph-based parsers score all possible arcs and choose the best tree. Neural parsers (BiLSTM or Transformer based) now give the best accuracy.</p>
+<p><strong>Importance.</strong> It shows who did what to whom, so it supports information and relation extraction, question answering, machine translation (word reordering), aspect-based sentiment (which noun an adjective describes) and grammar checking. Unlike a constituency tree, it directly links words, and it is more suited to free-word-order languages such as Hindi.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P73</span>Explain the term "paradigm shift" in the context of modern NLP.<span class="marks">3 marks</span></p>
+      <div class="a"><p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p><p>A paradigm shift is a change in the basic way a field works. In NLP the shift has been from hand-written rules and hand-made features to learning everything from data, and then to one large pre-trained model reused for many tasks.</p>
+<table><thead><tr><th>Stage</th><th>Approach</th><th>Examples</th></tr></thead><tbody>
+<tr><td>Rule-based (1950s to 1980s)</td><td>hand-written grammar and dictionaries</td><td>rule-based translation</td></tr>
+<tr><td>Statistical (1990s to 2000s)</td><td>probabilities from data plus hand-engineered features</td><td>n-grams, HMM, Naive Bayes, SVM, statistical MT</td></tr>
+<tr><td>Neural (2013 onward)</td><td>learned dense representations, sequence models</td><td>Word2Vec, RNN/LSTM, seq2seq, attention</td></tr>
+<tr><td>Pre-trained Transformers (2018 onward)</td><td>pre-train on huge text, then fine-tune or prompt</td><td>BERT, GPT, large language models</td></tr>
+</tbody></table>
+<p><strong>Key changes:</strong> rules → data; feature engineering → representation learning; static word vectors → contextual ones; a separate model per task → one pre-trained model adapted to many tasks (transfer learning, prompting).</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P74</span>Evaluate the challenges faced in implementing NLP systems for multilingual Indian languages.<span class="marks">6 marks</span></p>
+      <div class="a"><p><strong>Context.</strong> India has 22 scheduled languages, dozens more in regular use, and many scripts. Each brings problems that English-first tools do not meet.</p>
+<table><thead><tr><th>Challenge</th><th>Explanation and example</th></tr></thead><tbody>
+<tr><td>Low resources</td><td>little labelled and parallel data for most languages; few annotated corpora, taggers and parsers; poor translation quality</td></tr>
+<tr><td>Many scripts and encoding issues</td><td>Devanagari, Bengali, Tamil, Telugu and others; the same character can be encoded in several ways, so text must be Unicode-normalised</td></tr>
+<tr><td>Rich morphology</td><td>agglutinative languages (Tamil, Telugu, Kannada, Malayalam) build long words from many suffixes, so stemmers, tokenizers and vocabularies built for English fail and out-of-vocabulary words are common</td></tr>
+<tr><td>Free word order</td><td>mostly subject-object-verb with flexible order, unlike English, which complicates parsing and translation</td></tr>
+<tr><td>Code-mixing and transliteration</td><td>people write Hindi in Latin letters or mix languages: &quot;yeh phone bahut accha hai, battery superb&quot;; spelling is not standardised</td></tr>
+<tr><td>No capitalisation</td><td>Indic scripts have no capital letters, removing a main cue for named entity recognition</td></tr>
+<tr><td>Dialects and variation</td><td>many dialects and informal styles; domain data (legal, medical) is scarcer still</td></tr>
+<tr><td>Evaluation</td><td>few benchmark sets; BLEU suits morphologically rich languages poorly (chrF is often preferred)</td></tr>
+<tr><td>Multilingual model limits</td><td>languages compete for model capacity, shared subword vocabularies over-split low-resource languages, zero-shot output can drift to the wrong language</td></tr>
+</tbody></table>
+<p><strong>Approaches.</strong> Multilingual pre-trained models (mBERT, MuRIL, IndicBERT), shared subword vocabularies, transfer from Hindi to related languages, back-translation to create data, transliteration tools, and community datasets.</p>
+<p><strong>Conclusion.</strong> The main bottlenecks are data scarcity and linguistic diversity; the best current answer is a pre-trained multilingual Transformer fine-tuned for each language and task.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+</main>
+
+<footer>SEM 5 · NLP · PYQ ANSWERS · Sem 5 revision notes</footer>
+
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>

@@ -36,7 +36,7 @@
   /* ---------- nav extras ---------- */
   var navInner = d.querySelector("nav.toc .inner");
   if (navInner && SUBJ && READY.indexOf(SUBJ) > -1) {
-    var PYQ_FILE = { CC: "pyq.html" };
+    var PYQ_FILE = { CC: "pyq.html", NLP: "pyq.html", DL: "pyq.html", CN: "pyq.html" };
     var extras = [["Flashcards", "flashcards.html"], ["Cheat sheet", "cheatsheet.html"]];
     if (PYQ_FILE[SUBJ]) extras.push(["PYQ answers", PYQ_FILE[SUBJ]]);
     extras.forEach(function (x) {

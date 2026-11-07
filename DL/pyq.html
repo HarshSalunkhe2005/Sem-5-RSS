@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DL previous year questions with model answers</title>
+<style>
+  :root{
+    --navy:#1a0f2e; --navy-2:#3d1f5c; --coral:#ff5a5f; --coral-light:#fff0ef;
+    --amber:#ffb84d; --violet:#7c4dff; --ink:#211530; --muted:#6b5b7a;
+    --line:#ece4f5; --bg:#faf7fd; --card:#ffffff; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:60px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(255,90,95,0.18) 0, transparent 40%),radial-gradient(circle at 80% 70%, rgba(124,77,255,0.3) 0, transparent 45%);}
+  header.hero h1{font-size:clamp(24px,4vw,40px);margin:0 0 10px;position:relative;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;position:relative;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:16px;position:relative;}
+
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px;}
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{text-transform:uppercase;font-size:12.5px;font-weight:700;letter-spacing:1.2px;color:var(--coral);margin:0 0 8px;}
+  h2{font-size:clamp(21px,3vw,28px);margin:0 0 16px;color:var(--navy-2);}
+  h3{font-size:17.5px;color:var(--navy-2);margin:26px 0 10px;}
+  p{color:#4a3d5c;margin:0 0 12px;max-width:820px;}
+  ul{margin:0 0 12px;padding-left:22px;color:#4a3d5c;}
+  li{margin-bottom:6px;}
+  strong{color:var(--navy-2);}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#8a2be2;}
+
+  .callout{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:16px 20px;margin:16px 0;}
+  .callout p{margin:0;color:#8a2020;}
+  .callout.violet{background:#f3eefe;border-left-color:var(--violet);}
+  .callout.violet p{margin:0;color:#4a2f9e;}
+
+  .grid{display:grid;gap:16px;margin:20px 0;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  .card h4{margin:0 0 8px;font-size:15px;color:var(--navy-2);display:flex;align-items:center;gap:8px;}
+  .card p{font-size:13.6px;margin:0 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.3px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 13px;font-weight:600;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--line);color:#4a3d5c;vertical-align:top;}
+  tbody tr:nth-child(even){background:#faf7fd;}
+  tbody tr:last-child td{border-bottom:none;}
+  .table-wrap{overflow-x:auto;}
+
+  .steps{counter-reset:step;list-style:none;padding-left:0;margin:16px 0;}
+  .steps li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:12px;font-size:13.8px;color:#4a3d5c;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--coral);color:#fff;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+
+  .pillbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .pillbar span{background:#f3ecfb;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--navy-2);font-weight:600;}
+
+  footer{text-align:center;padding:32px 20px 50px;color:var(--muted);font-size:13px;}
+  @media (max-width:640px){ .grid.cols-3,.grid.cols-4{grid-template-columns:1fr;} }
+  .back{position:relative;display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  .back:hover{background:rgba(255,255,255,0.12);}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="preload" href="../assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+
+<header class="hero">
+  <span class="badge">SEM 5 · DEEP LEARNING · PYQ ANSWERS</span>
+  <h1>Past-paper questions, solved</h1>
+  <p>Every distinct question from the last five Deep Learning papers, grouped by topic and answered in the shape you can copy by hand in 8 to 10 minutes.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#overview">Overview</a>
+    <a href="#optimizers">Optimizers</a>
+    <a href="#gradients">Gradients</a>
+    <a href="#rnn-lstm">RNN and LSTM</a>
+    <a href="#why-dl">Why deep learning</a>
+    <a href="#backprop">Backpropagation</a>
+    <a href="#hyperparameters">Hyperparameters</a>
+    <a href="#autoencoders">Autoencoders</a>
+    <a href="#perceptron">Perceptron</a>
+    <a href="#cnn">CNNs</a>
+    <a href="#xor">XOR, AND, OR</a>
+    <a href="#param-count">Parameter counting</a>
+    <a href="#regularization">Regularization</a>
+    <a href="#loss-design">Loss and design</a>
+    <a href="#activations">Activation functions</a>
+    <a href="#batch-norm">Batch normalization</a>
+  </div>
+</nav>
+
+<main>
+<section id="overview">
+  <p class="eyebrow">Built from 5 real DL papers: Dec 2023, Dec 2024, May 2024, May 2025 and May 2026.</p>
+  <h2>What the papers keep asking</h2>
+  <p>Topics are ranked by how many of the 5 papers asked them, most frequent first; each topic lists the sittings it appeared in. Start at the top: optimizers, vanishing and exploding gradients, and RNN with LSTM appeared in every paper. Marks shown are the marks printed on the paper where the scan was readable, otherwise an estimate. Repeated questions are merged, and where a question had an OR choice both options are answered.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Topic</th><th>How often</th><th>Typical marks</th><th>Jump</th></tr></thead>
+    <tbody>
+      <tr><td>Optimizers and gradient descent variants</td><td>5 of 5 papers</td><td>2 to 7</td><td><a href="#optimizers">Answers</a></td></tr>
+      <tr><td>Vanishing and exploding gradients</td><td>5 of 5 papers</td><td>2 to 5</td><td><a href="#gradients">Answers</a></td></tr>
+      <tr><td>RNN and LSTM</td><td>5 of 5 papers</td><td>2 to 7</td><td><a href="#rnn-lstm">Answers</a></td></tr>
+      <tr><td>Why deep learning: evolution, data, compute and depth</td><td>3 of 5 papers</td><td>2 to 7</td><td><a href="#why-dl">Answers</a></td></tr>
+      <tr><td>Backpropagation and the chain rule</td><td>3 of 5 papers</td><td>2 to 7</td><td><a href="#backprop">Answers</a></td></tr>
+      <tr><td>Hyperparameters and tuning</td><td>3 of 5 papers</td><td>3 to 4</td><td><a href="#hyperparameters">Answers</a></td></tr>
+      <tr><td>Autoencoders</td><td>3 of 5 papers</td><td>2 to 5</td><td><a href="#autoencoders">Answers</a></td></tr>
+      <tr><td>Perceptron and the biological neuron</td><td>3 of 5 papers</td><td>2 to 7</td><td><a href="#perceptron">Answers</a></td></tr>
+      <tr><td>CNN architectures, padding and stride, case study</td><td>3 of 5 papers</td><td>3 to 7</td><td><a href="#cnn">Answers</a></td></tr>
+      <tr><td>XOR, AND and OR with neural networks</td><td>2 of 5 papers</td><td>2 to 5</td><td><a href="#xor">Answers</a></td></tr>
+      <tr><td>Counting weights and parameters</td><td>2 of 5 papers</td><td>3 to 5</td><td><a href="#param-count">Answers</a></td></tr>
+      <tr><td>Regularization, dropout, L1 and L2</td><td>2 of 5 papers</td><td>4 to 7</td><td><a href="#regularization">Answers</a></td></tr>
+      <tr><td>Loss functions and designing a deep network</td><td>2 of 5 papers</td><td>3 to 7</td><td><a href="#loss-design">Answers</a></td></tr>
+      <tr><td>Activation functions and non-linearity</td><td>2 of 5 papers</td><td>3</td><td><a href="#activations">Answers</a></td></tr>
+      <tr><td>Batch normalization</td><td>1 of 5 papers (the newest, May 26)</td><td>3 to 4</td><td><a href="#batch-norm">Answers</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><strong>How to use this page:</strong> pick one topic, hide the answer, write it in the exam shape (definition, diagram, points, example) in 8 to 10 minutes, then reveal and compare. Answers are written for this site; the questions are paraphrased from the real papers.</p></div>
+</section>
+
+<section id="optimizers">
+  <p class="eyebrow">Asked in 5 of 5 papers</p>
+  <h2>Optimizers and gradient descent variants</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24, May 24, May 25, May 26</p>
+  <div class="callout"><p><p>Every paper has at least one optimizer question. Learn the Momentum, Adagrad, RMSprop and Adam update lines, plus the batch / SGD / mini-batch table. One shared example (f(w) = w², start w = 4, η = 0.1) is reused below so the numbers stay easy to remember.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P1</span>Compare and contrast momentum, Adagrad, RMSprop and Adam, with practical examples of how their optimization behaviour differs.<span class="marks">5 to 7 marks</span></p>
+      <div class="a">
+<p>All four start from plain gradient descent, θ ← θ − η·g. Momentum fixes the <strong>direction</strong> (zig-zag), Adagrad and RMSprop fix the <strong>step size per parameter</strong>, and Adam does both.</p>
+<table><thead><tr><th>Optimizer</th><th>Update rule</th><th>Idea</th><th>Weakness</th></tr></thead><tbody>
+<tr><td>Momentum</td><td>v ← βv + η·g, θ ← θ − v (β ≈ 0.9)</td><td>Keeps a running velocity; steady directions speed up, zig-zag cancels</td><td>Extra β; can overshoot</td></tr>
+<tr><td>Adagrad</td><td>G ← G + g², θ ← θ − η·g / (√G + ε)</td><td>Own learning rate per parameter; rare features keep big steps</td><td>G only grows, so the rate shrinks towards 0</td></tr>
+<tr><td>RMSprop</td><td>E ← ρE + (1−ρ)g², θ ← θ − η·g / (√E + ε), ρ ≈ 0.9</td><td>Adagrad with a decaying average, so old gradients are forgotten</td><td>No momentum; still needs a base η</td></tr>
+<tr><td>Adam</td><td>m ← β₁m + (1−β₁)g, v ← β₂v + (1−β₂)g², m̂ = m/(1−β₁ᵗ), v̂ = v/(1−β₂ᵗ), θ ← θ − η·m̂ / (√v̂ + ε)</td><td>Momentum + RMSprop + bias correction (β₁ = 0.9, β₂ = 0.999, ε = 1e-8)</td><td>Two extra numbers stored per weight</td></tr>
+</tbody></table>
+<p><strong>Worked example</strong> (f(w) = w², g = 2w, start w = 4, η = 0.1):</p>
+<table><thead><tr><th>Method</th><th>w after step 1</th><th>w after step 2</th></tr></thead><tbody>
+<tr><td>Plain GD</td><td>3.2</td><td>2.56</td></tr>
+<tr><td>Momentum (β = 0.9)</td><td>3.2 (v = 0.8)</td><td>1.84 (v = 1.36)</td></tr>
+<tr><td>Adagrad</td><td>3.9</td><td>3.8302</td></tr>
+<tr><td>RMSprop (ρ = 0.9)</td><td>3.6838</td><td>3.4635</td></tr>
+<tr><td>Adam</td><td>3.9</td><td>3.8001</td></tr>
+</tbody></table>
+<ul>
+<li>Momentum gathers speed: it is the furthest along after two steps (1.84 against 2.56 for plain GD).</li>
+<li>Adagrad and Adam take a first step of exactly η (4 → 3.9), whatever the size of the gradient. They are cautious here because η = 0.1 is small; they pay off when gradients differ a lot between parameters.</li>
+<li><strong>Practical example:</strong> a frequent feature has gradient 10 and a rare feature has gradient 0.1. Plain GD steps are 0.1×10 = 1.0 and 0.1×0.1 = 0.01, so the rare feature barely learns. Adagrad's first step is 0.1×10/10 = 0.1 for the first and 0.1×0.1/0.1 = 0.1 for the second, so both move equally.</li>
+</ul>
+<p><strong>When to use:</strong> Adam as the default; RMSprop is a good choice for RNNs; Adagrad for sparse features; momentum when the loss surface is a long narrow valley.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P2</span>Distinguish Batch Gradient Descent, Stochastic Gradient Descent and Mini-batch Gradient Descent (and Gradient Descent vs SGD).<span class="marks">3 to 4 marks</span></p>
+      <div class="a">
+<p>All three use the update θ ← θ − η·∇L. They differ only in <strong>how many examples are used to estimate the gradient</strong> for one update. Plain "gradient descent" in Dec 2024 means the batch version; SGD is the one-example version.</p>
+<table><thead><tr><th></th><th>Batch GD</th><th>SGD</th><th>Mini-batch GD</th></tr></thead><tbody>
+<tr><td>Examples per update</td><td>all N</td><td>1</td><td>m (usually 32 to 256)</td></tr>
+<tr><td>Updates per epoch</td><td>1</td><td>N</td><td>N / m</td></tr>
+<tr><td>Gradient</td><td>exact, smooth path</td><td>very noisy, jittery path</td><td>slightly noisy</td></tr>
+<tr><td>Cost and memory per update</td><td>highest</td><td>lowest</td><td>moderate, fits GPU</td></tr>
+<tr><td>Convergence</td><td>stable but slow per epoch</td><td>fast start, keeps bouncing unless η decays</td><td>good compromise</td></tr>
+</tbody></table>
+<p><strong>Example:</strong> N = 1000 examples. Batch GD makes 1 update per epoch, SGD makes 1000, mini-batch with m = 100 makes 10.</p>
+<p><strong>Note:</strong> the noise in SGD is not only a drawback; it can help the weights escape saddle points and shallow minima. Mini-batch is what almost every real training run uses.</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P3</span>What is mini-batch gradient descent in the context of backpropagation?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>Mini-batch gradient descent splits the training set into small batches and performs <strong>one backpropagation pass and one weight update per batch</strong>, instead of per example or per full dataset.</p>
+<ol>
+<li>Shuffle the data and cut it into batches of m examples (for example 64).</li>
+<li>Forward pass for the whole batch and average the loss over the m examples.</li>
+<li>Backpropagate once to get the average gradient (1/m)Σ∇Lᵢ.</li>
+<li>Update: θ ← θ − η·(1/m)Σ∇Lᵢ. Repeat for every batch; one pass over all batches is one epoch.</li>
+</ol>
+<p><strong>Example:</strong> N = 1000, m = 100 gives 10 updates per epoch, so 100 updates in 10 epochs. The matrix operations for 100 examples run together on a GPU, and the averaged gradient is smoother than a single-example one.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P4</span>In what scenarios would you prefer Batch GD, SGD or Mini-batch GD in practical deep learning tasks?<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Method</th><th>Prefer it when</th><th>Practical example</th></tr></thead><tbody>
+<tr><td>Batch GD</td><td>The dataset is small and fits in memory, and you want an exact, smooth gradient</td><td>Fitting a small network on a few hundred rows of tabular data</td></tr>
+<tr><td>SGD (m = 1)</td><td>Data arrives one example at a time (online learning), or the data is huge and you want very cheap updates and noise to escape sharp minima</td><td>A model updated continuously from a stream of user clicks</td></tr>
+<tr><td>Mini-batch GD</td><td>Almost every deep learning task on a GPU; balance of speed, memory and stability</td><td>Training a CNN on images with batch size 32, 64 or 128</td></tr>
+</tbody></table>
+<p><strong>Reasoning:</strong> a larger batch gives a smoother gradient and better hardware use but needs more memory and gives fewer updates per epoch; a smaller batch gives more updates and helpful noise. Mini-batch with an adaptive optimizer such as Adam is the safe default.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P5</span>What problem does the momentum optimizer address, and how does it do so? (What is the role of momentum?)<span class="marks">2 to 4 marks</span></p>
+      <div class="a">
+<p><strong>Problem:</strong> on a loss surface that is steep in one direction and shallow in another (a narrow valley), plain gradient descent zig-zags across the steep walls and moves slowly along the valley floor. It is also slow on flat regions and plateaus, and SGD gradients are noisy.</p>
+<p><strong>How momentum helps:</strong> it keeps a velocity, an exponentially decaying average of past gradients.</p>
+<ul>
+<li>v ← βv + η·g, then θ ← θ − v (β ≈ 0.9, so the memory is about 1/(1−β) = 10 steps).</li>
+<li>Gradient components that keep the same sign add up and the weights speed up along the valley.</li>
+<li>Components that flip sign (the zig-zag) cancel each other.</li>
+</ul>
+<p><strong>Example</strong> (f = w², start w = 4, η = 0.1, β = 0.9): step 1: g = 8, v = 0.8, w = 3.2. Step 2: g = 6.4, v = 0.9×0.8 + 0.1×6.4 = 1.36, w = 3.2 − 1.36 = 1.84. Plain GD would be at 2.56.</p>
+<p><strong>Limitation:</strong> one more hyperparameter (β), and the weights can overshoot the minimum before settling.</p><p class="seen"><strong>Seen in:</strong> May 24, May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P6</span>Explain Momentum and Adagrad in the context of training neural networks, with a detailed comparison of their mechanisms, advantages and limitations.<span class="marks">4 to 5 marks</span></p>
+      <div class="a">
+<p><strong>Momentum</strong> speeds up and smooths the direction of travel; <strong>Adagrad</strong> adapts the step size of each parameter. Update lines: Momentum v ← βv + η·g, θ ← θ − v. Adagrad G ← G + g², θ ← θ − η·g / (√G + ε).</p>
+<table><thead><tr><th></th><th>Momentum</th><th>Adagrad</th></tr></thead><tbody>
+<tr><td>What it remembers</td><td>Average of past gradients (direction)</td><td>Sum of past squared gradients (magnitude)</td></tr>
+<tr><td>Learning rate</td><td>One global η for all weights</td><td>Different effective rate for each weight</td></tr>
+<tr><td>Advantage</td><td>Faster along consistent slopes, less zig-zag, helps through flat regions</td><td>No manual per-feature tuning; rare features get large updates, so good for sparse data</td></tr>
+<tr><td>Limitation</td><td>Extra β; can overshoot; same η for every parameter</td><td>G only grows, so the rate decays towards zero and learning stalls on long runs</td></tr>
+<tr><td>Fixed by</td><td>Nesterov look-ahead reduces overshoot</td><td>RMSprop and Adam use a decaying average</td></tr>
+</tbody></table>
+<p><strong>Numbers</strong> (f = w², w = 4, η = 0.1): Momentum reaches 3.2 then 1.84. Adagrad's first step is η·g/√g² = 0.1, giving 3.9, then 3.8302, because the accumulated G makes later steps smaller (with η = 0.5 the first step moves 4 to 3.5).</p>
+<p><strong>Conclusion:</strong> Momentum is better on narrow valleys; Adagrad is better for sparse features; Adam combines both ideas.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P7</span>Discuss how the learning rate affects the convergence of training.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>The learning rate η is the step length in θ ← θ − η·∇L. It is usually the most important hyperparameter.</p>
+<ul>
+<li><strong>Too small:</strong> convergence is correct but very slow, and training may stop on a plateau.</li>
+<li><strong>Too large:</strong> the weights overshoot the minimum, the loss oscillates or diverges (NaN).</li>
+<li><strong>Just right:</strong> the loss falls steadily and settles near the minimum.</li>
+</ul>
+<p><strong>Example</strong> (f = w², start w = 4, so each step multiplies w by 1 − 2η), value of w after 5 steps:</p>
+<table><thead><tr><th>η</th><th>w after 5 steps</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td>0.01</td><td>3.6157</td><td>too slow</td></tr>
+<tr><td>0.1</td><td>1.3107</td><td>steady convergence</td></tr>
+<tr><td>0.5</td><td>0</td><td>lands on the minimum in one step (only because this loss is a symmetric parabola)</td></tr>
+<tr><td>1.0</td><td>−4 (4, −4, 4, ...)</td><td>bounces for ever</td></tr>
+<tr><td>1.1</td><td>−9.95</td><td>diverges</td></tr>
+</tbody></table>
+<p><strong>Remedies:</strong> try η on a log scale (1e-5 to 1e-1), use a schedule (step decay, cosine, reduce-on-plateau), a short warm-up, or an adaptive optimizer such as Adam (default 1e-3).</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="gradients">
+  <p class="eyebrow">Asked in 5 of 5 papers</p>
+  <h2>Vanishing and exploding gradients</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24, May 24, May 25, May 26</p>
+  <div class="callout"><p><p>Asked every sitting, from a 2-mark definition up to a 4 to 5 mark "effects and solutions". The RNN version (May 24) is under RNN and LSTM. Two numbers to remember: 0.25¹⁰ ≈ 9.5×10⁻⁷ (vanishing) and 1.5¹⁰ ≈ 57.7 (exploding).</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P8</span>What is the vanishing gradient problem in deep learning?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>The vanishing gradient problem is the shrinking of the gradient towards zero as it is propagated backwards, so the early layers of a deep network learn extremely slowly or not at all.</p>
+<ul>
+<li><strong>Cause:</strong> by the chain rule the gradient of an early layer is a product of many per-layer factors. For a sigmoid the derivative is at most 0.25, so ten layers give at most 0.25¹⁰ ≈ 9.5×10⁻⁷.</li>
+<li><strong>Effect:</strong> early layers barely change, the loss plateaus, training stalls.</li>
+<li><strong>Fixes:</strong> ReLU-type activations, He or Xavier initialization, batch normalization, residual connections.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P9</span>Discuss the effects of vanishing and exploding gradients on training and the potential solutions to mitigate them.<span class="marks">4 to 5 marks</span></p>
+      <div class="a">
+<p>In a deep network the gradient reaching an early layer is a <strong>product of many per-layer factors</strong>. If the factors are mostly below 1 the product shrinks to almost 0 (<strong>vanishing</strong>); if mostly above 1 it grows without bound (<strong>exploding</strong>).</p>
+<p><strong>Numbers:</strong> sigmoid gradient factor 0.25 over 10 layers: 0.25¹⁰ ≈ 9.5×10⁻⁷. A factor of 1.5 over 10 layers: 1.5¹⁰ ≈ 57.7; over 50 layers ≈ 6×10⁸.</p>
+<table><thead><tr><th></th><th>Vanishing</th><th>Exploding</th></tr></thead><tbody>
+<tr><td>Causes</td><td>Saturating sigmoid or tanh (σ′ ≤ 0.25), weights initialised too small, very deep stacks, long RNN sequences</td><td>Weights initialised too large, factors above 1 multiplied over many layers or time steps, high learning rate</td></tr>
+<tr><td>Effect on training</td><td>Early layers learn very slowly, loss plateaus, only the last layers improve</td><td>Huge weight updates, loss oscillates or becomes NaN or Inf, weights diverge</td></tr>
+<tr><td>How you notice</td><td>Gradient norm of early layers close to 0</td><td>Loss jumps to NaN; very large gradient norms</td></tr>
+</tbody></table>
+<p><strong>Solutions:</strong></p>
+<table><thead><tr><th>Fix</th><th>How it helps</th><th>Targets</th></tr></thead><tbody>
+<tr><td>ReLU, Leaky ReLU, GELU</td><td>Derivative is 1 for positive input, so no shrinking</td><td>vanishing</td></tr>
+<tr><td>Weight initialization</td><td>Xavier: Var(w) = 2/(n_in + n_out) for tanh or sigmoid; He: Var(w) = 2/n_in for ReLU. Keeps signal and gradient variance steady</td><td>both</td></tr>
+<tr><td>Batch normalization</td><td>Keeps pre-activations in a healthy range</td><td>both</td></tr>
+<tr><td>Residual (skip) connections</td><td>y = x + F(x), so ∂y/∂x = 1 + ∂F/∂x: a direct path for the gradient</td><td>vanishing</td></tr>
+<tr><td>Gradient clipping</td><td>If ‖g‖ &gt; τ then g ← g·τ/‖g‖. Example: ‖g‖ = 10, τ = 5 scales g by 0.5</td><td>exploding</td></tr>
+<tr><td>LSTM or GRU gates</td><td>Additive cell-state update gives a near-constant error path</td><td>vanishing in RNNs</td></tr>
+<tr><td>Smaller learning rate, warm-up</td><td>Limits the damage of large early updates</td><td>exploding</td></tr>
+</tbody></table>
+<p><strong>Default recipe:</strong> ReLU + He initialization + batch normalization + skip connections, and add gradient clipping for recurrent models.</p><p class="seen"><strong>Seen in:</strong> Dec 24, May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P10</span>State the challenges in training very deep networks.<span class="marks">2 to 3 marks</span></p>
+      <div class="a">
+<ol>
+<li><strong>Vanishing or exploding gradients:</strong> products of many factors (0.25¹⁰ ≈ 9.5×10⁻⁷); fix with ReLU, He initialization, batch norm.</li>
+<li><strong>Degradation:</strong> beyond some depth a plain network can show higher training error; fix with residual (skip) connections as in ResNet.</li>
+<li><strong>Overfitting:</strong> millions of parameters can memorise the data; fix with more data, augmentation, dropout, L2, early stopping.</li>
+<li><strong>High computation, memory and training time:</strong> cost grows with every layer; needs GPUs or TPUs.</li>
+<li><strong>Needs large labelled datasets</strong> and is sensitive to hyperparameters (learning rate, initialization, depth, width).</li>
+</ol><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="rnn-lstm">
+  <p class="eyebrow">Asked in 5 of 5 papers</p>
+  <h2>RNN and LSTM</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24, May 24, May 25, May 26</p>
+  <div class="callout"><p><p>Every paper has one 5 to 7 mark RNN or LSTM question in Part B (Q6) plus a short one in Part A. For LSTM write the four gate equations and the cell update; for RNN write the recurrence and the unrolled picture. The May 2026 Q6 is an OR choice (CNN case study or RNN applications); both are answered here and in the CNN group.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P11</span>Explain the working of a Recurrent Neural Network and how it handles sequential (time-series) data.<span class="marks">5 to 7 marks</span></p>
+      <div class="a">
+<p>A Recurrent Neural Network is a network with a <strong>hidden state that is fed back</strong> into itself, so the output at time t depends on the current input and on a summary of all earlier inputs. The same weights are used at every time step.</p>
+<p><strong>Equations</strong> (hidden state s, input x, output y):</p>
+<ul>
+<li>s_t = tanh(U·x_t + W·s_(t−1) + b)</li>
+<li>y_t = softmax(V·s_t + c)</li>
+<li>U maps the input, W is the recurrence (memory), V maps the state to the output; U, W, V, b, c are shared across all time steps.</li>
+</ul>
+<pre class="art">  x1          x2          x3
+   |           |           |
+   v           v           v
+ [ s1 ] ---&gt; [ s2 ] ---&gt; [ s3 ]   same U, W, V at every step
+   |           |           |
+   v           v           v
+  y1          y2          y3</pre>
+<p>How to sketch: draw one box with a loop arrow on it, then "unroll" it into one box per time step joined left to right.</p>
+<p><strong>Worked example</strong> (one unit, s₀ = 0, s_t = tanh(0.5·x_t + 0.8·s_(t−1)), inputs 1, 0.5, −1): s₁ = tanh(0.5) = 0.4621; s₂ = tanh(0.25 + 0.8×0.4621) = 0.5509; s₃ = tanh(−0.5 + 0.8×0.5509) = −0.0592. Each state carries information from every earlier input.</p>
+<p><strong>Why it suits sequences:</strong></p>
+<ol>
+<li>y_t depends on x₁ ... x_t through the state (order matters).</li>
+<li>It accepts sequences of any length (the same step is repeated).</li>
+<li>Parameter sharing keeps the size fixed: with input size 4, hidden size 3 and output size 2 the count is U 12 + W 9 + b 3 + V 6 + c 2 = 32, however long the sequence.</li>
+</ol>
+<p><strong>Tasks:</strong> sequence classification (use the last state, for example sentiment), sequence labelling (output at every step, for example tagging), sequence generation (translation). Training uses backpropagation through time (BPTT).</p>
+<p><strong>Limitation:</strong> gradients vanish over long ranges, which LSTM fixes.</p><p class="seen"><strong>Seen in:</strong> Dec 23, May 24, May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P12</span>Discuss the vanishing gradient problem in RNNs. How are RNNs well suited to tasks involving sequences or time series?<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>In an RNN, backpropagation through time sends the gradient back through every time step. The gradient reaching step k is a product of Jacobians:</p>
+<p>∂s_T/∂s_k = Π ∂s_j/∂s_(j−1), and each factor contains W and the activation derivative (σ′ ≤ 0.25, tanh′ ≤ 1).</p>
+<ul>
+<li>If the factors are below 1 the product shrinks exponentially: 0.25¹⁰ ≈ 10⁻⁶, 0.9⁵⁰ ≈ 0.005.</li>
+<li>So inputs far in the past get almost no learning signal, and the RNN cannot learn long-range dependencies (for example linking a subject to its verb ten words later).</li>
+<li>If the factors are above 1 the gradient explodes (1.5⁵⁰ ≈ 6×10⁸); this is handled by gradient clipping.</li>
+</ul>
+<p><strong>Remedies:</strong> LSTM or GRU (additive cell state with gates), gradient clipping, good initialization, truncated BPTT.</p>
+<p><strong>Why RNNs still suit sequences:</strong> the hidden state is a memory, the weights are shared over time, and the input length can vary. This works well for short and medium dependencies in text, speech and sensor series; for long ones use LSTM.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P13</span>Provide a step-by-step walkthrough of the LSTM architecture and explain the role of each component, including the forget, input and output gates.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p>An LSTM is an RNN cell with a <strong>cell state</strong> c_t (long-term memory) and three gates, each a sigmoid giving values between 0 and 1, that control what is forgotten, written and revealed. (The course notes call the cell state s_t and use σ as the squashing function; the structure is the same.)</p>
+<pre class="art">  c(t-1) -----&gt; [ x f ] ------&gt; [ + ] ---------+--------&gt; c(t)
+                   ^               ^             |
+                   |            [ x i ]        tanh
+              forget gate         ^              |
+                f(t)           input gate        v
+                              i(t) * c~(t)    [ x o ] ---&gt; h(t)
+                                                 ^
+                                            output gate o(t)
+
+  every gate and c~(t) is computed from [ h(t-1), x(t) ]</pre>
+<p>How to sketch: a horizontal line for c_t across the top, three gate boxes feeding multiply (×) and add (+) nodes, h_t leaving at the bottom right.</p>
+<ol>
+<li><strong>Forget gate:</strong> f_t = σ(W_f[h_(t−1), x_t] + b_f). Decides how much of the old cell state to keep (1 = keep, 0 = erase).</li>
+<li><strong>Input gate and candidate:</strong> i_t = σ(W_i[h_(t−1), x_t] + b_i), c̃_t = tanh(W_c[h_(t−1), x_t] + b_c). The candidate is the new information; the gate decides how much of it is written.</li>
+<li><strong>Cell update:</strong> c_t = f_t ⊙ c_(t−1) + i_t ⊙ c̃_t (keep part of the old, add part of the new).</li>
+<li><strong>Output gate:</strong> o_t = σ(W_o[h_(t−1), x_t] + b_o), and the hidden state h_t = o_t ⊙ tanh(c_t) is passed on to the next step and to the output layer.</li>
+</ol>
+<p><strong>Worked example</strong> (one unit): f = 0.8, i = 0.5, o = 0.9, c̃ = 0.6, c_(t−1) = 1.0. Then c_t = 0.8×1.0 + 0.5×0.6 = 1.1 and h_t = 0.9 × tanh(1.1) = 0.9 × 0.8005 ≈ 0.72.</p>
+<p><strong>Parameters:</strong> four blocks (three gates and the candidate), each n(n + d) + n, so 4[n(n + d) + n]. For n = 3, d = 4: 4×(21 + 3) = 96, four times a plain RNN's 24.</p>
+<p><strong>Why it fixes vanishing gradients:</strong> the cell update is additive, so ∂c_t/∂c_(t−1) is essentially f_t. When f_t ≈ 1 the gradient flows back through time almost unchanged.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P14</span>Explain the functions of any two gates in an LSTM.<span class="marks">2 to 3 marks</span></p>
+      <div class="a">
+<ul>
+<li><strong>Forget gate:</strong> f_t = σ(W_f[h_(t−1), x_t] + b_f) gives a value between 0 and 1 for each part of the old cell state. It decides what to keep (1) or erase (0). Example: forget the old subject when a new one appears.</li>
+<li><strong>Input gate:</strong> i_t = σ(W_i[h_(t−1), x_t] + b_i) decides how much of the new candidate c̃_t is written to the cell state. Example: store a sentiment word such as "awesome", ignore filler words.</li>
+</ul>
+<p>Together they update the memory: c_t = f_t ⊙ c_(t−1) + i_t ⊙ c̃_t. With f = 0.8, i = 0.5, c̃ = 0.6, c_(t−1) = 1.0 this gives 1.1. (The third gate, the output gate, controls how much of tanh(c_t) is shown as h_t.)</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P15</span>Describe how an RNN works and compare RNNs with LSTM networks, highlighting the key differences.<span class="marks">5 to 7 marks</span></p>
+      <div class="a">
+<p>RNN working: s_t = tanh(U·x_t + W·s_(t−1) + b), y_t = softmax(V·s_t + c), the same weights at each step, state carried forward (full explanation and unrolled diagram: see "Explain the working of a Recurrent Neural Network" above). The LSTM replaces the single state update by a gated cell.</p>
+<table><thead><tr><th></th><th>Plain RNN</th><th>LSTM</th></tr></thead><tbody>
+<tr><td>State update</td><td>s_t = tanh(U·x_t + W·s_(t−1) + b); old state is overwritten every step</td><td>c_t = f ⊙ c_(t−1) + i ⊙ c̃_t; selective keep and selective write</td></tr>
+<tr><td>Gates</td><td>None</td><td>Forget, input, output</td></tr>
+<tr><td>Long-range memory</td><td>Poor (vanishing gradient)</td><td>Good (additive state path)</td></tr>
+<tr><td>Parameters (n = 3, d = 4)</td><td>24 in the state block</td><td>96, about four times more</td></tr>
+<tr><td>Speed and complexity</td><td>Cheaper, simpler</td><td>Slower, more complex</td></tr>
+<tr><td>Use</td><td>Short sequences</td><td>Long sequences: translation, speech, text</td></tr>
+</tbody></table>
+<p><strong>Conclusion:</strong> an LSTM is an RNN plus three learned gates; the extra cost buys the ability to remember over long ranges.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P16</span>In what ways do RNNs differ from Convolutional Neural Networks (CNNs)?<span class="marks">2 marks</span></p>
+      <div class="a">
+<table><thead><tr><th></th><th>RNN</th><th>CNN</th></tr></thead><tbody>
+<tr><td>Data</td><td>Sequences (text, speech, time series)</td><td>Grid data (images)</td></tr>
+<tr><td>Input length</td><td>Variable</td><td>Fixed size</td></tr>
+<tr><td>Structure</td><td>Recurrent connection carries a state from step to step</td><td>Feed-forward with local filters</td></tr>
+<tr><td>Memory</td><td>Yes (hidden state)</td><td>None across inputs</td></tr>
+<tr><td>Weight sharing</td><td>Across time steps</td><td>Across spatial positions</td></tr>
+<tr><td>Training</td><td>Backpropagation through time; vanishing gradients</td><td>Ordinary backpropagation; highly parallel</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P17</span>What are three key applications of RNNs?<span class="marks">2 marks</span></p>
+      <div class="a">
+<ol>
+<li><strong>Machine translation / language modelling:</strong> read a sentence word by word and produce the translation or the next word.</li>
+<li><strong>Speech recognition:</strong> map a sequence of audio frames to text.</li>
+<li><strong>Sentiment analysis and time-series forecasting:</strong> read a review and output positive or negative; predict the next value of a series from past values.</li>
+</ol>
+<p>All three need the order of the inputs, which the hidden state keeps.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P18</span>Describe real-world applications of RNNs in Natural Language Processing and Time Series Prediction. How does the temporal nature of RNNs make them suitable for these tasks?<span class="marks">5 to 7 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes. The notes only list the applications; the examples below are the usual ones.</p>
+<p>An RNN reads a sequence one element at a time and keeps a hidden state, so its output depends on order and on earlier context. Both NLP and time series are ordered data.</p>
+<table><thead><tr><th>Field</th><th>Application</th><th>Input → output shape</th></tr></thead><tbody>
+<tr><td>NLP</td><td>Sentiment analysis of reviews</td><td>many words → one label (use the last state)</td></tr>
+<tr><td>NLP</td><td>Named-entity recognition, part-of-speech tagging</td><td>one tag per word (output at every step)</td></tr>
+<tr><td>NLP</td><td>Machine translation (encoder-decoder), text generation, next-word prediction</td><td>sequence → sequence</td></tr>
+<tr><td>NLP</td><td>Speech recognition, image captioning</td><td>frames or image features → text</td></tr>
+<tr><td>Time series</td><td>Weather and temperature forecasting</td><td>last k readings → next reading</td></tr>
+<tr><td>Time series</td><td>Stock, sales or electricity-demand prediction</td><td>history → next value</td></tr>
+<tr><td>Time series</td><td>Sensor monitoring and anomaly detection (machine maintenance)</td><td>readings → alarm or no alarm</td></tr>
+</tbody></table>
+<p><strong>Why the temporal nature helps:</strong></p>
+<ul>
+<li><strong>Order matters.</strong> "The movie was not good" and "good, the movie was not" use the same words. The RNN keeps the "not" in its state when it reaches "good".</li>
+<li><strong>Memory.</strong> s_t summarises the past, so the prediction uses context, not just the latest value. For a demand series 10, 12, 14, 16 it can learn the upward trend and predict about 18.</li>
+<li><strong>Variable length and shared weights.</strong> Sentences and series have different lengths; the same cell is reused, so the parameter count does not grow with length.</li>
+</ul>
+<p><strong>Limit and fix:</strong> plain RNNs forget over long ranges (vanishing gradient), so LSTM or GRU cells are used in practice; for very long text, Transformers have largely taken over.</p><p class="seen"><strong>Seen in:</strong> May 26 (OR with CNN case study)</p></div></div>
+</section>
+
+<section id="why-dl">
+  <p class="eyebrow">Asked in 3 of 5 papers</p>
+  <h2>Why deep learning: evolution, data, compute and depth</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24, May 25, May 26</p>
+  <div class="callout"><p><p>These are the essay questions of the recent papers (Dec 24, May 25, May 26), usually 7 marks, with 2 to 3 mark short versions in Part A. The same four forces answer most of them: data, compute, algorithms and automatic feature learning.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P19</span>What is deep learning and how does it fit within the broader field of artificial intelligence? What are Artificial Neural Networks and how do they relate to deep learning?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>Deep learning is a subset of machine learning that uses neural networks with many hidden layers to learn features and predictions directly from raw data. Machine learning is itself a subset of artificial intelligence.</p>
+<pre class="art">+-------------------------------------------------+
+| AI: machines doing tasks that need intelligence |
+|  +-----------------------------------------+    |
+|  | ML: learns patterns from data           |    |
+|  |  +-----------------------------------+  |    |
+|  |  | DL: many-layer neural networks    |  |    |
+|  |  +-----------------------------------+  |    |
+|  +-----------------------------------------+    |
++-------------------------------------------------+</pre>
+<p>An <strong>Artificial Neural Network (ANN)</strong> is a set of connected neurons arranged in an input layer, one or more hidden layers and an output layer; each neuron computes z = Σwᵢxᵢ + b and passes it through an activation f(z). An ANN with one hidden layer is shallow; stacking many hidden layers gives a deep network, which is what deep learning means.</p><p class="seen"><strong>Seen in:</strong> Dec 24, May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P20</span>What are the primary reasons for using deep neural networks in machine learning applications?<span class="marks">3 marks</span></p>
+      <div class="a">
+<ol>
+<li><strong>Automatic feature learning:</strong> each layer builds more abstract features (pixels → edges → shapes → objects), so no manual feature engineering.</li>
+<li><strong>Higher accuracy on complex data:</strong> images, speech and text, where deep models beat hand-engineered features (ImageNet error fell from about 26% to 16% in 2012).</li>
+<li><strong>Compact representation:</strong> depth reuses and composes features, which is more parameter-efficient than one very wide layer.</li>
+<li><strong>Scales with data and compute:</strong> accuracy keeps improving with more data and GPUs; pretrained networks can be reused for new tasks (transfer learning).</li>
+</ol><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P21</span>Discuss any three reasons for the growing interest in Deep Learning, provide any two key applications across industries, and specify any two challenges faced when implementing deep learning models.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p><strong>A. Three reasons for the growing interest</strong></p>
+<ol>
+<li><strong>Data:</strong> large labelled datasets such as ImageNet (1.2 million images, 1000 classes), web text and sensor data give networks enough examples.</li>
+<li><strong>Compute:</strong> GPUs and TPUs run the huge matrix multiplications in parallel, giving roughly 10 to 100 times speed-up over CPUs.</li>
+<li><strong>Algorithms and automatic features:</strong> ReLU, dropout, batch normalization, residual connections and the Transformer made deep networks trainable, and the network learns its own features from raw data.</li>
+</ol>
+<p><strong>B. Two key applications</strong></p>
+<ul>
+<li><strong>Healthcare:</strong> CNNs flag tumours, fractures or diabetic retinopathy in scans, for example screening thousands of X-rays a day for a radiologist to review.</li>
+<li><strong>Banking and finance:</strong> real-time fraud detection by learning evolving misuse patterns, scoring each card transaction in milliseconds. (Also: self-driving perception, translation and chatbots, recommendations.)</li>
+</ul>
+<p><strong>C. Two challenges</strong></p>
+<ul>
+<li><strong>Data hungry:</strong> needs thousands to millions of labelled examples; accuracy drops sharply with small data.</li>
+<li><strong>Computationally expensive and a black box:</strong> large GPU or TPU time and energy for training, and predictions are hard to interpret (explainable-AI methods such as Grad-CAM and SHAP are used). Others: overfitting and bias, adversarial examples.</li>
+</ul><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P22</span>List any 4 key applications of deep learning.<span class="marks">3 marks</span></p>
+      <div class="a">
+<ol>
+<li><strong>Healthcare:</strong> detecting tumours, fractures and retinopathy from medical images.</li>
+<li><strong>Computer vision and self-driving:</strong> detecting lanes, pedestrians and obstacles from camera or LiDAR input.</li>
+<li><strong>NLP and chatbots:</strong> translation, search, voice assistants (Google Translate, Alexa, Siri).</li>
+<li><strong>Banking and finance:</strong> real-time fraud detection.</li>
+<li><strong>Recommendation systems:</strong> Netflix, Spotify, YouTube, Amazon product suggestions.</li>
+</ol>
+<p>Write any four with a one-line example each.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P23</span>Evaluate the role of large datasets and advanced computational resources in the effectiveness of deep learning models. Discuss how these factors affect model accuracy, training time and the overall deployment process in real-world applications.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p>Deep networks have millions of parameters, so they need <strong>data</strong> to learn without memorising and <strong>compute</strong> to train in reasonable time. The two grew together: AlexNet (2012) combined ImageNet's 1.2 million images with GPUs and cut the top-5 error from about 26% to about 16%.</p>
+<table><thead><tr><th></th><th>Large datasets</th><th>Advanced compute (GPU, TPU, clusters)</th></tr></thead><tbody>
+<tr><td>Model accuracy</td><td>More varied examples reduce overfitting and improve generalisation; augmentation enlarges the data cheaply. Gains shrink as data grows, and noisy or biased labels hurt</td><td>Allows deeper and wider models (8 layers in AlexNet to 152 in ResNet, with error falling 16% → 3.6%) and more tuning runs</td></tr>
+<tr><td>Training time</td><td>More data means more iterations per epoch, so longer training</td><td>Parallel matrix operations give about 10 to 100 times speed-up, turning weeks into hours or days. Without them deep models are impractical</td></tr>
+<tr><td>Deployment</td><td>Data collection, labelling, storage and privacy become part of the pipeline; models must be retrained as data drifts</td><td>Large models are slow and costly to serve: VGG-16 has 138 million parameters (about 550 MB at 4 bytes each). Smaller or quantised models are used for phones and edge devices</td></tr>
+</tbody></table>
+<p><strong>Real-world example:</strong> a hospital with 50,000 X-rays a day can train a good detector only because it has many labelled scans and a GPU cluster; at deployment the model is served by an optimised server (for example TF Serving) or compressed for a device (LiteRT).</p>
+<p><strong>Conclusion:</strong> data supplies the knowledge and compute makes learning from it feasible, but both raise cost, energy use and maintenance effort, so choose the smallest model that meets the accuracy needed.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P24</span>Discuss how the depth of a neural network affects its performance, training time and computational complexity. Explain how deeper networks capture more complex patterns but also introduce challenges like overfitting, vanishing gradients and higher resource requirements.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p>Depth is the number of hidden layers. Each layer transforms the previous layer's output, so a deeper network composes simple features into complex ones (edges → shapes → object parts → object).</p>
+<p><strong>1. Performance (benefit):</strong> better representations, and depth is more parameter-efficient than width. ImageNet evidence: AlexNet 8 layers 16.4% error, VGG 19 layers 7.3%, GoogLeNet 22 layers 6.7%, ResNet 152 layers 3.57%.</p>
+<p><strong>2. Training time and complexity:</strong> cost per example is about the number of weights (one multiply-add per weight). For a 784 → 128 → ... → 10 network with hidden width 128:</p>
+<table><thead><tr><th>Hidden layers</th><th>Parameters</th><th>Roughly relative forward cost</th></tr></thead><tbody>
+<tr><td>1</td><td>101,770</td><td>1.0</td></tr>
+<tr><td>2</td><td>118,282</td><td>1.16</td></tr>
+<tr><td>4</td><td>151,306</td><td>1.49</td></tr>
+<tr><td>8</td><td>217,354</td><td>2.1</td></tr>
+</tbody></table>
+<p>Each extra 128 × 128 layer adds 128×128 + 128 = 16,512 parameters. Layers must also be computed one after another (forward) and in reverse (backward), so depth cannot be parallelised away, and memory for stored activations grows with depth.</p>
+<p><strong>3. Challenges and remedies:</strong></p>
+<table><thead><tr><th>Challenge</th><th>Why</th><th>Remedy</th></tr></thead><tbody>
+<tr><td>Vanishing or exploding gradients</td><td>Product of many factors: 0.25¹⁰ ≈ 9.5×10⁻⁷, 1.5¹⁰ ≈ 57.7</td><td>ReLU, He init, batch norm, residual connections</td></tr>
+<tr><td>Overfitting</td><td>More parameters can memorise the training set</td><td>More data, dropout, L2, early stopping</td></tr>
+<tr><td>Degradation</td><td>Very deep plain networks can have higher training error</td><td>Skip connections (ResNet)</td></tr>
+<tr><td>Higher resources</td><td>More computation, memory, energy, tuning</td><td>GPU or TPU, transfer learning, smaller models</td></tr>
+</tbody></table>
+<p><strong>Conclusion:</strong> add depth only while validation accuracy improves; start small (for example 2 × 50 neurons) and grow if the network underfits.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P25</span>Briefly describe the evolution of AI and explain the reasons for the recent success of deep learning in the last decade.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p><strong>A. Evolution of AI</strong> (hype, then disappointment, then breakthrough):</p>
+<table><thead><tr><th>Year</th><th>Milestone</th></tr></thead><tbody>
+<tr><td>1950</td><td>Alan Turing asks "Can machines think?" (Turing test)</td></tr>
+<tr><td>1956</td><td>Dartmouth conference; John McCarthy coins "Artificial Intelligence"</td></tr>
+<tr><td>1958</td><td>Rosenblatt's perceptron (building on the 1943 McCulloch-Pitts neuron)</td></tr>
+<tr><td>1960s to 70s</td><td>Rule-based, symbolic AI</td></tr>
+<tr><td>1974 to 80</td><td>First AI winter: funding falls as results disappoint</td></tr>
+<tr><td>1980 to 87</td><td>Expert systems flourish (for example medical diagnosis)</td></tr>
+<tr><td>1986</td><td>Backpropagation popularised (Rumelhart et al.)</td></tr>
+<tr><td>1987 to 93</td><td>Second AI winter</td></tr>
+<tr><td>1997</td><td>IBM Deep Blue beats chess champion Kasparov</td></tr>
+<tr><td>1998</td><td>LeNet-5 reads handwritten digits (LeCun)</td></tr>
+<tr><td>2012</td><td>AlexNet wins ImageNet; the deep learning revolution begins</td></tr>
+<tr><td>2016</td><td>DeepMind's AlphaGo beats Lee Sedol 4-1</td></tr>
+<tr><td>2017 onwards</td><td>Transformer architecture; 2022 ChatGPT and generative AI</td></tr>
+</tbody></table>
+<p><strong>B. Reasons for the recent success</strong> (the four forces):</p>
+<ol>
+<li><strong>Data:</strong> ImageNet, web text, smartphones and sensors provide huge labelled datasets.</li>
+<li><strong>Compute:</strong> GPUs and TPUs make matrix multiplication 10 to 100 times faster than CPUs.</li>
+<li><strong>Algorithms:</strong> ReLU, dropout, batch normalization, residual connections, Adam and the Transformer made very deep networks trainable.</li>
+<li><strong>Automatic features:</strong> networks learn features from raw data, removing manual feature engineering.</li>
+<li><strong>Tools:</strong> open frameworks (TensorFlow, PyTorch, Keras) and pretrained models make results reproducible and reusable.</li>
+</ol>
+<p><strong>Evidence:</strong> ImageNet top-5 error fell from about 26% (2011) to 16.4% with AlexNet (2012) and to 3.57% with ResNet (2015). The 2012 breakthrough broke the old cycle of hype and winters because data, compute and algorithms arrived together.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="backprop">
+  <p class="eyebrow">Asked in 3 of 5 papers</p>
+  <h2>Backpropagation and the chain rule</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, May 24, May 25</p>
+  <div class="callout"><p><p>Short 2 mark questions (chain rule, goal of backprop, how weights are updated) and one longer "forward and backward propagation" answer in May 25. Learn the one-neuron example below: it contains every step in numbers.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P26</span>What is the chain rule, and how is it used in backpropagation?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p><strong>Chain rule:</strong> if y = f(u) and u = g(x), then dy/dx = (dy/du)·(du/dx). For a chain of functions, multiply the derivatives of each link.</p>
+<p><strong>In backpropagation:</strong> the loss depends on a weight through a chain z = wx + b, a = σ(z), L = (a − y)². So</p>
+<p>∂L/∂w = (∂L/∂a)·(∂a/∂z)·(∂z/∂w).</p>
+<p><strong>Example</strong> (x = 2, w = 0.5, b = 0, y = 1): z = 1, a = σ(1) = 0.7311, L = 0.0723. ∂L/∂a = 2(a − y) = −0.538, ∂a/∂z = a(1 − a) = 0.1966, ∂z/∂w = x = 2, so ∂L/∂w = (−0.538)(0.1966)(2) ≈ −0.2115.</p>
+<p>The backward pass applies this layer by layer from the output to the input, reusing the values stored in the forward pass. If a weight affects the loss through two paths, the two contributions are added.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P27</span>What is the primary goal of backpropagation?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>The goal of backpropagation is to <strong>compute the gradient of the loss with respect to every weight and bias</strong> in the network, efficiently, in one backward sweep using the chain rule.</p>
+<ul>
+<li>These gradients tell gradient descent which way, and how much, to change each parameter to reduce the loss.</li>
+<li>It reuses the values saved in the forward pass, so the cost is about the same as one forward pass instead of one extra pass per weight.</li>
+<li>Its final purpose is to minimise the error between predicted and actual output.</li>
+</ul><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P28</span>How does backpropagation update the weights and biases in a neural network?<span class="marks">2 to 5 marks</span></p>
+      <div class="a">
+<p>Backpropagation finds the gradients; gradient descent then applies them: <strong>θ ← θ − η·∂L/∂θ</strong> for every weight and bias.</p>
+<ol>
+<li>Forward pass: compute z and the activation layer by layer, store them, and compute the loss.</li>
+<li>Output error: for sigmoid + binary cross-entropy, ∂L/∂z = ŷ − y (for softmax + cross-entropy it is also ŷ − y).</li>
+<li>Propagate backwards: ∂L/∂W = (error at this layer) × (previous layer's activation), ∂L/∂b = error; pass the error to the previous layer through the weights and the activation derivative.</li>
+<li>Update every weight and bias with the rule above.</li>
+</ol>
+<p><strong>Worked example</strong> (one sigmoid neuron, x = 2, w = 0.4, b = 0.1, y = 1, η = 0.1):</p>
+<table><thead><tr><th>Step</th><th>Calculation</th><th>Value</th></tr></thead><tbody>
+<tr><td>Forward</td><td>z = 2(0.4) + 0.1; ŷ = σ(0.9)</td><td>z = 0.9, ŷ = 0.7109</td></tr>
+<tr><td>Loss</td><td>−log(0.7109)</td><td>0.3412</td></tr>
+<tr><td>Error</td><td>ŷ − y</td><td>−0.2891</td></tr>
+<tr><td>Gradients</td><td>∂L/∂w = −0.2891 × 2; ∂L/∂b = −0.2891</td><td>−0.578; −0.2891</td></tr>
+<tr><td>Update</td><td>w = 0.4 − 0.1(−0.578); b = 0.1 − 0.1(−0.2891)</td><td>w = 0.4578, b = 0.1289</td></tr>
+<tr><td>Check</td><td>New forward pass: z = 1.0445, ŷ = 0.7397</td><td>loss falls to 0.3015</td></tr>
+</tbody></table>
+<p>Repeat over many mini-batches and epochs until the loss stops falling.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P29</span>Describe the process of forward and backward propagation in a neural network, emphasising their roles in training the deep model.<span class="marks">5 to 7 marks</span></p>
+      <div class="a">
+<p>Training repeats a loop of four steps: forward propagation, loss, backward propagation, weight update.</p>
+<pre class="art">  x --&gt; [Layer 1] --&gt; [Layer 2] --&gt; [Output] --&gt; y-hat --&gt; Loss(y-hat, y)
+        &lt;-- dL/dW1 &lt;-- dL/dW2 &lt;-- dL/dW3 &lt;-- dL/dy-hat
+  forward pass: compute and store z, a      backward pass: chain rule</pre>
+<p>How to sketch: boxes left to right for layers with arrows forward on top, and arrows backward underneath labelled with the gradients.</p>
+<p><strong>Forward propagation</strong> (role: make a prediction and measure the error):</p>
+<ul>
+<li>Each neuron computes z = Σwx + b and a = f(z); the outputs of one layer become the inputs of the next; the last layer gives ŷ (softmax or sigmoid).</li>
+<li>The loss L(ŷ, y) says how wrong the prediction is. All z and a values are cached.</li>
+</ul>
+<p><strong>Backward propagation</strong> (role: find how much each parameter contributed to the error):</p>
+<ul>
+<li>Start at the output with ∂L/∂z = ŷ − y, then move backwards: ∂L/∂W = error × previous activation, and pass the error back through the weights and f′(z) (for ReLU, multiply by 1 if z &gt; 0 else 0).</li>
+<li>Then update θ ← θ − η·∂L/∂θ.</li>
+</ul>
+<p><strong>Worked example</strong> (the course network: 2 inputs, two ReLU hidden layers of 2, one sigmoid output; x = (0.5, 0.8), y = 1, η = 0.1):</p>
+<ul>
+<li>Forward: hidden 1 = (0.375, 0.440), hidden 2 = (0.548, 0.630), z₃ = 0.838, ŷ = σ(0.838) ≈ 0.698, loss = −log(0.698) ≈ 0.359.</li>
+<li>Backward: ∂L/∂z₃ = 0.698 − 1 = −0.302; ∂L/∂w₃ = (−0.302×0.548, −0.302×0.630) = (−0.1655, −0.1901).</li>
+<li>Update: w₃ = 0.60 − 0.1(−0.1655) = 0.6165 and 0.65 − 0.1(−0.1901) = 0.6690; b₃ = 0.10 + 0.0302 = 0.1302.</li>
+</ul>
+<p><strong>Why both are needed:</strong> forward propagation produces the prediction and the loss, backward propagation turns the loss into gradients for every weight, and the update uses them; without the backward pass the many parameters of a deep model could not be trained efficiently.</p><p class="seen"><strong>Seen in:</strong> May 25 (the L1 vs L2 half of this question is under Regularization)</p></div></div>
+</section>
+
+<section id="hyperparameters">
+  <p class="eyebrow">Asked in 3 of 5 papers</p>
+  <h2>Hyperparameters and tuning</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24, May 25, May 26</p>
+  <div class="callout"><p><p>Always a short question (3 to 4 marks). Be ready to separate parameters from hyperparameters and to name grid, random and Bayesian search.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P30</span>Which are the hyperparameters in deep neural network optimization?<span class="marks">3 to 4 marks</span></p>
+      <div class="a">
+<p><strong>Hyperparameters</strong> are settings chosen before training that control how the model is built and trained. <strong>Parameters</strong> (weights and biases) are learned by gradient descent.</p>
+<table><thead><tr><th>Hyperparameter</th><th>What it controls</th><th>Typical value</th></tr></thead><tbody>
+<tr><td>Learning rate η</td><td>Step size of each update; the most important one</td><td>1e-5 to 1e-1 (log scale); Adam 1e-3</td></tr>
+<tr><td>Batch size</td><td>Examples per update</td><td>32 to 256</td></tr>
+<tr><td>Number of epochs</td><td>Passes over the data (too many overfit); use early stopping</td><td>set by validation loss</td></tr>
+<tr><td>Depth and width</td><td>Number of layers and neurons</td><td>start small, for example 2 × 50</td></tr>
+<tr><td>Activation function</td><td>Non-linearity</td><td>ReLU in hidden layers</td></tr>
+<tr><td>Optimizer constants</td><td>Momentum β, Adam β₁, β₂, ε</td><td>0.9; 0.9, 0.999, 1e-8</td></tr>
+<tr><td>Dropout rate p</td><td>Fraction of units dropped</td><td>0.2 to 0.5</td></tr>
+<tr><td>Weight decay λ</td><td>Strength of L1 or L2 penalty</td><td>small, tuned</td></tr>
+<tr><td>Initialization</td><td>Starting weights</td><td>He (ReLU), Xavier (tanh, sigmoid)</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P31</span>Explain the concept of hyperparameter tuning in a deep neural network (ANN).<span class="marks">3 to 4 marks</span></p>
+      <div class="a">
+<p>Hyperparameter tuning is the process of searching for the combination of hyperparameters that gives the best performance on a <strong>validation set</strong>.</p>
+<table><thead><tr><th>Method</th><th>Idea</th><th>Pros and cons</th></tr></thead><tbody>
+<tr><td>Manual</td><td>Intuition and trial</td><td>Cheap start, not reproducible</td></tr>
+<tr><td>Grid search</td><td>Try every combination of a fixed grid</td><td>Exhaustive, but cost explodes: 3 learning rates × 3 batch sizes × 2 dropout values = 18 runs</td></tr>
+<tr><td>Random search</td><td>Sample each hyperparameter from a range</td><td>Usually better than grid for the same budget: 18 random runs try 18 different learning rates, a grid only 3</td></tr>
+<tr><td>Bayesian optimization</td><td>Model validation score as a function of the settings and pick the next trial smartly</td><td>Sample-efficient when each run is expensive</td></tr>
+</tbody></table>
+<p><strong>Procedure:</strong> split train / validation / test; tune only on the validation set; touch the test set once at the end; for small data use k-fold cross-validation.</p>
+<p><strong>Tips:</strong> tune the learning rate first and on a log scale; use early stopping for the number of epochs; if training diverges lower the learning rate, if it is too slow raise it.</p>
+<p>In an ANN the main knobs are learning rate, batch size, number of layers and neurons, activation, dropout and weight decay.</p><p class="seen"><strong>Seen in:</strong> Dec 24, May 26</p></div></div>
+</section>
+
+<section id="autoencoders">
+  <p class="eyebrow">Asked in 3 of 5 papers</p>
+  <h2>Autoencoders</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24, May 24</p>
+  <div class="callout"><p><p>One 2 to 3 mark autoencoder question in most sittings. The pair "undercomplete vs overcomplete" and the steps of layer-wise pre-training are the parts worth memorising.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P32</span>What are the two main components of an autoencoder? What is an autoencoder and how is it used in unsupervised learning tasks?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>An autoencoder is a neural network trained to <strong>reproduce its own input</strong> through a narrow hidden layer. It needs no labels, so it is unsupervised.</p>
+<pre class="art">  input x --&gt; [ ENCODER ] --&gt; code h --&gt; [ DECODER ] --&gt; output x-hat
+              h = f(x)      (bottleneck)    x-hat = g(h)
+  loss = || x - x-hat ||^2  (reconstruction error)</pre>
+<ul>
+<li><strong>Encoder:</strong> compresses the input into a code h = f(x).</li>
+<li><strong>Decoder:</strong> reconstructs the input from the code, x̂ = g(h).</li>
+</ul>
+<p><strong>Uses:</strong> dimensionality reduction and compression, feature learning (the code feeds a classifier), denoising, anomaly detection (large reconstruction error flags unusual data). Example: a 784 → 32 → 784 autoencoder has (784×32 + 32) + (32×784 + 784) = 50,992 parameters.</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P33</span>What is an Under-complete Autoencoder? Explain layer-by-layer pre-training of an autoencoder.<span class="marks">3 to 5 marks</span></p>
+      <div class="a">
+<p>An <strong>under-complete autoencoder</strong> has a code smaller than the input (h &lt; n). The bottleneck cannot copy the input, so it must keep only the most important features. With linear layers it behaves like PCA; with non-linear activations it learns a more powerful compression.</p>
+<p><strong>Layer-wise pre-training</strong> builds a deep network one layer at a time:</p>
+<ol>
+<li>Train autoencoder 1 on the raw input x to reconstruct x. Keep its code h₁ and discard its decoder.</li>
+<li>Train autoencoder 2 on h₁ to reconstruct h₁. Keep its code h₂.</li>
+<li>Repeat for as many layers as needed.</li>
+<li>Stack the trained encoders and add an output (classifier) layer on top.</li>
+<li>Fine-tune the whole stack with ordinary backpropagation on the labelled task.</li>
+</ol>
+<pre class="art">  Step 1:  x  -&gt; [ 256 ] -&gt; x-hat      keep encoder 1, drop decoder
+  Step 2:  h1 -&gt; [  64 ] -&gt; h1-hat     keep encoder 2, drop decoder
+  Step 3:  x -&gt; 256 -&gt; 64 -&gt; [10 softmax]   fine-tune all layers</pre>
+<p><strong>Example sizes:</strong> 784 → 256 → 64 → 10 has (784×256 + 256) + (256×64 + 64) + (64×10 + 10) = 200,960 + 16,448 + 650 = 218,058 parameters.</p>
+<p><strong>Why:</strong> each layer starts from a sensible initialization instead of random weights, and unlabelled data can be used for pre-training. Before ReLU and batch normalization made deep networks easy to train this was important.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P34</span>How does an under-complete autoencoder differ from an over-complete autoencoder? What is the primary benefit of using autoencoders in feature learning?<span class="marks">3 marks</span></p>
+      <div class="a">
+<table><thead><tr><th></th><th>Under-complete</th><th>Over-complete</th></tr></thead><tbody>
+<tr><td>Code size</td><td>Smaller than the input (h &lt; n)</td><td>Equal to or larger than the input (h ≥ n)</td></tr>
+<tr><td>Effect</td><td>Bottleneck forces the network to learn the most important features</td><td>Can simply copy the input (identity) and learn nothing useful</td></tr>
+<tr><td>Remedy</td><td>Not needed</td><td>Add regularization: sparse, denoising or contractive autoencoder</td></tr>
+<tr><td>Typical use</td><td>Dimensionality reduction, feature learning</td><td>Denoising, sparse representations</td></tr>
+</tbody></table>
+<p><strong>Primary benefit in feature learning:</strong> the hidden code is a compact feature vector learned automatically and without labels. It can be fed to a classifier that then needs fewer labelled examples, and it can be used for visualisation, denoising and anomaly detection.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+</section>
+
+<section id="perceptron">
+  <p class="eyebrow">Asked in 3 of 5 papers</p>
+  <h2>Perceptron and the biological neuron</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24, May 25, May 26</p>
+  <div class="callout"><p><p>The newest paper (May 26) asks for a full perceptron-learning trace for the NOR gate. The trace below runs the exact update rule from the notes until all four rows are correct, and it was checked by running the loop in code.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P35</span>Provide a brief explanation of the term perceptron, and differentiate between a biological neuron and a perceptron.<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>A <strong>perceptron</strong> (Rosenblatt, 1958) is the simplest artificial neuron: it takes real inputs, multiplies each by a learnable weight, adds a bias and applies a step function to give a binary output.</p>
+<p>z = w₁x₁ + ... + wₙxₙ + b, ŷ = 1 if z ≥ 0, else 0. It is trained by w ← w + η(y − ŷ)x, b ← b + η(y − ŷ), and it can only separate linearly separable classes (it cannot learn XOR).</p>
+<table><thead><tr><th>Biological neuron</th><th>Perceptron</th></tr></thead><tbody>
+<tr><td>Dendrites receive signals</td><td>Input nodes x₁ ... xₙ</td></tr>
+<tr><td>Synapse strength</td><td>Weights wᵢ (learned)</td></tr>
+<tr><td>Soma (cell body) sums and processes</td><td>Weighted sum z plus bias</td></tr>
+<tr><td>Fires when the signal crosses a threshold</td><td>Step activation</td></tr>
+<tr><td>Axon sends the output on</td><td>Output ŷ</td></tr>
+<tr><td>Synaptic plasticity changes the connections</td><td>Learning rule or backpropagation changes the weights</td></tr>
+<tr><td>Billions of neurons, analog, adaptive</td><td>A simple fixed mathematical function</td></tr>
+</tbody></table><p class="seen"><strong>Seen in:</strong> Dec 24, May 25</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P36</span>Perform the perceptron learning for the NOR gate and compute the updates of parameters during training.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p><strong>Setup.</strong> NOR output is 1 only when both inputs are 0. Model: z = w₁x₁ + w₂x₂ + b, ŷ = 1 if z ≥ 0, else 0. Start with w₁ = w₂ = b = 0, learning rate η = 1, and update only when the prediction is wrong:</p>
+<p>w ← w + η(y − ŷ)x, b ← b + η(y − ŷ). Rows are taken in the order (0,0), (0,1), (1,0), (1,1).</p>
+<table><thead><tr><th>x₁ x₂</th><th>Target y</th></tr></thead><tbody>
+<tr><td>0 0</td><td>1</td></tr><tr><td>0 1</td><td>0</td></tr><tr><td>1 0</td><td>0</td></tr><tr><td>1 1</td><td>0</td></tr>
+</tbody></table>
+<p><strong>Training table</strong> (weights shown are after the row):</p>
+<table><thead><tr><th>Epoch</th><th>x₁ x₂</th><th>y</th><th>z</th><th>ŷ</th><th>y − ŷ</th><th>w₁, w₂, b after</th></tr></thead><tbody>
+<tr><td>1</td><td>0 0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0, 0, 0</td></tr>
+<tr><td>1</td><td>0 1</td><td>0</td><td>0</td><td>1</td><td>−1</td><td>0, −1, −1</td></tr>
+<tr><td>1</td><td>1 0</td><td>0</td><td>−1</td><td>0</td><td>0</td><td>0, −1, −1</td></tr>
+<tr><td>1</td><td>1 1</td><td>0</td><td>−2</td><td>0</td><td>0</td><td>0, −1, −1</td></tr>
+<tr><td>2</td><td>0 0</td><td>1</td><td>−1</td><td>0</td><td>+1</td><td>0, −1, 0</td></tr>
+<tr><td>2</td><td>0 1</td><td>0</td><td>−1</td><td>0</td><td>0</td><td>0, −1, 0</td></tr>
+<tr><td>2</td><td>1 0</td><td>0</td><td>0</td><td>1</td><td>−1</td><td>−1, −1, −1</td></tr>
+<tr><td>2</td><td>1 1</td><td>0</td><td>−3</td><td>0</td><td>0</td><td>−1, −1, −1</td></tr>
+<tr><td>3</td><td>0 0</td><td>1</td><td>−1</td><td>0</td><td>+1</td><td>−1, −1, 0</td></tr>
+<tr><td>3</td><td>0 1</td><td>0</td><td>−1</td><td>0</td><td>0</td><td>−1, −1, 0</td></tr>
+<tr><td>3</td><td>1 0</td><td>0</td><td>−1</td><td>0</td><td>0</td><td>−1, −1, 0</td></tr>
+<tr><td>3</td><td>1 1</td><td>0</td><td>−2</td><td>0</td><td>0</td><td>−1, −1, 0</td></tr>
+</tbody></table>
+<p><strong>Sample calculation</strong> (epoch 2, row 3): the weights before this row are (0, −1, 0), so z = 0×1 + (−1)×0 + 0 = 0 and ŷ = 1, but y = 0, so y − ŷ = −1. Then w₁ = 0 + 1(−1)(1) = −1, w₂ = −1 + 1(−1)(0) = −1, b = 0 + 1(−1) = −1.</p>
+<p><strong>Epoch 4:</strong> all four rows give the correct output with no change, so training stops. Final parameters: <strong>w₁ = −1, w₂ = −1, b = 0</strong> (four updates in total).</p>
+<table><thead><tr><th>x₁ x₂</th><th>z = −x₁ − x₂</th><th>ŷ</th><th>NOR</th></tr></thead><tbody>
+<tr><td>0 0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>0 1</td><td>−1</td><td>0</td><td>0</td></tr>
+<tr><td>1 0</td><td>−1</td><td>0</td><td>0</td></tr>
+<tr><td>1 1</td><td>−2</td><td>0</td><td>0</td></tr>
+</tbody></table>
+<p><strong>Remarks:</strong> NOR is linearly separable, so the convergence theorem guarantees this procedure stops. The point (0,0) lies exactly on the boundary z = 0 and is assigned to class 1 by the "z ≥ 0" convention. Different initial weights or row order can give different but equally valid final weights.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="cnn">
+  <p class="eyebrow">Asked in 3 of 5 papers</p>
+  <h2>CNN architectures, padding and stride, case study</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, May 24, May 26</p>
+  <div class="callout"><p><p>Two architecture questions (VGG-16, AlexNet) and, in May 26, padding and stride and a CNN case study. All four answers here use the same output-size formula, ⌊(W − F + 2P)/S⌋ + 1, so learn that first. The CNN parameter-counting question (May 24) is in the group on counting parameters.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P37</span>Explain the architecture and key features of the VGG-16 convolutional neural network in detail. How does VGG-16 contribute to computer vision and deep learning?<span class="marks">5 marks</span></p>
+      <div class="a">
+<p>VGG-16 (Visual Geometry Group, Oxford, 2014) is a CNN built from one simple rule: <strong>only 3×3 convolutions</strong> (stride 1, padding 1, so the size is preserved) and <strong>2×2 max-pooling</strong> (stride 2, which halves the size). It has 13 convolutional + 3 fully connected = <strong>16 weight layers</strong>.</p>
+<pre class="art">224x224x3
+ -&gt; [conv3-64  x2] -&gt; pool -&gt; 112x112x64
+ -&gt; [conv3-128 x2] -&gt; pool -&gt;  56x56x128
+ -&gt; [conv3-256 x3] -&gt; pool -&gt;  28x28x256
+ -&gt; [conv3-512 x3] -&gt; pool -&gt;  14x14x512
+ -&gt; [conv3-512 x3] -&gt; pool -&gt;    7x7x512
+ -&gt; flatten 25088 -&gt; FC 4096 -&gt; FC 4096 -&gt; FC 1000 (softmax)</pre>
+<p>How to sketch: five blocks of stacked conv boxes, each ending in a pool box; the width (number of filters) doubles 64, 128, 256, 512, 512 while the height and width halve.</p>
+<table><thead><tr><th>Block</th><th>Layers</th><th>Output after pooling</th><th>Parameters (with bias)</th></tr></thead><tbody>
+<tr><td>1</td><td>2 × conv 64</td><td>112×112×64</td><td>38,720</td></tr>
+<tr><td>2</td><td>2 × conv 128</td><td>56×56×128</td><td>221,440</td></tr>
+<tr><td>3</td><td>3 × conv 256</td><td>28×28×256</td><td>1,475,328</td></tr>
+<tr><td>4</td><td>3 × conv 512</td><td>14×14×512</td><td>5,899,776</td></tr>
+<tr><td>5</td><td>3 × conv 512</td><td>7×7×512</td><td>7,079,424</td></tr>
+<tr><td>FC</td><td>25,088 → 4096 → 4096 → 1000</td><td>1000 class scores</td><td>123,642,856</td></tr>
+</tbody></table>
+<p><strong>Total:</strong> conv layers 14,714,688 + FC layers 123,642,856 = <strong>138,357,544 ≈ 138 million</strong> parameters. The first FC layer alone (7×7×512×4096) holds about 102 million.</p>
+<p><strong>Key features:</strong></p>
+<ul>
+<li>Uniform 3×3 filters. Two stacked 3×3 convolutions see a 5×5 region with 2×9 = 18 weights per channel pair instead of 25; three see 7×7 with 27 instead of 49, and add extra non-linearities (ReLU after each).</li>
+<li>Depth with a regular pattern, ReLU activations, FC layers with dropout at the end.</li>
+</ul>
+<p><strong>Contribution:</strong> showed that depth with small, uniform filters gives excellent accuracy (about 7.3% top-5 ImageNet error for the 19-layer version) and gave a simple, reusable feature extractor for transfer learning. <strong>Drawback:</strong> very large (138 M parameters) and slow.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P38</span>Explain the architecture and key features of the AlexNet convolutional neural network in detail. How does AlexNet contribute to computer vision and deep learning?<span class="marks">3 to 5 marks</span></p>
+      <div class="a">
+<p>AlexNet (Krizhevsky, Sutskever and Hinton) won the ImageNet 2012 competition with a top-5 error of 16.4% against about 26% for the next best. It has <strong>8 learned layers: 5 convolutional + 3 fully connected</strong>, takes a 227×227×3 input (224 in the paper) and was trained on two GPUs.</p>
+<pre class="art">227x227x3
+ -&gt; conv1 96@11x11 s4 -&gt; 55x55x96  -&gt; maxpool 3x3 s2 -&gt; 27x27x96
+ -&gt; conv2 256@5x5 p2  -&gt; 27x27x256 -&gt; maxpool 3x3 s2 -&gt; 13x13x256
+ -&gt; conv3 384@3x3 p1  -&gt; 13x13x384
+ -&gt; conv4 384@3x3 p1  -&gt; 13x13x384
+ -&gt; conv5 256@3x3 p1  -&gt; 13x13x256 -&gt; maxpool 3x3 s2 -&gt; 6x6x256
+ -&gt; flatten 9216 -&gt; FC 4096 -&gt; FC 4096 -&gt; FC 1000 (softmax)</pre>
+<table><thead><tr><th>Layer</th><th>Settings</th><th>Output</th><th>Parameters (with bias)</th></tr></thead><tbody>
+<tr><td>Conv 1</td><td>96 filters, 11×11, stride 4</td><td>55×55×96</td><td>34,944</td></tr>
+<tr><td>Conv 2</td><td>256 filters, 5×5, pad 2</td><td>27×27×256</td><td>614,656</td></tr>
+<tr><td>Conv 3</td><td>384 filters, 3×3, pad 1</td><td>13×13×384</td><td>885,120</td></tr>
+<tr><td>Conv 4</td><td>384 filters, 3×3, pad 1</td><td>13×13×384</td><td>1,327,488</td></tr>
+<tr><td>Conv 5</td><td>256 filters, 3×3, pad 1</td><td>13×13×256</td><td>884,992</td></tr>
+<tr><td>FC 6, 7, 8</td><td>9216 → 4096 → 4096 → 1000</td><td>1000</td><td>37,752,832 + 16,781,312 + 4,097,000</td></tr>
+</tbody></table>
+<p>Total about 62 million by this count (usually quoted as about 60 million); about 94% of it is in the three FC layers. Pooling and activation layers have no parameters. Size check: (227 − 11)/4 + 1 = 55.</p>
+<p><strong>Key features:</strong> ReLU activation (trains faster than tanh or sigmoid), dropout 0.5 in the FC layers against overfitting, overlapping max-pooling (3×3 window, stride 2), local response normalisation, heavy data augmentation, training on two GPUs.</p>
+<p><strong>Contribution:</strong> proved that a deep CNN trained on a large dataset with GPUs beats hand-crafted features, cutting the ImageNet error sharply and starting the modern deep learning era in computer vision.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P39</span>How do padding and stride affect CNN performance?<span class="marks">3 marks</span></p>
+      <div class="a">
+<p><strong>Output-size formula:</strong> W_(out) = ⌊(W − F + 2P)/S⌋ + 1, where W is the input size, F the kernel size, P the padding and S the stride.</p>
+<p><strong>Numeric example</strong> (W = 7, F = 3):</p>
+<table><thead><tr><th>Padding P</th><th>Stride S</th><th>Calculation</th><th>Output size</th></tr></thead><tbody>
+<tr><td>0</td><td>1</td><td>(7 − 3 + 0)/1 + 1</td><td>5</td></tr>
+<tr><td>1</td><td>1</td><td>(7 − 3 + 2)/1 + 1</td><td>7 (same size)</td></tr>
+<tr><td>0</td><td>2</td><td>⌊(7 − 3)/2⌋ + 1</td><td>3</td></tr>
+<tr><td>1</td><td>2</td><td>⌊(7 − 3 + 2)/2⌋ + 1</td><td>4</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Padding</strong> (adding a border of zeros): without it the map shrinks at every layer (F − 1 pixels lost) and border pixels are used less. With P = (F − 1)/2 and S = 1 ("same" padding, for example P = 1 for a 3×3 kernel) the size is kept, so many layers can be stacked and the edges are preserved. Cost: slightly more computation and zero-valued border values.</li>
+<li><strong>Stride</strong> (step of the kernel): a larger stride reduces the output size and the computation, and gives a larger receptive field quickly, but it can skip fine detail and may lower accuracy. Example: a 32×32×3 input, 16 filters of 3×3, P = 1: stride 1 gives 32×32×16 and 16×27×32×32 = 442,368 multiplications; stride 2 gives 16×16×16 and 110,592, four times fewer.</li>
+<li>AlexNet's first layer uses stride 4 to reduce 227×227 to 55×55 at once.</li>
+</ul>
+<p><strong>Summary:</strong> padding preserves spatial information and size; stride trades detail for speed and memory.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P40</span>Discuss in detail the application of CNN with any one of the case studies.<span class="marks">5 to 7 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes. The notes give the LeNet layer table; the problem statement and discussion are the usual ones.</p>
+<p><strong>Case study: handwritten digit recognition with LeNet-5.</strong></p>
+<p><strong>1. Problem.</strong> Read handwritten digits (0 to 9), for example postal codes and bank cheques. The standard data set is MNIST: 28×28 grey-scale images, 10 classes, 60,000 training and 10,000 test images. The images are padded to 32×32 for the network.</p>
+<p><strong>2. Why a CNN.</strong> A fully connected first layer on a 32×32 image (1024 inputs) to 120 units needs 1024×120 + 120 = 123,000 parameters and ignores the 2-D structure. A convolution layer with 6 filters of 5×5 needs only 6×(25 + 1) = 156 parameters, because each filter is shared across the whole image (weight sharing) and looks at a small local patch (sparse connectivity). Pooling adds tolerance to small shifts.</p>
+<p><strong>3. Architecture</strong> (stride 1, no padding in the convolutions):</p>
+<table><thead><tr><th>Layer</th><th>Settings</th><th>Output</th><th>Parameters</th></tr></thead><tbody>
+<tr><td>Input</td><td>32×32×1</td><td>32×32×1</td><td>0</td></tr>
+<tr><td>Conv 1</td><td>6 filters, 5×5</td><td>28×28×6</td><td>6×(25 + 1) = 156</td></tr>
+<tr><td>Pool 1</td><td>2×2, stride 2</td><td>14×14×6</td><td>0</td></tr>
+<tr><td>Conv 2</td><td>16 filters, 5×5</td><td>10×10×16</td><td>16×(150 + 1) = 2,416</td></tr>
+<tr><td>Pool 2</td><td>2×2, stride 2</td><td>5×5×16 = 400</td><td>0</td></tr>
+<tr><td>FC 1</td><td>400 → 120</td><td>120</td><td>48,120</td></tr>
+<tr><td>FC 2</td><td>120 → 84</td><td>84</td><td>10,164</td></tr>
+<tr><td>Output</td><td>84 → 10, softmax</td><td>10</td><td>850</td></tr>
+</tbody></table>
+<p>Total 156 + 2,416 + 48,120 + 10,164 + 850 = <strong>61,706</strong> parameters (about 61.7 K). Size check: (32 − 5)/1 + 1 = 28; (28 − 2)/2 + 1 = 14; (14 − 5) + 1 = 10; (10 − 2)/2 + 1 = 5.</p>
+<p><strong>4. Training.</strong> Scale pixels to [0, 1]; softmax output with categorical cross-entropy; mini-batch gradient descent with SGD or Adam; hold out a validation set and stop early when validation loss rises. A network of this kind reaches about 99% test accuracy on MNIST.</p>
+<p><strong>5. Result and lessons.</strong> Features are learned end to end: first-layer filters detect strokes and edges, the second layer combines them into curves and loops, the FC layers decide the digit. The conv, pool, FC pattern became the template for later CNNs.</p>
+<p><strong>Other case studies for the same answer shape:</strong> AlexNet on ImageNet (1000 classes, 16.4% top-5 error in 2012), or medical-image screening.</p><p class="seen"><strong>Seen in:</strong> May 26 (OR with RNN applications)</p></div></div>
+</section>
+
+<section id="xor">
+  <p class="eyebrow">Asked in 2 of 5 papers</p>
+  <h2>XOR, AND and OR with neural networks</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, May 24</p>
+  <div class="callout"><p><p>The two Part A questions are short; the 5 mark question asks for the working network. Memorise one set of weights (below) and the 4-row truth table that checks it.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P41</span>Why is a deep neural network with one or more hidden layers necessary for XOR gate implementation?<span class="marks">2 marks</span></p>
+      <div class="a">
+<p>A single neuron draws one straight line, so it can only separate <strong>linearly separable</strong> classes. XOR is not: the two 1-outputs (0,1) and (1,0) lie on opposite corners, and no single line puts them apart from (0,0) and (1,1).</p>
+<p><strong>Proof in one line:</strong> a neuron would need b &lt; 0 for (0,0), w₁ + b ≥ 0 and w₂ + b ≥ 0 for the two 1-rows, and w₁ + w₂ + b &lt; 0 for (1,1). Adding the middle two gives w₁ + w₂ + 2b ≥ 0, so w₁ + w₂ + b ≥ −b &gt; 0, which contradicts the last condition.</p>
+<p>A hidden layer fixes this: the hidden neurons transform the inputs into a new space (h₁ = OR, h₂ = AND) where the classes are separable by one line, and the output neuron draws it. Non-linear hidden units are what let the network bend the decision boundary.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P42</span>How many layers and neurons are typically required to implement XOR and AND gates using a deep neural network?<span class="marks">2 marks</span></p>
+      <div class="a">
+<table><thead><tr><th>Gate</th><th>Layers</th><th>Neurons</th><th>Parameters</th></tr></thead><tbody>
+<tr><td>AND (and OR)</td><td>No hidden layer: 2 inputs → 1 output neuron</td><td>1 neuron</td><td>2 weights + 1 bias = 3</td></tr>
+<tr><td>XOR</td><td>One hidden layer: 2 inputs → 2 hidden → 1 output (a 2-2-1 network)</td><td>3 neurons (2 hidden + 1 output)</td><td>(2×2 + 2) + (2×1 + 1) = 9</td></tr>
+</tbody></table>
+<p>AND is linearly separable so one neuron is enough; XOR needs the extra hidden layer of at least two neurons.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P43</span>Can a neural network implement XOR, AND and OR gates with 100% accuracy? Explain the process of implementing them, with a use case.<span class="marks">5 marks</span></p>
+      <div class="a">
+<p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes. The notes explain why XOR needs a hidden layer but do not give weights; the weights below are one valid choice and were checked on all four inputs.</p>
+<p><strong>Yes.</strong> Each gate has only four possible inputs, so a network can reproduce the whole truth table exactly. AND and OR are linearly separable, so a single neuron is enough. XOR needs one hidden layer.</p>
+<p>Neuron: z = w₁x₁ + w₂x₂ + b, output 1 if z ≥ 0, else 0.</p>
+<table><thead><tr><th>Gate</th><th>w₁</th><th>w₂</th><th>b</th><th>Why it works</th></tr></thead><tbody>
+<tr><td>AND</td><td>1</td><td>1</td><td>−1.5</td><td>fires only when x₁ + x₂ = 2</td></tr>
+<tr><td>OR</td><td>1</td><td>1</td><td>−0.5</td><td>fires when x₁ + x₂ ≥ 1</td></tr>
+<tr><td>XOR hidden h₁ (OR)</td><td>1</td><td>1</td><td>−0.5</td><td>on if at least one input is on</td></tr>
+<tr><td>XOR hidden h₂ (AND)</td><td>1</td><td>1</td><td>−1.5</td><td>on only if both are on</td></tr>
+<tr><td>XOR output</td><td>+1 (from h₁)</td><td>−1 (from h₂)</td><td>−0.5</td><td>"OR but not AND"</td></tr>
+</tbody></table>
+<pre class="art"> inputs        hidden layer                      output
+ x1 ----+----&gt; h1 (OR : w = 1, 1  b = -0.5) --- +1 ---+
+        |                                              +--&gt; y  (b = -0.5)
+ x2 ----+----&gt; h2 (AND: w = 1, 1  b = -1.5) --- -1 ---+
+ (x1 and x2 are each connected to both h1 and h2)</pre>
+<p>How to sketch: two input circles, two hidden circles with every input joined to every hidden unit, one output circle; write the weights on the arrows.</p>
+<table><thead><tr><th>x₁ x₂</th><th>AND</th><th>OR</th><th>h₁</th><th>h₂</th><th>z = h₁ − h₂ − 0.5</th><th>XOR</th></tr></thead><tbody>
+<tr><td>0 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>−0.5</td><td>0</td></tr>
+<tr><td>0 1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0.5</td><td>1</td></tr>
+<tr><td>1 0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0.5</td><td>1</td></tr>
+<tr><td>1 1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>−0.5</td><td>0</td></tr>
+</tbody></table>
+<p>All four rows match: 100% accuracy on the truth table. In practice the weights can also be learned by gradient descent with a sigmoid hidden layer.</p>
+<p><strong>Use case:</strong> AND: unlock a door only if the card is valid and the PIN is correct. OR: raise an alarm if either the smoke sensor or the heat sensor triggers. XOR: flag a fault when exactly one of two redundant sensors fires (they disagree), a pattern a single neuron cannot detect.</p><p class="seen"><strong>Seen in:</strong> Dec 23, May 24</p></div></div>
+</section>
+
+<section id="param-count">
+  <p class="eyebrow">Asked in 2 of 5 papers</p>
+  <h2>Counting weights and parameters</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, May 24</p>
+  <div class="callout"><p><p>The 784-128-64-10 question was set word for word in both Dec 23 and May 24, so expect it again. The cheat sheet has a calculator for both formulas.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P44</span>Build a feed-forward network for digit classification: input 784, hidden layer 1 with 128 neurons, hidden layer 2 with 64 neurons, output 10 neurons. Calculate the number of weights and biases for each layer.<span class="marks">4 to 5 marks</span></p>
+      <div class="a">
+<p><strong>Rule:</strong> a dense layer with n_in inputs and n_out neurons has n_in × n_out weights (every neuron connects to every input) and n_out biases (one per neuron). Parameters = weights + biases. The input layer only passes the data on, so it has none.</p>
+<table><thead><tr><th>Layer</th><th>Weights</th><th>Biases</th><th>Total</th></tr></thead><tbody>
+<tr><td>Hidden 1 (784 → 128)</td><td>784 × 128 = 100,352</td><td>128</td><td>100,480</td></tr>
+<tr><td>Hidden 2 (128 → 64)</td><td>128 × 64 = 8,192</td><td>64</td><td>8,256</td></tr>
+<tr><td>Output (64 → 10)</td><td>64 × 10 = 640</td><td>10</td><td>650</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>109,184</strong></td><td><strong>202</strong></td><td><strong>109,386</strong></td></tr>
+</tbody></table>
+<pre class="art">  784 inputs --&gt; [128 ReLU] --&gt; [64 ReLU] --&gt; [10 softmax]
+        100,480         8,256          650        total 109,386</pre>
+<p>Check: 100,480 + 8,256 + 650 = 109,386, and 109,184 + 202 = 109,386. Use ReLU in the hidden layers, softmax with categorical cross-entropy at the output (10 classes). Forward cost per image is about one multiply-add per weight, so roughly 109,184 multiply-adds.</p><p class="seen"><strong>Seen in:</strong> Dec 23, May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P45</span>Find the trainable parameters, at every step, in the following CNN model: Input(shape=(10,10,1)) → Convolution2D(5, 3) → Activation(sigmoid) → Convolution2D(2, 3) → Activation(sigmoid).<span class="marks">3 marks</span></p>
+      <div class="a">
+<p><strong>Assumptions:</strong> the OCR reads the first filter count as 5 (the same as the course notes' worked answer). Convolution2D(filters, kernel) means 3×3 kernels, stride 1, no padding ("valid"), and each filter has one bias. Output size = (W − F)/1 + 1.</p>
+<p><strong>Rule:</strong> conv parameters = filters × (F × F × input channels + 1). Activation layers have no parameters.</p>
+<table><thead><tr><th>Step</th><th>Layer</th><th>Output shape</th><th>Trainable parameters</th></tr></thead><tbody>
+<tr><td>1</td><td>Input (10, 10, 1)</td><td>10×10×1</td><td>0</td></tr>
+<tr><td>2</td><td>Conv2D(5, 3×3)</td><td>(10 − 3) + 1 = 8 → 8×8×5</td><td>5 × (3×3×1 + 1) = 5 × 10 = 50</td></tr>
+<tr><td>3</td><td>Activation (sigmoid)</td><td>8×8×5</td><td>0</td></tr>
+<tr><td>4</td><td>Conv2D(2, 3×3)</td><td>(8 − 3) + 1 = 6 → 6×6×2</td><td>2 × (3×3×5 + 1) = 2 × 46 = 92</td></tr>
+<tr><td>5</td><td>Activation (sigmoid)</td><td>6×6×2</td><td>0</td></tr>
+</tbody></table>
+<p><strong>Total = 50 + 92 = 142 trainable parameters.</strong> The second layer's filters are 3×3×5 because its input has 5 channels (the 5 feature maps of layer 1). If the biases were switched off the count would be 45 + 90 = 135.</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+</section>
+
+<section id="regularization">
+  <p class="eyebrow">Asked in 2 of 5 papers</p>
+  <h2>Regularization, dropout, L1 and L2</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24, May 25</p>
+  <div class="callout"><p><p>Both sittings were 7 mark questions. The May 25 question also asked for forward and backward propagation, which is answered under Backpropagation; the L1 vs L2 half is answered here.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P46</span>Describe the concepts of regularization and dropout layers, highlighting their importance in improving model performance and preventing overfitting.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p><strong>Overfitting:</strong> the model memorises the training data (low training error, high validation error) because it is too flexible for the amount of data. <strong>Regularization</strong> is any technique that reduces this variance and improves generalisation to unseen data.</p>
+<table><thead><tr><th>Technique</th><th>How it works</th></tr></thead><tbody>
+<tr><td>L2 (weight decay)</td><td>Loss + (λ/2)Σw²; every update pulls weights gently towards zero, giving a smoother function</td></tr>
+<tr><td>L1</td><td>Loss + λΣ|w|; pushes many weights to exactly 0 (sparse model)</td></tr>
+<tr><td>Dropout</td><td>Randomly switch off neurons during training (below)</td></tr>
+<tr><td>Early stopping</td><td>Stop at the epoch where validation error is lowest</td></tr>
+<tr><td>Data augmentation</td><td>Flips, crops and rotations enlarge the effective data set</td></tr>
+</tbody></table>
+<p><strong>Dropout layer.</strong> During training, each neuron in the layer is set to zero with probability p (for example 0.5 in the AlexNet FC layers; 0.2 to 0.5 is typical). A different thinned network is used for every mini-batch.</p>
+<ol>
+<li>Draw a random 0/1 mask for the layer (1 = keep with probability 1 − p).</li>
+<li>Multiply the activations by the mask.</li>
+<li>Scale the survivors by 1/(1 − p) ("inverted dropout") so the expected activation is unchanged.</li>
+<li>At test time use the full network with no dropout and no extra scaling.</li>
+</ol>
+<p><strong>Example:</strong> h = [2, 4, 6, 8], p = 0.5, mask = [1, 0, 1, 0]. After the mask [2, 0, 6, 0]; after scaling by 1/(1 − 0.5) = 2 the output is [4, 0, 12, 0]. With 10 hidden neurons and p = 0.4, about 6 are active and 4 dropped in each training pass.</p>
+<p><strong>Why it helps:</strong> no neuron can rely on a particular partner being present, so the network learns more robust features. With M neurons there are 2^M possible thinned networks, so training with dropout acts like averaging a huge ensemble at the cost of one network.</p>
+<p><strong>Importance:</strong> they close the gap between training and validation error (the signature of overfitting) without needing more data. The strength (λ or p) is a hyperparameter tuned on the validation set; too much causes underfitting.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P47</span>Differentiate between L1 and L2 regularization techniques in deep neural networks, explaining their impact on model performance and overfitting.<span class="marks">3 to 4 marks</span></p>
+      <div class="a">
+<p>Both add a penalty on the weights to the loss so the network cannot use very large weights to fit noise; they differ in the form of the penalty.</p>
+<table><thead><tr><th></th><th>L1 (Lasso)</th><th>L2 (Ridge, weight decay)</th></tr></thead><tbody>
+<tr><td>Penalty</td><td>λ Σ|wᵢ|</td><td>(λ/2) Σ wᵢ²</td></tr>
+<tr><td>Gradient added</td><td>λ·sign(w): constant size</td><td>λ·w: proportional to the weight</td></tr>
+<tr><td>Effect on weights</td><td>Many become exactly 0 (sparse)</td><td>All shrink smoothly, rarely exactly 0</td></tr>
+<tr><td>Use</td><td>Feature selection, simpler model</td><td>General-purpose default, stable and smooth</td></tr>
+<tr><td>Effect on overfitting</td><td>Reduces variance by removing weights</td><td>Reduces variance by keeping weights small</td></tr>
+</tbody></table>
+<p><strong>Numbers.</strong> For w = [2, −3, 1] and λ = 0.1: L1 penalty = 0.1 × (2 + 3 + 1) = 0.6; L2 penalty = (0.1/2) × (4 + 9 + 1) = 0.7. Extra gradient: L1 gives (0.1, −0.1, 0.1); L2 gives (0.2, −0.3, 0.1).</p>
+<p><strong>Why L1 gives sparsity.</strong> Take a small weight 0.05 with no data gradient, η = 0.1, λ = 0.1. L1 subtracts a fixed ηλ = 0.01 each update: 0.04, 0.03, 0.02, 0.01, 0 after five updates. L2 multiplies by (1 − ηλ) = 0.99, so after six updates it is still 0.047.</p>
+<p><strong>Impact on performance:</strong> a small λ lowers variance and improves validation accuracy; too large a λ makes the model too simple (underfitting). Choose λ on the validation set.</p><p class="seen"><strong>Seen in:</strong> May 25</p></div></div>
+</section>
+
+<section id="loss-design">
+  <p class="eyebrow">Asked in 2 of 5 papers</p>
+  <h2>Loss functions and designing a deep network</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 24, May 24</p>
+  <div class="callout"><p><p>The rule that answers both: look at the shape of the output. A number gives linear output and MSE; two classes give sigmoid and binary cross-entropy; many exclusive classes give softmax and categorical cross-entropy. Activation and loss always go as a pair.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P48</span>What is a loss function in deep learning? Explain four important loss functions used in deep learning models.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>A <strong>loss function</strong> is a single number that scores how far the model's predictions ŷ are from the true values y. Training adjusts the weights to push this number down.</p>
+<table><thead><tr><th>Loss</th><th>Formula</th><th>Used for</th><th>Example</th></tr></thead><tbody>
+<tr><td>Mean Squared Error (MSE)</td><td>(1/n) Σ (y − ŷ)²</td><td>Regression (linear output); punishes big errors heavily</td><td>y = [1, 0, 1], ŷ = [0.8, 0.2, 0.6]: (0.04 + 0.04 + 0.16)/3 = 0.08</td></tr>
+<tr><td>Mean Absolute Error (MAE)</td><td>(1/n) Σ |y − ŷ|</td><td>Regression that must be robust to outliers</td><td>same data: (0.2 + 0.2 + 0.4)/3 = 0.267</td></tr>
+<tr><td>Binary cross-entropy</td><td>−[y log ŷ + (1 − y) log(1 − ŷ)]</td><td>Two classes (sigmoid output), for example spam or fraud</td><td>y = 1, ŷ = 0.8: −log 0.8 = 0.223; y = 0, ŷ = 0.8: −log 0.2 = 1.609</td></tr>
+<tr><td>Categorical cross-entropy</td><td>−Σ y_k log ŷ_k</td><td>Many exclusive classes (softmax output), for example digits</td><td>true class probability 0.7: −log 0.7 = 0.357</td></tr>
+</tbody></table>
+<p>Cross-entropy is preferred for classification because it punishes confident wrong predictions strongly (0.223 against 1.609 above), so the gradient stays large exactly when the model is badly wrong; MSE with a saturated sigmoid gives tiny gradients there. (Logs are natural logs.)</p><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P49</span>Explain the steps involved in designing a deep neural network and how to choose the appropriate loss function based on the problem at hand. Include examples to illustrate the different scenarios where specific loss functions are preferred.<span class="marks">7 marks</span></p>
+      <div class="a">
+<p><strong>A. Steps in designing a deep neural network</strong></p>
+<ol>
+<li><strong>Define the task and the metric:</strong> regression, binary or multi-class? Decide what "good" means (MSE, accuracy, AUC).</li>
+<li><strong>Split the data</strong> into train / validation / test before anything else (for example 64 / 16 / 20%).</li>
+<li><strong>Preprocess:</strong> scale or normalise the inputs (pixels to [0, 1]).</li>
+<li><strong>Baseline architecture:</strong> start small, for example 2 hidden layers of 50 neurons; grow only if it underfits.</li>
+<li><strong>Hidden activation and initialization:</strong> ReLU with He initialization (tanh or sigmoid with Xavier).</li>
+<li><strong>Output layer and loss as a pair</strong> (section B).</li>
+<li><strong>Optimizer and learning rate:</strong> Adam is a sound default; mini-batch of 32, 64 or 128; add a learning-rate schedule if needed.</li>
+<li><strong>Regularization:</strong> L2, dropout, batch normalization, augmentation, early stopping as needed.</li>
+<li><strong>Train and monitor</strong> training against validation error; never touch the test set until the end.</li>
+<li><strong>Diagnose and tune:</strong> high train and high validation error means high bias (bigger model, train longer); low train and high validation means high variance (more data, regularize).</li>
+</ol>
+<p><strong>B. Choosing the loss function</strong></p>
+<table><thead><tr><th>Output</th><th>Output layer</th><th>Loss</th><th>Example</th></tr></thead><tbody>
+<tr><td>A continuous number</td><td>Linear</td><td>MSE</td><td>House price or temperature prediction</td></tr>
+<tr><td>Exactly two classes</td><td>1 neuron, sigmoid</td><td>Binary cross-entropy</td><td>Fraud or not fraud</td></tr>
+<tr><td>One of many exclusive classes</td><td>K neurons, softmax</td><td>Categorical cross-entropy</td><td>Handwritten digit 0 to 9, news topic</td></tr>
+</tbody></table>
+<p><strong>C. Worked design: digit classifier.</strong> Input 784 pixels scaled to [0, 1]; hidden layers 128 and 64 with ReLU (He init); output 10 with softmax; loss categorical cross-entropy; Adam (1e-3), batch 64, dropout 0.2 if it overfits, early stopping on validation loss. This network has 784×128 + 128 + 128×64 + 64 + 64×10 + 10 = 109,386 parameters.</p>
+<p><strong>Why the pairing:</strong> cross-entropy with sigmoid or softmax gives the simple output error ŷ − y, which keeps gradients healthy; MSE is for real-valued targets.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
+</section>
+
+<section id="activations">
+  <p class="eyebrow">Asked in 2 of 5 papers</p>
+  <h2>Activation functions and non-linearity</h2>
+  <p class="seen"><strong>Seen in:</strong> Dec 23, May 26</p>
+  <div class="callout"><p><p>Two 3 mark questions. For "four important activation functions" use sigmoid, tanh, ReLU and softmax (add Leaky ReLU if you have time).</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P50</span>What is an activation function in deep learning? Explain four important activation functions used in deep learning models.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>An <strong>activation function</strong> is applied to a neuron's weighted sum z = Σwx + b to give its output a = f(z). It introduces non-linearity and decides how strongly the neuron fires.</p>
+<table><thead><tr><th>Function</th><th>Formula and range</th><th>Used in</th><th>Drawback</th></tr></thead><tbody>
+<tr><td>Sigmoid</td><td>1/(1 + e⁻ᶻ), range (0, 1); σ(−2, 0, 2) = 0.119, 0.5, 0.881</td><td>Output of binary classifiers, LSTM gates</td><td>Vanishing gradient (σ′ ≤ 0.25), not zero-centred</td></tr>
+<tr><td>Tanh</td><td>(eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ), range (−1, 1); tanh(2) = 0.964</td><td>RNN and LSTM hidden states</td><td>Still saturates at the ends</td></tr>
+<tr><td>ReLU</td><td>max(0, z), range [0, ∞); ReLU(−3, 2) = 0, 2</td><td>Default for hidden layers</td><td>"Dying ReLU": gradient 0 for z &lt; 0</td></tr>
+<tr><td>Softmax</td><td>eᶻⁱ / Σeᶻʲ, outputs sum to 1; softmax([2, 1, 0]) = [0.665, 0.245, 0.090]</td><td>Output layer for multi-class classification</td><td>Output layer only; sensitive to outlier scores</td></tr>
+</tbody></table>
+<p>Others: Leaky ReLU max(0.01z, z) fixes dying ReLU; GELU and Swish are used in Transformers and EfficientNet. Linear (f(z) = z) is used in the output layer for regression.</p><p class="seen"><strong>Seen in:</strong> Dec 23</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P51</span>Why is non-linearity important in neural networks?<span class="marks">3 marks</span></p>
+      <div class="a">
+<p>Without a non-linear activation, any number of layers collapses into a single linear layer, so the network could only learn straight-line (linear) relationships.</p>
+<p><strong>Proof:</strong> W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂), which is again of the form Wx + b. Scalar example: weights 3 and −2 give −2·(3x) = −6x, always a straight line.</p>
+<p>With a ReLU between them, f(x) = −2·ReLU(3x) is 0 for x &lt; 0 and −6x for x &gt; 0, a bent line that no single linear layer can produce.</p>
+<ul>
+<li>Real data (images, speech, text) is not linearly separable; XOR is the classic case a single linear unit cannot solve.</li>
+<li>Non-linear units let each layer bend the decision boundary, so depth adds representational power. With enough hidden units a single hidden layer can approximate any continuous function (universal approximation theorem).</li>
+<li>Non-linearities such as ReLU also keep gradients healthy (derivative 1 for z &gt; 0), whereas a step function has zero gradient and cannot be trained with backpropagation.</li>
+</ul><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+
+<section id="batch-norm">
+  <p class="eyebrow">Asked in 1 of 5 papers (the newest, May 26)</p>
+  <h2>Batch normalization</h2>
+  <p class="seen"><strong>Seen in:</strong> May 26</p>
+  <div class="callout"><p><p>Only the newest paper asked it, but as a worked numerical plus a comparison, so the two answers below are fully worked. Assumption for the OCR garble "ε = 10^-": ε = 10⁻⁵. The batch variance is divided by m (as in the course notes), not m − 1.</p></p></div>
+
+    <div class="qa"><p class="q"><span class="num">P52</span>An input mini-batch is [10, 12, 14, 16, 18]. Compute the normalized outputs after applying batch normalization with γ = 0.8, β = −0.5, ε = 10⁻⁵. Find the mean, variance, normalized values and the final output y.<span class="marks">3 marks</span></p>
+      <div class="a">
+<p><strong>Formulas</strong> (batch of m values): μ = (1/m)Σxᵢ, σ² = (1/m)Σ(xᵢ − μ)², x̂ᵢ = (xᵢ − μ)/√(σ² + ε), yᵢ = γ·x̂ᵢ + β.</p>
+<ol>
+<li><strong>Mean:</strong> μ = (10 + 12 + 14 + 16 + 18)/5 = 70/5 = <strong>14</strong>.</li>
+<li><strong>Variance:</strong> deviations −4, −2, 0, 2, 4; squares 16, 4, 0, 4, 16; sum 40; σ² = 40/5 = <strong>8</strong>.</li>
+<li><strong>Denominator:</strong> √(8 + 0.00001) = √8.00001 = 2.82843.</li>
+<li><strong>Normalize and scale-shift</strong> (y = 0.8·x̂ − 0.5):</li>
+</ol>
+<table><thead><tr><th>x</th><th>x − μ</th><th>x̂ = (x − 14)/2.82843</th><th>y = 0.8·x̂ − 0.5</th></tr></thead><tbody>
+<tr><td>10</td><td>−4</td><td>−1.4142</td><td>−1.6314</td></tr>
+<tr><td>12</td><td>−2</td><td>−0.7071</td><td>−1.0657</td></tr>
+<tr><td>14</td><td>0</td><td>0</td><td>−0.5000</td></tr>
+<tr><td>16</td><td>2</td><td>0.7071</td><td>0.0657</td></tr>
+<tr><td>18</td><td>4</td><td>1.4142</td><td>0.6314</td></tr>
+</tbody></table>
+<p><strong>Final output:</strong> y = [−1.6314, −1.0657, −0.5000, 0.0657, 0.6314].</p>
+<p><strong>Check:</strong> x̂ has mean 0 and variance ≈ 1; y has mean β = −0.5 and variance ≈ γ² = 0.64. So γ and β let the network choose the scale and shift of each layer's output.</p>
+<p><strong>If the variance is taken as 1/(m − 1):</strong> σ² = 10, x̂ = [−1.265, −0.632, 0, 0.632, 1.265] and y = [−1.512, −1.006, −0.500, 0.006, 0.512]. State which convention you use.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+
+    <div class="qa"><p class="q"><span class="num">P53</span>Compare the optimization with and without batch normalization with a suitable numerical example.<span class="marks">4 marks</span></p>
+      <div class="a">
+<p><strong>Idea.</strong> Without batch normalization the inputs to a layer can drift to large values as earlier layers change, pushing activations into flat (saturated) regions where gradients vanish. Batch normalization re-centres and re-scales each layer's inputs for every mini-batch, keeping them in a healthy range.</p>
+<p><strong>Numerical example.</strong> Take the batch [10, 12, 14, 16, 18] from the previous question as the pre-activations of one sigmoid unit over a mini-batch of five examples (two columns below: before and after BN). The sigmoid gradient σ′(z) = σ(z)(1 − σ(z)) is what multiplies the error on its way back to the weights.</p>
+<table><thead><tr><th>Example in batch</th><th>Without BN: z</th><th>σ′(z)</th><th>With BN: y</th><th>σ′(y)</th></tr></thead><tbody>
+<tr><td>1</td><td>10</td><td>4.5×10⁻⁵</td><td>−1.631</td><td>0.137</td></tr>
+<tr><td>2</td><td>12</td><td>6.1×10⁻⁶</td><td>−1.066</td><td>0.191</td></tr>
+<tr><td>3</td><td>14</td><td>8.3×10⁻⁷</td><td>−0.500</td><td>0.235</td></tr>
+<tr><td>4</td><td>16</td><td>1.1×10⁻⁷</td><td>0.066</td><td>0.250</td></tr>
+<tr><td>5</td><td>18</td><td>1.5×10⁻⁸</td><td>0.631</td><td>0.227</td></tr>
+<tr><td><strong>Average</strong></td><td></td><td><strong>1.0×10⁻⁵</strong></td><td></td><td><strong>0.208</strong></td></tr>
+</tbody></table>
+<p>Without BN every example is saturated (σ(z) ≈ 0.99995 to 1.0), so the gradient is about 10⁻⁵ and the weights below barely change: with η = 0.1 an update of order 10⁻⁶. With BN the average gradient is about 0.2, roughly <strong>20,000 times larger</strong>, so the weights keep learning.</p>
+<table><thead><tr><th></th><th>Without batch normalization</th><th>With batch normalization</th></tr></thead><tbody>
+<tr><td>Layer inputs</td><td>Distribution shifts as earlier layers change</td><td>Mean 0, variance 1 per batch, then γ and β</td></tr>
+<tr><td>Gradients</td><td>Can vanish or explode (example above)</td><td>Kept in a usable range</td></tr>
+<tr><td>Learning rate</td><td>Must be small to stay stable</td><td>Larger rates are possible, so faster training</td></tr>
+<tr><td>Initialization</td><td>Sensitive</td><td>Less sensitive</td></tr>
+<tr><td>Regularizing effect</td><td>None</td><td>Mild, from batch noise</td></tr>
+<tr><td>Costs</td><td>None extra</td><td>Extra computation; unreliable for very small batches; at inference uses running averages of μ and σ² collected during training</td></tr>
+</tbody></table>
+<p><strong>Conclusion:</strong> batch normalization makes the optimization faster and more stable, as the example shows, at the cost of a little extra computation and a dependence on the batch.</p><p class="seen"><strong>Seen in:</strong> May 26</p></div></div>
+</section>
+</main>
+
+<footer>SEM 5 · DEEP LEARNING · PYQ ANSWERS · Sem 5 revision notes</footer>
+
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>
