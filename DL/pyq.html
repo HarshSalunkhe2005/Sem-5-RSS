@@ -290,7 +290,7 @@
   <p class="eyebrow">Asked in 5 of 5 papers</p>
   <h2>RNN and LSTM</h2>
   <p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24, May 24, May 25, May 26</p>
-  <div class="callout"><p><p>Every paper has one 5 to 7 mark RNN or LSTM question in Part B (Q6) plus a short one in Part A. For LSTM write the four gate equations and the cell update; for RNN write the recurrence and the unrolled picture. The May 2026 Q6 is an OR choice (CNN case study or RNN applications); both are answered here and in the CNN group.</p></p></div>
+  <div class="callout"><p><p>Every paper has one 5 to 7 mark RNN or LSTM question in Part B (Q6), and three of the five (Dec 23, May 24, May 25) also have a short one in Part A. For LSTM write the four gate equations and the cell update; for RNN write the recurrence and the unrolled picture. The May 2026 Q6 is an OR choice (CNN case study or RNN applications); both are answered here and in the CNN group.</p></p></div>
 
     <div class="qa"><p class="q"><span class="num">P11</span>Explain the working of a Recurrent Neural Network and how it handles sequential (time-series) data.<span class="marks">5 to 7 marks</span></p>
       <div class="a">
@@ -527,7 +527,7 @@
 <tr><td>2016</td><td>DeepMind's AlphaGo beats Lee Sedol 4-1</td></tr>
 <tr><td>2017 onwards</td><td>Transformer architecture; 2022 ChatGPT and generative AI</td></tr>
 </tbody></table>
-<p><strong>B. Reasons for the recent success</strong> (the four forces):</p>
+<p><strong>B. Reasons for the recent success</strong> (the four forces, plus tooling):</p>
 <ol>
 <li><strong>Data:</strong> ImageNet, web text, smartphones and sensors provide huge labelled datasets.</li>
 <li><strong>Compute:</strong> GPUs and TPUs make matrix multiplication 10 to 100 times faster than CPUs.</li>
@@ -557,7 +557,7 @@
 <p>The goal of backpropagation is to <strong>compute the gradient of the loss with respect to every weight and bias</strong> in the network, efficiently, in one backward sweep using the chain rule.</p>
 <ul>
 <li>These gradients tell gradient descent which way, and how much, to change each parameter to reduce the loss.</li>
-<li>It reuses the values saved in the forward pass, so the cost is about the same as one forward pass instead of one extra pass per weight.</li>
+<li>It reuses the values saved in the forward pass, so the cost is of the same order as a forward pass (a small multiple of it) instead of one extra pass per weight.</li>
 <li>Its final purpose is to minimise the error between predicted and actual output.</li>
 </ul><p class="seen"><strong>Seen in:</strong> May 24</p></div></div>
 

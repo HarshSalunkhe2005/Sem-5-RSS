@@ -169,7 +169,7 @@
 <li><strong>Output.</strong> The final vector of a word is w_i + w̃_i.</li>
 </ol>
 <p><strong>Example.</strong> Corpus: &quot;I like deep learning&quot;, &quot;I like NLP&quot;, &quot;I enjoy flying&quot;, window 1 (neighbours on both sides). Counts: I-like 2, I-enjoy 1, like-deep 1, like-NLP 1, deep-learning 1, enjoy-flying 1. So the row of &quot;like&quot; is I = 2, deep = 1, NLP = 1.</p>
-<p>One term of the loss for a pair with X = 10: f(10) = (10/100)^0.75 = 0.178. If the current vectors give w·w̃ + b + b̃ = 1.5 and log 10 = 2.303, the error is 1.5 − 2.303 = −0.803, squared 0.644, weighted 0.178 × 0.644 = 0.114. Gradient descent changes the vectors to shrink this value for every pair.</p>
+<p>One term of the loss for a pair with X = 10: f(10) = (10/100)^0.75 = 0.178. If the current vectors give w·w̃ + b + b̃ = 1.5 and log 10 = 2.303, the error is 1.5 − 2.303 = −0.803, squared 0.644, weighted 0.178 × 0.644 = 0.115. Gradient descent changes the vectors to shrink this value for every pair.</p>
 <p><strong>Why ratios.</strong> GloVe is motivated by ratios of co-occurrence probabilities: P(solid | ice) / P(solid | steam) is large, P(gas | ice) / P(gas | steam) is small, and for a neutral word such as &quot;water&quot; the ratio is near 1. The vectors are fitted so their differences encode these ratios.</p>
 <p><strong>Versus Word2Vec.</strong> Word2Vec learns from local windows one at a time (predictive); GloVe uses aggregated global counts (count-based). Advantage: uses corpus-wide statistics and pre-trained vectors are available. Limitation: needs the co-occurrence matrix in memory, and each word gets one fixed vector whatever the sentence.</p><p class="seen"><strong>Seen in:</strong> Dec 23, Dec 24 set B, May 25 set B</p></div></div>
 
@@ -218,7 +218,7 @@
 <p><strong>Idea.</strong> Turn the task into yes/no questions. For each real (target, context) pair (label 1) pick k random &quot;noise&quot; words (label 0) and update only those 1 + k output vectors. Noise words are drawn from the unigram distribution raised to the power 3/4, so frequent words are sampled less often. Typical k is 5 to 20 for small corpora and 2 to 5 for large ones.</p>
 <p><strong>Loss.</strong> −log σ(u_o·v_c) − Σ log σ(−u_n·v_c), where v_c is the target vector, u_o the real context and u_n the noise words.</p>
 <p><strong>Numbers.</strong> Real pair score 2.0, two noise scores −1.0 and −0.5: loss = −log σ(2.0) − log σ(1.0) − log σ(0.5) = 0.127 + 0.313 + 0.474 = 0.914.</p>
-<p><strong>Gain.</strong> With V = 100,000 and k = 5 only 6 output vectors are updated instead of 100,000, about 16,000 times less work per step, with no loss of vector quality.</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
+<p><strong>Gain.</strong> With V = 100,000 and k = 5 only 6 output vectors are updated instead of 100,000, about 16,700 times less work per step, with little or no loss in vector quality.</p><p class="seen"><strong>Seen in:</strong> May 25 set A</p></div></div>
 
     <div class="qa"><p class="q"><span class="num">P7</span>In a sentiment analysis project you must classify tweets as positive, negative or neutral. How would you use Word2Vec embeddings to represent the words and improve the classifier?<span class="marks">6 marks</span></p>
       <div class="a"><p><strong>Idea.</strong> Replace sparse word counts with dense vectors in which similar words (&quot;good&quot;, &quot;great&quot;, &quot;superb&quot;) sit close together, so the classifier generalises to words it saw rarely.</p>
@@ -313,7 +313,7 @@
       <div class="a"><p><strong>Definition.</strong> In an RNN trained by backpropagation through time, the gradient that reaches an early time step is a product of many factors (each made of W_hh and the tanh derivative). When these factors are below 1 the product shrinks exponentially with distance, so the network cannot learn long-range dependencies. This is the vanishing gradient problem (above 1 it explodes).</p>
 <p><strong>Numbers.</strong> Factor 0.9 per step: 0.9^10 = 0.35 but 0.9^50 = 0.005. The sigmoid derivative is at most 0.25, and 0.25^10 ≈ 1×10^−6. Effect: in &quot;The books that the teacher gave to the students last year <strong>were</strong> heavy&quot; a plain RNN forgets that the subject was plural.</p>
 <p><strong>LSTM fix.</strong> The cell state is updated additively, c_t = f_t ⊙ c_t−1 + i_t ⊙ g_t, so ∂c_t/∂c_t−1 = f_t. With f_t ≈ 0.95 the gradient over 50 steps is 0.95^50 = 0.077 instead of 0.005, and a forget gate near 1 gives a nearly constant error path.</p>
-<p><strong>GRU fix.</strong> Two gates, update z and reset r: h_t = (1 − z_t) ⊙ h_t−1 + z_t ⊙ h̃_t. When z ≈ 0 the old state is copied forward, again an additive path.</p>
+<p><strong>GRU fix.</strong> Two gates, update z and reset r: h_t = (1 − z_t) ⊙ h_t−1 + z_t ⊙ h̃_t. When z ≈ 0 the old state is copied forward, again an additive path. (Some books swap the roles, h_t = z ⊙ h_t−1 + (1 − z_t) ⊙ h̃_t; state the convention you use.)</p>
 <table><thead><tr><th></th><th>LSTM</th><th>GRU</th></tr></thead><tbody>
 <tr><td>Gates</td><td>3 (forget, input, output) plus cell state</td><td>2 (update, reset), no separate cell</td></tr>
 <tr><td>Parameters (n_x = 100, n_h = 128)</td><td>4 × 29,312 = 117,248</td><td>3 × 29,312 = 87,936</td></tr>
@@ -505,7 +505,7 @@ X --[WQ8,WK8,WV8]--&gt; attention head 8 --+</pre>
     <div class="qa"><p class="q"><span class="num">P25</span>Discuss how BERT has transformed NLP tasks such as sentiment analysis and question answering.<span class="marks">6 marks</span></p>
       <div class="a"><p><strong>Key change.</strong> Instead of training a separate model for each task, BERT is pre-trained once on large text (masked language modelling) and then fine-tuned with a small output layer. Its vectors are contextual and bidirectional.</p>
 <ul>
-<li><strong>Sentiment analysis.</strong> Input: [CLS] review [SEP]. The final vector of [CLS] goes to a linear layer and softmax (positive/negative). Because each word's vector depends on the whole sentence, &quot;not good&quot; and &quot;sick beat&quot; are read correctly, and a few thousand labelled reviews are enough. Earlier: bag-of-words with a lexicon, which misses negation and context.</li>
+<li><strong>Sentiment analysis.</strong> Input: [CLS] review [SEP]. The final vector of [CLS] goes to a linear layer and softmax (positive/negative). Because each word's vector depends on the whole sentence, &quot;not good&quot; and &quot;sick beat&quot; are read correctly, and a few thousand labelled reviews can be enough. Earlier: bag-of-words with a lexicon, which misses negation and context.</li>
 <li><strong>Question answering (SQuAD style).</strong> Input: [CLS] question [SEP] passage [SEP]. The model learns two vectors, one scoring each passage token as the answer <strong>start</strong> and one as the answer <strong>end</strong>; softmax over positions picks the span. Example: passage &quot;The Taj Mahal is in Agra.&quot;, question &quot;Where is the Taj Mahal?&quot; → start = end = &quot;Agra&quot;. Earlier systems used hand-built features or RNNs with attention.</li>
 </ul>
 <table><thead><tr><th></th><th>Before BERT</th><th>With BERT</th></tr></thead><tbody>
@@ -558,7 +558,7 @@ rolled form:   x -&gt; [ h ] -&gt; y      with a loop arrow from h back to itsel
 <li>The hidden state h_t is the network's <strong>memory</strong>: a vector summarising everything read up to step t.</li>
 <li>It is computed from the current input and the previous state: h_t = tanh(W_xh x_t + W_hh h_t−1 + b), so information flows forward through time.</li>
 <li>It is used to make the output y_t = softmax(W_hy h_t + c), and for classification the last state h_T represents the whole sentence.</li>
-<li>Example (sizes 2 and 2): x_t = [1, 2], h_t−1 = [0.5, −0.5] gives pre-activation [−0.15, 0.85] and h_t = [−0.149, 0.691].</li>
+<li>Example (sizes 2 and 2; W_xh = [[0.5, −0.3], [0.8, 0.2]], W_hh = [[0.1, 0.4], [−0.2, 0.3]], b = [0.1, −0.1]): x_t = [1, 2], h_t−1 = [0.5, −0.5] gives pre-activation [−0.15, 0.85] and h_t = [−0.149, 0.691].</li>
 </ul>
 <p>Limit: it has a fixed size, so very long histories are compressed and early information fades.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
 
@@ -777,7 +777,7 @@ rolled form:   x -&gt; [ h ] -&gt; y      with a loop arrow from h back to itsel
 <tr><td>Whitespace</td><td>split on spaces</td><td>&quot;She isn't coming.&quot; → [She, isn't, coming.] (punctuation stays stuck to words)</td></tr>
 <tr><td>Rule-based / regex (Treebank style)</td><td>rules for punctuation and contractions</td><td>→ [She, is, n't, coming, .]</td></tr>
 <tr><td>Sentence tokenization</td><td>split into sentences, handling abbreviations</td><td>&quot;Dr. Rao is here. He is late.&quot; → 2 sentences</td></tr>
-<tr><td>Sub-word (BPE, WordPiece)</td><td>start from characters and merge the most frequent pairs; rare words split into pieces</td><td>&quot;playing&quot; → [play, ##ing]; used in BERT and GPT; no unknown-word problem</td></tr>
+<tr><td>Sub-word (BPE, WordPiece)</td><td>start from characters and merge the most frequent pairs; rare words split into pieces</td><td>&quot;playing&quot; → [play, ##ing]; used in BERT and GPT; few or no unknown words</td></tr>
 <tr><td>Character-level</td><td>every character is a token</td><td>&quot;NLP&quot; → [N, L, P]; tiny vocabulary but long sequences</td></tr>
 </tbody></table>
 <p><strong>Challenges:</strong> languages without spaces (Chinese, Japanese) need dedicated tokenizers; agglutinative languages build long words; hashtags, URLs and emojis need special rules.</p>
@@ -907,7 +907,7 @@ rolled form:   x -&gt; [ h ] -&gt; y      with a loop arrow from h back to itsel
 <tr><td>Cosine on raw counts</td><td>0.516</td><td>0.516</td><td>0.600</td></tr>
 <tr><td>Cosine on TF-IDF</td><td>0.220</td><td>0.220</td><td>0.193</td></tr>
 </tbody></table>
-<p>With raw counts the pair D2-D3 looks most similar mostly because of shared common words such as &quot;is&quot;; with TF-IDF those words weigh nothing and the scores reflect distinctive words only. (In this tiny corpus all similarities are low, which is realistic.)</p>
+<p>With raw counts the pair D2-D3 looks most similar partly because of the shared common word &quot;is&quot;; with TF-IDF &quot;is&quot; weighs nothing and the scores reflect distinctive words only. (In this tiny corpus all similarities are low, which is realistic.)</p>
 <p><strong>Strengths.</strong> Simple, fast, interpretable; suppresses common words; works well for near-duplicate detection, plagiarism screening and search.</p>
 <p><strong>Weaknesses.</strong> Exact word match only: &quot;car&quot; and &quot;automobile&quot; give zero similarity; no word order; long sparse vectors; IDF depends on the corpus.</p>
 <p><strong>Verdict.</strong> Effective as a baseline for lexical similarity; for meaning-based similarity use embeddings or BERT sentence vectors.</p><p class="seen"><strong>Seen in:</strong> Dec 25 set A</p></div></div>
@@ -1051,7 +1051,7 @@ rolled form:   x -&gt; [ h ] -&gt; y      with a loop arrow from h back to itsel
 </tbody></table>
 <p>Per-class precision: Sports 50/58 = 0.862, Politics 4/10 = 0.400, Tech 1/7 = 0.143. Macro-precision = (0.862 + 0.400 + 0.143) / 3 = 0.468.</p>
 <p>Micro: TP = 50 + 4 + 1 = 55, FP = 8 + 6 + 6 = 20, FN = 10 + 6 + 4 = 20. Micro-precision = 55/(55 + 20) = 0.733. Micro-recall is also 55/75 = 0.733 and so is micro-F1.</p>
-<p>Macro-F1 = (0.848 + 0.400 + 0.167) / 3 = 0.471.</p>
+<p>Macro-F1 = (0.847 + 0.400 + 0.167) / 3 = 0.471.</p>
 <p><strong>Reading:</strong> micro (0.733) looks good because Sports is large; macro (0.471) exposes that Politics and Tech are handled badly. Use macro when small classes matter, micro when overall performance matters.</p><p class="seen"><strong>Seen in:</strong> May 25 set B</p></div></div>
 </section>
 

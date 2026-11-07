@@ -194,7 +194,7 @@
 <li><strong>Connections:</strong> non-persistent (new TCP connection per object, 2 RTT each) and persistent (HTTP/1.1: one connection reused, saves the set-up RTTs).</li>
 </ul>
 <p>Example: <code>GET /hello.htm HTTP/1.1</code> with <code>Host: www.example.com</code> is answered by <code>HTTP/1.1 200 OK</code> and the page.</p>
-<p><strong>Versions:</strong> 1.0 (1996), 1.1 (1997, persistent, caching), 2 (2015, multiplexing, header compression), 3 (2020, runs over QUIC on UDP, no TCP head-of-line blocking).</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), May 24 (short note)</p></div></div>
+<p><strong>Versions:</strong> 1.0 (1996), 1.1 (1997, persistent, caching), 2 (2015, multiplexing, header compression), 3 (standardised 2022, in use since about 2020; runs over QUIC on UDP, no TCP head-of-line blocking).</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec), May 24 (short note)</p></div></div>
 
     <div class="qa"><p class="q"><span class="num">P5</span>Identify the two main sections of an HTTP request message.<span class="marks">2 marks</span></p>
       <div class="a">
@@ -815,7 +815,7 @@
 <ol>
 <li><strong>Slow start:</strong> cwnd starts at 1 segment and doubles each RTT (+1 per ACK) until it reaches ssthresh.</li>
 <li><strong>Congestion avoidance:</strong> above ssthresh, cwnd grows by 1 segment per RTT (additive increase).</li>
-<li><strong>On loss:</strong> ssthresh = cwnd / 2 (multiplicative decrease). A timeout sets cwnd = 1 and restarts slow start (Tahoe); three duplicate ACKs set cwnd = ssthresh and continue in congestion avoidance (Reno, fast recovery).</li>
+<li><strong>On loss:</strong> ssthresh = cwnd / 2 (multiplicative decrease). A timeout sets cwnd = 1 and restarts slow start (both Tahoe and Reno; Tahoe does the same on three duplicate ACKs too); in Reno three duplicate ACKs set cwnd = ssthresh and continue in congestion avoidance (fast recovery).</li>
 </ol>
 <p>Example: ssthresh = 16 gives cwnd = 1, 2, 4, 8, 16, 17, 18 over seven RTTs. A timeout at 18 sets ssthresh = 9, cwnd = 1, and the next RTTs are 1, 2, 4, 8, 9, 10.</p>
 <p>Without this every sender would flood the network; AIMD keeps queues short and shares bandwidth fairly.</p><p class="seen"><strong>Seen in:</strong> Dec 23 (2 Dec)</p></div></div>
@@ -860,7 +860,7 @@
 <p><strong>Purpose of the network layer (layer 3):</strong> deliver packets from the source host to the destination host across many networks. Functions: logical (IP) addressing, routing (choosing the path), forwarding (moving each packet to the next hop), fragmentation, and error and status reporting with ICMP.</p>
 <p><strong>Count-to-infinity:</strong> in distance-vector routing, after a link fails the routers keep raising their estimate to the unreachable network because each believes the other still has a valid path, causing a routing loop and slow convergence.</p>
 <pre class="art">
-   X ---- A ---- B ---- C        costs: each link 1; routers know X through A
+   X ---- A ---- B ---- C        X = network attached to A (distance 0); links A-B, B-C cost 1
    (A-X link fails)
 </pre>
 <p>Before the failure: A→X = 0 (directly connected), B→X = 1 via A, C→X = 2 via B. The A-X link fails. A marks X unreachable (∞), but B still advertises distance 1 to X.</p>
@@ -1069,7 +1069,7 @@
 <p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
 <pre class="art">
   Sender --- message ---→ [ transmission medium ] ---→ Receiver
-     ________________ protocol (agreed rules) _______________/
+     \________________ protocol (agreed rules) _______________/
 </pre>
 <ol>
 <li><strong>Message:</strong> the information to be sent (text, numbers, image, audio, video).</li>
@@ -1143,9 +1143,9 @@
 <pre class="art">
    BUS                     STAR                    RING                MESH (4 nodes)
  A   B   C   D            B   C                  A --- B              A --- B
- |   |   |   |              /                   |     |              |  / |
- ============ backbone     [HUB]                 D --- C              | /  |
-                           /                                         D --- C
+ |   |   |   |             \ /                  |     |              | \ / |
+ ============ backbone     [HUB]                 D --- C              | / \ |
+                           / \                                       D --- C
                           A   D
 </pre>
 <table><thead><tr><th>Topology</th><th>Advantages</th><th>Disadvantages</th><th>Scenario</th></tr></thead><tbody>
@@ -1168,9 +1168,9 @@
 </ol>
 <pre class="art">
  Tree:        [root switch]
-               /        |
+               /        \
          [switch]     [switch]
-         /   |          |   |
+         /   \        /   \
         PC   PC        PC   PC
 </pre>
 <p>How to sketch: draw each in a small box with 4 to 6 nodes and write one pro and one con under it.</p><p class="seen"><strong>Seen in:</strong> Dec 24</p></div></div>
@@ -1180,7 +1180,7 @@
 <p class="beyond"><strong>Beyond the deck:</strong> standard textbook content, not from the course notes.</p>
 <table><thead><tr><th>Point</th><th>UTP</th><th>STP</th><th>Coaxial</th><th>Optical fibre</th></tr></thead><tbody>
 <tr><td>Construction</td><td>Four pairs of twisted copper wire, no shield</td><td>Twisted pairs plus a foil or braid shield</td><td>Central copper core, insulator, braided shield, jacket</td><td>Glass or plastic core with cladding; light pulses</td></tr>
-<tr><td>Speed</td><td>Cat 5e: 1 Gbps at 100 m; Cat 6a: 10 Gbps at 100 m</td><td>Similar to UTP, up to 10 Gbps</td><td>Higher bandwidth than twisted pair (cable TV, DOCSIS up to hundreds of Mbps shared)</td><td>Highest: many Gbps to Tbps; km to tens of km (single mode)</td></tr>
+<tr><td>Speed</td><td>Cat 5e: 1 Gbps at 100 m; Cat 6a: 10 Gbps at 100 m</td><td>Similar to UTP, up to 10 Gbps</td><td>Higher bandwidth than twisted pair over long runs (cable TV and cable broadband, shared by many homes)</td><td>Highest: many Gbps to Tbps; km to tens of km (single mode)</td></tr>
 <tr><td>Installation</td><td>Easy and flexible, RJ-45 connectors</td><td>Stiffer, needs grounding</td><td>Heavier, harder to bend and terminate</td><td>Skilled work, fragile, special connectors</td></tr>
 <tr><td>EMI</td><td>Twisting cancels some noise; susceptible</td><td>Shield gives better protection</td><td>Good shielding</td><td>Immune to electromagnetic interference; hard to tap</td></tr>
 <tr><td>Cost</td><td>Lowest</td><td>Higher than UTP</td><td>Moderate</td><td>Highest (cheap per bit at scale)</td></tr>
@@ -1280,7 +1280,7 @@
 <table><thead><tr><th>Service</th><th>Virtual-circuit network</th><th>Datagram network</th></tr></thead><tbody>
 <tr><td>1 Connection</td><td>Set-up before data, teardown after; resources reserved on the path</td><td>No set-up; no reservation</td></tr>
 <tr><td>2 Routing and addressing</td><td>All packets follow one path; after set-up each carries a short VC number; every switch keeps per-connection state</td><td>Each packet routed independently using the full destination address; no state</td></tr>
-<tr><td>3 Ordering and reliability</td><td>Packets arrive in order, in the same sequence sent; a path failure breaks the circuit</td><td>Packets may arrive out of order or be lost; the destination reorders; a failed node is routed around</td></tr>
+<tr><td>3 Ordering and reliability</td><td>Packets arrive in order, in the same sequence sent; a path failure breaks the circuit</td><td>Packets may arrive out of order or be lost; the network does not fix this (TCP at the end hosts reorders and resends); a failed node is routed around</td></tr>
 </tbody></table>
 <p>Examples: VC in ATM, Frame Relay, MPLS-style paths; datagram in IP (the Internet). VC suits long conversations, datagram suits a few packets.</p><p class="seen"><strong>Seen in:</strong> Dec 25</p></div></div>
 

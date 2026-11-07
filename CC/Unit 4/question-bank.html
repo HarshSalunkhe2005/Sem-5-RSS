@@ -97,7 +97,7 @@
 
     <div class="qa"><p class="q"><span class="num">Q48</span>List and explain the six categories of cloud security threats.<span class="marks">6 marks</span></p>
       <div class="a"><ol>
-        <li><strong>Misconfiguration</strong>: default or overly permissive settings (public bucket, database open to the internet, no MFA). Needs no hacking skill, hence the leading cause of breaches.</li>
+        <li><strong>Misconfiguration</strong>: default or overly permissive settings (public bucket, database open to the internet, no MFA). Needs no hacking skill, hence one of the leading causes of breaches.</li>
         <li><strong>Weak identity</strong>: over-permissioned identities and weak access control.</li>
         <li><strong>Insecure APIs</strong>: everything is managed by API, so a leaked key lets an attacker act on the account.</li>
         <li><strong>Data exposure</strong>: public buckets and over-shared links.</li>
@@ -133,7 +133,7 @@
       <p><strong>Limitations</strong>: focuses on configuration, not live runtime threats; false positives without tuning; auto-remediation can disrupt services; needs broad read access that must itself be secured.</p></div></div>
 
     <div class="qa"><p class="q"><span class="num">Q52</span>Why is CSPM needed? (volume, velocity, drift)<span class="marks">3 marks</span></p>
-      <div class="a"><p>Misconfiguration is the largest root cause of cloud breaches, and manual review cannot keep up:</p>
+      <div class="a"><p>Misconfiguration is one of the largest root causes of cloud breaches, and manual review cannot keep up:</p>
       <ul><li><strong>Volume</strong>: tens of thousands of resources across accounts, regions and providers.</li>
       <li><strong>Velocity</strong>: IaC and CI/CD change resources continuously.</li>
       <li><strong>Drift</strong>: a correct configuration is quietly changed later (a Friday "quick fix") and nobody re-reviews it.</li></ul></div></div>
