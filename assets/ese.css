@@ -202,3 +202,8 @@ html[data-theme="dark"] .hero-fig img,html[data-theme="dark"] figure img{filter:
 p.seen{font-size:.92rem;color:var(--muted,#6b6b6b);margin:.2rem 0 .8rem}
 p.beyond{font-size:.88rem;border-left:3px solid var(--accent,#7c4dff);padding:.15rem .7rem;margin:.4rem 0 .8rem;opacity:.9}
 pre.art{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:.82rem;line-height:1.35;background:rgba(127,127,127,.12);border:1px solid rgba(127,127,127,.25);border-radius:8px;padding:.7rem .9rem;overflow-x:auto;max-width:100%;white-space:pre}
+
+/* mock paper */
+.mock-clock{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:1.6rem;font-weight:700;padding:.2rem .8rem;border:1px solid rgba(127,127,127,.35);border-radius:8px}
+.mock-paper h2{margin:1.6rem 0 .6rem}
+.mock-paper .tq{margin:.8rem 0}

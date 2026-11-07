@@ -38,9 +38,10 @@
   if (navInner && SUBJ && READY.indexOf(SUBJ) > -1) {
     var PYQ_FILE = { CC: "pyq.html", NLP: "pyq.html", DL: "pyq.html", CN: "pyq.html" };
     var extras = [["Flashcards", "flashcards.html"], ["Cheat sheet", "cheatsheet.html"]];
-    if (PYQ_FILE[SUBJ]) extras.push(["PYQ answers", PYQ_FILE[SUBJ]]);
+    if (PYQ_FILE[SUBJ]) { extras.push(["PYQ answers", PYQ_FILE[SUBJ]]); extras.push(["Mock paper", "mock.html"]); }
     extras.forEach(function (x) {
       if (rel.indexOf(x[1]) > -1) return;
+      if ([].some.call(navInner.querySelectorAll("a"), function (l) { return (l.getAttribute("href") || "").indexOf(x[1]) === 0; })) return;
       var a = el("a", "", x[0]); a.href = BASE + SUBJ + "/" + x[1]; a.style.color = "var(--accent)"; navInner.appendChild(a);
     });
   }
@@ -180,6 +181,52 @@
     fg.addEventListener("keydown", function (e) { if (e.key === "ArrowRight") go(cur + 1); else if (e.key === "ArrowLeft") go(cur - 1); });
     go(0);
   });
+
+  /* ---------- mock paper page ---------- */
+  var ma = d.getElementById("mock-app");
+  if (ma) {
+    var msubj = ma.getAttribute("data-subject");
+    ma.innerHTML = "<p class=\"flash-meta\">Loading questions…</p>";
+    fetch(encodeURI(BASE + msubj + "/pyq.html")).then(function (r) { return r.ok ? r.text() : ""; }).then(function (h) {
+      var doc = new DOMParser().parseFromString(h, "text/html");
+      var all = [].slice.call(doc.querySelectorAll(".qa")).map(function (q) {
+        var qe = q.querySelector(".q"), ae = q.querySelector(".a"); if (!qe || !ae) return null;
+        var mk = qe.querySelector(".marks"), m = mk ? parseInt(mk.textContent, 10) || 5 : 5;
+        var qq = qe.cloneNode(true); [].forEach.call(qq.querySelectorAll(".num,.marks"), function (x) { x.remove(); });
+        return { q: qq.textContent.trim(), a: ae.innerHTML, m: m };
+      }).filter(Boolean);
+      var short = all.filter(function (x) { return x.m <= 4; }), long = all.filter(function (x) { return x.m >= 5; });
+      if (short.length < 5) { short = all.slice(); long = all.slice(); }
+      var left = 90 * 60, timer = null, paper = [];
+      var clock = el("div", "mock-clock", "90:00"), bar = el("div", "ese-bar");
+      function fmt(t) { var m = Math.floor(t / 60), s = t % 60; return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
+      var start = btn("Start 90-minute timer", "primary", function () {
+        if (timer) { clearInterval(timer); timer = null; start.textContent = "Resume timer"; return; }
+        start.textContent = "Pause timer";
+        timer = setInterval(function () { left--; clock.textContent = fmt(Math.max(left, 0)); if (left <= 0) { clearInterval(timer); timer = null; start.textContent = "Time is up"; start.disabled = true; } }, 1000);
+      });
+      var neu = btn("New paper", "", function () { build(); });
+      var reveal = btn("Show all answers", "", function () { paper.forEach(function (n) { n.classList.add("open"); }); });
+      bar.appendChild(clock); bar.appendChild(start); bar.appendChild(neu); bar.appendChild(reveal);
+      var out = el("div", "mock-paper");
+      function build() {
+        if (timer) { clearInterval(timer); timer = null; } left = 90 * 60; clock.textContent = "90:00"; start.disabled = false; start.textContent = "Start 90-minute timer";
+        out.innerHTML = ""; paper = [];
+        function add(items, title, perMarks) {
+          out.appendChild(el("h2", "", title));
+          items.forEach(function (x, i) {
+            var t = el("div", "tq"), q = el("div", "q"); q.textContent = (i + 1) + ". " + x.q + " (" + x.m + " marks)";
+            var a = el("div", "a", x.a);
+            var r = btn("Show answer", "primary", function () { t.classList.toggle("open"); r.textContent = t.classList.contains("open") ? "Hide answer" : "Show answer"; });
+            t.appendChild(q); t.appendChild(a); t.appendChild(r); out.appendChild(t); paper.push(t);
+          });
+        }
+        add(shuffle(short.slice()).slice(0, 5), "Part A: answer all (about 2 to 4 marks each)");
+        add(shuffle(long.slice()).slice(0, 5), "Part B: answer all (about 5 to 7 marks each)");
+      }
+      ma.innerHTML = ""; ma.appendChild(bar); ma.appendChild(out); build();
+    }).catch(function () { ma.innerHTML = "<p>Couldn't load the questions.</p>"; });
+  }
 
   /* ---------- flashcards page ---------- */
   var fa = d.getElementById("flash-app");
