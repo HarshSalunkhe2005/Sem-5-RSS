@@ -42,3 +42,9 @@ Refuse:      gradient text, coloured side-border cards, identical icon-card grid
   and to ESE_MANIFEST on index.html -> verify 1440 + 375, light + dark -> commit + push.
 - NOTE: */source-materials (about 62 MB of raw Moodle decks) is already tracked in git history from earlier commits. .gitignore now blocks new additions;
   removing them from the repo (git rm --cached, or a history purge) needs Harsh's decision.
+
+## PYQ answers phase (Nov 2026)
+Real Sem 5 papers were pulled into the local, gitignored pyq/ folder and audited (see pyq/AUDIT.md, local only). Each subject gets a solved PYQ page, sorted by how often a topic is asked.
+- [x] CC: CC/pyq.html (31 model answers incl. AWS services, load balancing and auto-scaling scenario, AWS dev/deploy tools). Flashcards include it.
+- [ ] NLP, DL, CN: pending.
+Never commit the papers or OCR text; only written model answers go on the site.

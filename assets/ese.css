@@ -197,3 +197,8 @@ html[data-theme="dark"] .hero-fig img,html[data-theme="dark"] figure img{filter:
 @media (max-width:560px){body{font-size:16px;} .qa .q{flex-wrap:wrap;overflow-wrap:anywhere;} .qa .q .marks{margin-left:0;} .qa .qtools{margin-left:0;} header.hero{padding:34px 18px 26px;}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;} .flash-card{transition:none;}}
 @media print{.ese-bar,.test-panel,.fig-ctl,.qtools,.step-ctl,.done-chip{display:none!important;} .qa.has-reveal .a,ol.steps.reveal-steps li:not(.shown){display:block!important;} .answer.hold{display:block!important;}}
+
+/* PYQ answer pages */
+p.seen{font-size:.92rem;color:var(--muted,#6b6b6b);margin:.2rem 0 .8rem}
+p.beyond{font-size:.88rem;border-left:3px solid var(--accent,#7c4dff);padding:.15rem .7rem;margin:.4rem 0 .8rem;opacity:.9}
+pre.art{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:.82rem;line-height:1.35;background:rgba(127,127,127,.12);border:1px solid rgba(127,127,127,.25);border-radius:8px;padding:.7rem .9rem;overflow-x:auto;max-width:100%;white-space:pre}

@@ -36,7 +36,10 @@
   /* ---------- nav extras ---------- */
   var navInner = d.querySelector("nav.toc .inner");
   if (navInner && SUBJ && READY.indexOf(SUBJ) > -1) {
-    [["Flashcards", "flashcards.html"], ["Cheat sheet", "cheatsheet.html"]].forEach(function (x) {
+    var PYQ_FILE = { CC: "pyq.html" };
+    var extras = [["Flashcards", "flashcards.html"], ["Cheat sheet", "cheatsheet.html"]];
+    if (PYQ_FILE[SUBJ]) extras.push(["PYQ answers", PYQ_FILE[SUBJ]]);
+    extras.forEach(function (x) {
       if (rel.indexOf(x[1]) > -1) return;
       var a = el("a", "", x[0]); a.href = BASE + SUBJ + "/" + x[1]; a.style.color = "var(--accent)"; navInner.appendChild(a);
     });
