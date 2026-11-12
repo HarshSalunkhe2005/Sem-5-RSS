@@ -151,6 +151,8 @@
   <section id="momentum">
     <p class="eyebrow">03 · Give the ball inertia</p>
     <h2>SGD with Momentum</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Optimisers<ul><li>Gradient descent<ul><li>Batch: exact, slow</li><li>SGD: noisy, fast</li><li>Mini-batch: default</li></ul></li><li>Momentum family<ul><li>Momentum: velocity v</li><li>NAG: look ahead, then step</li></ul></li><li>Adaptive family<ul><li>Adagrad: sum of g squared</li><li>RMSprop: decaying average</li><li>Adadelta: no learning rate</li><li>Adam: m + v, bias correction</li></ul></li></ul></li></ul></div>
+
     <ul>
       <li><strong>Definition:</strong> SGD plus a velocity term, an exponentially weighted average of past gradients: <code>v ← βv + α∇L</code>, <code>θ ← θ − v</code>.</li>
       <li><strong>Intuition:</strong> a heavy ball rolling downhill keeps part of its previous direction. Consistent gradient directions build speed; sign-flipping (zig-zag) components cancel.</li>
@@ -364,6 +366,8 @@
   <section id="summary">
     <p class="eyebrow">Wrap-up</p>
     <h3>Unit 4 — Summary</h3>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Training Deep Nets<ul><li>Batch normalisation<ul><li>Normalise per batch</li><li>Scale gamma, shift beta</li><li>Running stats at inference</li></ul></li><li>Gradient problems<ul><li>Vanishing</li><li>Exploding</li><li>Fix: ReLU, init, clipping</li></ul></li><li>Hyperparameter tuning<ul><li>Learning rate first</li><li>Random beats grid</li><li>Bayesian search</li></ul></li><li>Interpretability<ul><li>Saliency, Grad-CAM</li><li>LIME, SHAP</li></ul></li></ul></li></ul></div>
+
     <ul>
       <li>GD family: batch (exact, slow), SGD (noisy, fast), mini-batch (default). Momentum adds velocity, NAG adds look-ahead.</li>
       <li>Adaptive family: Adagrad (sum, rate vanishes) → RMSprop (decaying average) → Adadelta (ratio of averages, no η) → Adam (momentum + RMSprop + bias correction).</li>
@@ -384,5 +388,6 @@
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

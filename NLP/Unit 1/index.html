@@ -220,6 +220,8 @@ doc = nlp(text)
   <section id="levels">
     <p class="eyebrow">03 · Linguistics for NLP</p>
     <h2>Core NLP Language Levels</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Language Levels<ul><li>Morphological<ul><li>Word structure</li></ul></li><li>Lexical<ul><li>Words and meaning</li></ul></li><li>Syntactic<ul><li>Grammar, parse</li></ul></li><li>Semantic<ul><li>Sentence meaning</li></ul></li><li>Discourse<ul><li>Across sentences</li></ul></li><li>Pragmatic<ul><li>Context, intent</li></ul></li></ul></li></ul></div>
+
     <p><strong>Language</strong> is a structured system of communication involving complex combinations
       of its constituent components — characters, words, sentences, etc. <strong>Linguistics</strong> is
       the systematic study of language.</p>
@@ -327,6 +329,8 @@ doc = nlp(text)
   <section id="preprocessing">
     <p class="eyebrow">05 · Cleaning raw text before modeling</p>
     <h2>Data Preprocessing Techniques</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Text Preprocessing<ul><li>Cleaning<ul><li>HTML, emojis</li><li>Spelling</li></ul></li><li>Basic<ul><li>Tokenization</li><li>Stop-word removal</li><li>Lowercasing</li></ul></li><li>Normalization<ul><li>Stemming</li><li>Lemmatization</li><li>Contractions, URLs</li></ul></li><li>Vectorization<ul><li>One-hot, BoW</li><li>TF-IDF</li><li>Word2Vec, GloVe</li></ul></li></ul></li></ul></div>
+
 
     <div class="grid cols-2">
       <div class="card"><h4>🧹 Text Preprocessing</h4>
@@ -617,6 +621,8 @@ lemma   = WordNetLemmatizer()
   <section id="parsing">
     <p class="eyebrow">09 · Grammar and structure</p>
     <h2>Syntactic Parsing &amp; Grammar</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Syntax<ul><li>Parser<ul><li>Builds parse tree</li></ul></li><li>Derivation<ul><li>Left-most</li><li>Right-most</li></ul></li><li>Grammar (N, T, S, P)<ul><li>Non-terminals</li><li>Terminals</li><li>Start symbol</li><li>Productions</li></ul></li><li>Grammar types<ul><li>Constituency</li><li>Dependency</li></ul></li><li>POS tagging<ul><li>Noun, verb, adj</li></ul></li></ul></li></ul></div>
+
     <p>Syntactic analysis (parsing) draws exact/dictionary meaning from text, checking it against the
       rules of formal grammar. E.g. "hot ice-cream" would be rejected by a semantic analyzer.</p>
 
@@ -667,6 +673,8 @@ lemma   = WordNetLemmatizer()
   <section id="ner">
     <p class="eyebrow">10 · Finding real-world entities in text</p>
     <h2>Named Entity Recognition (NER)</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>NER<ul><li>Chunking<ul><li>Group phrases</li><li>Chinking removes</li></ul></li><li>Steps<ul><li>Extract entities</li><li>Search candidates</li></ul></li><li>Systems<ul><li>Rule-based</li><li>ML-based</li><li>Deep learning</li></ul></li><li>IOB tags<ul><li>B: begin</li><li>I: inside</li><li>O: outside</li></ul></li></ul></li></ul></div>
+
 
     <h3>Chunking &amp; Chinking</h3>
     <p><strong>Chunking</strong> groups individual pieces (nouns, verbs, adjectives, adverbs) into larger
@@ -830,5 +838,6 @@ doc = nlp(<span class="s">"Elon Musk founded Tesla in 2003"</span>)
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

@@ -196,6 +196,8 @@
     </ol>
 
     <h3>Stop-and-Wait ARQ</h3>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Transport Layer<ul><li>UDP<ul><li>Fast, no reliability</li></ul></li><li>TCP<ul><li>ACKs, retransmit</li><li>Flow control rwnd</li></ul></li><li>ARQ protocols<ul><li>Stop-and-Wait: N = 1</li><li>Go-Back-N: resend all after loss</li><li>Selective Repeat: resend only lost</li></ul></li></ul></li></ul></div>
+
     <p>Sender sends one frame, then <strong>waits</strong> for its ACK before sending the next.
       Simple and reliable, but low throughput — the link sits idle while waiting.</p>
     <div class="table-wrap"><table>
@@ -242,6 +244,8 @@
   <section id="congestion">
     <p class="eyebrow">05 · When the network itself is overloaded</p>
     <h2>TCP Congestion Control</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>TCP Congestion Control<ul><li>Slow start<ul><li>cwnd doubles per RTT</li></ul></li><li>Congestion avoidance<ul><li>+1 MSS per RTT</li></ul></li><li>On loss<ul><li>3 dup ACKs: halve cwnd</li><li>Timeout: cwnd = 1</li></ul></li><li>Flow vs congestion<ul><li>rwnd: receiver</li><li>cwnd: network</li></ul></li></ul></li></ul></div>
+
     <p>TCP's congestion window (<strong>cwnd</strong>) controls how much data can be in flight
       before an ACK is needed. Three phases:</p>
 <!--fig:cn-cwnd-->
@@ -311,5 +315,6 @@
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

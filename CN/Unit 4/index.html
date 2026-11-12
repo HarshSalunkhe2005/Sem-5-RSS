@@ -163,6 +163,8 @@
     </div>
 
     <h3>Datagram network</h3>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Packet Switching<ul><li>Virtual circuit<ul><li>Setup, transfer, teardown</li><li>Same path, in order</li><li>Reserved resources</li></ul></li><li>Datagram<ul><li>Each packet routed alone</li><li>No setup</li><li>FCFS resources</li></ul></li><li>Router jobs<ul><li>Forwarding: data plane</li><li>Routing: control plane</li><li>Longest-prefix match</li></ul></li></ul></li></ul></div>
+
     <p>In a connectionless system, a <strong>datagram</strong> is the smallest unit of data transmitted. Datagrams carry enough header information to be <strong>individually routed</strong> by every intermediate switching device. These networks exist within packet switching. (The deck adds that datagram communication is generally associated with UDP; in the Internet the datagram service of the network layer is provided by IP itself.)</p>
     <div class="card"><h4>Features of datagram networks</h4>
       <ul>
@@ -244,6 +246,8 @@
   <section id="ipv4">
     <p class="eyebrow">03 · 32-bit addresses</p>
     <h2>IPv4 &amp; IPv4 Addressing</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Network Addressing<ul><li>IPv4<ul><li>32 bits, 4 octets</li><li>Classes A to E</li><li>Network + host parts</li></ul></li><li>Subnetting<ul><li>Network = IP AND mask</li><li>Hosts = 2^(32-n) - 2</li><li>CIDR</li></ul></li><li>IPv6<ul><li>128 bits, 8 groups</li><li>Hex, colons</li><li>Dual stack, tunnelling</li></ul></li><li>ICMP<ul><li>ping, traceroute</li><li>Error messages</li></ul></li></ul></li></ul></div>
+
     <p><strong>IPv4</strong> (Internet Protocol version 4) is the most widely used system for identifying devices on a network. It uses a set of four numbers separated by periods (like <code>192.168.0.1</code>) to give each device a unique address, which helps data find its way from one device to another.</p>
 <!--fig:cn-frag-->
 <figure class="fig" data-caps='["The datagram is 4000 bytes: a 20-byte header + 3980 bytes of data. The link MTU is 1500 bytes.","Each fragment carries at most 1500 − 20 = 1480 bytes of data (a multiple of 8). So data is split 1480 + 1480 + 1020.","Fragment 1: length 1500, offset 0, MF = 1 (more fragments follow).","Fragment 2: length 1500, offset 1480 / 8 = 185, MF = 1.","Fragment 3: length 20 + 1020 = 1040, offset 2960 / 8 = 370, MF = 0 (last). The destination reassembles using offset and the same identification."]' data-intro="Cut the datagram." tabindex="0"><div class="svgwrap"><svg viewBox="0 0 760 400" role="img" aria-label="IPv4 fragmentation: 4000-byte datagram, MTU 1500" style="min-width:620px"><defs><marker id="fa11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker><marker id="fb11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-acc"/></marker></defs><g data-s="1"><rect class="s-fill" x="40" y="40" width="80" height="40" rx="0"/></g><g data-s="1"><text class="tm" x="80" y="66" text-anchor="middle">hdr 20</text></g><g data-s="1"><rect class="s-mark" x="120" y="40" width="600" height="40" rx="0"/></g><g data-s="1"><text class="tb" x="420" y="66" text-anchor="middle">data 3980 bytes</text></g><g data-s="3"><rect class="s-fill" x="40" y="130" width="80" height="40" rx="0"/></g><g data-s="3"><text class="tm" x="80" y="156" text-anchor="middle">hdr 20</text></g><g data-s="3"><rect class="s-acc" x="120" y="130" width="223.11557788944722" height="40" rx="0"/></g><g data-s="3"><text class="tb" x="231.5577889447236" y="156" text-anchor="middle">1480 B data</text></g><g data-s="3"><text class="tm" x="365.1155778894472" y="156" text-anchor="start">len 1500  offset 0  MF 1</text></g><g data-s="4"><rect class="s-fill" x="40" y="206" width="80" height="40" rx="0"/></g><g data-s="4"><text class="tm" x="80" y="232" text-anchor="middle">hdr 20</text></g><g data-s="4"><rect class="s-acc" x="120" y="206" width="223.11557788944722" height="40" rx="0"/></g><g data-s="4"><text class="tb" x="231.5577889447236" y="232" text-anchor="middle">1480 B data</text></g><g data-s="4"><text class="tm" x="365.1155778894472" y="232" text-anchor="start">len 1500  offset 185  MF 1</text></g><g data-s="5"><rect class="s-fill" x="40" y="282" width="80" height="40" rx="0"/></g><g data-s="5"><text class="tm" x="80" y="308" text-anchor="middle">hdr 20</text></g><g data-s="5"><rect class="s-acc" x="120" y="282" width="153.76884422110552" height="40" rx="0"/></g><g data-s="5"><text class="tb" x="196.88442211055275" y="308" text-anchor="middle">1020 B data</text></g><g data-s="5"><text class="tm" x="295.7688442211055" y="308" text-anchor="start">len 1040  offset 370  MF 0</text></g><g data-s="2"><line class="c4" x1="343.1155778894472" y1="30" x2="343.1155778894472" y2="90"/><line class="c4" x1="566.2311557788944" y1="30" x2="566.2311557788944" y2="90"/></g></svg></div><figcaption>Cut the datagram.</figcaption></figure>
@@ -511,6 +515,8 @@
   <section id="routing-intro">
     <p class="eyebrow">07 · Finding the best path</p>
     <h2>Routing &amp; Routing Algorithms</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Routing<ul><li>Link-state<ul><li>Flood LSAs</li><li>Full map</li><li>Dijkstra</li><li>OSPF</li></ul></li><li>Distance-vector<ul><li>Share with neighbours</li><li>Bellman-Ford</li><li>Count-to-infinity</li><li>RIP: max 15 hops</li></ul></li><li>Inter-AS<ul><li>BGP</li><li>EBGP / IBGP</li></ul></li></ul></li></ul></div>
+
     <p>A <strong>routing algorithm</strong> is a procedure that lays down the route or path used to transfer data packets from source to destination. It helps direct Internet traffic efficiently: after a packet leaves its source it can choose among many paths, and the routing algorithm mathematically computes the best path, i.e. the <strong>least-cost path</strong>.</p>
     <div class="grid cols-3">
       <div class="card"><h4>1. Adaptive (dynamic)</h4><p>Change routing decisions whenever the network topology or traffic load changes. They use dynamic information such as current topology, load and delay to select routes.</p></div>
@@ -830,5 +836,6 @@
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

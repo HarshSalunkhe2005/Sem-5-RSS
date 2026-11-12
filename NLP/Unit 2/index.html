@@ -109,6 +109,8 @@
   <section id="basics">
     <p class="eyebrow">01 · Why we need this at all</p>
     <h2>What Is Feature Extraction?</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Feature Extraction<ul><li>One-hot<ul><li>One 1 per word</li></ul></li><li>Bag of Words<ul><li>Word counts</li><li>Order lost</li></ul></li><li>N-grams<ul><li>Word sequences</li></ul></li><li>CountVectorizer<ul><li>sklearn counts</li></ul></li><li>TF-IDF<ul><li>TF x log(N/df)</li><li>Rare words weigh more</li></ul></li></ul></li></ul></div>
+
     <p><strong>Feature extraction</strong> means converting large, raw data (text, images, audio) into
       smaller, meaningful information — <em>features</em> — that a machine learning model can
       actually read. Text is uniquely hard here: unlike images (already pixels/numbers) or audio
@@ -280,6 +282,8 @@ print(X.toarray())
   <section id="lm">
     <p class="eyebrow">07 · Predicting the next word</p>
     <h2>Probabilistic Language Modeling</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Language Models<ul><li>Chain rule<ul><li>P(w1..wn)</li></ul></li><li>N-gram models<ul><li>Unigram, bigram, trigram</li></ul></li><li>Markov assumption<ul><li>Last n-1 words only</li></ul></li><li>Smoothing<ul><li>Laplace add-1</li></ul></li><li>Naive Bayes<ul><li>Independence assumption</li><li>Text classification</li></ul></li><li>Generative models</li></ul></li></ul></div>
+
     <p>A <strong>Language Model (LM)</strong> learns relationships between words and predicts the
       next likely word given the words before it: <code>P(wₙ | w₁,w₂,...,wₙ₋₁)</code>. Used in
       auto-suggestions, conversational AI, content generation, sentiment analysis, summarization,
@@ -404,5 +408,6 @@ print(X.toarray())
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

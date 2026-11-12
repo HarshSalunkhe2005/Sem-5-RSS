@@ -345,6 +345,8 @@
   <section id="design">
     <p class="eyebrow">06 · From a blank page to a trained network</p>
     <h2>Designing a Deep Neural Network</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Designing a DNN<ul><li>Setup<ul><li>Define task + metric</li><li>Split train / val / test</li><li>Normalise inputs</li></ul></li><li>Architecture<ul><li>Baseline: 2 x 50 hidden</li><li>ReLU hidden</li></ul></li><li>Output + loss pairs<ul><li>Linear + MSE</li><li>Sigmoid + BCE</li><li>Softmax + CCE</li></ul></li><li>Training<ul><li>Adam optimiser</li><li>L2, dropout, batch norm</li><li>Watch train vs val</li></ul></li><li>Diagnose<ul><li>High bias: bigger model</li><li>High variance: regularise</li></ul></li></ul></li></ul></div>
+
 
     <h3>Deep neural network: why and applications</h3>
     <p><span class="tag">Beyond the deck</span> A <strong>deep</strong> network stacks many hidden layers, so each layer builds more abstract features on the previous one (edges → shapes → objects). With enough data and compute this learns features automatically instead of relying on hand-engineered ones, and a deep stack can represent complex functions far more compactly than a shallow one.</p>
@@ -392,6 +394,8 @@
   <section id="tools">
     <p class="eyebrow">07 · The toolkit that does the heavy lifting</p>
     <h2>Tools: Keras, TensorFlow &amp; TFLearn</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>DL Tools<ul><li>Keras<ul><li>High-level API</li><li>compile, fit, evaluate, predict</li></ul></li><li>TensorFlow<ul><li>Engine + ecosystem</li><li>TF Lite, TF Serving</li></ul></li><li>TFLearn<ul><li>High-level layer on TF</li></ul></li></ul></li></ul></div>
+
     <p>A framework gives you automatic differentiation, hardware acceleration (CPU / GPU / TPU), prebuilt layers, optimisers / losses / metrics, data pipelines and deployment paths. Every framework rests on three primitives: <strong>tensors</strong> (n-dimensional arrays), the <strong>computational graph</strong> (the model as tensor operations) and <strong>autodiff</strong> (walk the graph backwards once to get all gradients, i.e. backprop done for you).</p>
 
     <div class="table-wrap"><table>
@@ -469,5 +473,6 @@ preds = model.predict(x_te[:5])                   # run on new data</pre>
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

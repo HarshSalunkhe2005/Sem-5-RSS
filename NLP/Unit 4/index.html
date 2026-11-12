@@ -163,6 +163,8 @@ h_0 = 0                                        usual initial state</pre>
     <span class="tag">Beyond the deck</span>
     <p class="eyebrow">02 · Training an RNN</p>
     <h2>Backpropagation Through Time (BPTT)</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Recurrent Models<ul><li>RNN<ul><li>Hidden state h_t</li><li>Bidirectional</li></ul></li><li>Training<ul><li>BPTT</li><li>Truncated BPTT</li><li>Gradient clipping</li></ul></li><li>LSTM<ul><li>Forget, input, output gates</li><li>Memory cell</li></ul></li><li>GRU<ul><li>Reset gate</li><li>Update gate</li><li>Fewer parameters</li></ul></li><li>Limits<ul><li>Vanishing gradients</li><li>Sequential, slow</li><li>Fixed-size bottleneck</li></ul></li></ul></li></ul></div>
+
     <p>Total loss is the sum over steps: <code>L = Σ_t L_t</code> (cross-entropy between
       <code>y_t</code> and the target). BPTT unrolls the network and applies ordinary backpropagation;
       because weights are shared, the gradient for a weight matrix is the <strong>sum of its
@@ -370,5 +372,6 @@ h_t = (1 − z_t) ⊙ h_(t-1) + z_t ⊙ h̃_t           blend of old and new</pr
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

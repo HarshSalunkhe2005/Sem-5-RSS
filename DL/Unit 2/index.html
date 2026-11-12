@@ -330,6 +330,8 @@ model.fit(X_train, y_train, epochs=100, validation_data=(X_test, y_test))</pre>
   <section id="backprop">
     <p class="eyebrow">05 · How networks actually learn</p>
     <h2>Backpropagation</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Backpropagation<ul><li>Forward pass<ul><li>Weighted sum + bias</li><li>Activation</li><li>Prediction</li></ul></li><li>Error<ul><li>Loss vs target</li></ul></li><li>Backward pass<ul><li>Chain rule</li><li>Gradients layer by layer</li></ul></li><li>Update<ul><li>w = w - lr x gradient</li></ul></li></ul></li></ul></div>
+
     <div class="callout"><p><strong>Backpropagation</strong> is an algorithm that trains neural
       networks by reducing prediction error — propagating errors backward, computing gradients
       via the chain rule, and updating weights/biases to improve performance. Scales well to deep,
@@ -366,6 +368,8 @@ model.fit(X_train, y_train, epochs=100, validation_data=(X_test, y_test))</pre>
   <section id="activation">
     <p class="eyebrow">06 · Introducing non-linearity</p>
     <h2>Activation Functions</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Activation Functions<ul><li>Sigmoid<ul><li>0 to 1</li><li>Binary output</li><li>Vanishing gradient</li></ul></li><li>Tanh<ul><li>-1 to 1</li><li>Zero-centred</li></ul></li><li>ReLU<ul><li>max(0, x)</li><li>Fast, default hidden</li><li>Dying ReLU</li></ul></li><li>Leaky ReLU<ul><li>Small slope for x &lt; 0</li></ul></li><li>Softmax<ul><li>Multi-class output</li><li>Probabilities sum to 1</li></ul></li></ul></li></ul></div>
+
     <p>An activation function is applied to the weighted sum of inputs before producing a neuron's
       final output. It introduces <strong>non-linearity</strong> — without it, a network of any
       depth behaves like a single linear model, since real-world data is rarely linearly separable.</p>
@@ -565,5 +569,6 @@ w, b, eta = -2, -2, 1.0
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

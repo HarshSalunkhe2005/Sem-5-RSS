@@ -192,6 +192,8 @@
   <section id="skipgram">
     <p class="eyebrow">04 · Target → Context</p>
     <h2>Skip-gram</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Word Embeddings<ul><li>Word2Vec<ul><li>CBOW: context to word</li><li>Skip-gram: word to context</li><li>Negative sampling</li></ul></li><li>GloVe<ul><li>Co-occurrence matrix</li><li>Global statistics</li></ul></li><li>Gensim<ul><li>Train Word2Vec</li><li>similarity, most_similar</li></ul></li><li>Contextual<ul><li>BERT</li></ul></li></ul></li></ul></div>
+
     <p>The reverse of CBOW: given a target (centre) word, predict the surrounding context words
       within a fixed window. "The cat <strong>drinks</strong> milk quickly" (window=2) → predicts
       "The", "cat", "milk", "quickly".</p>
@@ -334,5 +336,6 @@
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

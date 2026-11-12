@@ -48,10 +48,7 @@
       NLP: [["PYQ answers", "pyq.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]]
     };
     // original lecture decks, as PDFs so they open in the browser
-    var SLIDES = { CC: {
-      1: [["Original slides", "CC-Unit-1.pdf"]], 2: [["Original slides", "CC-Unit-2.pdf"]], 3: [["Original slides", "CC-Unit-3.pdf"]],
-      4: [["Original slides", "CC-Unit-4.pdf"]], 5: [["Original slides", "CC-Unit-5.pdf"], ["Load balancing slides", "CC-Unit-5-Load-Balancing.pdf"]]
-    } };
+    var SLIDES = {}; [["CC",5],["CN",5],["DL",4],["NLP",5]].forEach(function (x) { SLIDES[x[0]] = {}; for (var i = 1; i <= x[1]; i++) SLIDES[x[0]][i] = [["Original slides", x[0] + "-Unit-" + i + ".pdf"]]; });
     var NAMES = { CC: "Cloud", CN: "Networks", DL: "Deep Learning", NLP: "NLP" };
     var PAGE = { "question-bank": "Question bank", "question-bank-2": "Question bank 2", "numericals": "Numericals" };
     var um = rel.match(/^(CC|CN|DL|NLP)\/Unit (\d)\/([^/]+)\.html$/);
