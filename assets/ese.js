@@ -33,6 +33,123 @@
     var w = el("div", "tw auto"); t.parentNode.insertBefore(w, t); w.appendChild(t);
   });
 
+  /* ---------- site-wide navigation: top bar, prev/next units, "Go to" menu ---------- */
+  (function sitenav() {
+    var UNITS = {
+      CC:  { 1: ["question-bank"], 2: ["question-bank"], 3: ["question-bank"], 4: ["question-bank"], 5: ["question-bank"] },
+      CN:  { 1: ["question-bank", "numericals"], 2: ["question-bank"], 3: ["question-bank", "numericals"], 4: ["question-bank", "numericals"], 5: ["question-bank", "numericals"] },
+      DL:  { 1: ["question-bank", "numericals"], 2: ["question-bank", "numericals"], 3: ["question-bank", "question-bank-2", "numericals"], 4: ["question-bank"], 5: ["question-bank"] },
+      NLP: { 1: ["question-bank"], 2: ["question-bank", "numericals"], 3: ["question-bank", "numericals"], 4: ["question-bank"], 5: ["question-bank"] }
+    };
+    var EXTRA = {
+      CC:  [["PYQ answers", "pyq.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]],
+      CN:  [["PYQ answers", "pyq.html"], ["PYQ topics", "pyq-topics.html"], ["Past papers", "PYQs/index.html"], ["Extra topics", "extra-topics.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]],
+      DL:  [["PYQ answers", "pyq.html"], ["Past papers", "PYQs/index.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]],
+      NLP: [["PYQ answers", "pyq.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]]
+    };
+    // original lecture decks, as PDFs so they open in the browser
+    var SLIDES = { CC: {
+      1: [["Original slides", "CC-Unit-1.pdf"]], 2: [["Original slides", "CC-Unit-2.pdf"]], 3: [["Original slides", "CC-Unit-3.pdf"]],
+      4: [["Original slides", "CC-Unit-4.pdf"]], 5: [["Original slides", "CC-Unit-5.pdf"], ["Load balancing slides", "CC-Unit-5-Load-Balancing.pdf"]]
+    } };
+    var NAMES = { CC: "Cloud", CN: "Networks", DL: "Deep Learning", NLP: "NLP" };
+    var PAGE = { "question-bank": "Question bank", "question-bank-2": "Question bank 2", "numericals": "Numericals" };
+    var um = rel.match(/^(CC|CN|DL|NLP)\/Unit (\d)\/([^/]+)\.html$/);
+    var UNIT = um ? +um[2] : null;
+    function href(p) { return BASE + p.split("/").map(encodeURIComponent).join("/"); }
+    function link(txt, p, cur) {
+      var a = el("a", cur ? "sn-cur" : "", null); a.textContent = txt; a.href = href(p);
+      if (cur) a.setAttribute("aria-current", "page"); return a;
+    }
+
+    var css = el("style");
+    css.textContent =
+      ".sn-bar{font:600 13px/1.3 system-ui,'Segoe UI',sans-serif;background:#f4f6fb;color:#16233f;border-bottom:1px solid rgba(0,0,0,.12);position:relative;z-index:60}" +
+      ".sn-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;max-width:1150px;margin:0 auto;padding:7px 14px}" +
+      ".sn-row+.sn-row{border-top:1px solid rgba(0,0,0,.07);padding-top:6px}" +
+      ".sn-bar a,.sn-menu a{color:inherit;text-decoration:none;padding:5px 10px;border-radius:999px;white-space:nowrap}" +
+      ".sn-bar a:hover,.sn-menu a:hover{background:rgba(0,0,0,.08)}" +
+      ".sn-bar a.sn-cur,.sn-menu a.sn-cur{background:#2f7de1;color:#fff}" +
+      ".sn-lbl{opacity:.55;font-weight:700;font-size:11px;letter-spacing:.8px;text-transform:uppercase;margin-right:2px}" +
+      ".sn-sep{width:1px;height:16px;background:rgba(0,0,0,.18);margin:0 4px}" +
+      ".sn-bar a:focus-visible,.sn-menu a:focus-visible,.sn-fab:focus-visible,.sn-pn a:focus-visible{outline:3px solid #ffb547;outline-offset:2px}" +
+      ".sn-skip{position:absolute;left:8px;top:-60px;background:#ffb547;color:#000;padding:8px 14px;border-radius:8px;z-index:1000;font-weight:700}.sn-skip:focus{top:8px}" +
+      ".sn-pn{display:flex;justify-content:space-between;gap:12px;max-width:1100px;margin:30px auto 10px;padding:0 20px;font:600 15px system-ui,'Segoe UI',sans-serif}" +
+      ".sn-pn a{flex:1;border:1px solid rgba(128,128,128,.35);border-radius:12px;padding:14px 18px;text-decoration:none;color:inherit}" +
+      ".sn-pn a:hover{border-color:#2f7de1}.sn-pn .nx{text-align:right}.sn-pn small{display:block;opacity:.6;font-weight:500;font-size:12px}" +
+      ".sn-fab{position:fixed;left:18px;bottom:18px;z-index:999;border:0;border-radius:999px;padding:11px 16px;background:#2f7de1;color:#fff;font:700 14px system-ui,'Segoe UI',sans-serif;box-shadow:0 3px 14px rgba(0,0,0,.3);cursor:pointer}" +
+      ".sn-menu{position:fixed;left:18px;bottom:68px;z-index:999;width:min(560px,calc(100vw - 36px));max-height:70vh;overflow:auto;background:#fff;color:#16233f;border:1px solid rgba(0,0,0,.15);border-radius:14px;padding:12px;box-shadow:0 10px 40px rgba(0,0,0,.45);font:600 13px system-ui,'Segoe UI',sans-serif}" +
+      ".sn-menu h4{margin:10px 6px 4px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;opacity:.6}.sn-menu h4:first-child{margin-top:2px}" +
+      ".sn-menu .sn-g{display:flex;flex-wrap:wrap;gap:2px}" +
+      "@media print{.sn-bar,.sn-fab,.sn-menu,.sn-pn{display:none}}";
+    d.head.appendChild(css);
+
+    // skip link
+    var main = d.querySelector("main");
+    if (main) { if (!main.id) main.id = "main"; var sk = el("a", "sn-skip"); sk.textContent = "Skip to content"; sk.href = "#" + main.id; d.body.insertBefore(sk, d.body.firstChild); }
+
+    // top bar
+    var bar = el("nav", "sn-bar"); bar.setAttribute("aria-label", "Site");
+    var r1 = el("div", "sn-row");
+    r1.appendChild(link("⌂ Home", "index.html", rel === "index.html"));
+    r1.appendChild(el("span", "sn-sep"));
+    Object.keys(UNITS).forEach(function (s) { r1.appendChild(link(NAMES[s], s + "/Unit 1/index.html", s === SUBJ)); });
+    bar.appendChild(r1);
+    if (SUBJ) {
+      var r2 = el("div", "sn-row");
+      var lb = el("span", "sn-lbl"); lb.textContent = SUBJ; r2.appendChild(lb);
+      Object.keys(UNITS[SUBJ]).forEach(function (u) { r2.appendChild(link("Unit " + u, SUBJ + "/Unit " + u + "/index.html", +u === UNIT && um[3] === "index")); });
+      if (UNIT) {
+        r2.appendChild(el("span", "sn-sep"));
+        UNITS[SUBJ][UNIT].forEach(function (p) { r2.appendChild(link(PAGE[p], SUBJ + "/Unit " + UNIT + "/" + p + ".html", um[3] === p)); });
+        (SLIDES[SUBJ] && SLIDES[SUBJ][UNIT] || []).forEach(function (x) {
+          var a = link("📄 " + x[0], SUBJ + "/slides/" + x[1]); a.target = "_blank"; a.rel = "noopener"; r2.appendChild(a);
+        });
+      }
+      r2.appendChild(el("span", "sn-sep"));
+      EXTRA[SUBJ].forEach(function (x) { r2.appendChild(link(x[0], SUBJ + "/" + x[1], rel === SUBJ + "/" + x[1])); });
+      bar.appendChild(r2);
+    }
+    d.body.insertBefore(bar, d.body.firstChild.nextSibling || d.body.firstChild);
+
+    // previous / next unit at the bottom of unit pages
+    if (UNIT && um[3] === "index") {
+      var pn = el("nav", "sn-pn"); pn.setAttribute("aria-label", "Previous and next unit");
+      var n = Object.keys(UNITS[SUBJ]).length;
+      if (UNIT > 1) { var pa = link("", SUBJ + "/Unit " + (UNIT - 1) + "/index.html"); pa.innerHTML = "<small>Previous</small>← Unit " + (UNIT - 1); pn.appendChild(pa); } else pn.appendChild(el("span"));
+      var qa = link("", SUBJ + "/Unit " + UNIT + "/question-bank.html"); qa.innerHTML = "<small>Practise</small>Unit " + UNIT + " questions"; qa.style.textAlign = "center"; pn.appendChild(qa);
+      if (UNIT < n) { var na = link("", SUBJ + "/Unit " + (UNIT + 1) + "/index.html"); na.className = "nx"; na.innerHTML = "<small>Next</small>Unit " + (UNIT + 1) + " →"; pn.appendChild(na); } else pn.appendChild(el("span"));
+      var foot = d.querySelector("body > footer");
+      if (foot) foot.parentNode.insertBefore(pn, foot); else d.body.appendChild(pn);
+    }
+
+    // floating "Go to" menu, reachable from anywhere on the page
+    var fab = el("button", "sn-fab"); fab.type = "button"; fab.textContent = "☰ Go to";
+    fab.setAttribute("aria-expanded", "false"); fab.setAttribute("aria-controls", "sn-menu");
+    var menu = el("div", "sn-menu"); menu.id = "sn-menu"; menu.hidden = true; menu.setAttribute("role", "dialog"); menu.setAttribute("aria-label", "Go to page");
+    var g0 = el("div", "sn-g"); g0.appendChild(link("⌂ Home", "index.html", rel === "index.html")); menu.appendChild(g0);
+    (SUBJ ? [SUBJ].concat(Object.keys(UNITS).filter(function (s) { return s !== SUBJ; })) : Object.keys(UNITS)).forEach(function (s) {
+      var h = el("h4"); h.textContent = NAMES[s] + " (" + s + ")"; menu.appendChild(h);
+      var g = el("div", "sn-g");
+      Object.keys(UNITS[s]).forEach(function (u) { g.appendChild(link("Unit " + u, s + "/Unit " + u + "/index.html", rel === s + "/Unit " + u + "/index.html")); });
+      EXTRA[s].forEach(function (x) { g.appendChild(link(x[0], s + "/" + x[1], rel === s + "/" + x[1])); });
+      menu.appendChild(g);
+    });
+    function toggle(open) {
+      menu.hidden = !open; fab.setAttribute("aria-expanded", String(open));
+      if (open) { var c = menu.querySelector("a.sn-cur") || menu.querySelector("a"); c && c.focus(); }
+    }
+    fab.addEventListener("click", function () { toggle(menu.hidden); });
+    d.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !menu.hidden) { toggle(false); fab.focus(); }
+      var t = e.target.tagName;
+      if (t === "INPUT" || t === "TEXTAREA" || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === "g") { e.preventDefault(); toggle(menu.hidden); }
+    });
+    d.addEventListener("click", function (e) { if (!menu.hidden && !menu.contains(e.target) && e.target !== fab) toggle(false); });
+    d.body.appendChild(menu); d.body.appendChild(fab);
+  })();
+
   /* ---------- nav extras ---------- */
   var navInner = d.querySelector("nav.toc .inner");
   if (navInner && SUBJ && READY.indexOf(SUBJ) > -1) {
