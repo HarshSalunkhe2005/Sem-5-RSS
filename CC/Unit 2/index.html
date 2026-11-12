@@ -174,6 +174,8 @@
   <section id="hypervisor">
     <p class="eyebrow">02 · The Virtual Machine Manager</p>
     <h2>Hypervisor</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Hypervisor (VMM)<ul><li>Type 1: Bare-metal<ul><li>Runs directly on hardware</li><li>Highly efficient</li><li>Oracle VM, LynxSecure</li></ul></li><li>Type 2: Hosted<ul><li>Runs on a host OS</li><li>Multiple OSes on one PC</li><li>VMware Workstation, Fusion</li></ul></li><li>Examples in this unit<ul><li>Xen: Dom0 + DomU</li><li>KVM: kernel module</li><li>VMware ESX</li></ul></li></ul></li></ul></div>
+
     <p>The <strong>hypervisor</strong> is firmware/low-level software that acts as a Virtual Machine
       Manager — a software layer between the VMs and the underlying hardware/host OS. It coordinates
       access to the physical environment so several VMs get their share of physical resources. When a
@@ -230,6 +232,8 @@
   <section id="types">
     <p class="eyebrow">04 · The 8 types</p>
     <h2>Types of Virtualization</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Types of Virtualization<ul><li>Hardware<ul><li>Full virtualization</li><li>Emulation</li><li>Paravirtualization</li></ul></li><li>Operating System<ul><li>Containers, shared kernel</li></ul></li><li>Server<ul><li>One server, many virtual servers</li></ul></li><li>Storage<ul><li>Pools SAN + NAS</li></ul></li><li>Desktop</li><li>Network<ul><li>SDN</li><li>NFV</li></ul></li><li>Data<ul><li>Layer over many sources</li></ul></li><li>Application<ul><li>Application streaming</li><li>Server-based</li><li>Local</li></ul></li></ul></li></ul></div>
+
     <div class="grid cols-4">
       <div class="card num"><h4>1. Hardware</h4></div>
       <div class="card num"><h4>2. Operating System</h4></div>
@@ -417,6 +421,8 @@
   <section id="binary-translation">
     <p class="eyebrow">09 · How full virtualization actually works under the hood</p>
     <h2>Binary Translation with Full Virtualization</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Hardware Virtualization Approaches<ul><li>Full virtualization<ul><li>Binary translation + direct execution</li><li>VMM in Ring 0, guest in Ring 1</li><li>Critical instructions trapped</li><li>Guest OS unmodified</li><li>80-97% of native speed</li></ul></li><li>Host-based<ul><li>Layer on top of host OS</li><li>4 layers of mapping</li><li>Slower</li></ul></li><li>Para-virtualization<ul><li>Handled at compile time</li><li>Hypercalls replace privileged instr.</li><li>Guest kernel modified</li><li>Xen, KVM, VMware ESX</li></ul></li></ul></li></ul></div>
+
     <p>Hardware virtualization implementation splits into two categories: <strong>full
       virtualization</strong> and <strong>host-based virtualization</strong>. Full virtualization needs
       no host-OS modification — it relies on <strong>binary translation</strong> to trap and virtualize
@@ -530,6 +536,8 @@
   <section id="levels">
     <p class="eyebrow">11 · Where virtualization is applied in the stack</p>
     <h2>Implementation Levels of Virtualization</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Implementation Levels<ul><li>1. ISA level<ul><li>Emulates instruction set</li><li>Runs legacy code</li></ul></li><li>2. Hardware abstraction (HAL)<ul><li>Hypervisor virtualizes hardware</li><li>Used in cloud infrastructure</li></ul></li><li>3. OS level<ul><li>Isolated containers</li></ul></li><li>4. Library level<ul><li>API hooks</li></ul></li><li>5. Application level<ul><li>One app virtualized</li></ul></li></ul></li></ul></div>
+
     <p>It's not simple to set up virtualization — your computer runs an OS configured for particular
       hardware, and running a different OS on the same hardware isn't trivially feasible. This is
       exactly the role of the hypervisor: a bridge between hardware and the virtual OS. There are 5
@@ -637,6 +645,8 @@
   <section id="grid">
     <p class="eyebrow">14 · Sharing resources across organizations</p>
     <h2>Utility &amp; Enterprise Grid Computing</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Computing Paradigms<ul><li>HPC<ul><li>Compute</li><li>Network</li><li>Storage</li><li>Supercomputer clusters</li></ul></li><li>Utility computing<ul><li>Pay-per-use</li><li>On-demand resources</li><li>Google, Amazon</li></ul></li><li>Grid computing<ul><li>Control node</li><li>Provider</li><li>User</li><li>ATMs, research</li></ul></li></ul></li></ul></div>
+
 
     <h3>Utility Computing</h3>
     <p>The most trending IT service model — on-demand computing resources (compute, storage,
@@ -682,5 +692,6 @@
 
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

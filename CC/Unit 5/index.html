@@ -137,6 +137,8 @@
   <section id="hpc">
     <p class="eyebrow">01 · Aggregating computers to act as one supercomputer <span class="tag req">EXAM SCOPE</span> <span class="tag deck">FROM DECK</span></p>
     <h2>High Performance Computing (HPC) — Fundamentals</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>HPC<ul><li>Node roles<ul><li>Controller</li><li>Login / interactive</li><li>Compute</li></ul></li><li>Components<ul><li>Compute</li><li>Network</li><li>Storage</li></ul></li><li>Design types<ul><li>Cluster computing</li><li>Distributed computing</li><li>Homogeneous / heterogeneous</li></ul></li><li>Workloads<ul><li>Loosely coupled: CGI rendering</li><li>Tightly coupled: MPI, weather</li></ul></li><li>HPC on cloud<ul><li>Speed, flexibility, cost</li><li>Watch latency &amp; storage</li></ul></li></ul></li></ul></div>
+
     <p><strong>HPC</strong> is the practice of aggregating computing resources to gain performance greater
       than that of a single workstation, server, or computer. It can take the form of custom-built
       supercomputers or groups of individual computers called <strong>clusters</strong>, and can run
@@ -276,6 +278,8 @@
   <section id="lb-intro">
     <p class="eyebrow">04 · Distributing work to keep cloud systems fast and available <span class="tag req">EXAM SCOPE</span> <span class="tag deck">FROM DECK</span></p>
     <h2>Load Balancing — Why, How, Layer 4 vs Layer 7</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Load Balancing<ul><li>Why<ul><li>Performance</li><li>Availability</li><li>Scalability</li><li>Cost efficiency</li></ul></li><li>Layers<ul><li>L4: IP + port, fast</li><li>L7: HTTP content, richer</li></ul></li><li>Algorithms<ul><li>Static: RR, Weighted RR</li><li>Dynamic: Least conn, Least RT</li><li>Hash: IP hash, consistent hashing</li><li>Adaptive: ML-based</li></ul></li><li>Forwarding modes<ul><li>Proxy (full NAT)</li><li>Direct Server Return</li><li>IP tunneling</li><li>ECMP + anycast</li><li>DNS / GSLB</li></ul></li><li>Health &amp; sessions<ul><li>Active / passive checks</li><li>Connection draining</li><li>Source-IP, cookie, shared store</li></ul></li></ul></li></ul></div>
+
 
     <h3>Why load balancing matters</h3>
     <div class="grid cols-4">
@@ -445,6 +449,8 @@
   <section id="autoscale">
     <p class="eyebrow">08 · Matching capacity to demand automatically <span class="tag req">EXAM SCOPE · numericals</span> <span class="tag deck">FROM DECK</span></p>
     <h2>Auto-Scaling, VM Placement &amp; Live Migration</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Resource Management<ul><li>Utilization metrics<ul><li>CPU, memory, network</li><li>Response time</li><li>Max/mean, Jain&#x27;s index</li></ul></li><li>Auto-scaling<ul><li>Monitor, Evaluate, Scale, Rebalance</li><li>ceil(current x metric / target)</li><li>Cooldown, warm-up</li></ul></li><li>VM placement<ul><li>Bin packing, NP-hard</li><li>First Fit, Best Fit, FFD</li><li>GA, PSO, ant colony</li></ul></li><li>Live migration (pre-copy)<ul><li>Copy pages while running</li><li>Re-copy dirty pages</li><li>Brief pause, resume</li></ul></li></ul></li></ul></div>
+
 
     <h3>The auto-scaling feedback loop</h3>
     <div class="diagram">
@@ -617,5 +623,6 @@
 </footer>
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

@@ -220,6 +220,8 @@
   <section id="requirements">
     <p class="eyebrow">03 · What a production cloud app must satisfy <span class="tag req">EXAM SCOPE · high-yield</span></p>
     <h2>Cloud Application Requirements</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>12 Cloud App Requirements<ul><li>Planning<ul><li>Requirement analysis</li><li>Cost efficiency</li><li>Compliance &amp; governance</li></ul></li><li>Growth<ul><li>Scalability</li><li>Elasticity</li></ul></li><li>Uptime<ul><li>Availability</li><li>Reliability</li><li>Performance</li></ul></li><li>Data &amp; trust<ul><li>Security</li><li>Data management</li><li>Interoperability</li></ul></li><li>Operations<ul><li>Monitoring &amp; maintenance</li></ul></li></ul></li></ul></div>
+
     <p>Building a cloud application is a 12-step requirement checklist — each with a concrete example
       of what "good" looks like.</p>
     <ol class="steps">
@@ -257,6 +259,8 @@
   <section id="soa">
     <p class="eyebrow">04 · How cloud apps are decomposed into independent services <span class="tag req">EXAM SCOPE</span></p>
     <h2>Service-Oriented Architecture (SOA) for Cloud Applications</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>SOA for Cloud Apps<ul><li>Service consumer<ul><li>Web / mobile app</li></ul></li><li>Service provider<ul><li>Publishes service</li></ul></li><li>Service registry<ul><li>UDDI, Eureka, Consul</li></ul></li><li>Enterprise Service Bus<ul><li>Routing</li><li>Transformation</li><li>Protocol conversion</li></ul></li><li>Cloud services<ul><li>Auth, Payment, Shipping</li></ul></li><li>Cloud infrastructure<ul><li>EC2, Azure, GCP</li></ul></li></ul></li></ul></div>
+
     <p><strong>SOA</strong> structures an application as a collection of loosely-coupled, independently
       deployable services, each implementing one business capability, communicating over a network.</p>
 <!--fig:cc-soa-->
@@ -291,6 +295,8 @@
   <section id="parallelization">
     <p class="eyebrow">05 · Using the cloud's near-unlimited resources at once <span class="tag req">EXAM SCOPE</span></p>
     <h2>Parallelization within Cloud Applications</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Parallelism &amp; Tiers<ul><li>Why parallelize<ul><li>Less execution time</li><li>Better performance</li><li>Large-scale data</li><li>Real-time analytics</li></ul></li><li>Patterns<ul><li>Data: MapReduce, Spark</li><li>Task: transcoding pipeline</li><li>Pipeline: ETL stages</li><li>Request-level: web tier</li></ul></li><li>Multi-tier models<ul><li>2-tier: client to DB</li><li>3-tier: UI, logic, data</li><li>N-tier: microservices, cache, CDN</li></ul></li></ul></li></ul></div>
+
     <p><strong>Parallelization</strong> is dividing a large computational task into smaller tasks executed
       simultaneously across multiple processors, VMs, containers, or cloud resources. Cloud computing's
       virtually unlimited resources make parallel execution efficient and scalable.</p>
@@ -378,6 +384,8 @@
   <section id="tools">
     <p class="eyebrow">07 · Who actually builds this stack <span class="tag req">EXAM SCOPE</span></p>
     <h2>Study of Cloud Tools &amp; Platforms</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Cloud Tools &amp; Platforms<ul><li>Public providers<ul><li>AWS</li><li>Azure</li><li>GCP</li></ul></li><li>Open-source platforms<ul><li>OpenStack</li><li>Eucalyptus / OpenNebula</li></ul></li><li>Virtualization &amp; containers<ul><li>Docker</li><li>Kubernetes</li><li>Xen / KVM / VMware</li></ul></li><li>Infrastructure as Code<ul><li>Terraform</li><li>Ansible / Chef / Puppet</li></ul></li><li>Lab tools<ul><li>CloudSim</li><li>AWS CLI</li><li>GitHub Actions</li></ul></li></ul></li></ul></div>
+
     <p>A survey of the major commercial and open-source platforms/tools used to build, deploy, and manage
       cloud applications — grouped by what problem each one solves.</p>
 
@@ -433,5 +441,6 @@
 </footer>
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>

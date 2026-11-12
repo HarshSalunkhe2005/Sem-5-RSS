@@ -211,6 +211,8 @@
     <p><span class="tag">Beyond the deck</span> Typical safeguards: confidentiality &mdash; encryption, access control, authentication; integrity &mdash; hashing, digital signatures, versioning, audit logs; availability &mdash; redundancy, backups, load balancing, DDoS protection. Related terms: <strong>Authentication</strong> (who are you?) &rarr; <strong>Authorisation</strong> (what may you do?) &rarr; <strong>Accountability / Auditing</strong> (what did you do?).</p>
 
     <h3>The cloud security threat landscape (six categories)</h3>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Cloud Threats<ul><li>CIA triad<ul><li>Confidentiality: public buckets</li><li>Integrity: IaC tampering</li><li>Availability: DDoS, outages</li></ul></li><li>6 threat categories<ul><li>Misconfiguration</li><li>Weak identity</li><li>Insecure APIs</li><li>Data exposure</li><li>Account hijacking</li><li>Availability attacks</li></ul></li><li>Also listed<ul><li>Insider threat</li><li>Data loss</li><li>Shared technology</li></ul></li></ul></li></ul></div>
+
     <p>Six categories recur in almost every publicly documented cloud breach of the last decade:</p>
     <table>
       <thead><tr><th>Category</th><th>What it means / example</th></tr></thead>
@@ -315,6 +317,8 @@
   <section id="controls">
     <p class="eyebrow">03 · The defensive toolkit <span class="tag req">EXAM SCOPE</span></p>
     <h2>Core Cloud Security Controls</h2>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Security Controls<ul><li>Shared responsibility<ul><li>Provider: security OF the cloud</li><li>Customer: security IN the cloud</li></ul></li><li>5 control pillars<ul><li>IAM: least privilege</li><li>Data protection: encryption</li><li>Network: VPC, security groups</li><li>Compliance: ISO 27001, PCI-DSS</li><li>Monitoring &amp; response</li></ul></li></ul></li></ul></div>
+
     <p>A cloud security program rests on <strong>five interlocking pillars</strong>. The course goes deep on identity (via SSO) and posture
       (via CSPM), but you should be fluent in all five.</p>
 
@@ -456,6 +460,8 @@
     </table>
 
     <h3>The cloud-native security family: CSPM, CWPP, CIEM, KSPM, CNAPP</h3>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>Cloud-Native Security<ul><li>CSPM<ul><li>Is the config secure?</li><li>Discover, Assess, Prioritise</li><li>Remediate, Monitor</li></ul></li><li>CWPP<ul><li>Is the workload safe at runtime?</li></ul></li><li>CIEM<ul><li>Too much access?</li></ul></li><li>KSPM<ul><li>CSPM for Kubernetes</li></ul></li><li>CNAPP<ul><li>Bundles all of these</li></ul></li><li>CASB<ul><li>How users use SaaS</li></ul></li></ul></li></ul></div>
+
     <p>CSPM is one member of a family of closely related, frequently confused acronyms &mdash; a common interview and exam question.</p>
     <table>
       <thead><tr><th>Acronym</th><th>Full form</th><th>The question it asks</th></tr></thead>
@@ -644,6 +650,8 @@
       <strong>public key</strong>, the receiving app never needs to call the IdP back &mdash; it verifies <strong>locally</strong>, one reason JWT-based OIDC is popular for high-scale consumer apps.</p>
 
     <h3>SAML vs OAuth vs OIDC — choosing the protocol</h3>
+<div class="mindmap"><div class="mindmap-label">Mind map</div><ul><li>SSO<ul><li>Core actors<ul><li>User</li><li>Identity Provider</li><li>Service Provider</li></ul></li><li>Protocols<ul><li>SAML 2.0: XML, enterprise</li><li>OAuth 2.0: authorization</li><li>OIDC: authentication + JWT</li></ul></li><li>Risks<ul><li>Token theft</li><li>XML signature wrapping</li><li>Open redirect</li><li>Consent phishing</li><li>Session fixation</li></ul></li><li>Stronger with MFA</li></ul></li></ul></div>
+
     <p>One of the most exam- and interview-relevant comparisons in the unit (deck Figure 3.5):</p>
     <table>
       <thead><tr><th>Protocol</th><th>One-line explanation</th><th>Typical use</th></tr></thead>
@@ -879,5 +887,6 @@
 </footer>
 <script src="../../assets/theme-toggle.js" defer></script>
 <script src="../../assets/ese.js" defer></script>
+<script src="../../assets/mindmap.js" defer></script>
 </body>
 </html>
