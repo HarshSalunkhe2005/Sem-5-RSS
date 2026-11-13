@@ -281,7 +281,7 @@ PE(pos, 2i+1) = cos( pos / 10000^(2i/d_model) )</pre>
   </section>
 
   <!-- EVAL -->
-  <section id="mt-eval">
+  <section id="mt-eval" data-offsyl="BLEU is not in the ESE syllabus.">
     <p class="eyebrow">06 · How good is a translation?</p>
     <h2>Evaluating MT: BLEU</h2>
     <p><strong>BLEU</strong> (Bilingual Evaluation Understudy) compares a candidate translation with one or more human references using <strong>modified n-gram precision</strong> and a brevity penalty:</p>
@@ -311,7 +311,7 @@ BP   = 1                    if c &gt; r
   </section>
 
   <!-- MULTILINGUAL -->
-  <section id="multilingual">
+  <section id="multilingual" data-offsyl="Multilingual MT is not in the ESE syllabus.">
     <p class="eyebrow">07 · One model, many languages</p>
     <h2>Multilingual Machine Translation</h2>
     <p>Instead of training one model per language pair (N languages → N(N−1) directed pairs), a single <strong>multilingual NMT</strong> model translates between many languages. Johnson et al. (2016) showed this needs no architecture change: just prepend a target-language tag to the source (e.g. <code>&lt;2hi&gt; I love NLP</code>).</p>
@@ -344,10 +344,11 @@ BP   = 1                    if c &gt; r
       <tbody>
         <tr><td><strong>BERT</strong> (2018)</td><td>Transformer encoder, bidirectional</td><td>Masked Language Modelling (mask ~15% of tokens, predict them) + next sentence prediction</td><td>Classification, NER, QA, sentence embeddings</td></tr>
         <tr><td><strong>GPT</strong> series</td><td>Transformer decoder, left-to-right</td><td>Next-token prediction</td><td>Text generation, chat, few-shot tasks</td></tr>
+        <tr><td><strong>LaMDA</strong> (Google, 2021)</td><td>Transformer decoder, dialogue-tuned</td><td>Next-token prediction on dialogue + web text, then fine-tuned for safety, quality and factual grounding</td><td>Open-ended conversational AI (it powered Google Bard)</td></tr>
         <tr><td><strong>T5 / BART / mT5</strong></td><td>Encoder-decoder</td><td>Span corruption / denoising</td><td>Translation, summarisation (text-to-text)</td></tr>
       </tbody>
     </table></div>
-    <h3>ELECTRA: replaced token detection</h3>
+    <h3>ELECTRA: replaced token detection <span class="tag">Not in ESE syllabus · optional</span></h3>
     <p>BERT's masked LM learns from only the ~15% of tokens that are masked, which wastes compute. <strong>ELECTRA</strong> (Clark et al., 2020) changes the objective:</p>
     <ol class="steps">
       <li>A small <strong>generator</strong> (a mini masked LM) fills in the masked positions with plausible words, so some tokens are <em>replaced</em>.</li>
@@ -366,7 +367,7 @@ BP   = 1                    if c &gt; r
   </section>
 
   <!-- DESIGN CHOICE -->
-  <section id="design-choice">
+  <section id="design-choice" data-offsyl="Not in the ESE syllabus.">
     <p class="eyebrow">09 · Choosing a model</p>
     <h2>Which Model for Which Scenario?</h2>
     <div class="table-wrap"><table>

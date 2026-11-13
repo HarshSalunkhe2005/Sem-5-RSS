@@ -430,3 +430,23 @@
     });
   }
 })();
+
+/* off-syllabus sections: collapsed by default, one click to open */
+(function offsyl(){
+  var secs=document.querySelectorAll('section[data-offsyl]');
+  if(!secs.length) return;
+  var st=document.createElement('style');
+  st.textContent='.os-box{margin:10px 0 4px;padding:10px 12px;border:1px dashed #b9c2d6;border-radius:8px;background:#f6f7fb;color:#3b4660;font-size:14px}'+
+    '.os-box b{color:#8a4b00}.os-btn{margin-left:8px;padding:3px 10px;border:1px solid #9aa6c2;border-radius:6px;background:#fff;color:#16233f;cursor:pointer;font:inherit;font-size:13px}'+
+    'section.os-closed>*:not(h2):not(.eyebrow):not(.os-box){display:none!important}';
+  document.head.appendChild(st);
+  secs.forEach(function(s){
+    var h=s.querySelector('h2'); if(!h) return;
+    var box=document.createElement('div'); box.className='os-box';
+    box.innerHTML='<b>Not in the ESE syllabus.</b> '+s.getAttribute('data-offsyl')+' ';
+    var b=document.createElement('button'); b.type='button'; b.className='os-btn'; b.textContent='Show anyway';
+    b.setAttribute('aria-expanded','false');
+    b.onclick=function(){var c=s.classList.toggle('os-closed');b.textContent=c?'Show anyway':'Hide';b.setAttribute('aria-expanded',String(!c));};
+    box.appendChild(b); h.insertAdjacentElement('afterend',box); s.classList.add('os-closed');
+  });
+})();

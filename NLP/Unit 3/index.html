@@ -330,6 +330,55 @@
     </div>
   </section>
 
+
+  <!-- WINDOW CLASSIFICATION (syllabus) -->
+  <section id="window-classification">
+    <p class="eyebrow">08 · Using word vectors for a task</p>
+    <h2>Word Window Classification</h2>
+    <p>Classifying a single word out of context is ambiguous ("Paris" can be a city or a person). <strong>Window classification</strong> classifies the <strong>centre word</strong> using its neighbours: take a window of ±m words, concatenate their word vectors and feed the result to a classifier.</p>
+    <ol class="steps">
+      <li><strong>Window:</strong> for "museums in <u>Paris</u> are amazing" with m = 2, the window is [museums, in, Paris, are, amazing].</li>
+      <li><strong>Input vector:</strong> concatenate the 5 word vectors: x = [x<sub>museums</sub>; x<sub>in</sub>; x<sub>Paris</sub>; x<sub>are</sub>; x<sub>amazing</sub>], size 5d (d = embedding size).</li>
+      <li><strong>Classifier:</strong> a softmax layer (or a small neural network: h = f(Wx + b), score = u<sup>T</sup>h) gives a probability for each class, e.g. LOCATION vs PERSON.</li>
+      <li><strong>Training:</strong> cross-entropy loss; gradients flow back into W and, optionally, into the word vectors themselves.</li>
+    </ol>
+    <p><strong>Used for:</strong> Named Entity Recognition (the classic example), POS tagging, and other token-level tasks. <strong>Why a window and not an average?</strong> Averaging loses word position; concatenation keeps which neighbour sits where.</p>
+  </section>
+
+  <!-- NN + BACKPROP (syllabus) -->
+  <section id="nn-backprop">
+    <p class="eyebrow">09 · Training the classifier</p>
+    <h2>Neural Networks, Matrix Calculus &amp; Backpropagation</h2>
+    <p>The window classifier is a small neural network: <strong>z = Wx + b → h = f(z) → s = u<sup>T</sup>h</strong>. To train it we need the gradient of the loss with respect to every parameter, and <strong>matrix calculus</strong> gives these in vector form.</p>
+    <ul>
+      <li><strong>Jacobian:</strong> for a function from n inputs to m outputs, the m×n matrix of partial derivatives ∂f<sub>i</sub>/∂x<sub>j</sub>. For an element-wise f, the Jacobian is diagonal: diag(f'(z)).</li>
+      <li><strong>Chain rule:</strong> ∂s/∂b = ∂s/∂h · ∂h/∂z · ∂z/∂b = u<sup>T</sup> · diag(f'(z)) · I, which is (u ∘ f'(z))<sup>T</sup>. This shared term δ is reused for W: ∂s/∂W = δ<sup>T</sup> x<sup>T</sup>.</li>
+      <li><strong>Backpropagation</strong> = the chain rule applied layer by layer from the output back to the input, reusing these upstream gradients so nothing is computed twice.</li>
+    </ul>
+    <p>The same idea is used for RNNs in Unit 4 (backpropagation through time).</p>
+  </section>
+
+  <!-- DEPENDENCY PARSING (syllabus) -->
+  <section id="dependency-parsing">
+    <p class="eyebrow">10 · Linguistic structure</p>
+    <h2>Dependency Parsing</h2>
+    <p>A <strong>dependency parse</strong> shows sentence structure as directed links between words: each word depends on exactly one <strong>head</strong>, and each link has a label (subject, object, modifier…). The main verb is the <strong>root</strong>.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Sentence: "She ate the pizza"</th><th>Head</th><th>Relation</th></tr></thead>
+      <tbody>
+        <tr><td>ate</td><td>ROOT</td><td>root</td></tr>
+        <tr><td>She</td><td>ate</td><td>nsubj (subject)</td></tr>
+        <tr><td>pizza</td><td>ate</td><td>dobj (object)</td></tr>
+        <tr><td>the</td><td>pizza</td><td>det (determiner)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Dependency vs constituency</h3>
+    <p><strong>Constituency</strong> parsing groups words into nested phrases (NP, VP). <strong>Dependency</strong> parsing links words directly, so it has no phrase nodes, is simpler, and works better for languages with free word order.</p>
+    <h3>Transition-based (shift-reduce) parsing</h3>
+    <p>A <strong>stack</strong>, a <strong>buffer</strong> of words and three actions: <strong>SHIFT</strong> (move the next word to the stack), <strong>LEFT-ARC</strong> (top word becomes head of the word below it, which is popped) and <strong>RIGHT-ARC</strong> (the word below becomes head of the top word, which is popped). A classifier, such as a neural network over word vectors, picks the next action. It runs in linear time.</p>
+    <p><strong>Uses:</strong> relation extraction, question answering, grammar checking.</p>
+  </section>
+
 </main>
 
 <footer>Unit 3 — Word Embeddings · Sem 5 revision notes</footer>

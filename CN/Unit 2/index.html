@@ -160,6 +160,36 @@
       unreliable communication.</p>
   </section>
 
+
+  <!-- SOCKET PROGRAMMING (syllabus) -->
+  <section id="socket-programming">
+    <p class="eyebrow">02b · Writing a networked app</p>
+    <h2>Socket Programming with TCP and UDP</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>UDP socket</th><th>TCP socket</th></tr></thead>
+      <tbody>
+        <tr><td>Connection</td><td>None: each datagram carries the destination IP + port</td><td>Handshake first; then a dedicated connection socket per client</td></tr>
+        <tr><td>Server steps</td><td>socket(DGRAM) → bind(port) → recvfrom() → sendto()</td><td>socket(STREAM) → bind(port) → listen() → accept() → recv()/send() → close()</td></tr>
+        <tr><td>Client steps</td><td>socket(DGRAM) → sendto(server IP, port) → recvfrom()</td><td>socket(STREAM) → connect(server IP, port) → send()/recv() → close()</td></tr>
+        <tr><td>Data</td><td>Separate messages; may be lost or arrive out of order</td><td>Reliable, in-order byte stream</td></tr>
+      </tbody>
+    </table></div>
+    <pre><code># UDP server (Python)
+from socket import *
+s = socket(AF_INET, SOCK_DGRAM); s.bind(('', 12000))
+while True:
+    msg, addr = s.recvfrom(2048)
+    s.sendto(msg.upper(), addr)
+
+# TCP server (Python)
+s = socket(AF_INET, SOCK_STREAM); s.bind(('', 12000)); s.listen(1)
+while True:
+    conn, addr = s.accept()        # new socket for this client
+    data = conn.recv(1024)
+    conn.send(data.upper()); conn.close()</code></pre>
+    <p><strong>Key point for the exam:</strong> a TCP server has a <em>welcoming</em> socket (listen) plus one <em>connection</em> socket per client created by accept(). A UDP server uses a single socket for everyone.</p>
+  </section>
+
   <!-- HTTP -->
   <section id="http">
     <p class="eyebrow">03 · The protocol of the Web</p>

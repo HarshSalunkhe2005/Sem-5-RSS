@@ -517,7 +517,7 @@
   </section>
 
   <!-- LSTM -->
-  <section id="lstm">
+  <section id="lstm" data-offsyl="The syllabus only lists an Introduction to RNNs. LSTM is beyond it.">
     <p class="eyebrow">08 · Selective read, write and forget</p>
     <h2>Long Short-Term Memory (LSTM)</h2>
     <p><strong>Definition.</strong> An LSTM is an RNN cell with a state vector and three <strong>gates</strong> (values between 0 and 1) that control what is written to the state, what is read from the new input, and what is forgotten. Computing s_t from s_{t−1}, the goal (deck) is "selective write, selective read and selective forget so that only important information is retained in s_t".</p>
@@ -567,7 +567,7 @@
   </section>
 
   <!-- AUTOENCODERS -->
-  <section id="autoencoders">
+  <section id="autoencoders" data-offsyl="Not in the ESE syllabus (it was asked in an old paper).">
     <p class="eyebrow">09 · Learning to compress</p>
     <h2>Autoencoders <span class="tag">Beyond the deck: standard content, but asked in past papers</span></h2>
     <p><strong>Definition.</strong> An autoencoder is a neural network trained to <strong>reproduce its own input</strong>. Its two main components are the <strong>encoder</strong>, <code>h = f(x)</code>, which maps the input to a hidden code, and the <strong>decoder</strong>, <code>x̂ = g(h)</code>, which reconstructs the input from the code. It is trained without labels (unsupervised) by minimising the reconstruction loss <code>L = ‖x − x̂‖²</code> (mean squared error; cross-entropy for binary inputs).</p>

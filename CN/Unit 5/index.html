@@ -400,7 +400,7 @@
   <!-- 09 TAKING TURNS -->
   <section id="taking-turns">
     <p class="eyebrow">09 · No collisions, by design</p>
-    <h2>Taking-Turns Protocols <span class="tag">Beyond the deck</span></h2>
+    <h2>Taking-Turns Protocols <span class="tag">In syllabus · not in slides</span></h2>
     <p>The deck lists <strong>controlled access protocols</strong> as a category but does not detail them. Taking-turns protocols avoid collisions by letting only one node transmit at a time, trying to combine the good points of channelization (no collisions) and random access (full channel for a lone sender).</p>
     <div class="grid cols-2">
       <div class="card"><h4>Polling protocol</h4>
@@ -447,7 +447,7 @@
   <!-- 11 LINK VIRTUALIZATION -->
   <section id="link-virt">
     <p class="eyebrow">11 · A network pretending to be a link</p>
-    <h2>Link Virtualization <span class="tag">Beyond the deck</span></h2>
+    <h2>Link Virtualization <span class="tag">In syllabus · not in slides</span></h2>
     <p>The deck does not cover this topic; the following is the standard textbook idea. <strong>Virtualization</strong> means an abstract resource is created on top of a physical one. <em>Link virtualization</em> is the case where a whole <strong>network</strong> (made of switches, with its own protocols) is used by the layer above as if it were just a single <strong>link</strong>.</p>
     <ul>
       <li>The network layer (IP) sends a datagram to the next hop over what it believes is a point-to-point link. In reality that "link" is a complete underlying network — historically ATM or frame relay, today MPLS/VPN services or a provider's Ethernet network.</li>
@@ -472,7 +472,7 @@
   <!-- 12 MPLS -->
   <section id="mpls">
     <p class="eyebrow">12 · Forward by label, not by IP lookup</p>
-    <h2>Multiprotocol Label Switching (MPLS) <span class="tag">Beyond the deck</span></h2>
+    <h2>Multiprotocol Label Switching (MPLS) <span class="tag">In syllabus · not in slides</span></h2>
     <p>The deck does not cover MPLS; this is the standard textbook treatment. MPLS is a forwarding technique that uses a short fixed-length <strong>label</strong>, instead of the destination IP address, to forward packets. It was designed to speed up forwarding and, more importantly today, to enable <strong>traffic engineering</strong> and VPNs.</p>
     <h3>MPLS header (32 bits)</h3>
     <div class="table-wrap"><table>
