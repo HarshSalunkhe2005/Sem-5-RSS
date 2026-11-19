@@ -42,16 +42,38 @@
 <header class="hero">
   <span class="badge">SEM 5 · COMPUTER NETWORKS · ACRONYMS</span>
   <h1>Every CN acronym, full form and exam fact</h1>
-  <p>Grouped by unit. Type in the box to filter by acronym, full form, layer or any fact (try "port", "header", "bytes").</p>
+  <p>OSI model first, then acronyms grouped by unit with their OSI and TCP/IP layer; filter by layer with the dropdown. Type in the box to filter by acronym, full form, layer or any fact (try "port", "header", "bytes").</p>
   <a class="back" href="../">← Back to site home</a>
 </header>
 <nav class="toc"><div class="inner">
-  <a href="#u1">Unit 1</a><a href="#u2">Unit 2</a><a href="#u3">Unit 3</a><a href="#u4">Unit 4</a><a href="#u5">Unit 5</a>
+  <a href="#osi">OSI model</a><a href="#u1">Unit 1</a><a href="#u2">Unit 2</a><a href="#u3">Unit 3</a><a href="#u4">Unit 4</a><a href="#u5">Unit 5</a>
   <a href="cheatsheet.html">Cheat sheet</a><a href="flashcards.html">Flashcards</a><a href="pyq-topics.html">Past-paper topics</a>
 </div></nav>
 <main>
-<div class="search"><input id="q" type="search" placeholder="Search acronym, full form, port, header size..." autocomplete="off"><div id="count"></div></div>
+<div class="search"><div style="display:flex;gap:8px"><input id="q" type="search" placeholder="Search acronym, full form, port, header size..." autocomplete="off"><select id="lf" aria-label="Filter by OSI layer" style="padding:0 10px;border:2px solid var(--line);border-radius:12px;font-size:15px;background:#fff;color:var(--ink)"><option value="">All layers</option><option value="7">L7 Application</option><option value="6">L6 Presentation</option><option value="5">L5 Session</option><option value="4">L4 Transport</option><option value="3">L3 Network</option><option value="2">L2 Data Link</option><option value="1">L1 Physical</option></select></div><div id="count"></div></div>
 <div class="note">Port numbers are the well-known defaults. Header sizes are the minimum unless a range is shown. If the textbook or slides give a different value, go with the slides.</div>
+<section id="osi">
+<h2>OSI model: all 7 layers</h2>
+<p style="color:var(--muted);margin:0 0 8px">Mnemonic top to bottom: <b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing. Bottom to top: <b>P</b>lease <b>D</b>o <b>N</b>ot <b>T</b>hrow <b>S</b>ausage <b>P</b>izza <b>A</b>way.</p>
+<div class="tw"><table><thead><tr><th>#</th><th>Layer</th><th>Function</th><th>PDU</th><th>Devices</th><th>Protocols / acronyms</th><th>Addressing</th><th>Key exam facts</th></tr></thead><tbody>
+<tr><td>7</td><td>Application</td><td>Network services to user programs: web, mail, file transfer, name lookup</td><td>Data / message</td><td>Gateway, host</td><td>HTTP, HTTPS, FTP, SMTP, POP3, IMAP, DNS, DHCP, SNMP, TELNET, SSH</td><td>None of its own (uses port numbers from L4)</td><td>Closest to the user; the browser or mail client is not itself the layer</td></tr>
+<tr><td>6</td><td>Presentation</td><td>Translation, encryption, compression, data format</td><td>Data</td><td>Gateway</td><td>TLS/SSL, MIME, ASCII, JPEG</td><td>None</td><td>Handles syntax and semantics; absent as a separate layer in TCP/IP</td></tr>
+<tr><td>5</td><td>Session</td><td>Opens, manages and closes sessions; dialog control; synchronization checkpoints</td><td>Data</td><td>Gateway</td><td>RPC, NetBIOS</td><td>None</td><td>Checkpoints let a transfer resume; half-duplex/full-duplex dialog control</td></tr>
+<tr><td>4</td><td>Transport</td><td>End-to-end (process-to-process) delivery, segmentation, reliability, flow and congestion control</td><td>Segment (TCP) / datagram (UDP)</td><td>Gateway, firewall (L4)</td><td>TCP, UDP, SCTP</td><td>Port number (16 bits, 0 to 65535)</td><td>Socket = IP + port; TCP header 20-60 B, UDP header 8 B</td></tr>
+<tr><td>3</td><td>Network</td><td>Logical addressing, routing, fragmentation, host-to-host delivery across networks</td><td>Packet</td><td>Router, L3 switch</td><td>IP, ICMP, IGMP, RIP, OSPF, BGP, NAT, ARP (L2/L3 boundary)</td><td>Logical: IP address (IPv4 32-bit, IPv6 128-bit)</td><td>Router works at L3; IPv4 header 20-60 B; TTL stops loops</td></tr>
+<tr><td>2</td><td>Data Link</td><td>Framing, MAC addressing, error detection, flow control, medium access, node-to-node delivery</td><td>Frame</td><td>Switch, bridge, NIC</td><td>Ethernet, PPP, HDLC, CSMA/CD, CSMA/CA, ALOHA, VLAN, CRC, STP</td><td>Physical: MAC address (48-bit)</td><td>Sublayers LLC and MAC; Ethernet frame 64 to 1518 B; MTU 1500</td></tr>
+<tr><td>1</td><td>Physical</td><td>Moves raw bits as signals over the medium; line coding, topology, transmission mode</td><td>Bit</td><td>Hub, repeater, cables, modem</td><td>UTP, fiber, DSL, DOCSIS, FDM, TDM</td><td>None</td><td>Hub and repeater work here; deals with voltages, light and radio signals</td></tr>
+</tbody></table></div>
+<h3 style="color:var(--navy-2);margin:22px 0 8px">OSI to TCP/IP mapping</h3>
+<div class="tw"><table><thead><tr><th>OSI (7 layers)</th><th>TCP/IP (4 layers)</th><th>Hybrid (5 layers)</th><th>Example protocols</th></tr></thead><tbody>
+<tr><td>7 Application, 6 Presentation, 5 Session</td><td>Application</td><td>Application</td><td>HTTP, FTP, SMTP, DNS, DHCP, SNMP, TLS</td></tr>
+<tr><td>4 Transport</td><td>Transport</td><td>Transport</td><td>TCP, UDP</td></tr>
+<tr><td>3 Network</td><td>Internet</td><td>Network</td><td>IP, ICMP, ARP, OSPF, BGP</td></tr>
+<tr><td>2 Data Link</td><td rowspan="2">Network access (link)</td><td>Data Link</td><td>Ethernet, Wi-Fi, PPP</td></tr>
+<tr><td>1 Physical</td><td>Physical</td><td>Cables, signals, bits</td></tr>
+</tbody></table></div>
+<p style="color:var(--muted);font-size:14px">OSI is a reference model (theory, 7 layers, protocol-independent). TCP/IP is the model the Internet actually uses (protocols first, 4 layers).</p>
+</section>
 <div id="out"></div>
 </main>
 <script>
@@ -197,26 +219,44 @@ var G=[
 ];
 var out=document.getElementById('out'),q=document.getElementById('q'),cnt=document.getElementById('count');
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var NAMES={7:'Application',6:'Presentation',5:'Session',4:'Transport',3:'Network',2:'Data Link',1:'Physical'};
+var TCPIP={7:'Application',6:'Application',5:'Application',4:'Transport',3:'Internet',2:'Network access',1:'Network access'};
+var OVR={'OSI':[],'ISO':[],'TCP/IP':[],'LAN':[2,1],'MAN':[2,1],'WAN':[3,2,1],'ISP':[],'IoT':[],'RTT':[4,3],'QoS':[4,3],'VPN':[3],'TLS':[6],'SSL':[6],'MIME':[6],'ASCII':[6],'JPEG':[6],'RPC':[5],'MPLS':[2,3],'LER / LSR':[2,3],'ECN':[4,3],'FCAPS':[7],'NIC':[2,1],'P2P':[7],'API':[7],'VC':[3],'DGRAM':[3]};
+function layers(r){
+  if(OVR[r[0]]){return OVR[r[0]];}
+  var s=r[3],o=[];
+  if(/Application/.test(s))o.push(7);if(/Transport/.test(s))o.push(4);if(/Network/.test(s))o.push(3);if(/Data Link/.test(s))o.push(2);if(/Physical/.test(s))o.push(1);
+  return o.sort(function(a,b){return b-a;});
+}
+function layerCell(r){
+  var o=layers(r);
+  if(!o.length)return {t:'All layers (concept) · TCP/IP: all',d:'all'};
+  var t=o.map(function(n){return 'L'+n+' '+NAMES[n];}).join(' / ');
+  var tp=[];o.forEach(function(n){if(tp.indexOf(TCPIP[n])<0)tp.push(TCPIP[n]);});
+  if(r[0]==='MPLS'||r[0]==='LER / LSR')t='L2.5 (between L2 and L3)';
+  return {t:t+' · TCP/IP: '+tp.join(' / '),d:o.join(',')};
+}
 var html='';
 G.forEach(function(g){
-  html+='<section id="'+g[0]+'"><h2>'+esc(g[1])+'</h2><div class="tw"><table><thead><tr><th>Acronym</th><th>Full form</th><th>What it does</th><th>Layer / Unit</th><th>Key exam fact</th></tr></thead><tbody>';
-  g[2].forEach(function(r){html+='<tr>'+r.map(function(c){return '<td>'+esc(c)+'</td>';}).join('')+'</tr>';});
+  html+='<section id="'+g[0]+'"><h2>'+esc(g[1])+'</h2><div class="tw"><table><thead><tr><th>Acronym</th><th>Full form</th><th>What it does</th><th>OSI layer · TCP/IP layer</th><th>Key exam fact</th></tr></thead><tbody>';
+  g[2].forEach(function(r){var l=layerCell(r);html+='<tr data-l="'+l.d+'"><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(l.t)+'</td><td>'+esc(r[4])+'</td></tr>';});
   html+='</tbody></table></div></section>';
 });
 out.innerHTML=html;
+var lf=document.getElementById('lf');
 function filter(){
-  var t=q.value.trim().toLowerCase(),n=0,tot=0;
+  var t=q.value.trim().toLowerCase(),L=lf.value,n=0,tot=0;
   [].forEach.call(out.querySelectorAll('section'),function(s){
     var any=0;
     [].forEach.call(s.querySelectorAll('tbody tr'),function(tr){
-      tot++;var ok=!t||tr.textContent.toLowerCase().indexOf(t)>-1;
+      tot++;var ok=(!t||tr.textContent.toLowerCase().indexOf(t)>-1)&&(!L||(' ,'+tr.getAttribute('data-l')+',').indexOf(','+L+',')>-1);
       tr.classList.toggle('hide',!ok);if(ok){any++;n++;}
     });
     s.classList.toggle('hide',!any);
   });
   cnt.textContent=n+' of '+tot+' entries';
 }
-q.addEventListener('input',filter);filter();
+q.addEventListener('input',filter);lf.addEventListener('change',filter);filter();
 </script>
 <script src="../assets/theme-toggle.js" defer></script>
 <script src="../assets/ese.js" defer></script>
