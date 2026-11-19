@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CN solved CIDR numericals (Moodle examples)</title>
+<style>
+  :root{--navy:#1a0f2e;--navy-2:#3d1f5c;--coral:#ff5a5f;--coral-light:#fff0ef;--violet:#7c4dff;--ink:#211530;--muted:#6b5b7a;--line:#ece4f5;--bg:#faf7fd;--card:#fff;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:44px 24px 30px;text-align:center;}
+  header.hero h1{font-size:clamp(25px,4vw,38px);margin:0 0 10px;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:14px;}
+  .back{display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.96);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1000px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+  main{max-width:960px;margin:0 auto;padding:0 20px 50px;}
+  article{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 22px 18px;margin:22px 0;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  h2{font-size:21px;color:var(--navy-2);margin:16px 0 8px;}
+  p,li{color:#3f3350;}
+  .q{background:var(--coral-light);border-radius:10px;padding:12px 16px;color:#5a1a1f;margin:8px 0 12px;}
+  button.reveal{background:var(--navy-2);color:#fff;border:0;border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;}
+  button.reveal:hover{background:var(--violet);}
+  .ans{display:none;margin-top:14px;}
+  .ans.on{display:block;}
+  .ans h3{font-size:16px;color:var(--navy-2);margin:14px 0 6px;}
+  ol,ul{margin:0 0 10px;padding-left:22px;}
+  li{margin-bottom:5px;}
+  code{background:#f3ecfb;padding:1px 6px;border-radius:5px;color:#6a1fb5;font-family:Consolas,monospace;font-size:.93em;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0 12px;background:#fff;}
+  th{background:var(--navy-2);color:#fff;text-align:left;padding:8px 10px;}
+  td{padding:6px 10px;border-top:1px solid var(--line);}
+  .tw{overflow-x:auto;max-height:420px;overflow-y:auto;}
+  .final{background:#eefbf1;border-left:4px solid #2fa35a;border-radius:8px;padding:10px 14px;margin:10px 0;color:#1d5b36;font-weight:600;}
+  .method{background:#f6f2fd;border:1px solid #d9c9f5;border-radius:14px;padding:6px 22px 14px;margin:22px 0;}
+  .src{font-size:13px;color:var(--muted);margin:10px 0 0;}
+  .ctrl{margin:20px 0 0;text-align:right;}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · SOLVED NUMERICALS</span>
+  <h1>CIDR allocation: 3 solved numericals</h1>
+  <p>Try each question yourself, then press reveal. Every answer is step by step with the customer-by-customer table.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+<nav class="toc"><div class="inner">
+  <a href="#q1">Q1: 172.16.0.0/16</a><a href="#q2">Q2: 10.10.0.0/16</a><a href="#q3">Q3: 190.100.0.0/16</a><a href="#method">General method</a>
+  <a href="last-minute.html">Last-minute revision</a><a href="Unit%204/numericals.html">Unit 4 numericals</a>
+</div></nav>
+<main>
+<div class="ctrl"><button class="reveal" id="all" type="button">Reveal all answers</button></div>
+
+<article id="q1">
+<h2>Q1. 172.16.0.0/16, 32 customers x 512 addresses</h2>
+<div class="q">An ISP is granted the block 172.16.0.0/16 (65,536 addresses). It must give 32 customers 512 addresses each. Find the prefix for each customer, the address range of each, the total addresses allocated, and what is left.</div>
+<button class="reveal" type="button" data-t="a1">Show answer</button>
+<div class="ans" id="a1">
+<h3>Step by step</h3>
+<ol>
+<li>512 = 2<sup>9</sup>, so each customer needs <b>9 host bits</b>.</li>
+<li>Prefix = 32 - 9 = <b>/23</b>. Mask = 255.255.254.0 (the 23rd bit sits in the third octet, so third-octet mask = 254).</li>
+<li>Usable hosts per customer = 512 - 2 = <b>510</b> (network and broadcast addresses excluded).</li>
+<li>Block size in the third octet = 256 - 254 = <b>2</b>, so each block moves the third octet by 2.</li>
+<li>Customer n: <code>172.16.(2n-2).0</code> to <code>172.16.(2n-1).255</code>. First address is the network address, last is the broadcast address.</li>
+<li>Total allocated = 32 x 512 = <b>16,384</b> addresses, which is 172.16.0.0 to 172.16.63.255.</li>
+<li>Remaining = 65,536 - 16,384 = <b>49,152</b> addresses, from <b>172.16.64.0 to 172.16.255.255</b>.</li>
+</ol>
+<div class="tw"><table><thead><tr><th>Customer</th><th>Network address</th><th>First usable</th><th>Last usable</th><th>Broadcast</th></tr></thead><tbody id="t1"></tbody></table></div>
+<div class="final">Answer: /23 (255.255.254.0), 510 usable hosts each, 16,384 allocated, remaining 172.16.64.0 to 172.16.255.255 = 49,152 addresses.</div>
+</div>
+<p class="src">Source: Moodle CN, numerical examples.</p>
+</article>
+
+<article id="q2">
+<h2>Q2. 10.10.0.0/16, 16 organisations x 1,024 addresses</h2>
+<div class="q">An ISP is granted 10.10.0.0/16. It must give 16 organisations 1,024 addresses each. Find the prefix, each organisation's range, the total allocated and the remaining addresses.</div>
+<button class="reveal" type="button" data-t="a2">Show answer</button>
+<div class="ans" id="a2">
+<h3>Step by step</h3>
+<ol>
+<li>1,024 = 2<sup>10</sup>, so <b>10 host bits</b>.</li>
+<li>Prefix = 32 - 10 = <b>/22</b>. Mask = 255.255.252.0.</li>
+<li>Usable hosts = 1,024 - 2 = <b>1,022</b>.</li>
+<li>Block size in the third octet = 256 - 252 = <b>4</b>.</li>
+<li>Organisation n: <code>10.10.(4n-4).0</code> to <code>10.10.(4n-1).255</code>.</li>
+<li>Total allocated = 16 x 1,024 = <b>16,384</b>, which is 10.10.0.0 to 10.10.63.255.</li>
+<li>Remaining = 65,536 - 16,384 = <b>49,152</b> addresses, from <b>10.10.64.0 to 10.10.255.255</b>.</li>
+</ol>
+<div class="tw"><table><thead><tr><th>Organisation</th><th>Network address</th><th>First usable</th><th>Last usable</th><th>Broadcast</th></tr></thead><tbody id="t2"></tbody></table></div>
+<div class="final">Answer: /22 (255.255.252.0), 1,022 usable hosts each, 16,384 allocated, remaining 10.10.64.0 to 10.10.255.255 = 49,152 addresses.</div>
+</div>
+<p class="src">Source: Moodle CN, numerical examples.</p>
+</article>
+
+<article id="q3">
+<h2>Q3. 190.100.0.0/16, 64 customers x 256 addresses</h2>
+<div class="q">An ISP is granted 190.100.0.0/16. It must give 64 customers 256 addresses each. Find the prefix, each customer's range, the total allocated and the remaining addresses.</div>
+<button class="reveal" type="button" data-t="a3">Show answer</button>
+<div class="ans" id="a3">
+<h3>Step by step</h3>
+<ol>
+<li>256 = 2<sup>8</sup>, so <b>8 host bits</b>.</li>
+<li>Prefix = 32 - 8 = <b>/24</b>. Mask = 255.255.255.0.</li>
+<li>Usable hosts = 256 - 2 = <b>254</b>.</li>
+<li>Block size in the third octet = <b>1</b> (each customer is one full third-octet value).</li>
+<li>Customer n: <code>190.100.(n-1).0</code> to <code>190.100.(n-1).255</code>.</li>
+<li>Total allocated = 64 x 256 = <b>16,384</b>, which is 190.100.0.0 to 190.100.63.255.</li>
+<li>Remaining = 65,536 - 16,384 = <b>49,152</b> addresses, from <b>190.100.64.0 to 190.100.255.255</b>.</li>
+</ol>
+<div class="tw"><table><thead><tr><th>Customer</th><th>Network address</th><th>First usable</th><th>Last usable</th><th>Broadcast</th></tr></thead><tbody id="t3"></tbody></table></div>
+<div class="final">Answer: /24 (255.255.255.0), 254 usable hosts each, 16,384 allocated, remaining 190.100.64.0 to 190.100.255.255 = 49,152 addresses.</div>
+</div>
+<p class="src">Source: Moodle CN, numerical examples.</p>
+</article>
+
+<section class="method" id="method">
+<h2>General method (5 steps)</h2>
+<ol>
+<li><b>Host bits:</b> addresses per customer A = 2<sup>h</sup>. Find h (for 512 it is 9, for 1,024 it is 10, for 256 it is 8).</li>
+<li><b>Prefix and mask:</b> prefix = 32 - h. Write the mask (the octet holding the boundary = 256 - block size).</li>
+<li><b>Block size:</b> block = A / 256 in the third octet (512 gives 2, 1,024 gives 4, 256 gives 1). Each customer starts one block after the previous.</li>
+<li><b>Range of customer n:</b> network = start + (n-1) x block; broadcast = network + A - 1. Usable hosts = A - 2.</li>
+<li><b>Totals:</b> allocated = customers x A. Remaining = size of the parent block (2<sup>(32 - parent prefix)</sup>, 65,536 for a /16) minus allocated. Remaining starts right after the last customer's broadcast address.</li>
+</ol>
+<p>Check: last broadcast + 1 = start of the remaining block. Here every question uses 16,384 of 65,536, so the remainder is 49,152 and starts at third octet 64.</p>
+</section>
+</main>
+<script>
+(function(){
+  function rows(el,prefix,n,block){
+    var h='';
+    for(var i=1;i<=n;i++){
+      var s=(i-1)*block,e=s+block-1;
+      var net=prefix+'.'+s+'.0',first=prefix+'.'+s+'.1',last=prefix+'.'+e+'.254',bc=prefix+'.'+e+'.255';
+      h+='<tr><td>'+i+'</td><td>'+net+'</td><td>'+first+'</td><td>'+last+'</td><td>'+bc+'</td></tr>';
+    }
+    document.getElementById(el).innerHTML=h;
+  }
+  rows('t1','172.16',32,2);rows('t2','10.10',16,4);rows('t3','190.100',64,1);
+  var btns=[].slice.call(document.querySelectorAll('button[data-t]'));
+  function set(b,on){document.getElementById(b.getAttribute('data-t')).classList.toggle('on',on);b.textContent=on?'Hide answer':'Show answer';}
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b,!document.getElementById(b.getAttribute('data-t')).classList.contains('on'));});});
+  var all=document.getElementById('all'),shown=false;
+  all.addEventListener('click',function(){shown=!shown;btns.forEach(function(b){set(b,shown);});all.textContent=shown?'Hide all answers':'Reveal all answers';});
+})();
+</script>
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>

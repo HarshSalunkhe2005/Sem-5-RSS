@@ -43,7 +43,7 @@
     };
     var EXTRA = {
       CC:  [["PYQ answers", "pyq.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]],
-      CN:  [["PYQ answers", "pyq.html"], ["PYQ topics", "pyq-topics.html"], ["Past papers", "PYQs/index.html"], ["Extra topics", "extra-topics.html"], ["Mock paper", "mock.html"], ["Last minute", "last-minute.html"], ["Cheat sheet", "cheatsheet.html"], ["Acronyms", "acronyms.html"], ["Flashcards", "flashcards.html"]],
+      CN:  [["PYQ answers", "pyq.html"], ["PYQ topics", "pyq-topics.html"], ["Past papers", "PYQs/index.html"], ["Extra topics", "extra-topics.html"], ["Mock paper", "mock.html"], ["Numericals", "numericals.html"], ["Last minute", "last-minute.html"], ["Cheat sheet", "cheatsheet.html"], ["Acronyms", "acronyms.html"], ["Flashcards", "flashcards.html"]],
       DL:  [["PYQ answers", "pyq.html"], ["Past papers", "PYQs/index.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]],
       NLP: [["PYQ answers", "pyq.html"], ["Mock paper", "mock.html"], ["Cheat sheet", "cheatsheet.html"], ["Flashcards", "flashcards.html"]]
     };
