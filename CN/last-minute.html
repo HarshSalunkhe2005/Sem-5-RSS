@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CN last-minute revision, ordered by marks weightage</title>
+<style>
+  :root{--navy:#1a0f2e;--navy-2:#3d1f5c;--coral:#ff5a5f;--coral-light:#fff0ef;--violet:#7c4dff;--ink:#211530;--muted:#6b5b7a;--line:#ece4f5;--bg:#faf7fd;--card:#fff;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:44px 24px 30px;text-align:center;}
+  header.hero h1{font-size:clamp(25px,4vw,38px);margin:0 0 10px;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:780px;margin:0 auto;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:14px;}
+  .back{display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.96);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1100px;margin:0 auto;align-items:center;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+  nav.toc .prog{margin-left:auto;font-size:12.5px;color:var(--muted);padding-left:12px;}
+  main{max-width:1000px;margin:0 auto;padding:0 20px 50px;}
+  h2.unit{font-size:26px;color:var(--navy-2);margin:44px 0 4px;padding-top:6px;border-top:3px solid var(--line);}
+  .wt{font-size:14px;color:var(--coral);font-weight:700;margin:0 0 10px;}
+  article{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 20px 16px;margin:16px 0;box-shadow:0 1px 3px rgba(60,20,90,0.06);}
+  article.done{opacity:.55;}
+  article h3{font-size:18px;color:var(--navy-2);margin:14px 0 8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  article h3 label{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;display:flex;gap:6px;align-items:center;}
+  h4{font-size:15px;color:var(--navy-2);margin:14px 0 6px;}
+  p,li{color:#3f3350;}
+  p{margin:0 0 10px;}
+  ul,ol{margin:0 0 10px;padding-left:22px;}
+  li{margin-bottom:4px;}
+  code,.mono{background:#f3ecfb;padding:1px 6px;border-radius:5px;font-size:.92em;color:#6a1fb5;font-family:Consolas,monospace;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0 12px;background:#fff;}
+  th{background:var(--navy-2);color:#fff;text-align:left;padding:8px 10px;font-weight:600;}
+  td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:top;}
+  .tw{overflow-x:auto;}
+  .key{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:8px;padding:10px 14px;margin:10px 0;color:#7a1f24;}
+  .ex{background:#f6f2fd;border:1px dashed #c9b6ee;border-radius:10px;padding:10px 14px;margin:10px 0;}
+  .src{font-size:12.5px;margin:6px 0 0;}
+  .src a{color:var(--violet);}
+  pre{background:#1a0f2e;color:#eadcff;padding:12px 14px;border-radius:10px;overflow-x:auto;font-size:13px;margin:8px 0;}
+  .bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin:8px 0 4px;}
+  .bar span{display:block;}
+  .topics{columns:2;column-gap:30px;font-size:14px;}
+  @media(max-width:700px){.topics{columns:1;}}
+  .topics a{color:var(--violet);text-decoration:none;}
+  .topics div{break-inside:avoid;}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · LAST-MINUTE REVISION</span>
+  <h1>CN in priority order: biggest marks first</h1>
+  <p>Units are ordered by the weightage ma'am gave (syllabus hours). Learn from the top; tick each topic when done and your progress is saved on this device.</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+<nav class="toc"><div class="inner">
+  <a href="#weights">Weightage</a><a href="#u4">Unit 4</a><a href="#u3">Unit 3</a><a href="#u2">Unit 2</a><a href="#u1">Unit 1</a><a href="#u5">Unit 5</a>
+  <a href="acronyms.html">Acronyms</a><a href="cheatsheet.html">Cheat sheet</a>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main>
+
+<section id="weights">
+<h2 class="unit" style="border-top:none">Unit weightage (from ma'am, by syllabus hours)</h2>
+<div class="tw"><table><thead><tr><th>Priority</th><th>Unit</th><th>Topic area</th><th>Hours</th><th>Share</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="#u4">Unit 4</a></td><td>Network layer</td><td>15</td><td>33%</td></tr>
+<tr><td>2</td><td><a href="#u3">Unit 3</a></td><td>Transport layer</td><td>12</td><td>27%</td></tr>
+<tr><td>3</td><td><a href="#u2">Unit 2</a></td><td>Application layer</td><td>8</td><td>18%</td></tr>
+<tr><td>4</td><td><a href="#u1">Unit 1</a></td><td>Introduction</td><td>5</td><td>11%</td></tr>
+<tr><td>4</td><td><a href="#u5">Unit 5</a></td><td>Link layer</td><td>5</td><td>11%</td></tr>
+</tbody></table></div>
+<div class="bar"><span style="width:33.3%;background:#ff5a5f"></span><span style="width:26.7%;background:#7c4dff"></span><span style="width:17.8%;background:#ffb84d"></span><span style="width:11.1%;background:#3d1f5c"></span><span style="width:11.1%;background:#9b8ab3"></span></div>
+<p style="font-size:13px;color:var(--muted)">Total 45 hours. Hours are a guide to marks, not an official marks split. Units 4 and 3 together are 60%: finish them first.</p>
+<h4>All topics (tick state is live)</h4>
+<div class="topics" id="index"></div>
+</section>
+
+<!-- ================= UNIT 4 ================= -->
+<h2 class="unit" id="u4">Unit 4 · Network layer</h2>
+<div class="wt">15 hours · 33% · learn first</div>
+
+<article id="t-ipv4class" data-t="IPv4 classes and ranges">
+<h3>IPv4 address classes and ranges</h3>
+<p>An IPv4 address is 32 bits, written as 4 decimal octets. The <b>first octet</b> tells the class.</p>
+<div class="tw"><table><thead><tr><th>Class</th><th>Leading bits</th><th>First octet</th><th>Default mask</th><th>Networks</th><th>Hosts per network</th></tr></thead><tbody>
+<tr><td>A</td><td>0</td><td>1 to 126</td><td>255.0.0.0 (/8)</td><td>126</td><td>16,777,214</td></tr>
+<tr><td>B</td><td>10</td><td>128 to 191</td><td>255.255.0.0 (/16)</td><td>16,384</td><td>65,534</td></tr>
+<tr><td>C</td><td>110</td><td>192 to 223</td><td>255.255.255.0 (/24)</td><td>2,097,152</td><td>254</td></tr>
+<tr><td>D</td><td>1110</td><td>224 to 239</td><td>none</td><td colspan="2">Multicast</td></tr>
+<tr><td>E</td><td>1111</td><td>240 to 255</td><td>none</td><td colspan="2">Reserved / experimental</td></tr>
+</tbody></table></div>
+<ul>
+<li>Hosts per network = 2<sup>h</sup> - 2 (all-0 host bits = network address, all-1 = broadcast).</li>
+<li><code>127.x.x.x</code> is loopback (127.0.0.1). 0.0.0.0 means "this host". 255.255.255.255 is limited broadcast.</li>
+<li>Private ranges: <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> (172.16 to 172.31), <code>192.168.0.0/16</code>. APIPA: 169.254.0.0/16.</li>
+</ul>
+<div class="key">Identify the class: look only at the first octet. Network address = IP AND mask. Broadcast = network with all host bits set to 1.</div>
+<p class="src">Detail: <a href="Unit%204/index.html#ipv4">Unit 4 IPv4</a> · <a href="Unit%204/numericals.html">numericals</a></p>
+</article>
+
+<article id="t-subnet" data-t="Subnetting, CIDR, worked allocation">
+<h3>Subnet mask, CIDR and subnetting (with worked examples)</h3>
+<p><b>CIDR</b> writes an address as <code>a.b.c.d/n</code>: the first <i>n</i> bits are the network (prefix), the rest are the host bits. A subnet mask is n ones followed by (32 - n) zeros.</p>
+<h4>Steps method (hosts given, find subnet)</h4>
+<ol>
+<li>Hosts needed H. Find the smallest h with 2<sup>h</sup> - 2 &gt;= H.</li>
+<li>Prefix = 32 - h. Write the mask.</li>
+<li>Block size = 256 - (mask value in the interesting octet). Subnets start at multiples of the block size.</li>
+<li>For each subnet: network address = first, broadcast = last, usable range = first+1 to last-1.</li>
+<li>Subnets created (equal split) = 2<sup>(new prefix - old prefix)</sup>.</li>
+</ol>
+<div class="ex"><b>Example 1.</b> Split 192.168.10.0/24 into 4 equal subnets. Need 4 = 2<sup>2</sup>, so borrow 2 bits: /26, mask 255.255.255.192, block size 256 - 192 = 64, hosts per subnet 2<sup>6</sup> - 2 = 62.
+<div class="tw"><table><thead><tr><th>Subnet</th><th>Network</th><th>Usable range</th><th>Broadcast</th></tr></thead><tbody>
+<tr><td>1</td><td>192.168.10.0</td><td>.1 to .62</td><td>192.168.10.63</td></tr>
+<tr><td>2</td><td>192.168.10.64</td><td>.65 to .126</td><td>192.168.10.127</td></tr>
+<tr><td>3</td><td>192.168.10.128</td><td>.129 to .190</td><td>192.168.10.191</td></tr>
+<tr><td>4</td><td>192.168.10.192</td><td>.193 to .254</td><td>192.168.10.255</td></tr>
+</tbody></table></div></div>
+<div class="ex"><b>Example 2: CIDR allocation.</b> An ISP owns 172.16.0.0/16 and must give 32 customers 512 addresses each.
+<ul>
+<li>512 = 2<sup>9</sup> so 9 host bits, prefix = 32 - 9 = <b>/23</b> (mask 255.255.254.0). Block size in the third octet = 2.</li>
+<li>Total needed = 32 x 512 = 16,384 addresses. Needed blocks run 172.16.0.0/23, 172.16.2.0/23, 172.16.4.0/23 ... up to the 32nd.</li>
+<li>Customer 1: 172.16.0.0 to 172.16.1.255. Customer 2: 172.16.2.0 to 172.16.3.255. ... Customer 32: 172.16.62.0 to 172.16.63.255.</li>
+<li>Allocated range overall: <b>172.16.0.0 to 172.16.63.255</b> (16,384 addresses).</li>
+<li>Remaining: <b>172.16.64.0 to 172.16.255.255</b> = 65,536 - 16,384 = <b>49,152</b> addresses.</li>
+</ul></div>
+<div class="ex"><b>Example 3: find network and broadcast.</b> 172.16.5.120/16: mask 255.255.0.0, network 172.16.0.0, broadcast 172.16.255.255, host part 5.120.</div>
+<div class="key">VLSM: allocate the <b>largest</b> subnet first so blocks stay aligned. Always check 2<sup>h</sup> - 2, not 2<sup>h</sup>.</div>
+<p class="src">Detail: <a href="Unit%204/index.html#subnetting">Unit 4 subnetting</a> · <a href="Unit%204/numericals.html">numericals</a> · <a href="cheatsheet.html#calc">subnet calculator</a></p>
+</article>
+
+<article id="t-ipheader" data-t="IPv4 vs IPv6 header">
+<h3>IPv4 header fields vs IPv6 header</h3>
+<h4>IPv4 header (20 to 60 bytes)</h4>
+<div class="tw"><table><thead><tr><th>Field</th><th>Bits</th><th>Use</th></tr></thead><tbody>
+<tr><td>Version</td><td>4</td><td>Always 4</td></tr>
+<tr><td>IHL</td><td>4</td><td>Header length in 4-byte words (5 to 15)</td></tr>
+<tr><td>Type of Service / DSCP</td><td>8</td><td>Priority and QoS marking</td></tr>
+<tr><td>Total length</td><td>16</td><td>Header + data, max 65,535 bytes</td></tr>
+<tr><td>Identification</td><td>16</td><td>Same value on all fragments of one datagram</td></tr>
+<tr><td>Flags</td><td>3</td><td>Reserved, DF (Don't Fragment), MF (More Fragments)</td></tr>
+<tr><td>Fragment offset</td><td>13</td><td>Position of fragment, in 8-byte units</td></tr>
+<tr><td>TTL</td><td>8</td><td>Hop limit, router subtracts 1</td></tr>
+<tr><td>Protocol</td><td>8</td><td>Upper layer: 1 ICMP, 6 TCP, 17 UDP</td></tr>
+<tr><td>Header checksum</td><td>16</td><td>Covers header only, recomputed at each hop</td></tr>
+<tr><td>Source / Destination address</td><td>32 + 32</td><td>IP addresses</td></tr>
+<tr><td>Options</td><td>0 to 40 bytes</td><td>Rare; padded</td></tr>
+</tbody></table></div>
+<h4>IPv6 header (fixed 40 bytes)</h4>
+<p>Version (4), Traffic class (8), Flow label (20), Payload length (16), Next header (8), Hop limit (8), Source address (128), Destination address (128).</p>
+<h4>Key differences</h4>
+<div class="tw"><table><thead><tr><th>Point</th><th>IPv4</th><th>IPv6</th></tr></thead><tbody>
+<tr><td>Address size</td><td>32 bits</td><td>128 bits</td></tr>
+<tr><td>Header</td><td>20 to 60 B, variable</td><td>40 B, fixed</td></tr>
+<tr><td>Checksum</td><td>Yes</td><td>Removed (faster routing)</td></tr>
+<tr><td>Fragmentation</td><td>Routers and source</td><td>Source only (routers do not)</td></tr>
+<tr><td>Options</td><td>In header</td><td>Extension headers via Next header</td></tr>
+<tr><td>TTL / Hop</td><td>TTL</td><td>Hop limit</td></tr>
+<tr><td>ARP / ICMP</td><td>ARP, ICMP</td><td>NDP and ICMPv6</td></tr>
+<tr><td>Transition</td><td colspan="2">Dual stack and tunneling (IPv6 packet carried inside IPv4)</td></tr>
+</tbody></table></div>
+<p class="src">Detail: <a href="Unit%204/index.html#ipv4">IPv4</a> · <a href="Unit%204/index.html#ipv6">IPv6</a></p>
+</article>
+
+<article id="t-icmp" data-t="ICMP types">
+<h3>ICMP: purpose and message types</h3>
+<p>ICMP (Internet Control Message Protocol) reports errors and gives diagnostics. It travels inside IP (protocol number 1). It does not make IP reliable; it only reports.</p>
+<div class="tw"><table><thead><tr><th>Type</th><th>Message</th><th>Used by / when</th></tr></thead><tbody>
+<tr><td>0</td><td>Echo reply</td><td>ping reply</td></tr>
+<tr><td>3</td><td>Destination unreachable (codes: net, host, protocol, port)</td><td>No route or no process on the port</td></tr>
+<tr><td>4</td><td>Source quench (obsolete)</td><td>Old congestion hint</td></tr>
+<tr><td>5</td><td>Redirect</td><td>Router tells host a better next hop</td></tr>
+<tr><td>8</td><td>Echo request</td><td>ping</td></tr>
+<tr><td>11</td><td>Time exceeded (TTL = 0)</td><td>traceroute works on this</td></tr>
+<tr><td>12</td><td>Parameter problem</td><td>Bad header field</td></tr>
+</tbody></table></div>
+<div class="key">ping = Echo request (8) + Echo reply (0). traceroute sends packets with TTL 1, 2, 3 ... and reads the "Time exceeded" replies.</div>
+<p class="src">Detail: <a href="Unit%204/index.html#icmp">Unit 4 ICMP</a></p>
+</article>
+
+<article id="t-vc" data-t="Virtual circuit vs datagram">
+<h3>Virtual circuit vs datagram network</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>Virtual circuit</th><th>Datagram</th></tr></thead><tbody>
+<tr><td>Setup</td><td>Call setup before data</td><td>None</td></tr>
+<tr><td>Path</td><td>All packets follow one path</td><td>Each packet routed independently</td></tr>
+<tr><td>Packet carries</td><td>Short VC number</td><td>Full destination address</td></tr>
+<tr><td>Router state</td><td>Keeps per-connection state</td><td>Stateless, forwarding table by prefix</td></tr>
+<tr><td>Order</td><td>In order</td><td>May arrive out of order</td></tr>
+<tr><td>Failure</td><td>Circuit breaks, set up again</td><td>Packets re-route</td></tr>
+<tr><td>Examples</td><td>ATM, MPLS, frame relay</td><td>Internet (IP)</td></tr>
+</tbody></table></div>
+<p class="src">Detail: <a href="Unit%204/index.html#vc-datagram">Unit 4 VC and datagram</a></p>
+</article>
+
+<article id="t-ls" data-t="Link state (Dijkstra) worked">
+<h3>Link-state routing (Dijkstra), worked example</h3>
+<p>Every router learns the <b>whole topology</b> (by flooding link-state advertisements), then runs Dijkstra from itself to find least-cost paths. Used by OSPF.</p>
+<h4>Algorithm</h4>
+<ol><li>N' = {source}. D(v) = c(source, v) for neighbours, infinity for others.</li><li>Pick node w not in N' with the smallest D(w). Add it to N'.</li><li>For each neighbour v of w not in N': D(v) = min( D(v), D(w) + c(w,v) ).</li><li>Repeat until all nodes are in N'.</li></ol>
+<div class="ex"><b>Graph.</b> Edges: u-v 2, u-x 1, u-w 5, v-x 2, v-w 3, x-w 3, x-y 1, w-y 1, w-z 5, y-z 2. Source = <b>u</b>. Entries are D(node), previous node.
+<div class="tw"><table><thead><tr><th>Step</th><th>N'</th><th>v</th><th>w</th><th>x</th><th>y</th><th>z</th></tr></thead><tbody>
+<tr><td>0</td><td>u</td><td>2,u</td><td>5,u</td><td>1,u</td><td>inf</td><td>inf</td></tr>
+<tr><td>1</td><td>ux</td><td>2,u</td><td>4,x</td><td>-</td><td>2,x</td><td>inf</td></tr>
+<tr><td>2</td><td>uxv</td><td>-</td><td>4,x</td><td>-</td><td>2,x</td><td>inf</td></tr>
+<tr><td>3</td><td>uxvy</td><td>-</td><td>3,y</td><td>-</td><td>-</td><td>4,y</td></tr>
+<tr><td>4</td><td>uxvyw</td><td>-</td><td>-</td><td>-</td><td>-</td><td>4,y</td></tr>
+<tr><td>5</td><td>uxvywz</td><td colspan="5">done</td></tr>
+</tbody></table></div>
+Result from u: v = 2 (u-v), x = 1 (u-x), y = 2 (u-x-y), w = 3 (u-x-y-w), z = 4 (u-x-y-z).
+</div>
+<p><b>Complexity</b>: O(n<sup>2</sup>) simple, O(n log n) with a heap. Messages: O(n E) to flood. Problem: oscillations if link cost depends on load.</p>
+<p class="src">Detail: <a href="Unit%204/index.html#link-state">Unit 4 link state</a> · <a href="Unit%204/numericals.html">Dijkstra numericals</a></p>
+</article>
+
+<article id="t-dv" data-t="Distance vector (Bellman-Ford) worked">
+<h3>Distance-vector routing (Bellman-Ford), worked example</h3>
+<p>Each router knows only its neighbours and link costs. It keeps a <b>distance vector</b> (best-known cost to every destination) and shares it with neighbours. Update rule:</p>
+<p><code>D<sub>x</sub>(y) = min over neighbours v of { c(x,v) + D<sub>v</sub>(y) }</code></p>
+<div class="ex"><b>Network.</b> Nodes x, y, z with c(x,y) = 2, c(y,z) = 1, c(x,z) = 7.
+<div class="tw"><table><thead><tr><th>Time</th><th>Node x (to x,y,z)</th><th>Node y (to x,y,z)</th><th>Node z (to x,y,z)</th></tr></thead><tbody>
+<tr><td>t0 (own links only)</td><td>0, 2, 7</td><td>2, 0, 1</td><td>7, 1, 0</td></tr>
+<tr><td>t1 (after exchange)</td><td>0, 2, <b>3</b></td><td>2, 0, 1</td><td><b>3</b>, 1, 0</td></tr>
+<tr><td>t2</td><td colspan="3">No more changes: converged</td></tr>
+</tbody></table></div>
+At x: D(z) = min( c(x,z) + 0 = 7, c(x,y) + D<sub>y</sub>(z) = 2 + 1 = 3 ) = 3, next hop y. At z: D(x) = min(7, c(z,y) + D<sub>y</sub>(x) = 1 + 2) = 3.
+</div>
+<ul>
+<li><b>Good news travels fast, bad news slow</b>: if a cost increases, routers can count to infinity.</li>
+<li>Fixes: split horizon, poison reverse, and defining infinity as 16 (RIP).</li>
+</ul>
+<table><thead><tr><th>Link state</th><th>Distance vector</th></tr></thead><tbody>
+<tr><td>Knows full topology</td><td>Knows only neighbours' vectors</td></tr>
+<tr><td>Dijkstra</td><td>Bellman-Ford</td></tr>
+<tr><td>Floods LSAs to everyone</td><td>Talks to neighbours only</td></tr>
+<tr><td>Fast convergence, more memory</td><td>Slow convergence, count-to-infinity</td></tr>
+<tr><td>OSPF</td><td>RIP</td></tr>
+</tbody></table>
+<p class="src">Detail: <a href="Unit%204/index.html#distance-vector">Unit 4 distance vector</a> · <a href="extra-topics.html#dvr">extra topics</a></p>
+</article>
+
+<article id="t-protocols" data-t="RIP vs OSPF vs BGP">
+<h3>RIP vs OSPF vs BGP</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>RIP</th><th>OSPF</th><th>BGP</th></tr></thead><tbody>
+<tr><td>Type</td><td>Distance vector</td><td>Link state</td><td>Path vector</td></tr>
+<tr><td>Scope</td><td>Inside an AS (IGP)</td><td>Inside an AS (IGP)</td><td>Between ASes (EGP)</td></tr>
+<tr><td>Metric</td><td>Hop count</td><td>Cost (link bandwidth based)</td><td>Policy and AS-PATH</td></tr>
+<tr><td>Algorithm</td><td>Bellman-Ford</td><td>Dijkstra</td><td>Path selection with attributes</td></tr>
+<tr><td>Transport</td><td>UDP port 520</td><td>Directly over IP, protocol 89</td><td>TCP port 179</td></tr>
+<tr><td>Updates</td><td>Whole table every 30 s</td><td>LSAs flooded on change</td><td>Incremental updates (UPDATE messages)</td></tr>
+<tr><td>Limit</td><td>Max 15 hops (16 = unreachable)</td><td>Hierarchy of areas, scales to large AS</td><td>Whole Internet</td></tr>
+<tr><td>Convergence</td><td>Slow</td><td>Fast</td><td>Slow, policy driven</td></tr>
+</tbody></table></div>
+<ul><li>BGP has <b>eBGP</b> (between ASes) and <b>iBGP</b> (inside an AS). Attributes: AS-PATH, NEXT-HOP. The AS-PATH prevents loops.</li>
+<li>OSPF extras: authentication, multiple equal-cost paths, areas with a backbone area 0, DR/BDR election on LANs.</li></ul>
+<p class="src">Detail: <a href="Unit%204/index.html#rip">RIP</a> · <a href="Unit%204/index.html#ospf">OSPF</a> · <a href="Unit%204/index.html#bgp">BGP</a></p>
+</article>
+
+<!-- ================= UNIT 3 ================= -->
+<h2 class="unit" id="u3">Unit 3 · Transport layer</h2>
+<div class="wt">12 hours · 27%</div>
+
+<article id="t-transport" data-t="Transport services, mux/demux">
+<h3>Transport services, multiplexing and demultiplexing</h3>
+<p>The transport layer gives <b>process-to-process</b> (logical end-to-end) communication; the network layer only gives host-to-host. Services: segmentation, multiplexing/demultiplexing, and for TCP also reliability, ordering, flow control and congestion control.</p>
+<ul>
+<li><b>Multiplexing</b> (sender): collect data from many sockets, add transport header (ports), pass to the network layer.</li>
+<li><b>Demultiplexing</b> (receiver): use header port numbers to deliver segments to the right socket.</li>
+<li><b>UDP socket</b> is identified by a 2-tuple: (destination IP, destination port). Packets from different sources to the same port go to the same socket.</li>
+<li><b>TCP socket</b> is identified by a 4-tuple: (source IP, source port, destination IP, destination port). So a web server gives each client its own socket.</li>
+<li>Ports are 16 bits (0 to 65535). Well-known ports 0 to 1023.</li>
+</ul>
+<p class="src">Detail: <a href="Unit%203/index.html#overview">Unit 3 overview</a></p>
+</article>
+
+<article id="t-udp" data-t="UDP header and checksum worked">
+<h3>UDP: header and checksum (worked)</h3>
+<p>UDP is connectionless, unreliable, no handshake, no congestion control. Header is <b>8 bytes</b>: Source port (16), Destination port (16), Length (16), Checksum (16). Used for DNS, DHCP, SNMP, streaming, games.</p>
+<h4>Internet checksum method</h4>
+<ol><li>Treat the data (plus pseudo header) as 16-bit words.</li><li>Add them; any carry out of bit 16 is added back (wraparound).</li><li>Take the <b>1's complement</b> of the sum: that is the checksum.</li><li>Receiver adds all words including the checksum: result must be all 1s, otherwise error.</li></ol>
+<div class="ex"><b>Example.</b> Words: A = 0110 0110 0110 0110 (0x6666), B = 0101 0101 0101 0101 (0x5555), C = 0000 1111 0000 1111 (0x0F0F).<br>
+A + B = 0xBBBB. + C = 0xCACA (no carry out).<br>
+Sum = 1100 1010 1100 1010. 1's complement = <b>0011 0101 0011 0101 (0x3535)</b>.<br>
+Check at receiver: 0xCACA + 0x3535 = 0xFFFF, all ones, so accepted.</div>
+<p class="src">Detail: <a href="Unit%203/index.html#udp">Unit 3 UDP</a> · <a href="Unit%205/index.html#checksum">checksum</a></p>
+</article>
+
+<article id="t-rdt" data-t="rdt 1.0 to 3.0">
+<h3>Reliable data transfer: rdt 1.0, 2.0, 2.1, 2.2, 3.0</h3>
+<div class="tw"><table><thead><tr><th>Version</th><th>Channel assumed</th><th>Mechanism added</th><th>Flaw it leaves</th></tr></thead><tbody>
+<tr><td>rdt 1.0</td><td>Perfectly reliable</td><td>Just send and receive</td><td>Unrealistic</td></tr>
+<tr><td>rdt 2.0</td><td>Bit errors</td><td>Checksum, ACK / NAK, retransmit (stop-and-wait)</td><td>ACK or NAK itself may be corrupted</td></tr>
+<tr><td>rdt 2.1</td><td>Bit errors (incl. in ACK/NAK)</td><td>Sequence number 0 / 1, resend on garbled ACK/NAK, receiver discards duplicates</td><td>Needs NAK as well as ACK</td></tr>
+<tr><td>rdt 2.2</td><td>Bit errors, NAK-free</td><td>Only ACKs, each carries the sequence number; a duplicate ACK acts as a NAK</td><td>Cannot handle loss</td></tr>
+<tr><td>rdt 3.0</td><td>Bit errors <b>and loss</b></td><td>Countdown timer; retransmit on timeout; alternating-bit protocol</td><td>Very low utilisation (stop-and-wait)</td></tr>
+</tbody></table></div>
+<div class="key">rdt 3.0 utilisation = (L/R) / (RTT + L/R). Fix for poor utilisation is pipelining: Go-Back-N and Selective Repeat.</div>
+<p class="src">Detail: <a href="Unit%203/index.html#rdt">Unit 3 rdt</a></p>
+</article>
+
+<article id="t-arq" data-t="Stop-and-Wait vs GBN vs SR">
+<h3>Stop-and-Wait vs Go-Back-N vs Selective Repeat</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>Stop-and-Wait</th><th>Go-Back-N</th><th>Selective Repeat</th></tr></thead><tbody>
+<tr><td>Sender window</td><td>1</td><td>N, at most <b>2<sup>m</sup> - 1</b></td><td>N, at most <b>2<sup>m-1</sup></b></td></tr>
+<tr><td>Receiver window</td><td>1</td><td>1 (accepts in order only)</td><td>Same as sender (buffers out of order)</td></tr>
+<tr><td>On loss</td><td>Resend that frame</td><td>Resend that frame and every frame after it</td><td>Resend only the lost frame</td></tr>
+<tr><td>ACK type</td><td>Individual</td><td>Cumulative</td><td>Individual</td></tr>
+<tr><td>Timers</td><td>1</td><td>1 (oldest unacked)</td><td>One per frame</td></tr>
+<tr><td>Complexity / buffer</td><td>Lowest</td><td>Low</td><td>Highest</td></tr>
+</tbody></table></div>
+<p>m = number of bits in the sequence number. Sequence numbers available = 2<sup>m</sup>.</p>
+<h4>Utilisation (efficiency)</h4>
+<p>Let a = T<sub>prop</sub> / T<sub>trans</sub> (T<sub>trans</sub> = L/R, T<sub>prop</sub> = d/s).</p>
+<ul><li>Stop-and-Wait: <code>U = 1 / (1 + 2a)</code></li><li>GBN and SR with window N: <code>U = N / (1 + 2a)</code>, capped at 1. Full pipe needs N &gt;= 1 + 2a.</li></ul>
+<div class="ex"><b>Example.</b> T<sub>trans</sub> = 1 ms, T<sub>prop</sub> = 49.5 ms so a = 49.5 and 1 + 2a = 100. Stop-and-Wait U = 1/100 = 1%. GBN with N = 7: U = 7%. To keep the link busy N = 100.
+<br><b>Timeline (GBN, N = 4, frame 2 lost):</b></div>
+<pre>Sender :  send 0 1 2 3
+Receiver: gets 0 -> ACK0, 1 -> ACK1, 2 lost, 3 arrives out of order -> discarded
+Sender :  timer for 2 expires -> resend 2 3 (and 4 5 ... as window moves)
+SR     :  receiver buffers 3, sender resends ONLY 2, then slides window past 3</pre>
+<div class="key">The window-size traps: GBN uses 2<sup>m</sup> - 1, SR uses 2<sup>m-1</sup>. Example m = 3: GBN 7, SR 4.</div>
+<p class="src">Detail: <a href="Unit%203/index.html#arq">Unit 3 ARQ</a> · <a href="Unit%203/numericals.html">numericals</a></p>
+</article>
+
+<article id="t-tcpheader" data-t="TCP header, handshake, close">
+<h3>TCP header, 3-way handshake and 4-way close</h3>
+<h4>Header (20 to 60 bytes)</h4>
+<p>Source port (16), Destination port (16), <b>Sequence number</b> (32), <b>Acknowledgement number</b> (32), Header length / data offset (4), Reserved, Flags (<b>URG, ACK, PSH, RST, SYN, FIN</b>), <b>Receive window</b> (16, flow control), Checksum (16), Urgent pointer (16), Options (up to 40 B; MSS, window scale).</p>
+<ul><li>Sequence number = byte number of the first data byte in the segment. ACK number = next byte expected.</li><li>MSS = MTU - 40 = 1460 on Ethernet.</li></ul>
+<h4>3-way handshake (connection setup)</h4>
+<pre>Client                          Server
+  SYN, seq = x            ----->
+                          <-----  SYN+ACK, seq = y, ack = x+1
+  ACK, seq = x+1, ack = y+1 ---->      (data may be sent now)</pre>
+<p>Each side picks a random initial sequence number. SYN consumes one sequence number. Two handshake messages are not enough: the server must confirm the client heard its SYN too.</p>
+<h4>4-way close (connection teardown)</h4>
+<pre>Client                       Server
+  FIN             ------>
+                  <------  ACK          (client to server direction closed)
+                  <------  FIN
+  ACK             ------>   client waits TIME_WAIT = 2 x MSL, then closes</pre>
+<p>Each direction is closed separately; the server may still send data between its ACK and FIN (half-close). TIME_WAIT lets the last ACK be resent if lost.</p>
+<h4>Flow vs congestion control</h4>
+<p>Flow control: receiver advertises <b>rwnd</b> so the sender does not overflow the receive buffer. Sending limit = min(cwnd, rwnd).</p>
+<p class="src">Detail: <a href="Unit%203/index.html#network-protocols">Unit 3 TCP</a></p>
+</article>
+
+<article id="t-cong" data-t="TCP congestion control">
+<h3>TCP congestion control: slow start, CA, fast retransmit/recovery, Tahoe vs Reno</h3>
+<p>The sender keeps a congestion window <b>cwnd</b> and a threshold <b>ssthresh</b>. It sends min(cwnd, rwnd). Loss is the signal of congestion.</p>
+<ul>
+<li><b>Slow start</b>: cwnd = 1 MSS, then +1 MSS for every ACK, so it <b>doubles every RTT</b> (exponential) until cwnd reaches ssthresh.</li>
+<li><b>Congestion avoidance</b> (AIMD): cwnd grows by 1 MSS per RTT (additive increase).</li>
+<li><b>Timeout</b> (both Tahoe and Reno): ssthresh = cwnd / 2, cwnd = 1 MSS, go to slow start.</li>
+<li><b>Fast retransmit</b>: 3 duplicate ACKs, so resend the missing segment without waiting for the timer.</li>
+<li><b>Fast recovery (Reno)</b>: after 3 dup ACKs, ssthresh = cwnd / 2, cwnd = ssthresh + 3 MSS, then continue in congestion avoidance (not slow start).</li>
+</ul>
+<div class="tw"><table><thead><tr><th>Event</th><th>TCP Tahoe</th><th>TCP Reno</th></tr></thead><tbody>
+<tr><td>Timeout</td><td>ssthresh = cwnd/2, cwnd = 1, slow start</td><td>Same</td></tr>
+<tr><td>3 duplicate ACKs</td><td>ssthresh = cwnd/2, cwnd = 1, slow start</td><td>ssthresh = cwnd/2, cwnd = ssthresh + 3, fast recovery, then congestion avoidance</td></tr>
+</tbody></table></div>
+<div class="ex"><b>cwnd per RTT (ssthresh = 8 initially, 3 dup ACKs at cwnd = 12).</b>
+<div class="tw"><table><thead><tr><th>RTT</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr></thead><tbody>
+<tr><td>cwnd (MSS)</td><td>1</td><td>2</td><td>4</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+<tr><td>Phase</td><td colspan="4">Slow start (exponential) up to ssthresh = 8</td><td colspan="4">Congestion avoidance (+1 per RTT)</td></tr>
+</tbody></table></div>
+Loss by 3 dup ACKs at cwnd = 12: new ssthresh = 6. <b>Tahoe</b>: cwnd = 1, slow start again (1, 2, 4, 6 then +1). <b>Reno</b>: cwnd = 6 + 3 = 9 during recovery, then 6 and +1 per RTT. Graph shape: sawtooth.</div>
+<div class="key">Average throughput of TCP (AIMD) is about 3/4 of the peak window per RTT. Remember: "slow" start is exponential, congestion avoidance is linear.</div>
+<p class="src">Detail: <a href="Unit%203/index.html#congestion">Unit 3 congestion control</a></p>
+</article>
+
+<article id="t-tcpudp" data-t="TCP vs UDP table">
+<h3>TCP vs UDP</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+<tr><td>Connection</td><td>Connection-oriented (handshake)</td><td>Connectionless</td></tr>
+<tr><td>Reliability</td><td>Reliable, ordered, retransmits</td><td>Unreliable, no order</td></tr>
+<tr><td>Header</td><td>20 to 60 bytes</td><td>8 bytes</td></tr>
+<tr><td>Flow / congestion control</td><td>Yes</td><td>No</td></tr>
+<tr><td>Data unit</td><td>Byte stream, segments</td><td>Datagrams with message boundaries</td></tr>
+<tr><td>Speed</td><td>Slower</td><td>Faster, low delay</td></tr>
+<tr><td>Socket id</td><td>4-tuple</td><td>2-tuple</td></tr>
+<tr><td>IP protocol number</td><td>6</td><td>17</td></tr>
+<tr><td>Used for</td><td>HTTP, FTP, SMTP, SSH</td><td>DNS, DHCP, SNMP, VoIP, games</td></tr>
+</tbody></table></div>
+<p class="src">Detail: <a href="Unit%203/index.html#vs-network">Unit 3 comparison</a></p>
+</article>
+
+<!-- ================= UNIT 2 ================= -->
+<h2 class="unit" id="u2">Unit 2 · Application layer</h2>
+<div class="wt">8 hours · 18%</div>
+
+<article id="t-arch" data-t="Client-server vs P2P, sockets">
+<h3>Client-server vs P2P, and sockets (TCP vs UDP)</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>Client-server</th><th>P2P</th></tr></thead><tbody>
+<tr><td>Server</td><td>Always-on host, fixed IP</td><td>No always-on server needed</td></tr>
+<tr><td>Clients</td><td>Talk only to the server, not to each other</td><td>Peers talk directly, each is client and server</td></tr>
+<tr><td>Scalability</td><td>Server load grows with clients</td><td>Self-scaling: each peer adds capacity</td></tr>
+<tr><td>Weakness</td><td>Server bottleneck and single point of failure</td><td>Hard to manage, security, peers come and go</td></tr>
+<tr><td>Examples</td><td>Web, email</td><td>BitTorrent</td></tr>
+</tbody></table></div>
+<p>A <b>process</b> sends and receives messages through a <b>socket</b>, the door between the application and the transport layer. A process is identified by IP address + port number.</p>
+<div class="tw"><table><thead><tr><th>TCP socket (SOCK_STREAM)</th><th>UDP socket (SOCK_DGRAM)</th></tr></thead><tbody>
+<tr><td>Server creates a welcoming socket; accept() returns a new connection socket per client</td><td>No handshake; one socket serves all</td></tr>
+<tr><td>Calls: socket, bind, listen, accept, connect, send, recv, close</td><td>Calls: socket, bind, sendto, recvfrom, close</td></tr>
+<tr><td>Reliable byte stream</td><td>Each datagram needs destination IP and port</td></tr>
+</tbody></table></div>
+<p class="src">Detail: <a href="Unit%202/index.html#architectures">architectures</a> · <a href="Unit%202/index.html#socket-programming">sockets</a> · <a href="Unit%202/index.html#p2p">P2P</a></p>
+</article>
+
+<article id="t-http" data-t="HTTP, RTT formulas, methods, cookies, caching">
+<h3>HTTP: persistent vs non-persistent, RTT formulas, methods, status codes, cookies, caching</h3>
+<p>HTTP runs over TCP, port 80, and is <b>stateless</b> (server remembers nothing about past requests).</p>
+<h4>Response time</h4>
+<ul>
+<li><b>One object, non-persistent</b>: 1 RTT to set up TCP + 1 RTT for request and the first bytes back + file transmission time t. So <code>2 RTT + t</code>.</li>
+<li><b>Non-persistent</b>: a new TCP connection per object, so n objects cost n x (2 RTT + t). Heavy: OS overhead and slow start each time.</li>
+<li><b>Persistent</b>: connection stays open (HTTP/1.1 default). One setup, then 1 RTT per object. <b>With pipelining</b>: requests are sent back to back, about 1 RTT for all objects.</li>
+</ul>
+<div class="ex"><b>Page = base file + 10 images, RTT = 100 ms, ignore transmission time t.</b><br>
+Non-persistent (serial): 11 x 2 RTT = 2200 ms.<br>
+Persistent, no pipelining: 2 RTT (base) + 10 x RTT = 200 + 1000 = 1200 ms.<br>
+Persistent with pipelining: 2 RTT + 1 RTT = 300 ms.<br>
+(Parallel connections reduce non-persistent time but cost more connections.)</div>
+<h4>Methods and status codes</h4>
+<div class="tw"><table><thead><tr><th>Method</th><th>Use</th><th>Status</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>GET</td><td>Fetch an object</td><td>200 OK</td><td>Success</td></tr>
+<tr><td>POST</td><td>Send form data in body</td><td>301 Moved Permanently</td><td>New URL in Location header</td></tr>
+<tr><td>HEAD</td><td>Headers only, no body</td><td>304 Not Modified</td><td>Cached copy still valid</td></tr>
+<tr><td>PUT</td><td>Upload / replace an object</td><td>400 Bad Request</td><td>Request not understood</td></tr>
+<tr><td>DELETE</td><td>Delete an object</td><td>404 Not Found</td><td>Not on server</td></tr>
+<tr><td></td><td></td><td>505 HTTP Version Not Supported</td><td>Version unsupported</td></tr>
+</tbody></table></div>
+<h4>Cookies (keep state on a stateless protocol)</h4>
+<p>Four parts: (1) <code>Set-Cookie:</code> header in the response, (2) <code>Cookie:</code> header in later requests, (3) cookie file kept on the user's host and managed by the browser, (4) a back-end database at the site. Uses: login, shopping cart, recommendations. Privacy concern: tracking.</p>
+<h4>Web caching (proxy server) and conditional GET</h4>
+<p>A cache serves requests on behalf of the origin server: lower response time, less traffic on the access link. Conditional GET avoids stale data: request carries <code>If-Modified-Since: date</code>; if unchanged the server replies <b>304 Not Modified</b> with no body.</p>
+<p class="src">Detail: <a href="Unit%202/index.html#http">Unit 2 HTTP</a> · <a href="Unit%202/question-bank.html">question bank</a></p>
+</article>
+
+<article id="t-ftp" data-t="FTP, SMTP, POP3, IMAP">
+<h3>FTP, SMTP, POP3 and IMAP</h3>
+<h4>FTP (ports 21 and 20)</h4>
+<ul>
+<li>Uses <b>two TCP connections</b>: <b>control</b> on port 21 (commands USER, PASS, LIST, RETR, STOR; stays open for the whole session) and <b>data</b> on port 20 (a new connection for each file, closed after the transfer).</li>
+<li><b>Out-of-band</b> control: commands travel separately from data. FTP is <b>stateful</b> (server keeps the user's current directory and authentication).</li>
+</ul>
+<h4>Email system</h4>
+<p>Components: User agent (UA), mail server (MTA) with mailbox and outgoing queue, and the SMTP protocol between servers.</p>
+<div class="tw"><table><thead><tr><th>Protocol</th><th>Port</th><th>Job</th><th>Key points</th></tr></thead><tbody>
+<tr><td>SMTP</td><td>25 (TCP)</td><td><b>Push</b>: sender UA to its server, server to server</td><td>Persistent connection; 7-bit ASCII (MIME for others); commands HELO, MAIL FROM, RCPT TO, DATA, QUIT; message ends with CRLF.CRLF</td></tr>
+<tr><td>POP3</td><td>110</td><td><b>Pull</b>: recipient downloads mail</td><td>Phases: authorization, transaction, update. Download-and-delete (or keep). Stateless across sessions</td></tr>
+<tr><td>IMAP</td><td>143</td><td><b>Pull</b>: manage mail on the server</td><td>Keeps folders and state on the server; read from many devices; can fetch headers only</td></tr>
+</tbody></table></div>
+<div class="key">SMTP is push, POP3 / IMAP are pull. A recipient cannot fetch mail with SMTP.</div>
+<p class="src">Detail: <a href="Unit%202/index.html#ftp-smtp">Unit 2 FTP and SMTP</a> · <a href="pyq-topics.html">past-paper topics</a></p>
+</article>
+
+<article id="t-dns" data-t="DNS">
+<h3>DNS: hierarchy, iterative vs recursive, record types</h3>
+<p>DNS translates host names to IP addresses. Port 53 (UDP for queries, TCP for zone transfers). It is a distributed, hierarchical database. Other services: host aliasing, mail server aliasing, load distribution.</p>
+<ul><li><b>Hierarchy</b>: Root servers, then Top-Level Domain (TLD) servers (.com, .org, .in), then Authoritative servers (the organisation's own). A <b>local DNS server</b> (default resolver) acts as proxy and caches answers.</li></ul>
+<div class="tw"><table><thead><tr><th>Iterative query</th><th>Recursive query</th></tr></thead><tbody>
+<tr><td>The contacted server replies with "I don't know, ask this server" (a referral). The local DNS server does the chasing</td><td>The contacted server resolves the full name on the asker's behalf and returns the final answer</td></tr>
+<tr><td>Less load on upper servers</td><td>Heavy load on root and TLD servers</td></tr>
+</tbody></table></div>
+<p>Typical flow: host asks local DNS (recursive); local DNS asks root, then TLD, then authoritative (iterative); the answer is cached with a TTL.</p>
+<h4>Resource records: (Name, Value, Type, TTL)</h4>
+<div class="tw"><table><thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead><tbody>
+<tr><td>A</td><td>Hostname</td><td>IPv4 address</td></tr>
+<tr><td>NS</td><td>Domain</td><td>Hostname of the authoritative DNS server</td></tr>
+<tr><td>CNAME</td><td>Alias name</td><td>Canonical (real) name</td></tr>
+<tr><td>MX</td><td>Domain</td><td>Name of the mail server</td></tr>
+</tbody></table></div>
+<p class="src">Detail: <a href="Unit%202/index.html#dns">Unit 2 DNS</a></p>
+</article>
+
+<!-- ================= UNIT 1 ================= -->
+<h2 class="unit" id="u1">Unit 1 · Introduction</h2>
+<div class="wt">5 hours · 11%</div>
+
+<article id="t-edge" data-t="Edge, core, switching">
+<h3>Network edge and core; circuit vs packet switching</h3>
+<ul><li><b>Edge</b>: hosts (clients, servers) and access networks (DSL, cable, Ethernet, Wi-Fi). <b>Core</b>: the mesh of routers that moves data. <b>Physical media</b>: guided (twisted pair, coax, fiber) and unguided (radio).</li></ul>
+<div class="tw"><table><thead><tr><th>Point</th><th>Circuit switching</th><th>Packet switching</th></tr></thead><tbody>
+<tr><td>Resources</td><td>Reserved for the call (FDM or TDM slice)</td><td>Shared on demand (statistical multiplexing)</td></tr>
+<tr><td>Setup</td><td>Required</td><td>Not required</td></tr>
+<tr><td>Idle capacity</td><td>Wasted when silent</td><td>Used by others</td></tr>
+<tr><td>Delay</td><td>Constant, guaranteed</td><td>Variable (queueing)</td></tr>
+<tr><td>Congestion</td><td>Call blocked</td><td>Packets queued or dropped</td></tr>
+<tr><td>Example</td><td>Telephone network</td><td>Internet</td></tr>
+</tbody></table></div>
+<p>Packet switching uses <b>store-and-forward</b>: a router must receive the whole packet before sending it on. Over N links of rate R, one packet of L bits takes <code>N x L / R</code> (ignoring other delays).</p>
+<p class="src">Detail: <a href="Unit%201/index.html#edge">edge</a> · <a href="Unit%201/index.html#core">core</a></p>
+</article>
+
+<article id="t-delay" data-t="Four delays, throughput, worked numerical">
+<h3>The four delays, throughput and a worked numerical</h3>
+<div class="tw"><table><thead><tr><th>Delay</th><th>Meaning</th><th>Formula</th></tr></thead><tbody>
+<tr><td>Processing d<sub>proc</sub></td><td>Check header, find output link</td><td>Microseconds (given)</td></tr>
+<tr><td>Queuing d<sub>queue</sub></td><td>Waiting in the output buffer</td><td>Depends on traffic intensity La/R</td></tr>
+<tr><td>Transmission d<sub>trans</sub></td><td>Push all bits onto the link</td><td><code>L / R</code> (L bits, R bits per second)</td></tr>
+<tr><td>Propagation d<sub>prop</sub></td><td>Signal travels along the link</td><td><code>d / s</code> (d metres, s about 2 x 10<sup>8</sup> m/s)</td></tr>
+</tbody></table></div>
+<p>d<sub>nodal</sub> = d<sub>proc</sub> + d<sub>queue</sub> + d<sub>trans</sub> + d<sub>prop</sub>. Traffic intensity = La / R (a = packet arrival rate): if it exceeds 1 the queue grows without bound.</p>
+<p><b>Throughput</b> = bits per second actually delivered end to end. For a path it is the <b>bottleneck link</b>: min(R<sub>1</sub>, R<sub>2</sub>, ..., R<sub>n</sub>). Transfer time of a file of F bits = F / throughput.</p>
+<div class="ex"><b>Worked.</b> Packet L = 1500 bytes = 12,000 bits, link R = 10 Mbps, link length d = 2000 km = 2 x 10<sup>6</sup> m, s = 2 x 10<sup>8</sup> m/s.<br>
+d<sub>trans</sub> = 12,000 / 10<sup>7</sup> = <b>1.2 ms</b>. d<sub>prop</sub> = 2 x 10<sup>6</sup> / 2 x 10<sup>8</sup> = <b>10 ms</b>. Total (no queue, no processing) = <b>11.2 ms</b>.<br>
+Over 3 identical store-and-forward links (2 routers): 3 x 1.2 ms of transmission = 3.6 ms plus 3 x 10 ms of propagation.<br>
+Throughput: R<sub>s</sub> = 2 Mbps, R<sub>c</sub> = 1 Mbps, so throughput = 1 Mbps; a 4 MB (32 Mbit) file takes 32 s.</div>
+<p class="src">Detail: <a href="Unit%201/index.html#performance">Unit 1 performance</a> · <a href="Unit%201/numericals.html">numericals</a></p>
+</article>
+
+<!-- ================= UNIT 5 ================= -->
+<h2 class="unit" id="u5">Unit 5 · Link layer</h2>
+<div class="wt">5 hours · 11%</div>
+
+<article id="t-parity" data-t="Parity and checksum">
+<h3>Error detection: parity (1D and 2D) and checksum</h3>
+<ul>
+<li><b>Single (1D) parity</b>: one extra bit so the number of 1s is even (even parity). Detects any <b>odd</b> number of bit errors; misses even numbers.</li>
+<li><b>2D parity</b>: parity per row and per column (plus the corner bit). It can <b>detect and correct a single bit error</b> (row and column intersect) and detects any 2-bit error.</li>
+</ul>
+<div class="ex"><b>2D even parity example.</b>
+<pre>data      row parity
+1 0 1 1      1
+0 1 1 0      0
+1 1 0 0      0
+col parity:
+0 0 0 1      1</pre>
+If the bit at row 2, column 3 flips, the parity of row 2 and column 3 both fail, which locates and corrects it.</div>
+<p><b>Checksum</b>: add the 16-bit words with end-around carry, complement the sum; receiver adds all and expects all 1s. Weak but fast, used in IP, TCP, UDP (see the UDP example above for a worked case).</p>
+<p class="src">Detail: <a href="Unit%205/index.html#parity">parity</a> · <a href="Unit%205/index.html#checksum">checksum</a> · <a href="Unit%205/numericals.html">numericals</a></p>
+</article>
+
+<article id="t-crc" data-t="CRC worked division">
+<h3>CRC: worked division</h3>
+<p>CRC treats bits as a polynomial and divides by a generator G (n+1 bits) using modulo-2 (XOR) arithmetic. Steps: append n zeros to the data, divide by G, the n-bit remainder is the CRC, replace the zeros with it. The receiver divides the received frame by G; remainder 0 means no error detected.</p>
+<div class="ex"><b>Example.</b> Data = 100100, generator G = 1101 (x<sup>3</sup> + x<sup>2</sup> + 1), so n = 3. Dividend = 100100<b>000</b>.
+<pre>100100000
+1101        -> 010000000
+ 1101       -> 001010000
+  1101      -> 000111000
+   1101     -> 000001100
+     1101   -> 000000001      (leading 0s skipped when the top bit is 0)
+Remainder = 001</pre>
+Transmitted frame = 100100<b>001</b>. Receiver check: 100100001 divided by 1101 gives remainder 000, so accepted.</div>
+<div class="key">XOR rule: 0 xor 0 = 0, 1 xor 1 = 0, 0 xor 1 = 1. CRC detects all burst errors up to n bits and all single-bit errors. CRC is used in Ethernet (CRC-32).</div>
+<p class="src">Detail: <a href="Unit%205/index.html#crc">Unit 5 CRC</a> · <a href="cheatsheet.html#calc">CRC calculator</a></p>
+</article>
+
+<article id="t-aloha" data-t="ALOHA efficiency">
+<h3>Random access: ALOHA and slotted ALOHA</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>Pure ALOHA</th><th>Slotted ALOHA</th></tr></thead><tbody>
+<tr><td>Rule</td><td>Send any time; if no ACK, retry after random wait</td><td>Time divided into slots; send only at slot start</td></tr>
+<tr><td>Synchronisation</td><td>None</td><td>Required</td></tr>
+<tr><td>Vulnerable time</td><td><b>2T</b></td><td><b>T</b></td></tr>
+<tr><td>Throughput S (G = frames per frame time)</td><td>S = G e<sup>-2G</sup></td><td>S = G e<sup>-G</sup></td></tr>
+<tr><td>Maximum</td><td>at G = 0.5: 1/(2e) = <b>0.184 (18.4%)</b></td><td>at G = 1: 1/e = <b>0.368 (36.8%)</b></td></tr>
+</tbody></table></div>
+<p>Example: slotted ALOHA at G = 1 gives S = 1 x e<sup>-1</sup> = 0.368. Pure ALOHA at G = 1 gives e<sup>-2</sup> = 0.135.</p>
+<p class="src">Detail: <a href="Unit%205/index.html#mac-random-access">Unit 5 random access</a></p>
+</article>
+
+<article id="t-csma" data-t="CSMA/CD vs CSMA/CA, taking turns">
+<h3>CSMA/CD vs CSMA/CA, and taking-turns protocols</h3>
+<div class="tw"><table><thead><tr><th>Point</th><th>CSMA/CD (wired Ethernet)</th><th>CSMA/CA (Wi-Fi 802.11)</th></tr></thead><tbody>
+<tr><td>Idea</td><td>Listen before talking and while talking; stop on collision</td><td>Avoid collisions; cannot detect them while sending</td></tr>
+<tr><td>Why</td><td>Collision can be sensed on a wire</td><td>Hidden terminals, signal fading, transmit power far above received power</td></tr>
+<tr><td>On collision / busy</td><td>Send jam signal, <b>binary exponential backoff</b>: after the n-th collision wait K x 512 bit times, K random in 0 to 2<sup>n</sup> - 1</td><td>Wait DIFS, then random backoff counter that counts down only while idle; ACK required; optional RTS/CTS</td></tr>
+<tr><td>Constraint</td><td>Minimum frame time &gt;= 2 x T<sub>prop</sub> (min frame 64 bytes on Ethernet)</td><td>Uses IFS: SIFS &lt; DIFS</td></tr>
+</tbody></table></div>
+<h4>Taking-turns protocols</h4>
+<ul>
+<li><b>Polling</b>: a master polls each node in turn. Drawbacks: polling overhead, latency, single point of failure (master).</li>
+<li><b>Token passing</b>: a token circulates; only the holder transmits. Drawbacks: token overhead, a failed node or lost token stops the network.</li>
+</ul>
+<p>Three MAC families: channel partitioning (TDMA, FDMA), random access (ALOHA, CSMA), taking turns.</p>
+<p class="src">Detail: <a href="Unit%205/index.html#csma-cd">CSMA/CD</a> · <a href="Unit%205/index.html#csma-ca">CSMA/CA</a> · <a href="Unit%205/index.html#taking-turns">taking turns</a></p>
+</article>
+
+<p style="text-align:center;color:var(--muted);margin-top:30px">All the best. For acronyms and ports see the <a href="acronyms.html" style="color:var(--violet)">acronyms page</a>.</p>
+</main>
+<script>
+(function(){
+  var KEY='cn-lastminute-v1',S={};
+  try{S=JSON.parse(localStorage.getItem(KEY))||{};}catch(e){}
+  var arts=[].slice.call(document.querySelectorAll('article[id]'));
+  var idx=document.getElementById('index'),prog=document.getElementById('prog');
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function upd(){
+    var n=0;arts.forEach(function(a){var d=!!S[a.id];if(d)n++;a.classList.toggle('done',d);
+      var c=document.getElementById('c-'+a.id);if(c)c.checked=d;});
+    prog.textContent=n+' / '+arts.length+' topics done';
+  }
+  var units={u4:'Unit 4 (33%)',u3:'Unit 3 (27%)',u2:'Unit 2 (18%)',u1:'Unit 1 (11%)',u5:'Unit 5 (11%)'},cur=null,html='';
+  var order=['u4','u3','u2','u1','u5'],groups={};
+  arts.forEach(function(a){
+    var u=a.previousElementSibling;
+    var h=a.querySelector('h3'),lab=document.createElement('label');
+    lab.innerHTML='<input type="checkbox" id="c-'+a.id+'"> done';
+    h.appendChild(lab);
+    lab.querySelector('input').addEventListener('change',function(e){S[a.id]=e.target.checked;save();upd();});
+    var g=a;while(g&&!(g.tagName==='H2'&&g.id)){g=g.previousElementSibling;}
+    (groups[g.id]=groups[g.id]||[]).push(a);
+  });
+  order.forEach(function(u){
+    html+='<div><b>'+units[u]+'</b><br>'+groups[u].map(function(a){return '<a href="#'+a.id+'">'+a.getAttribute('data-t')+'</a>';}).join('<br>')+'<br><br></div>';
+  });
+  idx.innerHTML=html;upd();
+})();
+</script>
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>
