@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CN acronyms and full forms</title>
+<style>
+  :root{--navy:#1a0f2e;--navy-2:#3d1f5c;--coral:#ff5a5f;--coral-light:#fff0ef;--violet:#7c4dff;--ink:#211530;--muted:#6b5b7a;--line:#ece4f5;--bg:#faf7fd;--card:#fff;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:Calibri,Arial,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;}
+  header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#5a2a8c 100%);color:#fff;padding:48px 24px 34px;text-align:center;}
+  header.hero h1{font-size:clamp(26px,4vw,40px);margin:0 0 10px;}
+  header.hero p{font-size:16px;color:#ddd0f0;max-width:760px;margin:0 auto;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 14px;border-radius:999px;font-size:13px;letter-spacing:.5px;margin-bottom:14px;}
+  .back{display:inline-block;margin-top:14px;color:#ddd0f0;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,0.3);padding:5px 13px;border-radius:999px;}
+  nav.toc{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.95);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;}
+  nav.toc .inner{display:flex;gap:4px;padding:10px 16px;max-width:1150px;margin:0 auto;}
+  nav.toc a{color:var(--navy-2);text-decoration:none;font-size:13px;font-weight:600;padding:8px 11px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--coral-light);color:var(--coral);}
+  main{max-width:1150px;margin:0 auto;padding:0 20px 40px;}
+  .search{position:sticky;top:48px;z-index:40;background:var(--bg);padding:14px 0 8px;}
+  .search input{width:100%;padding:12px 16px;font-size:16px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);}
+  .search input:focus{outline:none;border-color:var(--violet);}
+  #count{font-size:13px;color:var(--muted);margin:6px 2px 0;}
+  h2{font-size:22px;color:var(--navy-2);margin:30px 0 8px;}
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,90,0.08);}
+  thead th{background:var(--navy-2);color:#fff;text-align:left;padding:10px 12px;font-weight:600;}
+  td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top;}
+  td:first-child{font-weight:700;color:var(--coral);white-space:nowrap;}
+  td:nth-child(2){font-weight:600;color:var(--navy-2);}
+  td:nth-child(4){color:var(--muted);white-space:nowrap;font-size:13px;}
+  td:last-child{background:#fffaf0;}
+  tr.hide,section.hide{display:none;}
+  .tw{overflow-x:auto;}
+  .note{background:var(--coral-light);border-left:4px solid var(--coral);border-radius:10px;padding:12px 16px;margin:16px 0;color:#8a2020;font-size:14px;}
+</style>
+<link rel="stylesheet" href="../assets/theme-toggle.css">
+<link rel="stylesheet" href="../assets/ese.css">
+</head>
+<body>
+<header class="hero">
+  <span class="badge">SEM 5 · COMPUTER NETWORKS · ACRONYMS</span>
+  <h1>Every CN acronym, full form and exam fact</h1>
+  <p>Grouped by unit. Type in the box to filter by acronym, full form, layer or any fact (try "port", "header", "bytes").</p>
+  <a class="back" href="../">← Back to site home</a>
+</header>
+<nav class="toc"><div class="inner">
+  <a href="#u1">Unit 1</a><a href="#u2">Unit 2</a><a href="#u3">Unit 3</a><a href="#u4">Unit 4</a><a href="#u5">Unit 5</a>
+  <a href="cheatsheet.html">Cheat sheet</a><a href="flashcards.html">Flashcards</a><a href="pyq-topics.html">Past-paper topics</a>
+</div></nav>
+<main>
+<div class="search"><input id="q" type="search" placeholder="Search acronym, full form, port, header size..." autocomplete="off"><div id="count"></div></div>
+<div class="note">Port numbers are the well-known defaults. Header sizes are the minimum unless a range is shown. If the textbook or slides give a different value, go with the slides.</div>
+<div id="out"></div>
+</main>
+<script>
+var G=[
+["u1","Unit 1 · Introduction, models, physical layer",[
+["OSI","Open Systems Interconnection","7-layer reference model that splits networking into layers","All / U1","7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application"],
+["ISO","International Organization for Standardization","Body that published the OSI model","U1","OSI is an ISO standard; TCP/IP model has 4 layers"],
+["TCP/IP","Transmission Control Protocol / Internet Protocol","Practical Internet protocol suite","U1","4 layers: Network access, Internet, Transport, Application"],
+["LAN","Local Area Network","Network in one building or campus","U1","Ethernet / Wi-Fi"],
+["MAN","Metropolitan Area Network","Network spanning a city","U1","Between LAN and WAN"],
+["WAN","Wide Area Network","Network spanning countries or continents","U1","The Internet is the biggest WAN"],
+["ISP","Internet Service Provider","Company that gives Internet access","U1","Tiered: Tier-1, regional, access"],
+["NIC","Network Interface Card","Hardware that connects a host to the network and holds its MAC address","U1 / Data Link","MAC is burned into the NIC"],
+["UTP","Unshielded Twisted Pair","Cheap copper cable; twisting reduces crosstalk","U1 / Physical","Max 100 m per segment for Ethernet"],
+["DSL","Digital Subscriber Line","Broadband over telephone copper lines","U1 / Physical","ADSL: downstream faster than upstream"],
+["HFC","Hybrid Fiber Coax","Cable access: fiber to the neighbourhood, coax to the home","U1 / Physical","Uses DOCSIS"],
+["DOCSIS","Data Over Cable Service Interface Specification","Standard for data over the cable TV network","U1 / Physical","Cable modem talks to the CMTS"],
+["CMTS","Cable Modem Termination System","ISP head-end device that connects cable modems to the Internet","U1 / Physical","Pairs with DOCSIS"],
+["RTT","Round Trip Time","Time for a packet to reach the destination and the reply to return","U1 / U3","Basis of timeouts and delay numericals"],
+["QoS","Quality of Service","Guarantees on bandwidth, delay, jitter and loss","U1 / U4","Metrics: throughput, delay, jitter, loss"],
+["FDM","Frequency Division Multiplexing","Signals share a link using different frequency bands","U1 / Physical","Guard bands separate channels"],
+["TDM","Time Division Multiplexing","Signals share a link by taking turns in time slots","U1 / Physical","Synchronous: fixed slots; statistical: on demand"],
+["IoT","Internet of Things","Everyday devices connected to the Internet","U1","Needs many addresses, so IPv6"],
+["VPN","Virtual Private Network","Encrypted tunnel across a public network","U1 / U4","Packets tunnelled inside other packets"]
+]],
+["u2","Unit 2 · Application layer",[
+["HTTP","HyperText Transfer Protocol","Web request/response protocol between browser and server","Application","TCP port 80; stateless; methods GET, POST, HEAD, PUT, DELETE"],
+["HTTPS","HTTP Secure (HTTP over TLS)","HTTP with encryption and server authentication","Application","TCP port 443"],
+["HTML","HyperText Markup Language","Language that describes a web page","Application","Base file, then referenced objects fetched"],
+["URL","Uniform Resource Locator","Address of a web resource (scheme://host:port/path)","Application","Default port inferred from the scheme"],
+["WWW","World Wide Web","Global system of linked pages served over HTTP","Application","URL + HTML + HTTP"],
+["DNS","Domain Name System","Translates host names to IP addresses","Application","Port 53: UDP for queries, TCP for zone transfers"],
+["TLD","Top Level Domain","Last label of a domain name (.com, .org, .in)","Application","Hierarchy: root, TLD, authoritative"],
+["FTP","File Transfer Protocol","Copies files between client and server","Application","TCP; control port 21, data port 20; separate (out-of-band) control connection"],
+["SFTP","SSH File Transfer Protocol","File transfer over SSH","Application","Port 22"],
+["FTPS","FTP over SSL/TLS","FTP secured with TLS","Application","Port 990 (implicit)"],
+["SMTP","Simple Mail Transfer Protocol","Pushes mail from sender to server and between servers","Application","TCP port 25; push protocol; commands HELO, MAIL FROM, RCPT TO, DATA, QUIT"],
+["POP3","Post Office Protocol version 3","Recipient pulls mail from the server to the local machine","Application","TCP port 110; download-and-delete by default"],
+["IMAP","Internet Message Access Protocol","Recipient reads and manages mail kept on the server","Application","TCP port 143; mail stays on server, folders synced"],
+["MIME","Multipurpose Internet Mail Extensions","Lets email carry non-ASCII data and attachments","Application","SMTP body is 7-bit ASCII by default"],
+["ASCII","American Standard Code for Information Interchange","7-bit text encoding","Application","Required for plain SMTP messages"],
+["UA","User Agent","Mail client program (Outlook, Thunderbird)","Application","Composes and reads mail"],
+["MTA","Message Transfer Agent","Server that forwards mail between mail servers","Application","Speaks SMTP"],
+["MDA","Message Delivery Agent","Delivers mail into the user's mailbox","Application","Recipient side; user then fetches via POP3/IMAP"],
+["TELNET","Teletype Network","Remote terminal login in plain text","Application","TCP port 23; insecure, replaced by SSH"],
+["NVT","Network Virtual Terminal","Standard terminal format Telnet uses so different systems interoperate","Application","Part of Telnet"],
+["SSH","Secure Shell","Encrypted remote login and tunnelling","Application","TCP port 22"],
+["DHCP","Dynamic Host Configuration Protocol","Auto-assigns IP address, mask, gateway and DNS server","Application","UDP; server port 67, client port 68; steps DORA (Discover, Offer, Request, Ack)"],
+["SNMP","Simple Network Management Protocol","Manager monitors and controls devices through agents","Application","UDP port 161 (requests) and 162 (traps)"],
+["MIB","Management Information Base","Database of manageable objects on a device","Application","Read by the SNMP agent"],
+["SMI","Structure of Management Information","Rules for naming and defining MIB objects","Application","Part of the SNMP framework"],
+["NMS","Network Management System","Station that runs the SNMP manager","Application","Polls agents"],
+["FCAPS","Fault, Configuration, Accounting, Performance, Security","Five areas of network management","Application","Mnemonic for management functions"],
+["P2P","Peer-to-Peer","Hosts share resources directly without a central server","Application","Contrast with client-server"],
+["API","Application Programming Interface","Interface programs call to use services (sockets)","Application","Socket API gives access to TCP/UDP"],
+["RPC","Remote Procedure Call","Calling a procedure that runs on another machine","Application","Hides the networking from the programmer"],
+["SSL","Secure Sockets Layer","Older encryption protocol, replaced by TLS","Application","Deprecated"],
+["TLS","Transport Layer Security","Encryption, integrity and authentication for TCP applications","Application","Basis of HTTPS"],
+["JPEG","Joint Photographic Experts Group","Compressed image format","Application","Example of a web object"]
+]],
+["u3","Unit 3 · Transport layer",[
+["TCP","Transmission Control Protocol","Reliable, ordered, connection-oriented byte stream","Transport","Header 20 to 60 bytes; IP protocol no. 6; 3-way handshake; flow and congestion control"],
+["UDP","User Datagram Protocol","Connectionless, unreliable, low-overhead datagrams","Transport","Header fixed at 8 bytes (4 fields of 2 bytes); IP protocol no. 17"],
+["SCTP","Stream Control Transmission Protocol","Reliable, message-oriented transport with multiple streams","Transport","IP protocol no. 132"],
+["QUIC","Quick UDP Internet Connections","Reliable encrypted transport built on UDP (used by HTTP/3)","Transport","UDP port 443"],
+["SYN","Synchronize (flag)","Opens a connection and syncs sequence numbers","Transport","Handshake: SYN, SYN+ACK, ACK"],
+["ACK","Acknowledgement","Confirms received data","Transport","ACK number = next byte expected"],
+["FIN","Finish (flag)","Closes one direction of a connection","Transport","4-way close; TIME_WAIT = 2 x MSL"],
+["RST","Reset (flag)","Aborts a connection abruptly","Transport","Sent when a segment arrives for a closed port"],
+["PSH / URG","Push / Urgent (flags)","PSH delivers data immediately; URG marks urgent data","Transport","Six classic flags: URG, ACK, PSH, RST, SYN, FIN"],
+["NAK","Negative Acknowledgement","Says a frame or segment was bad or missing","Transport / Data Link","Used in ARQ"],
+["ARQ","Automatic Repeat reQuest","Retransmit lost or damaged data after timeout or NAK","Transport / Data Link","Stop-and-Wait, Go-Back-N, Selective Repeat"],
+["GBN","Go-Back-N","Sliding window ARQ: on error resend that frame and all after it","Transport / Data Link","Send window <= 2^m - 1; receive window 1"],
+["SR","Selective Repeat","Sliding window ARQ: resend only the lost frames","Transport / Data Link","Each window <= 2^(m-1)"],
+["RDT","Reliable Data Transfer","Protocol design for reliable delivery over an unreliable channel","Transport","Stages rdt1.0 to rdt3.0"],
+["MSS","Maximum Segment Size","Largest TCP data payload in one segment (excludes headers)","Transport","Ethernet: 1500 - 20 (IP) - 20 (TCP) = 1460 bytes"],
+["MSL","Maximum Segment Lifetime","Longest time a segment can live in the network","Transport","TIME_WAIT lasts 2 x MSL"],
+["AIMD","Additive Increase Multiplicative Decrease","TCP congestion rule: +1 MSS per RTT, halve on loss","Transport","Gives the sawtooth graph"],
+["ECN","Explicit Congestion Notification","Router marks packets to signal congestion instead of dropping them","Transport / Network","2 bits in the IP header"]
+]],
+["u4","Unit 4 · Network layer",[
+["IP","Internet Protocol","Best-effort, connectionless packet delivery across networks","Network","IPv4: 32-bit address, header 20 to 60 B. IPv6: 128-bit address, header 40 B"],
+["IPv4","Internet Protocol version 4","32-bit addressing (about 4.3 billion addresses)","Network","Min header 20 B; has header checksum; routers may fragment"],
+["IPv6","Internet Protocol version 6","128-bit addressing, fixed header","Network","Header fixed 40 B; no header checksum; routers do not fragment"],
+["IHL","Internet Header Length","IPv4 field giving header length in 4-byte words","Network","Min 5 (20 B), max 15 (60 B)"],
+["ToS / DSCP","Type of Service / Differentiated Services Code Point","IPv4 byte used to mark packet priority for QoS","Network","DSCP is 6 bits, plus 2 ECN bits"],
+["TTL","Time To Live","Hop limit; each router subtracts 1, packet dropped at 0","Network","8 bits, max 255; ICMP Time Exceeded sent when it hits 0"],
+["MTU","Maximum Transmission Unit","Largest packet a link can carry","Network","Ethernet 1500 bytes; bigger packets are fragmented"],
+["DF / MF","Don't Fragment / More Fragments (flags)","DF forbids fragmentation; MF = 1 on every fragment except the last","Network","Fragment offset counts in 8-byte units"],
+["CIDR","Classless Inter-Domain Routing","Prefix notation a.b.c.d/n instead of classes A/B/C","Network","Hosts per subnet = 2^(32-n) - 2"],
+["VLSM","Variable Length Subnet Mask","Subnets of different sizes inside one network","Network","Allocate the largest subnet first"],
+["NAT","Network Address Translation","Router rewrites private IPs to a public IP and back","Network","Private: 10/8, 172.16/12, 192.168/16"],
+["APIPA","Automatic Private IP Addressing","Self-assigned address when DHCP fails","Network","169.254.0.0/16"],
+["ICMP","Internet Control Message Protocol","Error reporting and diagnostics (ping, traceroute)","Network","IP protocol no. 1; Echo request type 8, Echo reply type 0"],
+["ARP","Address Resolution Protocol","Finds the MAC address for a known IP on the same LAN","Network / Data Link","Request is broadcast, reply is unicast"],
+["RARP","Reverse Address Resolution Protocol","Finds an IP address from a known MAC address","Network / Data Link","Obsolete, replaced by DHCP"],
+["IGMP","Internet Group Management Protocol","Hosts join or leave multicast groups","Network","IP protocol no. 2"],
+["RIP","Routing Information Protocol","Distance-vector routing using hop count","Network","Max 15 hops (16 = infinity); update every 30 s; UDP port 520"],
+["OSPF","Open Shortest Path First","Link-state routing using Dijkstra's algorithm","Network","IP protocol no. 89 (runs directly over IP); areas; multicast 224.0.0.5 / 224.0.0.6"],
+["BGP","Border Gateway Protocol","Path-vector routing between autonomous systems","Network","TCP port 179; policy based"],
+["EBGP / IBGP","External / Internal BGP","EBGP between ASes; IBGP between routers inside one AS","Network","Both run over TCP 179"],
+["EIGRP","Enhanced Interior Gateway Routing Protocol","Cisco advanced distance-vector (hybrid) protocol","Network","Interior protocol"],
+["IGP / EGP","Interior / Exterior Gateway Protocol","IGP routes inside an AS (RIP, OSPF); EGP between ASes (BGP)","Network","Two-level Internet routing"],
+["AS","Autonomous System","Networks under one administration with a common routing policy","Network","Identified by an AS number"],
+["DVR","Distance Vector Routing","Each router shares its table with neighbours (Bellman-Ford)","Network","Suffers count-to-infinity"],
+["LSA","Link State Advertisement","Packet describing a router's links, flooded to all","Network","Used by OSPF"],
+["LSDB","Link State Database","Map of the whole topology held by every OSPF router","Network","Dijkstra runs on it"],
+["SPF","Shortest Path First","Dijkstra computation on the LSDB","Network","Produces the shortest path tree"],
+["DR / BDR","Designated Router / Backup Designated Router","OSPF routers elected on a broadcast network to reduce adjacencies","Network","Elected by priority, then router ID"],
+["DBD","Database Description","OSPF packet that summarises the LSDB while neighbours sync","Network","One of the OSPF packet types"],
+["NLRI","Network Layer Reachability Information","Prefixes advertised in a BGP UPDATE","Network","BGP"],
+["VC","Virtual Circuit","Connection-oriented packet switching with a fixed path","Network","Contrast with datagram"],
+["DGRAM","Datagram","Connectionless packet switching, each packet routed on its own","Network","IP uses this"]
+]],
+["u5","Unit 5 · Data link layer and MAC",[
+["MAC","Media Access Control","Sublayer controlling access to a shared medium; also the hardware address","Data Link","Address is 48 bits (6 bytes)"],
+["LLC","Logical Link Control","Upper data link sublayer: flow control, error control, multiplexing","Data Link","IEEE 802.2"],
+["IEEE","Institute of Electrical and Electronics Engineers","Body that defines LAN standards","Data Link","802.3 Ethernet, 802.11 Wi-Fi, 802.1Q VLAN"],
+["CRC","Cyclic Redundancy Check","Error detection by polynomial (modulo-2) division","Data Link","Generator of n+1 bits gives n-bit remainder appended to data"],
+["FCS","Frame Check Sequence","Trailing error-check field of a frame","Data Link","Ethernet: 4-byte CRC-32"],
+["FEC","Forward Error Correction","Receiver corrects errors without retransmission","Data Link","Needs extra redundancy"],
+["XOR","Exclusive OR","Bit operation used in CRC division and parity","Data Link","Same bits give 0, different give 1"],
+["CSMA","Carrier Sense Multiple Access","Listen before sending on a shared channel","Data Link","1-persistent, non-persistent, p-persistent"],
+["CSMA/CD","CSMA with Collision Detection","Wired Ethernet: stop on collision, then back off","Data Link","Min frame time >= 2 x Tprop; binary exponential backoff"],
+["CSMA/CA","CSMA with Collision Avoidance","Wireless: avoid collisions with IFS, backoff and RTS/CTS","Data Link","IEEE 802.11 Wi-Fi"],
+["ALOHA","(protocol name from the University of Hawaii)","Random access: send whenever data is ready","Data Link","Pure: vulnerable time 2T, max efficiency 1/(2e) = 18.4%. Slotted: vulnerable time T, max 1/e = 36.8%"],
+["RTS / CTS","Request To Send / Clear To Send","Handshake frames that reserve the channel in CSMA/CA","Data Link","Helps with the hidden terminal problem"],
+["IFS","Inter Frame Space","Wait time before sending in 802.11","Data Link","SIFS < PIFS < DIFS; shorter wait = higher priority"],
+["DIFS","Distributed Inter Frame Space","Wait a station uses before ordinary data transmission","Data Link","Longest of the IFS values"],
+["TDMA","Time Division Multiple Access","Channel divided into time slots, one per station","Data Link","Channelization method"],
+["FDMA","Frequency Division Multiple Access","Channel divided into frequency bands, one per station","Data Link","Channelization method"],
+["CDMA","Code Division Multiple Access","All stations transmit together using unique orthogonal codes","Data Link","Chip sequences; inner product with other codes is 0"],
+["FCFS","First Come First Served","Serve requests in arrival order","Data Link","Queueing/polling context"],
+["HDLC","High-level Data Link Control","Bit-oriented data link protocol","Data Link","Flag 01111110; bit stuffing (insert 0 after five 1s)"],
+["PPP","Point-to-Point Protocol","Data link protocol for a direct link between two nodes","Data Link","Flag 0x7E; byte stuffing; uses LCP and NCP"],
+["LCP / NCP","Link Control Protocol / Network Control Protocol","LCP sets up and tests the link; NCP configures the network layer","Data Link","PPP components"],
+["VLAN","Virtual Local Area Network","Logical LAN groups on one physical switch","Data Link","IEEE 802.1Q adds a 4-byte tag; 12-bit VLAN ID"],
+["STP","Spanning Tree Protocol","Removes loops in a switched LAN","Data Link","Blocks redundant links"],
+["MPLS","Multiprotocol Label Switching","Forwards packets using short labels instead of IP lookup","Between L2 and L3","32-bit header: 20-bit label, 3-bit TC, 1-bit S, 8-bit TTL"],
+["LER / LSR","Label Edge Router / Label Switching Router","LER adds or removes labels at the edge; LSR swaps labels inside","MPLS","MPLS devices"],
+["ATM","Asynchronous Transfer Mode","Cell-switched virtual circuit technology","Data Link","Fixed 53-byte cells"]
+]]
+];
+var out=document.getElementById('out'),q=document.getElementById('q'),cnt=document.getElementById('count');
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var html='';
+G.forEach(function(g){
+  html+='<section id="'+g[0]+'"><h2>'+esc(g[1])+'</h2><div class="tw"><table><thead><tr><th>Acronym</th><th>Full form</th><th>What it does</th><th>Layer / Unit</th><th>Key exam fact</th></tr></thead><tbody>';
+  g[2].forEach(function(r){html+='<tr>'+r.map(function(c){return '<td>'+esc(c)+'</td>';}).join('')+'</tr>';});
+  html+='</tbody></table></div></section>';
+});
+out.innerHTML=html;
+function filter(){
+  var t=q.value.trim().toLowerCase(),n=0,tot=0;
+  [].forEach.call(out.querySelectorAll('section'),function(s){
+    var any=0;
+    [].forEach.call(s.querySelectorAll('tbody tr'),function(tr){
+      tot++;var ok=!t||tr.textContent.toLowerCase().indexOf(t)>-1;
+      tr.classList.toggle('hide',!ok);if(ok){any++;n++;}
+    });
+    s.classList.toggle('hide',!any);
+  });
+  cnt.textContent=n+' of '+tot+' entries';
+}
+q.addEventListener('input',filter);filter();
+</script>
+<script src="../assets/theme-toggle.js" defer></script>
+<script src="../assets/ese.js" defer></script>
+</body>
+</html>
